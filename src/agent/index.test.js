@@ -3,7 +3,7 @@ import Agent from '.'
 import Command from '../modules/command'
 import Await from '../modules/await'
 import Replacer from '../modules/replacer'
-import PDiscord from '../pdc.js'
+import PDiscord from '../modules/pdc.js'
 import QueryBuilder from 'simple-knex'
 
 require('dotenv').config()

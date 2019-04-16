@@ -6,6 +6,8 @@ import Command from '../command'
 import Replacer from '../replacer'
 import Await from '../await'
 
+require('dotenv').config()
+
 const client = new PDiscord()
 const knex = new QueryBuilder({
   connection: process.env.DATABASE_URL,

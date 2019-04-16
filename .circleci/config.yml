@@ -1,0 +1,28 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: "circleci/node:10.15.0"
+      - image: circleci/postgres:9.6.5-alpine-ram
+    environment:
+      DATABASE_URL: postgresql://root@localhost/circle_test
+    steps:
+      - checkout
+      - run:
+          name: Update NPM
+          command: sudo npm i -g npm@latest
+      - run:
+          name: Install Dependencies
+          command: npm i
+      - run:
+          command: npm run lint
+          name: Lint
+      - run:
+          command: npm run test
+          name: Test
+          when: always
+workflows:
+  version: 2
+  testing:
+    jobs:
+      - build

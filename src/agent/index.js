@@ -6,11 +6,6 @@ const {
   CommandHandler
 } = require('../modules')
 
-const {
-  requireCommands,
-  requireReplacers
-} = require('../data')
-
 /**
  * Class representing a bot Agent.
  */
@@ -18,10 +13,26 @@ class Agent {
   /**
    * Create an Agent.
    * @param {String}          token           The token to log in to the Discord API with.
+   * @param {Object}          data            An object containing command and replacer data.
    * @param {DatabaseOptions} databaseOptions The info for the database.
    * @param {AgentOptions}    [agentOptions]  Options for the agent.
    */
-  constructor (token, databaseOptions, agentOptions = {}) {
+  constructor (token, data, databaseOptions, agentOptions = {}) {
+    const {
+      commands,
+      replacers
+    } = data
+    /**
+     * The commands for the command handler.
+     * @type {Map}
+     */
+    this._commands = commands
+    /**
+     * The replacers for the command handler.
+     * @type {Map}
+     */
+    this._replacers = replacers
+
     const {
       connectionURL,
       client,
@@ -189,8 +200,8 @@ class Agent {
       client,
       ownerId: (await client.getOAuthApplication()).owner.id,
       knex: this._knex,
-      replacers: (await requireReplacers()),
-      commands: (await requireCommands())
+      replacers: (await this._replacers()),
+      commands: (await this._commands())
     })
   }
   _onShardReady (client, shard) {

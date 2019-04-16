@@ -18,12 +18,12 @@ class Replacer {
      */
     this.desc = desc
     /**
-     * It's something.
+     * Set whether the replacer requires parameters.
      * @type {Boolean}
      */
     this.start = start
     /**
-     * Function returning the string to replace with. (param is an object containing: content, capture)
+     * Function returning the string to replace with. (Param is an object containing: content, capture)
      * @type {Function}
      */
     this.action = action
@@ -37,6 +37,6 @@ module.exports = Replacer
  * @typedef  {Object}   ReplacerData
  * @property {String}   key           The keyword to replace.
  * @property {String}   desc          A description of what it does.
- * @property {Boolean}  [start=false] Dunno what this is.
- * @property {Function} action        Function returning the string to replace with. (param is an object containing: content, capture)
+ * @property {Boolean}  [start=false] Set whether the replacer requires parameters.
+ * @property {Function} action        Function returning the string to replace with. (Param is an object containing: content, capture)
  */

@@ -1,9 +1,8 @@
-const Eris = require('eris')
 const QueryBuilder = require('simple-knex')
 let DBLAPI
 
 const {
-  CommandHandler
+  _CommandHandler
 } = require('../modules')
 
 /**
@@ -12,12 +11,24 @@ const {
 class Agent {
   /**
    * Create an Agent.
-   * @param {String}          token           The token to log in to the Discord API with.
-   * @param {Object}          data            An object containing command and replacer data.
-   * @param {DatabaseOptions} databaseOptions The info for the database.
-   * @param {AgentOptions}    [agentOptions]  Options for the agent.
+   * @param    {Eris}            Eris                      The Eris class.
+   * @param    {String}          token                     The token to log in to the Discord API with.
+   * @param    {Object}          data                      An object containing command and replacer data.
+   * @property {Map}             commands                  The commands for the bot.
+   * @property {Map}             [replacers]               The replacers for the bot.
+   * @param    {DatabaseOptions} [databaseOptions]         The info for the database.
+   * @property {String}          [connectionURL]           The URL for connecting to the bot's database.
+   * @property {String}          client                    The database driver being used.
+   * @property {DatabaseTable[]} tables                    The tables to be created on bot launch.
+   * @property {String[]}        [clearEmptyRows=[]]       The list of tables to have their unchanged from default rows cleared.
+   * @param    {AgentOptions}    [agentOptions]            Options for the agent.
+   * @property {Number}          [connectRetryLimit=10]    How many times the agent will attempt to establish a connection with Discord before giving up.
+   * @property {String}          [prefix='!']              The prefix for bot commands.
+   * @property {DatabaseTable[]} [tables=[]]               The initial tables to set up for the database.
+   * @property {function(agent)} [checkFunction]           A function that will run every checkInterval amount of ms, supplied the agent.
+   * @property {Number}          [checkInterval=30000]     The interval at which the checkFunction runs.
    */
-  constructor (token, data, databaseOptions, agentOptions = {}) {
+  constructor (Eris, token, data, databaseOptions, agentOptions = {}) {
     const {
       commands,
       replacers
@@ -36,14 +47,15 @@ class Agent {
     const {
       connectionURL,
       client,
-      tables = []
+      tables = [],
+      clearEmptyRows = []
     } = databaseOptions
     const {
       connectRetryLimit = 10,
       prefix = '!',
       dblToken,
-      dblWidget = '',
-      remindersCheckInterval = 300000
+      checkFunction,
+      checkInterval = 300000
     } = agentOptions
     /**
      * The eris Client.
@@ -71,10 +83,6 @@ class Agent {
       this._dblAPI = new DBLAPI(dblToken, this._client)
     }
     /**
-     * The DiscordBotsList widget URL.
-     */
-    this._dblWidget = dblWidget
-    /**
      * The maximum number of times to retry connecting to the Discord API.
      * @type {Number}
      */
@@ -87,8 +95,8 @@ class Agent {
 
     // setup
     this._bindEvents()
-    this._prepareDB(tables)
-    this._setRemindersCheck(remindersCheckInterval)
+    this._prepareDB(tables, clearEmptyRows)
+    if (checkFunction) this._setCheck(checkFunction, checkInterval)
   }
   /**
    * Connect to the Discord API. Will recursively retry this._connectRetryLimit number of times.
@@ -101,8 +109,8 @@ class Agent {
   }
 
   /**
-   * Get the last message sent by the bot in a given channel
-   * @param {Channel} channel The channel to pick your last message from
+   * Get the last message sent by the bot in a given channel.
+   * @param {Channel} channel The channel to pick your last message from.
    */
   lastMessage (channel) {
     const {
@@ -113,16 +121,22 @@ class Agent {
     return filtered[filtered.length - 1]
   }
 
-  _prepareDB (tables) {
+  _prepareDB (tables, clearEmptyRows) {
     Promise.all(tables.map((table) => this._knex.createTable(table)))
       .catch((ignore) => ignore)
-      .finally(() => this._knex.delete({
-        table: 'users',
-        where: {
-          notes: '[]',
-          reminders: '[]'
+      .finally(() => {
+        for (const table of clearEmptyRows) {
+          const columns = tables.reduce((accum, element) => {
+            if (clearEmptyRows.includes(element.name) && element.default) accum[element.name] = element.default
+            return accum
+          }, {})
+          console.log(columns)
+          this._knex.delete({
+            table,
+            where: columns
+          })
         }
-      }))
+      })
       .then(() => console.log('Database set up!'))
   }
   _bindEvents () {
@@ -132,39 +146,13 @@ class Agent {
     this._client.on('shardReady', this._onShardReady.bind(this, this._client))
     this._client.on('shardDisconnect', this._onShardDisconnect.bind(this, this._client))
   }
-  _setRemindersCheck (remindersCheckInterval) {
-    setInterval(async () => {
-      const users = await this._knex.select('users')
-      if (!users) return
-      for (const user of users) {
-        for (let i = 0; i < user.reminders; i++) {
-          const reminder = user.reminders[i]
-          if (Date.now() < new Date(reminder.date).getTime()) continue
-          user.getDMChannel()
-            .then((channel) => channel.createMessage(
-              `__REMINDER__:\n**${reminder.name}**\n${reminder.desc}\n-*${new Date(reminder.date).toString()}*`
-            ))
-            .then(() => { user.reminders[i] = null })
-            .catch((err) => console.error(`Could not dm user with id: ${user.id}: `, err))
-        }
-        const newReminders = user.reminders.filter((reminder) => reminder !== null)
-        if (newReminders.length === user.reminders.length) continue
-        this._knex.update({
-          table: 'users',
-          where: {
-            id: user.id
-          },
-          data: {
-            reminders: newReminders
-          }
-        })
-      }
-    }, remindersCheckInterval)
+  _setCheck (func, interval) {
+    setInterval(() => func(this), interval)
   }
   /**
    * Send an error message.
    * @private
-   * @param  {Error}   err   The error
+   * @param  {Error}   err   The error.
    * @param  {Message} msg   The original message from Discord.
    * @param  {*}       [res] The response from a command.
    */
@@ -189,12 +177,12 @@ class Agent {
   _onCreateMessage (client, msg) {
     if (msg.author.bot) return
 
-    this._commandHandler.handle(msg)
+    this.__CommandHandler.handle(msg)
       .catch((err) => this._handleError(err, msg))
   }
   async _onReady (client) {
     console.log('Initializing Command Handler')
-    this._commandHandler = new CommandHandler({
+    this.__CommandHandler = new _CommandHandler({
       agent: this,
       prefix: this._prefix,
       client,
@@ -210,7 +198,7 @@ class Agent {
       name: `Prefix: '${process.env.PREFIX}'`,
       type: 2
     })
-    this._dblAPI.postStats(client.guilds.size, shard, client.shards.size)
+    if (this._dblAPI) this._dblAPI.postStats(client.guilds.size, shard, client.shards.size)
   }
   _onShardDisconnect (client, shard) {
     console.log(`Shard ${shard} lost connection`)
@@ -230,20 +218,7 @@ module.exports = Agent
  * @property {*}       [default]       The default value of this column, should match this column's type.
  */
 /**
- * @typedef  {Object}   DatabaseTable
- * @property {String}   name    The name of the table.
- * @property {Column[]} columns The columns of the table to store data in.
- */
-/**
- * @typedef  {Object}  DatabaseOptions
- * @property {String}  connectionURL The database url.
- * @property {Table[]} [tables]      The additional tables to create in the database.
- */
-/**
- * @typedef  {Object} AgentOptions
- * @property {Number} [connectRetryLimit=10]           The maximum number of times to retry connecting to the Discord API.
- * @property {String} [prefix='!']                     The command prefix.
- * @property {String} [dblToken]                       The token used with the DiscordBotsList API.
- * @property {String} [dblWidget='']                   The URL of your DBL widget.
- * @property {Number} [remindersCheckInterval=3000000] The amount of time to wait between checking on reminders.
+ * @typedef  {Object}           DatabaseTable
+ * @property {String}           name          The name of the table.
+ * @property {DatabaseColumn[]} columns       The columns of the table to store data in.
  */

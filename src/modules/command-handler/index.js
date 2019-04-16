@@ -8,7 +8,14 @@ const Replacer = require('../replacer')
 class CommandHandler {
   /**
    * Create a CommandHandler
-   * @param {CommandHandlerData} data The command handler data.
+   * @param    {Object}              data           The command handler data.
+   * @property {Agent}               agent          The agent managing the bot.
+   * @property {String}              prefix         The prefix of commands.
+   * @property {Client}              client         The Eris client.
+   * @property {String}              ownerId        The ID of the bot owner.
+   * @property {QueryBuilder}        [knex]         The simple-knex query builder.
+   * @property {Replacer[]|Replacer} [replacers=[]] The command arg replacers.
+   * @property {Command[]|Command}   [commands=[]]  List of commands to load initially.
    */
   constructor ({ agent, prefix, client, ownerId, knex, replacers = [], commands = [] }) {
     /**
@@ -22,7 +29,7 @@ class CommandHandler {
      */
     this._client = client
     /**
-     * The custom bot agent.
+     * The agent managing the bot.
      */
     this._agent = agent
     /**
@@ -36,7 +43,7 @@ class CommandHandler {
      */
     this._commands = new Map()
     /**
-     * An object containing message data used to wait for user response.
+     * An object containing message data used to wait for a user's response.
      * @type {Map<String, AwaitData>}
      */
     this._awaits = new Map()
@@ -230,15 +237,6 @@ class CommandHandler {
 
 module.exports = CommandHandler
 /**
- * @typedef  {Object}              CommandHandlerData
- * @property {String}              prefix         The prefix of commands.
- * @property {Client}              client         The Eris client.
- * @property {String}              ownerId        The ID of the bot owner.
- * @property {QueryBuilder}        [knex]         The simple-knex query builder.
- * @property {Replacer[]|Replacer} [replacers=[]] The command arg replacers.
- * @property {Command[]|Command}   [commands=[]]  List of commands to load initially.
- */
-/**
  * Context of awaiting messages.
  * @typedef  {Object}   AwaitData
  * @property {String}   id           The ID of the await.
@@ -254,8 +252,8 @@ module.exports = CommandHandler
 /**
  * Fancy keyword replacer.
  * @typedef  {Object}   Replacer
- * @property {String}   key      The keyword to replace.
- * @property {String}   desc     A description of what it does.
- * @property {Boolean}  start    Dunno what this is.
- * @property {Function} action   Function returning the string to replace with. (Param is an object containing: content, capture)
+ * @property {String}   key              The keyword to replace.
+ * @property {String}   desc             A description of what it does.
+ * @property {Boolean}  [start=false]    Set whether the replacer requires parameters.
+ * @property {Function} action           Function returning the string to replace with. (Param is an object containing: content, capture)
  */

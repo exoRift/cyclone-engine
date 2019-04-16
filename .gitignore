@@ -1,0 +1,10 @@
+# My text editor data
+.vscode
+# The env vars I use for debug
+.env
+# The modules
+node_modules
+# The shell I use for running stuff
+cmd.lnk
+# Tests
+.nyc_output

@@ -1,0 +1,16 @@
+{
+  "extends": "standard",
+  "rules": {
+    "array-bracket-spacing": "error",
+    "no-lonely-if": "warn",
+    "arrow-parens": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "max-len": [
+      "warn",
+      {
+        "code": 155
+      }
+    ]
+  }
+}

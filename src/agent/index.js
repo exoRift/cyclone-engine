@@ -25,8 +25,8 @@ class Agent {
    * @property {Number}          [connectRetryLimit=10]    How many times the agent will attempt to establish a connection with Discord before giving up.
    * @property {String}          [prefix='!']              The prefix for bot commands.
    * @property {DatabaseTable[]} [tables=[]]               The initial tables to set up for the database.
-   * @property {function(agent)} [checkFunction]           A function that will run every checkInterval amount of ms, supplied the agent.
-   * @property {Number}          [checkInterval=30000]     The interval at which the checkFunction runs.
+   * @property {function(agent)} [loopFunction]           A function that will run every loopInterval amount of ms, supplied the agent.
+   * @property {Number}          [loopInterval=30000]     The interval at which the loopFunction runs.
    */
   constructor (Eris, token, data, databaseOptions, agentOptions = {}) {
     const {
@@ -54,8 +54,8 @@ class Agent {
       connectRetryLimit = 10,
       prefix = '!',
       dblToken,
-      checkFunction,
-      checkInterval = 300000
+      loopFunction,
+      loopInterval = 300000
     } = agentOptions
     /**
      * The eris Client.
@@ -96,7 +96,7 @@ class Agent {
     // setup
     this._bindEvents()
     this._prepareDB(tables, clearEmptyRows)
-    if (checkFunction) this._setCheck(checkFunction, checkInterval)
+    if (loopFunction) this._setLoop(loopFunction, loopInterval)
   }
   /**
    * Connect to the Discord API. Will recursively retry this._connectRetryLimit number of times.
@@ -146,7 +146,7 @@ class Agent {
     this._client.on('shardReady', this._onShardReady.bind(this, this._client))
     this._client.on('shardDisconnect', this._onShardDisconnect.bind(this, this._client))
   }
-  _setCheck (func, interval) {
+  _setLoop (func, interval) {
     setInterval(() => func(this), interval)
   }
   /**

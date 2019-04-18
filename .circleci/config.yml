@@ -1,4 +1,6 @@
-version: 2
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.4
 jobs:
   build:
     docker:
@@ -25,6 +27,8 @@ jobs:
           command: npm run test
           name: Test
           when: always
+      - upload:
+          file: "coverage/lcov.info"
       - save_cache:
           key: - v1-npm-deps-{{ checksum "package-lock.json" }}
           paths:

@@ -1,7 +1,7 @@
 <img src="assets/Splash.png" alt="Splash Banner" width="500"/>
 
 [![CircleCI](https://circleci.com/gh/mets11rap/cyclone-engine/tree/master.svg?style=svg)](https://circleci.com/gh/mets11rap/cyclone-engine/tree/master)
-
+[![codecov](https://codecov.io/gh/mets11rap/cyclone-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/mets11rap/cyclone-engine)
 # An advanced bot engine for Discord
 **What can Cyclone do?**
 

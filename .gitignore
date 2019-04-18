@@ -8,3 +8,4 @@ node_modules
 cmd.lnk
 # Tests
 .nyc_output
+coverage

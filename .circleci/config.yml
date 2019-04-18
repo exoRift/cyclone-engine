@@ -27,7 +27,7 @@ jobs:
           command: npm run test
           name: Test
           when: always
-      - upload:
+      - codecov/upload:
           file: coverage/lcov.info
       - save_cache:
           key: v1-npm-deps-{{ checksum "package-lock.json" }}

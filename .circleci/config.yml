@@ -28,11 +28,11 @@ jobs:
           command: mkdir reports
           name: Create Report Directory
       - run:
-          command: npm run lint --format junit --output-file ./reports/eslint.xml
+          command: npm run lint --output-file ./reports/eslint.xml
           name: Lint
           when: always
       - run:
-          command: npm run test --tap | tap-xunit > ~/reports/ava.xml
+          command: npm run test
           name: Test
           when: always
       - codecov/upload:

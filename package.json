@@ -22,10 +22,8 @@
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "junit": "^1.4.9",
     "nyc": "^13.3.0",
-    "pg": "^7.9.0",
-    "tap-xunit": "^2.3.0"
+    "pg": "^7.9.0"
   },
   "repository": {
     "type": "git",

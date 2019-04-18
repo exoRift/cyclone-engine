@@ -26,7 +26,7 @@ jobs:
             - node_modules
       - run:
           name: Lint
-          command: npm run lint --output-file ./reports/eslint.xml
+          command: npm run lint
           when: always
       - run:
           name: Test
@@ -34,6 +34,7 @@ jobs:
           when: always
       - codecov/upload:
           file: ./coverage/lcov.info
+          when: always
 workflows:
   version: 2
   testing:

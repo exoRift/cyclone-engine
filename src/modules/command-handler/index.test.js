@@ -67,14 +67,14 @@ const mockCommands = [
     name: 'awaittest',
     desc: 'Test the awaited message system',
     options: {
-      args: [{ name: 'check', mand: true }, { name: 'timeout' }]
+      args: [{ name: 'check' }, { name: 'timeout' }]
     },
     action: ({ msg, args: [check, timeout] }) => {
       return {
         content: 'first',
         wait: new Await({
           options: {
-            check: ({ msg }) => msg.content.startsWith('!runawait') && msg.content.split(' ')[1] === check,
+            check: check ? ({ msg }) => msg.content.startsWith('!runawait') && msg.content.split(' ')[1] === check : undefined,
             timeout: parseInt(timeout),
             oneTime: msg.channel.id === '2'
           },
@@ -141,6 +141,12 @@ function delay (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
 }
 
+test.todo('invalidSimple-KnexSupply')
+
+test.todo('invalidCommandInstance')
+
+test.todo('invalidReplacerInstance')
+
 test('prefixDetermination', async (t) => {
   t.is(await handler.handle(client._buildMessage('command1')), undefined, 'No prefix failed')
 
@@ -181,6 +187,9 @@ test('databaseRequesting', (t) => {
 })
 
 test('awaitSystem', async (t) => {
+  t.is((await handler.handle(client._buildMessage('!awaittest', '1', '1'))).content, 'first', 'Any message pt. 1')
+  t.is((await handler.handle(client._buildMessage('!anything', '1', '1'))).content, 'second', 'Any message pt. 2')
+
   t.is((await handler.handle(client._buildMessage('!awaittest 1', '1', '1'))).content, 'first', 'Wrong user pt. 1')
   t.is(await handler.handle(client._buildMessage('!runawait 1', '2', '1')), undefined, 'Wrong user pt. 2')
 

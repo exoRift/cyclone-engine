@@ -106,6 +106,7 @@ class CommandHandler {
       if (awaited.oneTime) awaited.clear()
       awaited = undefined
     }
+    if (awaited) awaited.clear()
 
     let args = text.split(' ')
     const keyword = args.shift()

@@ -33,9 +33,7 @@ jobs:
           command: npm run test
           when: always
       - codecov/upload:
-          name: Upload Coverage to Codecov
           file: ./coverage/lcov.info
-          conf: ""
 workflows:
   version: 2
   testing:

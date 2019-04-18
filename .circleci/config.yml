@@ -34,7 +34,6 @@ jobs:
           when: always
       - codecov/upload:
           file: ./coverage/lcov.info
-          when: always
 workflows:
   version: 2
   testing:

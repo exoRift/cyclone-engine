@@ -9,11 +9,11 @@ jobs:
     environment:
       DATABASE_URL: postgresql://root@localhost/circle_test
     steps:
+      - checkout
       - restore_cache:
           keys:
             - npm-deps-{{ checksum "package-lock.json" }}
             - npm-deps-
-      - checkout
       - run:
           name: Update NPM
           command: sudo npm i -g npm@latest
@@ -25,25 +25,17 @@ jobs:
           paths:
             - node_modules
       - run:
-          command: mkdir reports
-          name: Create Report Directory
-      - run:
-          command: npm run lint --output-file ./reports/eslint.xml
           name: Lint
+          command: npm run lint --output-file ./reports/eslint.xml
           when: always
       - run:
-          command: npm run test
           name: Test
+          command: npm run test
           when: always
       - codecov/upload:
+          name: Upload Coverage to Codecov
           file: ./coverage/lcov.info
-      - store_test_results:
-          path: ./reports
-          when: always
-      - store_artifacts:
-          path: ./coverage/lcov.info
-          prefix: tests
-          when: always
+          conf: ""
 workflows:
   version: 2
   testing:

@@ -63,34 +63,6 @@ class CommandHandler {
   }
 
   /**
-   * Load commands.
-   * @param {Command[]|Command} commands The command(s) to load.
-   */
-  loadCommands (commands) {
-    if (commands instanceof Array) {
-      for (let i = 0; i < commands.length; i++) {
-        this._loadCommand(commands[i])
-      }
-    } else {
-      this._loadCommand(commands)
-    }
-  }
-
-  /**
-   * Load replacers.
-   * @param {Replacer[]|Replacer} replacers The replacer(s) to load.
-   */
-  loadReplacers (replacers) {
-    if (replacers instanceof Array) {
-      for (let i = 0; i < replacers.length; i++) {
-        this._loadReplacer(replacers[i])
-      }
-    } else {
-      this._loadReplacer(replacers)
-    }
-  }
-
-  /**
    * Handle incoming Discord messages.
    * @param {Message} msg The Discord message.
    */
@@ -153,6 +125,34 @@ class CommandHandler {
     }
   }
 
+  /**
+   * Load commands.
+   * @param {Command[]|Command} commands The command(s) to load.
+   */
+  loadCommands (commands) {
+    if (commands instanceof Array) {
+      for (let i = 0; i < commands.length; i++) {
+        this._loadCommand(commands[i])
+      }
+    } else {
+      this._loadCommand(commands)
+    }
+  }
+
+  /**
+   * Load replacers.
+   * @param {Replacer[]|Replacer} replacers The replacer(s) to load.
+   */
+  loadReplacers (replacers) {
+    if (replacers instanceof Array) {
+      for (let i = 0; i < replacers.length; i++) {
+        this._loadReplacer(replacers[i])
+      }
+    } else {
+      this._loadReplacer(replacers)
+    }
+  }
+
   _replaceMentionWithPrefix (content) {
     return content.replace(new RegExp(`^<@!?${this._client.user.id}> ?`), this._prefix)
   }
@@ -186,6 +186,8 @@ class CommandHandler {
    */
   _loadCommand (command) {
     if (!(command instanceof Command)) throw TypeError('Supplied commands not Command instances:\n', command)
+    const lastArg = command.args[command.args.length - 1]
+    if (lastArg && lastArg.delim) console.log(`Disclaimer: Your command: ${command.name}'s last argument unnecessarily has a delimiter.`)
     this._commands.set(command.name, command)
   }
 

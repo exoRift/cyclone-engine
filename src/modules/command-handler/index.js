@@ -144,6 +144,7 @@ class CommandHandler {
     } = typeof result === 'string' ? { content: result } : result
 
     if (content || embed || file) {
+      if (file && !(file instanceof Buffer)) throw TypeError('Supplied file not a Buffer instance:\n', file)
       return msg.channel.createMessage({ content, embed }, file)
         .then((rsp) => {
           if (wait && wait instanceof Await) this._addAwait(msg, rsp, wait)
@@ -184,7 +185,7 @@ class CommandHandler {
    * @param   {Command} command The command to load.
    */
   _loadCommand (command) {
-    if (!(command instanceof Command)) throw TypeError('Not a command:\n', command)
+    if (!(command instanceof Command)) throw TypeError('Supplied commands not Command instances:\n', command)
     this._commands.set(command.name, command)
   }
 
@@ -194,7 +195,7 @@ class CommandHandler {
    * @param   {Replacer} replacer The replacer to load.
    */
   _loadReplacer (replacer) {
-    if (!(replacer instanceof Replacer)) throw TypeError('Not a replacer:\n', replacer)
+    if (!(replacer instanceof Replacer)) throw TypeError('Supplied replacers not Replacer instances:\n', replacer)
     this._replacers.set(replacer.key, replacer)
   }
 

@@ -1,4 +1,5 @@
 import test from 'ava'
+import sinon from 'sinon'
 import CommandHandler from '.'
 import PDiscord from '../pdc.js'
 import QueryBuilder from 'simple-knex'
@@ -116,7 +117,7 @@ const mockCommands = [
         wait: new Await({
           options: {
             check: check ? ({ msg }) => msg.content.startsWith('!runawait') && msg.content.split(' ')[1] === check : undefined,
-            timeout: parseInt(timeout),
+            timeout: timeout ? parseInt(timeout) : undefined,
             oneTime: msg.channel.id === '2'
           },
           action: () => 'second'
@@ -201,7 +202,7 @@ test('invalidSimple-KnexSupply', async (t) => {
   await t.throwsAsync(fakeHandler.handle(client._buildMessage('!dbtest', '1')), {
     instanceOf: Error,
     message: 'QueryBuilder was not supplied to CommandHandler!'
-  }, 'Invalid DB request error')
+  })
 })
 
 test('invalidCommandInstance', (t) => {
@@ -218,7 +219,7 @@ test('invalidCommandInstance', (t) => {
   } catch (err) {
     error = err
   }
-  t.deepEqual(error, TypeError('Supplied commands not Command instances:\n', invalidCommand), 'Construction threw for command')
+  t.deepEqual(error, TypeError('Supplied commands not Command instances:\n', invalidCommand))
 })
 
 test('invalidReplacerInstance', (t) => {
@@ -235,7 +236,7 @@ test('invalidReplacerInstance', (t) => {
   } catch (err) {
     error = err
   }
-  t.deepEqual(error, TypeError('Supplied replacers not Replacer instances:\n', invalidReplacer), 'Construction threw for command')
+  t.deepEqual(error, TypeError('Supplied replacers not Replacer instances:\n', invalidReplacer))
 })
 
 test('singleDataSupply', (t) => {
@@ -271,6 +272,7 @@ test('prefixDetermination', async (t) => {
 
 test('mentionPrefix', async (t) => {
   t.is((await handler.handle(client._buildMessage(`<@${client.user.id}>command1`))).content, '1', 'No space')
+
   t.is((await handler.handle(client._buildMessage(`<@${client.user.id}> command1`))).content, '1', 'With space')
 })
 
@@ -281,7 +283,7 @@ test('commandDiscrimination', async (t) => {
 })
 
 test('emptyAction', async (t) => {
-  t.is(await handler.handle(client._buildMessage('!emptyaction')), undefined, 'No return from action')
+  t.is(await handler.handle(client._buildMessage('!emptyaction')), undefined)
 })
 
 test('incompleteReturnObject', async (t) => {
@@ -296,7 +298,7 @@ test('invalidFileSupply', async (t) => {
   await t.throwsAsync(handler.handle(client._buildMessage('!invalidfile')), {
     instanceOf: TypeError,
     message: 'Supplied file not a Buffer instance:\n'
-  }, 'Handle threw for file')
+  })
 })
 
 test('argumentSystem', async (t) => {
@@ -313,6 +315,30 @@ test('argumentSystem', async (t) => {
     instanceOf: Error,
     message: 'Invalid arguments. Reference the help menu.'
   }, 'No args')
+})
+
+test('lastArgOfCommandHasDelim', (t) => {
+  const spy = sinon.spy(console, 'log')
+
+  const fakeCommand = new Command({
+    name: 'lastargdelimtest',
+    desc: 'Testing when the last arg has a delim',
+    options: {
+      args: [{ name: 'arg', delim: '|' }]
+    },
+    action: () => ''
+  })
+
+  const fakeHandler = new CommandHandler({
+    agent: {},
+    prefix: '!',
+    client,
+    ownerId: '456',
+    commands: fakeCommand
+  })
+
+  t.true(spy.calledWith("Disclaimer: Your command: lastargdelimtest's last argument unnecessarily has a delimiter."))
+  return fakeHandler
 })
 
 test('replacerSystem', async (t) => {

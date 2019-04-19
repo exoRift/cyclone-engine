@@ -370,8 +370,8 @@ test('awaitSystem', async (t) => {
   t.is((await handler.handle(client._buildMessage('!awaittest 1', '1', '1'))).content, 'first', 'Conditional await success pt. 1')
   t.is((await handler.handle(client._buildMessage('!runawait 1', '1', '1'))).content, 'second', 'Conditional await success pt. 2')
 
-  t.is((await handler.handle(client._buildMessage('!awaittest 1 1000', '1', '1'))).content, 'first', 'Timeout await fail pt.1')
-  await delay(2000)
+  t.is((await handler.handle(client._buildMessage('!awaittest 1 100', '1', '1'))).content, 'first', 'Timeout await fail pt.1')
+  await delay(200)
   t.is(await handler.handle(client._buildMessage('!runawait 1', '1', '1')), undefined, 'Timeout await fail pt.2')
 
   t.is((await handler.handle(client._buildMessage('!awaittest 1 2000', '1', '1'))).content, 'first', 'Timeout await success pt.1')

@@ -38,6 +38,47 @@ const mockCommands = [
     }
   }),
   new Command({
+    name: 'emptyaction',
+    desc: 'A command with no return in the action',
+    action: () => {
+      'Not returning'
+    }
+  }),
+  new Command({
+    name: 'justembed',
+    desc: 'A command that just returns an embed',
+    action: () => {
+      return {
+        embed: {}
+      }
+    }
+  }),
+  new Command({
+    name: 'justfile',
+    desc: 'A command that just returns a file',
+    action: () => {
+      return {
+        file: Buffer.from('buffer')
+      }
+    }
+  }),
+  new Command({
+    name: 'emptyobject',
+    desc: 'A command that returns an empty object',
+    action: () => {
+      return {}
+    }
+  }),
+  new Command({
+    name: 'invalidfile',
+    desc: "A command that doesn't return a buffer for file",
+    action: () => {
+      return {
+        file: 'not a buffer'
+      }
+    }
+  }),
+  new Command({
     name: 'echo',
     desc: 'Echo what was said',
     options: {
@@ -95,6 +136,12 @@ const mockReplacers = [
     key: 'replacer2',
     desc: 'Test replacer 2',
     action: () => 'r2'
+  }),
+  new Replacer({
+    key: 'replacer3',
+    desc: 'A replacer that has an input',
+    action: ({ capture }) => 'r3 ' + capture.split(' ')[1],
+    start: true
   })
 ]
 
@@ -141,11 +188,80 @@ function delay (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
 }
 
-test.todo('invalidSimple-KnexSupply')
+test('invalidSimple-KnexSupply', async (t) => {
+  const fakeHandler = new CommandHandler({
+    agent: {},
+    prefix: '!',
+    client,
+    ownerId: '456',
+    commands: mockCommands,
+    replacers: mockReplacers
+  })
 
-test.todo('invalidCommandInstance')
+  await t.throwsAsync(fakeHandler.handle(client._buildMessage('!dbtest', '1')), {
+    instanceOf: Error,
+    message: 'QueryBuilder was not supplied to CommandHandler!'
+  }, 'Invalid DB request error')
+})
 
-test.todo('invalidReplacerInstance')
+test('invalidCommandInstance', (t) => {
+  let error
+  let invalidCommand = true
+  try {
+    invalidCommand = new CommandHandler({
+      agent: {},
+      prefix: '!',
+      client,
+      ownerId: '456',
+      commands: invalidCommand
+    })
+  } catch (err) {
+    error = err
+  }
+  t.deepEqual(error, TypeError('Supplied commands not Command instances:\n', invalidCommand), 'Construction threw for command')
+})
+
+test('invalidReplacerInstance', (t) => {
+  let error
+  let invalidReplacer = true
+  try {
+    invalidReplacer = new CommandHandler({
+      agent: {},
+      prefix: '!',
+      client,
+      ownerId: '456',
+      replacers: invalidReplacer
+    })
+  } catch (err) {
+    error = err
+  }
+  t.deepEqual(error, TypeError('Supplied replacers not Replacer instances:\n', invalidReplacer), 'Construction threw for command')
+})
+
+test('singleDataSupply', (t) => {
+  const singleCommand = new Command({
+    name: 'command',
+    desc: 'This is a single command',
+    action: () => ''
+  })
+  const singleReplacer = new Replacer({
+    key: 'replacer',
+    desc: 'This is a single replacer',
+    action: () => ''
+  })
+
+  const fakeHandler = new CommandHandler({
+    agent: {},
+    prefix: '!',
+    client,
+    ownerId: '456',
+    commands: singleCommand,
+    replacers: singleReplacer
+  })
+
+  t.truthy(fakeHandler._commands.get('command'), 'Command')
+  t.truthy(fakeHandler._replacers.get('replacer'), 'Replacer')
+})
 
 test('prefixDetermination', async (t) => {
   t.is(await handler.handle(client._buildMessage('command1')), undefined, 'No prefix failed')
@@ -164,18 +280,47 @@ test('commandDiscrimination', async (t) => {
   t.is((await handler.handle(client._buildMessage('!command2'))).content, '2', 'Command 2 ran')
 })
 
+test('emptyAction', async (t) => {
+  t.is(await handler.handle(client._buildMessage('!emptyaction')), undefined, 'No return from action')
+})
+
+test('incompleteReturnObject', async (t) => {
+  t.truthy((await handler.handle(client._buildMessage('!justembed'))).embed, 'Embed passed')
+
+  t.truthy((await handler.handle(client._buildMessage('!justfile'))).file, 'File passed')
+
+  t.is(await handler.handle(client._buildMessage('!emptyobject')), undefined, 'Empty object')
+})
+
+test('invalidFileSupply', async (t) => {
+  await t.throwsAsync(handler.handle(client._buildMessage('!invalidfile')), {
+    instanceOf: TypeError,
+    message: 'Supplied file not a Buffer instance:\n'
+  }, 'Handle threw for file')
+})
+
 test('argumentSystem', async (t) => {
   t.is((await handler.handle(client._buildMessage('!argstest hello there'))).content, 'hello there undefined', 'Only mandatory args')
 
-  await t.throwsAsync(handler.handle(client._buildMessage('!argstest hello')), Error, 'Missing arg')
+  await t.throwsAsync(handler.handle(client._buildMessage('!argstest hello')), {
+    instanceOf: Error,
+    message: 'Invalid arguments. Reference the help menu.'
+  }, 'Missing arg')
 
   t.is((await handler.handle(client._buildMessage('!argstest hello there|sir'))).content, 'hello there sir', 'Custom Delim')
 
-  await t.throwsAsync(handler.handle(client._buildMessage('!argstest')), Error, 'No args')
+  await t.throwsAsync(handler.handle(client._buildMessage('!argstest')), {
+    instanceOf: Error,
+    message: 'Invalid arguments. Reference the help menu.'
+  }, 'No args')
 })
 
 test('replacerSystem', async (t) => {
-  t.is((await handler.handle(client._buildMessage('!echo h|replacer1| l |replacer2|'))).content, 'hr1 l r2')
+  t.is((await handler.handle(client._buildMessage('!echo h|replacer1| l |replacer2|'))).content, 'hr1 l r2', 'Proper replacer')
+
+  t.is((await handler.handle(client._buildMessage('!echo h|invalid| l |replacer2|'))).content, 'hINVALID KEY l r2', 'Invalid Replacer')
+
+  t.is((await handler.handle(client._buildMessage('!echo hello |replacer3 MESSAGE| there'))).content, 'hello r3 MESSAGE there', 'Replacer with args')
 })
 
 test('databaseRequesting', (t) => {
@@ -215,7 +360,10 @@ test('awaitSystem', async (t) => {
 })
 
 test('restrictedCommands', async (t) => {
-  t.throwsAsync(handler.handle(client._buildMessage('!testrestricted', '123')), Error, 'Successful denial')
+  t.throwsAsync(handler.handle(client._buildMessage('!testrestricted', '123')), {
+    instanceOf: Error,
+    message: 'This command is either temporarily disabled, or restricted.'
+  }, 'Successful denial')
 
   t.is((await handler.handle(client._buildMessage('!testrestricted', '456'))).content, '3', 'Successful grant')
 })

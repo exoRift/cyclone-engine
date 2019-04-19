@@ -32,8 +32,13 @@ jobs:
           name: Test
           command: npm run test
           when: always
+      - store_artifacts:
+          path: ./coverage/lcov.info
+      - store_test_results:
+          ./coverage/lcov-report
       - codecov/upload:
           file: ./coverage/lcov.info
+          when: always
 workflows:
   version: 2
   testing:

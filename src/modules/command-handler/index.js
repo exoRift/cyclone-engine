@@ -174,7 +174,7 @@ class CommandHandler {
       for (const [key, value] of this._replacers.entries()) {
         if ((value.start && split.length > 1 && key === split[0]) || key === capture) return value.action({ content, capture })
       }
-      return 'Invalid Key'
+      return 'INVALID KEY'
     })
   }
 

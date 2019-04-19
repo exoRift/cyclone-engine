@@ -1,4 +1,5 @@
 import test from 'ava'
+import sinon from 'sinon'
 import Agent from '.'
 import Command from '../modules/command'
 import Await from '../modules/await'
@@ -32,6 +33,17 @@ const data = {
 function delay (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
 }
+
+test.beforeEach((t) => {
+  t.context.listeners = {
+    log: sinon.spy(console, 'log'),
+    error: sinon.spy(console, 'error')
+  }
+})
+
+test.afterEach((t) => {
+  for (const listener of t.context.listeners) listener.restore()
+})
 
 // const agent = new Agent(PDiscord, '123TOKEN', data, {
 //   connectionURL: DATABASE_URL,

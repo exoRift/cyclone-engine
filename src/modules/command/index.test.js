@@ -11,7 +11,7 @@ const command = new Command({
 })
 
 const lastArgDelimCommand = new Command({
-  name: 'ladm',
+  name: 'ladc',
   desc: 'Testing when the last arg has a delim',
   options: {
     args: [{ name: 'arg', delim: '|' }]
@@ -22,5 +22,5 @@ const lastArgDelimCommand = new Command({
 test('commandInfo', async (t) => {
   t.is(command.info, '**command <mandatoryArg> <customDelimArg>|(optionalArg)** - *Testing command info*', 'Regular')
 
-  t.is(lastArgDelimCommand.info, '**ladm (arg)** - *Testing when the last arg has a delim*', 'Last arg has a delim')
+  t.is(lastArgDelimCommand.info, '**ladc (arg)** - *Testing when the last arg has a delim*', 'Last arg has a delim')
 })

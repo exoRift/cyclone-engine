@@ -359,7 +359,7 @@ test('databaseRequesting', (t) => {
 
 test('awaitSystem', async (t) => {
   t.is((await handler.handle(client._buildMessage('!awaittest', '1', '1'))).content, 'first', 'Any message pt. 1')
-  t.is((await handler.handle(client._buildMessage('!anything', '1', '1'))).content, 'second', 'Any message pt. 2')
+  t.is((await handler.handle(client._buildMessage('anything', '1', '1'))).content, 'second', 'Any message pt. 2')
 
   t.is((await handler.handle(client._buildMessage('!awaittest 1', '1', '1'))).content, 'first', 'Wrong user pt. 1')
   t.is(await handler.handle(client._buildMessage('!runawait 1', '2', '1')), undefined, 'Wrong user pt. 2')

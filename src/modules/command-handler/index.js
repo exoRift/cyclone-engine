@@ -8,16 +8,21 @@ const Replacer = require('../replacer')
 class CommandHandler {
   /**
    * Create a CommandHandler
-   * @param    {Object}              data           The command handler data.
-   * @property {Agent}               agent          The agent managing the bot.
-   * @property {String}              prefix         The prefix of commands.
-   * @property {Client}              client         The Eris client.
-   * @property {String}              ownerId        The ID of the bot owner.
-   * @property {QueryBuilder}        [knex]         The simple-knex query builder.
-   * @property {Replacer[]|Replacer} [replacers=[]] The command arg replacers.
-   * @property {Command[]|Command}   [commands=[]]  List of commands to load initially.
+   * @param    {Object}              data                The command handler data.
+   * @property {Agent}               [data.agent={}]     The agent managing the bot.
+   * @property {String}              data.prefix         The prefix of commands.
+   * @property {Eris.Client}         data.client         The Eris client.
+   * @property {String}              data.ownerId        The ID of the bot owner.
+   * @property {QueryBuilder}        [data.knex]         The simple-knex query builder.
+   * @property {Command[]|Command}   [data.commands=[]]  Map of commands to load initially.
+   * @property {Replacer[]|Replacer} [data.replacers=[]] The message content replacers.
    */
-  constructor ({ agent, prefix, client, ownerId, knex, replacers = [], commands = [] }) {
+  constructor ({ agent = {}, prefix, client, ownerId, knex, commands = [], replacers = [] }) {
+    /**
+     * The agent managing the bot.
+     * @type {Agent}
+     */
+    this._agent = agent
     /**
      * The prefix of commands.
      * @type {String}
@@ -25,46 +30,43 @@ class CommandHandler {
     this._prefix = prefix
     /**
      * The Eris Client.
-     * @type {Client}
+     * @type {Eris}
      */
     this._client = client
-    /**
-     * The agent managing the bot.
-     */
-    this._agent = agent
-    /**
-     * The simple-knex query builder.
-     * @type {QueryBuilder}
-     */
-    this._knex = knex
-    /**
-     * Map of commands.
-     * @type {Map<String, Command>}
-     */
-    this._commands = new Map()
-    /**
-     * An object containing message data used to wait for a user's response.
-     * @type {Map<String, AwaitData>}
-     */
-    this._awaits = new Map()
     /**
      * The ID of the bot owner.
      * @type {String}
      */
     this._ownerId = ownerId
     /**
-     * Map of replacers.
+     * The simple-knex query builder.
+     * @type {QueryBuilder}
+     */
+    this._knex = knex
+    /**
+     * Map of commands to load initially.
+     * @type {Map<String, Command>}
+     */
+    this._commands = new Map()
+    /**
+     * The message content replacers.
      * @type {Map<String, Replacer>}
      */
     this._replacers = new Map()
-    // Load commands
+    /**
+     * An object containing message data used to wait for a user's response.
+     * @type {Map<String, AwaitData>}
+     */
+    this._awaits = new Map()
+
     this.loadCommands(commands)
     this.loadReplacers(replacers)
   }
 
   /**
    * Handle incoming Discord messages.
-   * @param {Message} msg The Discord message.
+   * @param   {Eris.Message} msg The Discord message.
+   * @returns {Object}           The results of the command.
    */
   async handle (msg) {
     let text = this._runReplacers(msg.content)
@@ -154,10 +156,23 @@ class CommandHandler {
     }
   }
 
+  /**
+   * Replace a mention of the bot with the prefix.
+   * @private
+   * @param   {String} content The content of the message.
+   * @returns {String}         The new content.
+   */
   _replaceMentionWithPrefix (content) {
     return content.replace(new RegExp(`^<@!?${this._client.user.id}> ?`), this._prefix)
   }
 
+  /**
+   * Handle commands that request a table.
+   * @private
+   * @param   {String} table The name of the table.
+   * @param   {String} id    The ID of the user
+   * @returns {Object}       The user's data.
+   */
   async _handleDBRequest (table, id) {
     if (!this._knex) throw Error('QueryBuilder was not supplied to CommandHandler!')
     await this._knex.insert({ table, data: { id } }).catch((ignore) => ignore)
@@ -168,7 +183,7 @@ class CommandHandler {
    * Check message content for stuff to replace.
    * @private
    * @param   {String} content The message content to run the replacers against.
-   * @returns {String} The message content after replacement.
+   * @returns {String}         The message content after replacement.
    */
   _runReplacers (content) {
     return content.replace(/\|(.+?)\|/g, (content, capture) => {
@@ -202,6 +217,13 @@ class CommandHandler {
     this._replacers.set(replacer.key, replacer)
   }
 
+  /**
+   * Parse the arguments from a message.
+   * @private
+   * @param   {String}   command The name of the command.
+   * @param   {String[]} args    The arguments provided.
+   * @returns {String[]}         The parsed arguments.
+   */
   _sanitizeArgs (command, args) {
     const chars = args.join(' ').split('')
     const cleaned = []
@@ -218,10 +240,12 @@ class CommandHandler {
     }
     return cleaned
   }
+
   /**
    * Set an await.
-   * @param {Message} msg  The message that started it all.
-   * @param {Await}   wait The command we are awaiting.
+   * @private
+   * @param   {Message} msg  The message that started it all.
+   * @param   {Await}   wait The command we are awaiting.
    */
   async _addAwait (msg, rsp, wait) {
     const id = msg.channel.id + msg.author.id
@@ -241,24 +265,3 @@ class CommandHandler {
 }
 
 module.exports = CommandHandler
-/**
- * Context of awaiting messages.
- * @typedef  {Object}   AwaitData
- * @property {String}   id           The ID of the await.
- * @property {Message}  lastResponse The last message the bot sent in regards to this chain.
- * @property {Number}   timestamp    When the await was created.
- * @property {Number}   timeout      How many ms to wait before deleing the await.
- * @property {Boolean}  oneTime      Decide whether the await gets cleared after an unawaited message.
- * @property {Timeout}  timer        Timeout that will delete the await.
- * @property {Function} clear        A function that will clear the delete timer and delete the await.
- * @property {Function} check        A function to validate a future response.
- * @property {Function} action       The action of the await command.
- */
-/**
- * Fancy keyword replacer.
- * @typedef  {Object}   Replacer
- * @property {String}   key              The keyword to replace.
- * @property {String}   desc             A description of what it does.
- * @property {Boolean}  [start=false]    Set whether the replacer requires parameters.
- * @property {Function} action           Function returning the string to replace with. (Param is an object containing: content, capture)
- */

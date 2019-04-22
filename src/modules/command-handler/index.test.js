@@ -9,7 +9,12 @@ import Await from '../await'
 
 require('dotenv').config()
 
-const client = new PDiscord()
+const dChannel = new PDiscord.Channel('1')
+const dOTChannel = new PDiscord.Channel('2')
+const dOwner = new PDiscord.User('1')
+const dUser = new PDiscord.User('2')
+
+const client = new PDiscord('123', dOwner)
 const knex = new QueryBuilder({
   connection: process.env.DATABASE_URL,
   client: 'pg',
@@ -150,7 +155,7 @@ const mockReplacers = [
 
 const handler = new CommandHandler({
   client,
-  ownerId: '456',
+  ownerId: '1',
   knex,
   commands: mockCommands,
   replacers: mockReplacers
@@ -197,7 +202,7 @@ test('invalidSimple-KnexSupply', async (t) => {
     replacers: mockReplacers
   })
 
-  await t.throwsAsync(fakeHandler.handle(client._buildMessage('!dbtest', '1')), {
+  await t.throwsAsync(fakeHandler.handle(new PDiscord.Message('!dbtest', dUser)), {
     instanceOf: Error,
     message: 'QueryBuilder was not supplied to CommandHandler!'
   })
@@ -275,9 +280,9 @@ test('singleDataSupply', (t) => {
 })
 
 test('prefixDetermination', async (t) => {
-  t.is(await handler.handle(client._buildMessage('command1')), undefined, 'No prefix failed')
+  t.is(await handler.handle(new PDiscord.Message('command1')), undefined, 'No prefix failed')
 
-  t.is((await handler.handle(client._buildMessage('!command1'))).content, '1', 'Command 1 ran')
+  t.is((await handler.handle(new PDiscord.Message('!command1'))).content, '1', 'Command 1 ran')
 
   const fakeHandler = new CommandHandler({
     prefix: '<>',
@@ -286,51 +291,51 @@ test('prefixDetermination', async (t) => {
     commands: mockCommands
   })
 
-  t.is((await fakeHandler.handle(client._buildMessage('<>command1'))).content, '1', 'Custom prefix')
+  t.is((await fakeHandler.handle(new PDiscord.Message('<>command1'))).content, '1', 'Custom prefix')
 })
 
 test('mentionPrefix', async (t) => {
-  t.is((await handler.handle(client._buildMessage(`<@${client.user.id}>command1`))).content, '1', 'No space')
+  t.is((await handler.handle(new PDiscord.Message(`<@${client.user.id}>command1`))).content, '1', 'No space')
 
-  t.is((await handler.handle(client._buildMessage(`<@${client.user.id}> command1`))).content, '1', 'With space')
+  t.is((await handler.handle(new PDiscord.Message(`<@${client.user.id}> command1`))).content, '1', 'With space')
 })
 
 test('commandDiscrimination', async (t) => {
-  t.is((await handler.handle(client._buildMessage('!command1'))).content, '1', 'Command 1 ran')
+  t.is((await handler.handle(new PDiscord.Message('!command1'))).content, '1', 'Command 1 ran')
 
-  t.is((await handler.handle(client._buildMessage('!command2'))).content, '2', 'Command 2 ran')
+  t.is((await handler.handle(new PDiscord.Message('!command2'))).content, '2', 'Command 2 ran')
 })
 
 test('emptyAction', async (t) => {
-  t.is(await handler.handle(client._buildMessage('!emptyaction')), undefined)
+  t.is(await handler.handle(new PDiscord.Message('!emptyaction')), undefined)
 })
 
 test('incompleteReturnObject', async (t) => {
-  t.truthy((await handler.handle(client._buildMessage('!justembed'))).embed, 'Embed passed')
+  t.truthy((await handler.handle(new PDiscord.Message('!justembed'))).embed, 'Embed passed')
 
-  t.truthy((await handler.handle(client._buildMessage('!justfile'))).file, 'File passed')
+  t.truthy((await handler.handle(new PDiscord.Message('!justfile'))).file, 'File passed')
 
-  t.is(await handler.handle(client._buildMessage('!emptyobject')), undefined, 'Empty object')
+  t.is(await handler.handle(new PDiscord.Message('!emptyobject')), undefined, 'Empty object')
 })
 
 test('invalidFileSupply', async (t) => {
-  await t.throwsAsync(handler.handle(client._buildMessage('!invalidfile')), {
+  await t.throwsAsync(handler.handle(new PDiscord.Message('!invalidfile')), {
     instanceOf: TypeError,
     message: 'Supplied file not a Buffer instance:\n'
   })
 })
 
 test('argumentSystem', async (t) => {
-  t.is((await handler.handle(client._buildMessage('!argstest hello there'))).content, 'hello there undefined', 'Only mandatory args')
+  t.is((await handler.handle(new PDiscord.Message('!argstest hello there'))).content, 'hello there undefined', 'Only mandatory args')
 
-  await t.throwsAsync(handler.handle(client._buildMessage('!argstest hello')), {
+  await t.throwsAsync(handler.handle(new PDiscord.Message('!argstest hello')), {
     instanceOf: Error,
     message: 'Invalid arguments. Reference the help menu.'
   }, 'Missing arg')
 
-  t.is((await handler.handle(client._buildMessage('!argstest hello there|sir'))).content, 'hello there sir', 'Custom Delim')
+  t.is((await handler.handle(new PDiscord.Message('!argstest hello there|sir'))).content, 'hello there sir', 'Custom Delim')
 
-  await t.throwsAsync(handler.handle(client._buildMessage('!argstest')), {
+  await t.throwsAsync(handler.handle(new PDiscord.Message('!argstest')), {
     instanceOf: Error,
     message: 'Invalid arguments. Reference the help menu.'
   }, 'No args')
@@ -362,13 +367,13 @@ test('lastArgOfCommandHasDelim', (t) => {
 })
 
 test('replacerSystem', async (t) => {
-  t.is((await handler.handle(client._buildMessage('!echo h|replacer1| l |replacer2|'))).content, 'hr1 l r2', 'Replacer differenciation')
+  t.is((await handler.handle(new PDiscord.Message('!echo h|replacer1| l |replacer2|'))).content, 'hr1 l r2', 'Replacer differenciation')
 
-  t.is((await handler.handle(client._buildMessage('!echo h|invalid| l |replacer2|'))).content, 'hINVALID KEY l r2', 'Invalid Replacer')
+  t.is((await handler.handle(new PDiscord.Message('!echo h|invalid| l |replacer2|'))).content, 'hINVALID KEY l r2', 'Invalid Replacer')
 
-  t.is((await handler.handle(client._buildMessage('!echo hello |replacer3 1| there'))).content, 'hello r3 2 there', 'Replacer with args')
+  t.is((await handler.handle(new PDiscord.Message('!echo hello |replacer3 1| there'))).content, 'hello r3 2 there', 'Replacer with args')
 
-  t.is((await handler.handle(client._buildMessage('!echo hello |replacer3| there'))).content, 'hello INVALID ARGS there', 'Incorrect args')
+  t.is((await handler.handle(new PDiscord.Message('!echo hello |replacer3| there'))).content, 'hello INVALID ARGS there', 'Incorrect args')
 
   const fakeHandler = new CommandHandler({
     client,
@@ -381,50 +386,50 @@ test('replacerSystem', async (t) => {
     }
   })
 
-  t.is((await fakeHandler.handle(client._buildMessage('!echo h<replacer1> l <replacer2>'))).content, 'hr1 l r2', 'Custom replacer braces')
+  t.is((await fakeHandler.handle(new PDiscord.Message('!echo h<replacer1> l <replacer2>'))).content, 'hr1 l r2', 'Custom replacer braces')
 })
 
 test('databaseRequesting', (t) => {
   return _prepareDatabases().then(async () => {
-    t.is((await handler.handle(client._buildMessage('!dbtest', '1'))).content, '1', 'User 1')
+    t.is((await handler.handle(new PDiscord.Message('!dbtest', dOwner))).content, '1', 'User 1')
 
-    t.is((await handler.handle(client._buildMessage('!dbtest', '2'))).content, '2', 'User 2')
+    t.is((await handler.handle(new PDiscord.Message('!dbtest', dUser))).content, '2', 'User 2')
   })
 })
 
 test('awaitSystem', async (t) => {
-  t.is((await handler.handle(client._buildMessage('!awaittest', '1', '1'))).content, 'first', 'Any message pt. 1')
-  t.is((await handler.handle(client._buildMessage('anything', '1', '1'))).content, 'second', 'Any message pt. 2')
+  t.is((await handler.handle(new PDiscord.Message('!awaittest', dUser, dChannel))).content, 'first', 'Any message pt. 1')
+  t.is((await handler.handle(new PDiscord.Message('anything', dUser, dChannel))).content, 'second', 'Any message pt. 2')
 
-  t.is((await handler.handle(client._buildMessage('!awaittest 1', '1', '1'))).content, 'first', 'Wrong user pt. 1')
-  t.is(await handler.handle(client._buildMessage('!runawait 1', '2', '1')), undefined, 'Wrong user pt. 2')
+  t.is((await handler.handle(new PDiscord.Message('!awaittest 1', dUser, dChannel))).content, 'first', 'Wrong user pt. 1')
+  t.is(await handler.handle(new PDiscord.Message('!runawait 1', dOwner, dChannel)), undefined, 'Wrong user pt. 2')
 
-  t.is((await handler.handle(client._buildMessage('!awaittest 1', '1', '1'))).content, 'first', 'Conditional await fail pt. 1')
-  t.is(await handler.handle(client._buildMessage('!runawait 2', '1', '1')), undefined, 'Conditional await fail pt. 2')
+  t.is((await handler.handle(new PDiscord.Message('!awaittest 1', dUser, dChannel))).content, 'first', 'Conditional await fail pt. 1')
+  t.is(await handler.handle(new PDiscord.Message('!runawait 2', dUser, dChannel)), undefined, 'Conditional await fail pt. 2')
 
-  t.is((await handler.handle(client._buildMessage('!awaittest 1', '1', '1'))).content, 'first', 'Conditional await success pt. 1')
-  t.is((await handler.handle(client._buildMessage('!runawait 1', '1', '1'))).content, 'second', 'Conditional await success pt. 2')
+  t.is((await handler.handle(new PDiscord.Message('!awaittest 1', dUser, dChannel))).content, 'first', 'Conditional await success pt. 1')
+  t.is((await handler.handle(new PDiscord.Message('!runawait 1', dUser, dChannel))).content, 'second', 'Conditional await success pt. 2')
 
-  t.is((await handler.handle(client._buildMessage('!awaittest 1 100', '1', '1'))).content, 'first', 'Timeout await fail pt.1')
+  t.is((await handler.handle(new PDiscord.Message('!awaittest 1 100', dUser, dChannel))).content, 'first', 'Timeout await fail pt.1')
   await delay(200)
-  t.is(await handler.handle(client._buildMessage('!runawait 1', '1', '1')), undefined, 'Timeout await fail pt.2')
+  t.is(await handler.handle(new PDiscord.Message('!runawait 1', dUser, dChannel)), undefined, 'Timeout await fail pt.2')
 
-  t.is((await handler.handle(client._buildMessage('!awaittest 1 2000', '1', '1'))).content, 'first', 'Timeout await success pt.1')
-  t.is((await handler.handle(client._buildMessage('!runawait 1', '1', '1'))).content, 'second', 'Timeout await success pt.2')
+  t.is((await handler.handle(new PDiscord.Message('!awaittest 1 2000', dUser, dChannel))).content, 'first', 'Timeout await success pt.1')
+  t.is((await handler.handle(new PDiscord.Message('!runawait 1', dUser, dChannel))).content, 'second', 'Timeout await success pt.2')
 
-  t.is((await handler.handle(client._buildMessage('!awaittest 1 2000', '1', '2'))).content, 'first', 'oneTime await fail pt.1')
-  t.is(await handler.handle(client._buildMessage('!runawait 2', '1', '2')), undefined, 'oneTime await fail pt.2')
-  t.is(await handler.handle(client._buildMessage('!runawait 1', '1', '2')), undefined, 'oneTime await fail pt.3')
+  t.is((await handler.handle(new PDiscord.Message('!awaittest 1 2000', dUser, dOTChannel))).content, 'first', 'oneTime await fail pt.1')
+  t.is(await handler.handle(new PDiscord.Message('!runawait 2', dUser, dOTChannel)), undefined, 'oneTime await fail pt.2')
+  t.is(await handler.handle(new PDiscord.Message('!runawait 1', dUser, dOTChannel)), undefined, 'oneTime await fail pt.3')
 
-  t.is((await handler.handle(client._buildMessage('!awaittest 1 2000', '1', '2'))).content, 'first', 'oneTime await success pt.1')
-  t.is((await handler.handle(client._buildMessage('!runawait 1', '1', '2'))).content, 'second', 'oneTime await success pt.2')
+  t.is((await handler.handle(new PDiscord.Message('!awaittest 1 2000', dUser, dOTChannel))).content, 'first', 'oneTime await success pt.1')
+  t.is((await handler.handle(new PDiscord.Message('!runawait 1', dUser, dOTChannel))).content, 'second', 'oneTime await success pt.2')
 })
 
 test('restrictedCommands', async (t) => {
-  t.throwsAsync(handler.handle(client._buildMessage('!testrestricted', '123')), {
+  t.throwsAsync(handler.handle(new PDiscord.Message('!testrestricted', dUser)), {
     instanceOf: Error,
     message: 'This command is either temporarily disabled, or restricted.'
   }, 'Successful denial')
 
-  t.is((await handler.handle(client._buildMessage('!testrestricted', '456'))).content, '3', 'Successful grant')
+  t.is((await handler.handle(new PDiscord.Message('!testrestricted', dOwner))).content, '3', 'Successful grant')
 })

@@ -210,7 +210,6 @@ class Agent {
         .catch((err) => console.error('Error in error handler: ', err))
     }
   }
-
   /**
    * What to do when a message is recived.
    * @private
@@ -224,7 +223,6 @@ class Agent {
       .catch((err) => this._handleError(err, msg))
       .then((res) => console.log(this._logFunction(res)))
   }
-
   /**
    * What to do when the client's ready.
    * @private
@@ -243,7 +241,6 @@ class Agent {
       replacerBraces: this._replacerBraces
     })
   }
-
   /**
    * What to do when a shard is ready.
    * @private
@@ -258,7 +255,6 @@ class Agent {
     })
     if (this._dblAPI) this._dblAPI.postStats(client.guilds.size, shard, client.shards.size)
   }
-
   /**
    * What to do when a shard loses connection.
    * @private
@@ -269,7 +265,6 @@ class Agent {
     console.log(`Shard ${shard} lost connection`)
     this.connect()
   }
-
   /**
    * What to do when an unknown error occurs.
    * @private

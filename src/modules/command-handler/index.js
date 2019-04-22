@@ -10,7 +10,7 @@ class CommandHandler {
    * Create a CommandHandler
    * @param    {Object}              data                            The command handler data.
    * @property {Agent}               [data.agent={}]                 The agent managing the bot.
-   * @property {String}              data.prefix                     The prefix of commands.
+   * @property {String}              [data.prefix='!']               The prefix of commands.
    * @property {Eris.Client}         data.client                     The Eris client.
    * @property {String}              data.ownerId                    The ID of the bot owner.
    * @property {QueryBuilder}        [data.knex]                     The simple-knex query builder.
@@ -20,7 +20,7 @@ class CommandHandler {
    * @property {String}              [data.replacerBraces.open='|']  The opening brace.
    * @property {String}              [data.replacerBraces.close='|'] The closing brace.
    */
-  constructor ({ agent = {}, prefix, client, ownerId, knex, commands = [], replacers = [], replacerBraces = {} }) {
+  constructor ({ agent = {}, prefix = '!', client, ownerId, knex, commands = [], replacers = [], replacerBraces = {} }) {
     /**
      * The agent managing the bot.
      * @type {Agent}

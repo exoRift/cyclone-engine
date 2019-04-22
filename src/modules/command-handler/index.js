@@ -81,8 +81,8 @@ class CommandHandler {
 
   /**
    * Handle incoming Discord messages.
-   * @param   {Eris.Message} msg The Discord message.
-   * @returns {Object}           The results of the command.
+   * @param   {Eris.Message}    msg The Discord message.
+   * @returns {Promise<Object>} The results of the command.
    */
   async handle (msg) {
     let text = this._runReplacers(msg.content)
@@ -185,9 +185,9 @@ class CommandHandler {
   /**
    * Handle commands that request a table.
    * @private
-   * @param   {String} table The name of the table.
-   * @param   {String} id    The ID of the user
-   * @returns {Object}       The user's data.
+   * @param   {String} table    The name of the table.
+   * @param   {String} id       The ID of the user
+   * @returns {Promise<Object>} The user's data.
    */
   async _handleDBRequest (table, id) {
     if (!this._knex) throw Error('QueryBuilder was not supplied to CommandHandler!')

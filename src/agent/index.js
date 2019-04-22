@@ -16,23 +16,27 @@ class Agent {
    * @param    {Object}          data                                An object containing command and replacer data.
    * @property {Map}             [data.commands]                     The commands for the bot.
    * @property {Map}             [data.replacers]                    The replacers for the bot.
+   * @property {Object}          [data.replacerBraces]               The braces that invoke a replacer.
+   * @property {String}          [data.replacerBraces.open='|']      The opening brace.
+   * @property {String}          [data.replacerBraces.close]         The closing brace.
    * @param    {Object}          [databaseOptions]                   The info for the database.
-   * @property {String}          [databaseOptions.connectionURL]     The URL for connecting to the bot's database.
+   * @property {String}          databaseOptions.connectionURL       The URL for connecting to the bot's database.
    * @property {String}          databaseOptions.client              The database driver being used.
-   * @property {Object[]}        [databaseOptions.tables=[]]         The tables to be created on bot launch.
+   * @property {Object[]}        [databaseOptions.tables=[]]         The initial tables to set up for the database.
    * @property {String[]}        [databaseOptions.clearEmptyRows=[]] The list of tables to have their unchanged from default rows cleared.
-   * @property {OBject[]}        [databaseOptions.tables=[]]         The initial tables to set up for the database.
-   * @param    {Object}          [agentOptions]                      Options for the agent.
+   * @param    {Object}          [agentOptions={}]                   Options for the agent.
    * @property {Number}          [agentOptions.connectRetryLimit=10] How many times the agent will attempt to establish a connection with Discord before giving up.
    * @property {String}          [agentOptions.prefix='!']           The prefix for bot commands.
    * @property {String}          [agentOptions.dblToken]             The token used to connect to the Discord Bot Labs API.
    * @property {Function}        agentOptions.loopFunction           A function that will run every loopInterval amount of ms, supplied the agent. (Param is the agent)
    * @property {Number}          [agentOptions.loopInterval=30000]   The interval at which the loopFunction runs.
+   * @param    {Function}        [logFunction]                       A function that returns a string that's logged for every command. (Check docs for params)
    */
-  constructor (Eris, token, data, databaseOptions, agentOptions = {}) {
+  constructor (Eris, token, data, databaseOptions, agentOptions = {}, logFunction) {
     const {
       commands,
-      replacers
+      replacers,
+      replacerBraces
     } = data
     /**
      * The commands for the command handler.
@@ -44,6 +48,11 @@ class Agent {
      * @type {Map}
      */
     this._replacers = replacers
+    /**
+     * The braces that invoke a replacer.
+     * @type {Object}
+     */
+    this._replacerBraces = replacerBraces
 
     const {
       connectionURL,
@@ -97,6 +106,12 @@ class Agent {
     this._bindEvents()
     this._prepareDB(tables, clearEmptyRows)
     if (loopFunction) this._setLoop(loopFunction, loopInterval)
+
+    /**
+     * A function that returns a string that's logged for every command. (Check docs for params)
+     * @type {Function}
+     */
+    this._logFunction = logFunction
   }
 
   /**
@@ -207,6 +222,7 @@ class Agent {
 
     this.__CommandHandler.handle(msg)
       .catch((err) => this._handleError(err, msg))
+      .then((res) => console.log(this._logFunction(res)))
   }
 
   /**
@@ -222,8 +238,9 @@ class Agent {
       client,
       ownerId: (await client.getOAuthApplication()).owner.id,
       knex: this._knex,
+      commands: (await this._commands()),
       replacers: (await this._replacers()),
-      commands: (await this._commands())
+      replacerBraces: this._replacerBraces
     })
   }
 

@@ -62,7 +62,7 @@ class Agent {
     } = databaseOptions
     const {
       connectRetryLimit = 10,
-      prefix = '!',
+      prefix,
       dblToken,
       loopFunction,
       loopInterval = 300000
@@ -253,7 +253,7 @@ class Agent {
   _onShardReady (client, shard) {
     console.log(`Connected as ${client.user.username} on shard ${shard}`)
     client.shards.get(shard).editStatus({
-      name: `Prefix: '${process.env.PREFIX}'`,
+      name: `Prefix: '${this._prefix}'`,
       type: 2
     })
     if (this._dblAPI) this._dblAPI.postStats(client.guilds.size, shard, client.shards.size)

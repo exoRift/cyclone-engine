@@ -147,7 +147,6 @@ const mockReplacers = [
 ]
 
 const handler = new CommandHandler({
-  prefix: '!',
   client,
   ownerId: '456',
   knex,
@@ -190,7 +189,6 @@ function delay (time) {
 
 test('invalidSimple-KnexSupply', async (t) => {
   const fakeHandler = new CommandHandler({
-    prefix: '!',
     client,
     ownerId: '456',
     commands: mockCommands,
@@ -208,7 +206,6 @@ test('invalidCommandInstance', (t) => {
   let invalidCommand = true
   try {
     invalidCommand = new CommandHandler({
-      prefix: '!',
       client,
       ownerId: '456',
       commands: invalidCommand
@@ -224,7 +221,6 @@ test('invalidReplacerInstance', (t) => {
   let invalidReplacer = true
   try {
     invalidReplacer = new CommandHandler({
-      prefix: '!',
       client,
       ownerId: '456',
       replacers: invalidReplacer
@@ -233,6 +229,24 @@ test('invalidReplacerInstance', (t) => {
     error = err
   }
   t.deepEqual(error, TypeError('Supplied replacers not Replacer instances:\n', invalidReplacer))
+})
+
+test('openingReplacerBraceIncludesPrefix', (t) => {
+  const spy = sinon.spy(console, 'log')
+
+  const fakeHandler = new CommandHandler({
+    client,
+    ownerId: '456',
+    replacerBraces: {
+      open: '[!'
+    }
+  })
+
+  t.true(spy.calledWith('WARNING: Your replacer opening brace includes your prefix. This could lead to some issues.'))
+
+  spy.restore()
+
+  return fakeHandler
 })
 
 test('singleDataSupply', (t) => {
@@ -248,7 +262,6 @@ test('singleDataSupply', (t) => {
   })
 
   const fakeHandler = new CommandHandler({
-    prefix: '!',
     client,
     ownerId: '456',
     commands: singleCommand,
@@ -263,6 +276,15 @@ test('prefixDetermination', async (t) => {
   t.is(await handler.handle(client._buildMessage('command1')), undefined, 'No prefix failed')
 
   t.is((await handler.handle(client._buildMessage('!command1'))).content, '1', 'Command 1 ran')
+
+  const fakeHandler = new CommandHandler({
+    prefix: '<>',
+    client,
+    ownerId: '456',
+    commands: mockCommands
+  })
+
+  t.is((await fakeHandler.handle(client._buildMessage('<>command1'))).content, '1', 'Custom prefix')
 })
 
 test('mentionPrefix', async (t) => {
@@ -313,8 +335,6 @@ test('argumentSystem', async (t) => {
 })
 
 test('lastArgOfCommandHasDelim', (t) => {
-  const spy = sinon.spy(console, 'log')
-
   const fakeCommand = new Command({
     name: 'lastargdelimtest',
     desc: 'Testing when the last arg has a delim',
@@ -324,23 +344,40 @@ test('lastArgOfCommandHasDelim', (t) => {
     action: () => ''
   })
 
+  const spy = sinon.spy(console, 'log')
+
   const fakeHandler = new CommandHandler({
-    prefix: '!',
     client,
     ownerId: '456',
     commands: fakeCommand
   })
 
   t.true(spy.calledWith("Disclaimer: Your command: lastargdelimtest's last argument unnecessarily has a delimiter."))
+
+  spy.restore()
+
   return fakeHandler
 })
 
 test('replacerSystem', async (t) => {
-  t.is((await handler.handle(client._buildMessage('!echo h|replacer1| l |replacer2|'))).content, 'hr1 l r2', 'Proper replacer')
+  t.is((await handler.handle(client._buildMessage('!echo h|replacer1| l |replacer2|'))).content, 'hr1 l r2', 'Replacer differenciation')
 
   t.is((await handler.handle(client._buildMessage('!echo h|invalid| l |replacer2|'))).content, 'hINVALID KEY l r2', 'Invalid Replacer')
 
   t.is((await handler.handle(client._buildMessage('!echo hello |replacer3 MESSAGE| there'))).content, 'hello r3 MESSAGE there', 'Replacer with args')
+
+  const fakeHandler = new CommandHandler({
+    client,
+    ownerId: '456',
+    commands: mockCommands,
+    replacers: mockReplacers,
+    replacerBraces: {
+      open: '<',
+      close: '>'
+    }
+  })
+
+  t.is((await fakeHandler.handle(client._buildMessage('!echo h<replacer1> l <replacer2>'))).content, 'hr1 l r2', 'Custom replacer braces')
 })
 
 test('databaseRequesting', (t) => {

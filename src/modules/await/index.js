@@ -9,16 +9,19 @@ class Await {
    * @property {Number}   [data.options.timeout=15000]  How long until the await cancels.
    * @property {Boolean}  [data.options.oneTime=false]  Whether a non-triggering message cancels the await.
    * @property {Function} [data.options.check=()=>true] The condition to be met for the await to trigger. (Params are the bot's prefix and the message)
+   * @property {Object[]} [data.options.args=[]]        The argumentss for the await.
    * @property {Function} data.action                   The await action.
    */
   constructor (data) {
     const {
-      options = {}
+      options = {},
+      action
     } = data
     const {
       timeout = 15000,
       oneTime,
-      check = () => true
+      check = () => true,
+      args = []
     } = options
     /**
      * How long until the await cancels.
@@ -35,6 +38,16 @@ class Await {
      * @type {Function}
      */
     this.check = check
+    /**
+     * The argumentss for the await.
+     * @type {Object[]}
+     */
+    this.args = args
+    /**
+     * The await action.
+     * @type {Function}
+     */
+    this.action = action
   }
 }
 

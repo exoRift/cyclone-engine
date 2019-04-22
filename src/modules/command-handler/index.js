@@ -8,16 +8,19 @@ const Replacer = require('../replacer')
 class CommandHandler {
   /**
    * Create a CommandHandler
-   * @param    {Object}              data                The command handler data.
-   * @property {Agent}               [data.agent={}]     The agent managing the bot.
-   * @property {String}              data.prefix         The prefix of commands.
-   * @property {Eris.Client}         data.client         The Eris client.
-   * @property {String}              data.ownerId        The ID of the bot owner.
-   * @property {QueryBuilder}        [data.knex]         The simple-knex query builder.
-   * @property {Command[]|Command}   [data.commands=[]]  Map of commands to load initially.
-   * @property {Replacer[]|Replacer} [data.replacers=[]] The message content replacers.
+   * @param    {Object}              data                            The command handler data.
+   * @property {Agent}               [data.agent={}]                 The agent managing the bot.
+   * @property {String}              data.prefix                     The prefix of commands.
+   * @property {Eris.Client}         data.client                     The Eris client.
+   * @property {String}              data.ownerId                    The ID of the bot owner.
+   * @property {QueryBuilder}        [data.knex]                     The simple-knex query builder.
+   * @property {Command[]|Command}   [data.commands=[]]              Map of commands to load initially.
+   * @property {Replacer[]|Replacer} [data.replacers=[]]             The message content replacers.
+   * @property {Object}              [data.replacerBraces={}]        The braces that invoke a replacer.
+   * @property {String}              [data.replacerBraces.open='|']  The opening brace.
+   * @property {String}              [data.replacerBraces.close='|'] The closing brace.
    */
-  constructor ({ agent = {}, prefix, client, ownerId, knex, commands = [], replacers = [] }) {
+  constructor ({ agent = {}, prefix, client, ownerId, knex, commands = [], replacers = [], replacerBraces = {} }) {
     /**
      * The agent managing the bot.
      * @type {Agent}
@@ -53,6 +56,19 @@ class CommandHandler {
      * @type {Map<String, Replacer>}
      */
     this._replacers = new Map()
+    const {
+      open = '|',
+      close = '|'
+    } = replacerBraces
+    if (open.includes(prefix)) console.log('WARNING: Your replacer opening brace includes your prefix. This could lead to some issues.')
+    /**
+     * The braces that invoke a replacer.
+     * @type {Object}
+     */
+    this._replacerBraces = {
+      open,
+      close
+    }
     /**
      * An object containing message data used to wait for a user's response.
      * @type {Map<String, AwaitData>}
@@ -123,7 +139,7 @@ class CommandHandler {
       return msg.channel.createMessage({ content, embed }, file)
         .then((rsp) => {
           if (wait && wait instanceof Await) this._addAwait(msg, rsp, wait)
-          return { content, embed, file }
+          return { command, content, embed, file }
         })
     }
   }
@@ -186,7 +202,7 @@ class CommandHandler {
    * @returns {String}         The message content after replacement.
    */
   _runReplacers (content) {
-    return content.replace(/\|(.+?)\|/g, (content, capture) => {
+    return content.replace(new RegExp(`\\${this._replacerBraces.open}(.+?)\\${this._replacerBraces.close}`, 'g'), (content, capture) => {
       const split = capture.split(' ')
       for (const [key, value] of this._replacers.entries()) {
         if ((value.start && split.length > 1 && key === split[0]) || key === capture) return value.action({ content, capture })

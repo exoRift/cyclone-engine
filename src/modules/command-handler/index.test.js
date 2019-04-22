@@ -91,10 +91,10 @@ const mockCommands = [
     name: 'dbtest',
     desc: 'Requires the database',
     options: {
-      dbTable: 'testing'
+      dbTable: 'cycloneTesting'
     },
-    action: ({ testing }) => {
-      return testing.id
+    action: ({ cycloneTesting }) => {
+      return cycloneTesting.id
     }
   }),
   new Command({
@@ -157,9 +157,9 @@ const handler = new CommandHandler({
 })
 
 async function _prepareDatabases () {
-  if (!(await knex.listTables()).includes('testing')) {
+  if (!(await knex.listTables()).includes('cycloneTesting')) {
     return knex.createTable({
-      name: 'testing',
+      name: 'cycloneTesting',
       columns: [
         {
           name: 'id',
@@ -168,7 +168,7 @@ async function _prepareDatabases () {
         }
       ]
     }).then(async ({ name }) => {
-      if (await knex.select('testing').length) {
+      if (await knex.select('cycloneTesting').length) {
         knex.insert({ table: name,
           data: {
             id: '1'

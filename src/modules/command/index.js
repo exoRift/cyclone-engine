@@ -1,25 +1,17 @@
 /**
- * A Command Arg.
- * @typedef  {Object}  Arg
- * @property {String}  name         The name of the arg.
- * @property {Boolean} [mand=false] Whether or not this arg is mandatory.
- * @property {String}  [delim=' ']  The delimiting character for this arg.
- */
-
-/**
  * Class representing a command.
  */
 class Command {
   /**
    * Create a command.
-   * @param {Object}   data                            The command data.
-   * @param {String}   data.name                       The command name.
-   * @param {String}   data.desc                       The command description.
-   * @param {Function} data.action                     The command action.
-   * @param {Object}   [data.options={}]               The command options.
-   * @param {Arg[]}    [data.options.args=[]]          List of arguments that the command takes.
-   * @param {String}   [data.options.dbTable='']       Name of database table to fetch, data is passed through to action with the same name.
-   * @param {Boolean}  [data.options.restricted=false] Whether or not this command is restricted to admin only.
+   * @param    {Object}   data                            The command data.
+   * @property {String}   data.name                       The command name.
+   * @property {String}   data.desc                       The command description.
+   * @property {Function} data.action                     The command action. (Check docs for params)
+   * @property {Object}   [data.options={}]               The command options.
+   * @property {Object[]} [data.options.args=[]]          List of arguments that the command takes.
+   * @property {String}   [data.options.dbTable='']       Name of database table to fetch, data is passed through to action with the same name.
+   * @property {Boolean}  [data.options.restricted=false] Whether or not this command is restricted to admin only.
    */
   constructor ({ name, desc, action, options = {} }) {
     const {
@@ -63,7 +55,7 @@ class Command {
 
   /**
    * Get info of this command.
-   * @returns {String} A string describing the command.
+   * @returns {String} A string describing the command. (**name <mand arg> (optional arg)** - *description*)
    */
   get info () {
     return `**${this.name}` + this.args.reduce((a, e, i) => {

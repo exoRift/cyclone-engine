@@ -147,7 +147,6 @@ const mockReplacers = [
 ]
 
 const handler = new CommandHandler({
-  agent: {},
   prefix: '!',
   client,
   ownerId: '456',
@@ -191,7 +190,6 @@ function delay (time) {
 
 test('invalidSimple-KnexSupply', async (t) => {
   const fakeHandler = new CommandHandler({
-    agent: {},
     prefix: '!',
     client,
     ownerId: '456',
@@ -210,7 +208,6 @@ test('invalidCommandInstance', (t) => {
   let invalidCommand = true
   try {
     invalidCommand = new CommandHandler({
-      agent: {},
       prefix: '!',
       client,
       ownerId: '456',
@@ -227,7 +224,6 @@ test('invalidReplacerInstance', (t) => {
   let invalidReplacer = true
   try {
     invalidReplacer = new CommandHandler({
-      agent: {},
       prefix: '!',
       client,
       ownerId: '456',
@@ -252,7 +248,6 @@ test('singleDataSupply', (t) => {
   })
 
   const fakeHandler = new CommandHandler({
-    agent: {},
     prefix: '!',
     client,
     ownerId: '456',
@@ -330,7 +325,6 @@ test('lastArgOfCommandHasDelim', (t) => {
   })
 
   const fakeHandler = new CommandHandler({
-    agent: {},
     prefix: '!',
     client,
     ownerId: '456',

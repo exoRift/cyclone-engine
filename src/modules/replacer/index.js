@@ -4,11 +4,14 @@
 class Replacer {
   /**
    * Create a replacer.
-   * @param {ReplacerData} data The data to make a replacer with.
+   * @param    {Object}   data        The data to make a replacer with.
+   * @property {String}   data.key    The key that invokes the replacer.
+   * @property {String}   data.desc   The description of the replacer.
+   * @property {Function} data.action Function returning the string to replace with. (Param is an object containing: content, capture)
    */
   constructor ({ key, desc, start = false, action }) {
     /**
-     * The key or ID.
+     * The data to make a replacer with.
      * @type {String}
      */
     this.key = key
@@ -31,12 +34,3 @@ class Replacer {
 }
 
 module.exports = Replacer
-
-/**
- * Fancy keyword replacer data.
- * @typedef  {Object}   ReplacerData
- * @property {String}   key           The keyword to replace.
- * @property {String}   desc          A description of what it does.
- * @property {Boolean}  [start=false] Set whether the replacer requires parameters.
- * @property {Function} action        Function returning the string to replace with. (Param is an object containing: content, capture)
- */

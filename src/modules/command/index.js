@@ -7,13 +7,13 @@ class Command {
    * @param    {Object}   data                            The command data.
    * @property {String}   data.name                       The command name.
    * @property {String}   data.desc                       The command description.
-   * @property {Function} data.action                     The command action. (Check docs for params)
    * @property {Object}   [data.options={}]               The command options.
    * @property {Object[]} [data.options.args=[]]          List of arguments that the command takes.
    * @property {String}   [data.options.dbTable='']       Name of database table to fetch, data is passed through to action with the same name.
    * @property {Boolean}  [data.options.restricted=false] Whether or not this command is restricted to admin only.
+   * @property {Function} data.action                     The command action. (Check docs for params)
    */
-  constructor ({ name, desc, action, options = {} }) {
+  constructor ({ name, desc, options = {}, action }) {
     const {
       args = [],
       dbTable = '',
@@ -32,11 +32,6 @@ class Command {
      */
     this.desc = desc
     /**
-     * The command action.
-     * @type {Function}
-     */
-    this.action = action
-    /**
      * List of arguments that the command takes.
      * @type {Arg[]}
      */
@@ -51,6 +46,11 @@ class Command {
      * @type {Boolean}
      */
     this.restricted = restricted
+    /**
+     * The command action.
+     * @type {Function}
+     */
+    this.action = action
   }
 
   /**

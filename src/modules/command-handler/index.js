@@ -203,9 +203,13 @@ class CommandHandler {
    */
   _runReplacers (content) {
     return content.replace(new RegExp(`\\${this._replacerBraces.open}(.+?)\\${this._replacerBraces.close}`, 'g'), (content, capture) => {
-      const split = capture.split(' ')
-      for (const [key, value] of this._replacers.entries()) {
-        if ((value.start && split.length > 1 && key === split[0]) || key === capture) return value.action({ content, capture })
+      let args = capture.split(' ')
+      const keyword = args.shift()
+      const replacer = this._replacers.get(keyword)
+      if (replacer) {
+        args = this._sanitizeArgs(replacer, args)
+        if (replacer.args && (!args || args.length < replacer.args.filter((a) => a.mand).length)) return 'INVALID ARGS'
+        return replacer.action({ content, capture, args })
       }
       return 'INVALID KEY'
     })

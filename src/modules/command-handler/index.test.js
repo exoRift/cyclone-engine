@@ -141,8 +141,10 @@ const mockReplacers = [
   new Replacer({
     key: 'replacer3',
     desc: 'A replacer that has an input',
-    action: ({ capture }) => 'r3 ' + capture.split(' ')[1],
-    start: true
+    options: {
+      args: [{ name: 'number', mand: true }]
+    },
+    action: ({ args: [number] }) => 'r3 ' + String(parseInt(number) + 1)
   })
 ]
 
@@ -364,7 +366,9 @@ test('replacerSystem', async (t) => {
 
   t.is((await handler.handle(client._buildMessage('!echo h|invalid| l |replacer2|'))).content, 'hINVALID KEY l r2', 'Invalid Replacer')
 
-  t.is((await handler.handle(client._buildMessage('!echo hello |replacer3 MESSAGE| there'))).content, 'hello r3 MESSAGE there', 'Replacer with args')
+  t.is((await handler.handle(client._buildMessage('!echo hello |replacer3 1| there'))).content, 'hello r3 2 there', 'Replacer with args')
+
+  t.is((await handler.handle(client._buildMessage('!echo hello |replacer3| there'))).content, 'hello INVALID ARGS there', 'Incorrect args')
 
   const fakeHandler = new CommandHandler({
     client,

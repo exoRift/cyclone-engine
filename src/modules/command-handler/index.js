@@ -67,11 +67,7 @@ class CommandHandler {
    * @param {Message} msg The Discord message.
    */
   async handle (msg) {
-    let text = this._replaceMentionWithPrefix(msg.content)
-    if (!text.startsWith(this._prefix)) return
-
-    text = text.substring(this._prefix.length)
-    text = this._runReplacers(text)
+    let text = this._runReplacers(msg.content)
 
     let awaited = this._awaits.get(msg.channel.id + msg.author.id)
     if (awaited && !awaited.check({ prefix: this._prefix, msg })) {
@@ -79,6 +75,11 @@ class CommandHandler {
       awaited = undefined
     }
     if (awaited) awaited.clear()
+    else {
+      text = this._replaceMentionWithPrefix(text)
+      if (!text.startsWith(this._prefix)) return
+      text = text.substring(this._prefix.length)
+    }
 
     let args = text.split(' ')
     const keyword = args.shift()

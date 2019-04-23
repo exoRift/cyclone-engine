@@ -23,36 +23,43 @@ class CommandHandler {
   constructor ({ agent = {}, prefix = '!', client, ownerId, knex, commands = [], replacers = [], replacerBraces = {} }) {
     /**
      * The agent managing the bot.
+     * @private
      * @type {Agent}
      */
     this._agent = agent
     /**
      * The prefix of commands.
+     * @private
      * @type {String}
      */
     this._prefix = prefix
     /**
      * The Eris Client.
+     * @private
      * @type {Eris}
      */
     this._client = client
     /**
      * The ID of the bot owner.
+     * @private
      * @type {String}
      */
     this._ownerId = ownerId
     /**
      * The simple-knex query builder.
+     * @private
      * @type {QueryBuilder}
      */
     this._knex = knex
     /**
      * Map of commands to load initially.
+     * @private
      * @type {Map<String, Command>}
      */
     this._commands = new Map()
     /**
      * The message content replacers.
+     * @private
      * @type {Map<String, Replacer>}
      */
     this._replacers = new Map()
@@ -60,9 +67,10 @@ class CommandHandler {
       open = '|',
       close = '|'
     } = replacerBraces
-    if (open.includes(prefix)) console.log('WARNING: Your replacer opening brace includes your prefix. This could lead to some issues.')
+    if (open.startsWith(prefix)) console.log('WARNING: Your replacer opening brace starts with your prefix. This could lead to some issues.')
     /**
      * The braces that invoke a replacer.
+     * @private
      * @type {Object}
      */
     this._replacerBraces = {
@@ -71,6 +79,7 @@ class CommandHandler {
     }
     /**
      * An object containing message data used to wait for a user's response.
+     * @private
      * @type {Map<String, AwaitData>}
      */
     this._awaits = new Map()

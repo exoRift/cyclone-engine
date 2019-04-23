@@ -13,7 +13,7 @@ const {
   DATABASE_URL
 } = process.env
 
-const data = {
+const chData = {
   commands: [
     new Command({
       name: 'command1',
@@ -42,21 +42,8 @@ test.beforeEach((t) => {
 })
 
 test.afterEach((t) => {
-  for (const listener of t.context.listeners) listener.restore()
+  for (const listener in t.context.listeners) t.context.listeners[listener].restore()
 })
-
-// const agent = new Agent(PDiscord, '123TOKEN', data, {
-//   connectionURL: DATABASE_URL,
-//   client: 'pg',
-//   tables: [
-
-//   ],
-//   clearEmptyRows: [
-    
-//   ]
-// }, {
-//   dblToken: '123'
-// })
 
 test.todo('No database')
 
@@ -76,7 +63,23 @@ test.todo('Interval check')
 
 test.todo('Message event')
 
-test.todo('lastMessage')
+test('lastMessage', (t) => {
+  const agent = new Agent({
+    Eris: PDiscord,
+    chData,
+    databaseOptions: {
+      connectionURL: DATABASE_URL,
+      client: 'pg'
+    }
+  })
+
+  const guild = agent._client._createGuild('1', agent._client)
+  const channel = agent._client._createChannel('1', guild)
+
+  agent._client._sendMessage('hello', agent._client.user, channel)
+
+  t.is(agent.lastMessage(channel).content, 'hello')
+})
 
 test.todo('Error recieved')
 

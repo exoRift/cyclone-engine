@@ -41,16 +41,19 @@ class Agent {
     } = chData
     /**
      * The commands for the command handler.
+     * @private
      * @type {Map}
      */
     this._commands = commands
     /**
      * The replacers for the command handler.
+     * @private
      * @type {Map}
      */
     this._replacers = replacers
     /**
      * The braces that invoke a replacer.
+     * @private
      * @type {Object}
      */
     this._replacerBraces = replacerBraces
@@ -71,11 +74,13 @@ class Agent {
     } = agentOptions
     /**
      * The Eris client.
+     * @private
      * @type {Eris.Client}
      */
     this._client = new Eris(token)
     /**
      * The simple-knex query builder.
+     * @private
      * @type {QueryBuilder}
      */
     this._knex = new QueryBuilder({
@@ -88,11 +93,13 @@ class Agent {
     })
     /**
      * How many times the agent will attempt to establish a connection with Discord before giving up.
+     * @private
      * @type {Number}
      */
     this._connectRetryLimit = connectRetryLimit
     /**
      * The command prefix.
+     * @private
      * @type {String}
      */
     this._prefix = prefix
@@ -111,6 +118,7 @@ class Agent {
 
     /**
      * A function that returns a string that's logged for every command. (Check docs for params)
+     * @private
      * @type {Function}
      */
     this._logFunction = logFunction

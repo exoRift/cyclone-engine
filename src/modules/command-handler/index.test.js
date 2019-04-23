@@ -9,8 +9,9 @@ import Await from '../await'
 
 require('dotenv').config()
 
-const dChannel = new PDiscord.Channel('1')
-const dOTChannel = new PDiscord.Channel('2')
+const dGuild = new PDiscord.Guild('1')
+const dChannel = new PDiscord.Channel('1', dGuild)
+const dOTChannel = new PDiscord.Channel('2', dGuild)
 const dOwner = new PDiscord.User('1')
 const dUser = new PDiscord.User('2')
 
@@ -245,11 +246,11 @@ test('openingReplacerBraceIncludesPrefix', (t) => {
     client,
     ownerId: '456',
     replacerBraces: {
-      open: '[!'
+      open: '!['
     }
   })
 
-  t.true(spy.calledWith('WARNING: Your replacer opening brace includes your prefix. This could lead to some issues.'))
+  t.true(spy.calledWith('WARNING: Your replacer opening brace starts with your prefix. This could lead to some issues.'))
 
   spy.restore()
 

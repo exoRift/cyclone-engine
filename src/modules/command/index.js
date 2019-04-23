@@ -23,7 +23,6 @@ class Command {
     /**
      * The command name.
      * @type {String}
-     * @private
      */
     this.name = name
     /**

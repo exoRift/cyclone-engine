@@ -1,11 +1,15 @@
-# My text editor data
+# Text editor data
 .vscode
-# The env vars I use for debug
+
+# Env vars used for debuging
 .env
-# The modules
+
+# The dependencies
 node_modules
-# The shell I use for running stuff
+
+# Debug shell shortcut
 cmd.lnk
-# Tests
+
+# Test Results
 .nyc_output
 coverage

@@ -29,11 +29,11 @@ class Agent {
    * @property {Number}   [data.agentOptions.connectRetryLimit=10] How many times the agent will attempt to establish a connection with Discord before giving up.
    * @property {String}   [data.agentOptions.prefix='!']           The prefix for bot commands.
    * @property {String}   [data.agentOptions.dblToken]             The token used to connect to the Discord Bot Labs API.
-   * @property {Function} data.agentOptions.loopFunction           A function that will run every loopInterval amount of ms, supplied the agent. (Param is the agent)
+   * @property {Function} [data.agentOptions.loopFunction]         A function that will run every loopInterval amount of ms, supplied the agent. (Param is the agent)
    * @property {Number}   [data.agentOptions.loopInterval=30000]   The interval at which the loopFunction runs.
    * @property {Function} [data.agentOptions.logFunction]          A function that returns a string that's logged for every command. (Check docs for params)
    */
-  constructor ({ Eris, token, chData, databaseOptions, agentOptions = {} }) {
+  constructor ({ Eris, token, chData = {}, databaseOptions = {}, agentOptions = {} }) {
     const {
       commands,
       replacers,
@@ -83,14 +83,17 @@ class Agent {
      * @private
      * @type {QueryBuilder}
      */
-    this._knex = new QueryBuilder({
-      connection: connectionURL,
-      client,
-      pool: {
-        min: 1,
-        max: 1
-      }
-    })
+    if (connectionURL) {
+      this._knex = new QueryBuilder({
+        connection: connectionURL,
+        client,
+        pool: {
+          min: 1,
+          max: 1
+        }
+      })
+      this._prepareDB(tables, clearEmptyRows)
+    }
     /**
      * How many times the agent will attempt to establish a connection with Discord before giving up.
      * @private
@@ -112,25 +115,24 @@ class Agent {
       this._dblAPI = new DBLAPI(dblToken, this._client)
     }
 
-    this._bindEvents()
-    this._prepareDB(tables, clearEmptyRows)
-    if (loopFunction) this._setLoop(loopFunction, loopInterval)
-
     /**
      * A function that returns a string that's logged for every command. (Check docs for params)
      * @private
      * @type {Function}
      */
     this._logFunction = logFunction
+
+    this._bindEvents()
+    if (loopFunction) this._setLoop(loopFunction, loopInterval)
   }
 
   /**
    * Connect to the Discord API. Will recursively retry this._connectRetryLimit number of times.
-   * @param {Number} count The current number of connection attempts.
+   * @param {Number} [count=1] The current number of connection attempts. (Do not supply)
    */
-  connect (count = 0) {
-    console.log(`CONNECTION ATTEMPT ${count + 1}`)
-    if (count <= this._connectRetryLimit) return this._client.connect().catch(() => this.connect(count + 1))
+  connect (count = 1) {
+    console.log(`CONNECTION ATTEMPT ${count}`)
+    if (count < this._connectRetryLimit) return this._client.connect().catch(() => this.connect(count + 1))
     return console.error('RECONNECTION LIMIT REACHED; RECONNECTION CANCELED')
   }
 
@@ -188,7 +190,7 @@ class Agent {
   /**
    * Begin the loop function provided in the constructor.
    * @private
-   * @param   {function(agent)} func     The function run every interval.
+   * @param   {function(agent)} func     The function run every interval. (Param is the agent)
    * @param   {Number}          interval How many milliseconds in between each call.
    */
   _setLoop (func, interval) {

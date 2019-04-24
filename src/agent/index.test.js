@@ -34,43 +34,77 @@ function delay (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
 }
 
-test.beforeEach((t) => {
-  t.context.listeners = {
+test.before((t) => {
+  t.context.spies = {
     log: sinon.spy(console, 'log'),
     error: sinon.spy(console, 'error')
   }
 })
 
 test.afterEach((t) => {
-  for (const listener in t.context.listeners) t.context.listeners[listener].restore()
+  for (const listener in t.context.spies) t.context.spies[listener].restore()
 })
 
-test.todo('No database')
+test.todo('noDatabase')
 
-test.todo('Database')
+test.todo('database')
 
-test.todo('Initial tables')
+test.todo('initialTables')
 
-test.todo('Table cleanup')
+test.todo('tableCleanup')
 
-test.todo('Connect retry limit')
+test.skip('connectRetryLimit', async (t) => {
+  const agent = new Agent({
+    Eris: PDiscord
+  })
 
-test.todo('No DBL')
+  const spy = sinon.spy(agent._client.connect)
 
-test.todo('DBL')
+  await agent.connect()
 
-test.todo('Interval check')
+  t.true(t.context.spies.error.calledWith('RECONNECTION LIMIT REACHED; RECONNECTION CANCELED'), 'Connection failure pt. 1')
+  t.is(spy.callCount, 10, 'Connection failure pt. 2')
+})
 
-test.todo('Message event')
+test.skip('DBL', (t) => {
+  const agent = new Agent({
+    Eris: PDiscord,
+    agentOptions: {
+      dblToken: '123'
+    }
+  })
+  return agent
+})
+
+test.skip('loopFunction', async (t) => {
+  function loopFunction () {
+    return true
+  }
+
+  const spy = sinon.spy(loopFunction)
+
+  const agent = new Agent({
+    Eris: PDiscord,
+    agentOptions: {
+      loopFunction,
+      loopInterval: 100
+    }
+  })
+
+  await delay(200)
+
+  loopFunction() // debug
+  console.log(spy.callCount)
+  t.true(spy.calledTwice)
+
+  return agent
+})
+
+test.todo('messageEvent')
 
 test('lastMessage', (t) => {
   const agent = new Agent({
-    Eris: PDiscord,
-    chData,
-    databaseOptions: {
-      connectionURL: DATABASE_URL,
-      client: 'pg'
-    }
+    Eris: PDiscord
   })
 
   const guild = agent._client._createGuild('1', agent._client)
@@ -81,6 +115,6 @@ test('lastMessage', (t) => {
   t.is(agent.lastMessage(channel).content, 'hello')
 })
 
-test.todo('Error recieved')
+test.todo('errorRecieved')
 
-test.todo('Disconnection')
+test.todo('disconnection')

@@ -16,3 +16,9 @@
 • Simplify how your database is integrated into your systems
 
 • Auto generate command info
+
+• Log and track command usage
+
+
+
+# Documentation

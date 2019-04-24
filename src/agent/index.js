@@ -131,8 +131,10 @@ class Agent {
    * @param {Number} [count=1] The current number of connection attempts. (Do not supply)
    */
   connect (count = 1) {
-    console.log(`CONNECTION ATTEMPT ${count}`)
-    if (count < this._connectRetryLimit) return this._client.connect().catch(() => this.connect(count + 1))
+    if (count <= this._connectRetryLimit) {
+      console.log(`CONNECTION ATTEMPT ${count}`)
+      return this._client.connect().catch(() => this.connect(count + 1))
+    }
     return console.error('RECONNECTION LIMIT REACHED; RECONNECTION CANCELED')
   }
 

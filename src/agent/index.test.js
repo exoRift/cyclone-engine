@@ -34,7 +34,7 @@ function delay (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
 }
 
-test.before((t) => {
+test.beforeEach((t) => {
   t.context.spies = {
     log: sinon.spy(console, 'log'),
     error: sinon.spy(console, 'error')
@@ -42,7 +42,7 @@ test.before((t) => {
 })
 
 test.afterEach((t) => {
-  for (const listener in t.context.spies) t.context.spies[listener].restore()
+  for (const spy in t.context.spies) t.context.spies[spy].restore()
 })
 
 test.todo('noDatabase')
@@ -53,17 +53,17 @@ test.todo('initialTables')
 
 test.todo('tableCleanup')
 
-test.skip('connectRetryLimit', async (t) => {
+test.serial('connectRetryLimit', async (t) => {
   const agent = new Agent({
     Eris: PDiscord
   })
 
-  const spy = sinon.spy(agent._client.connect)
+  const spy = sinon.spy(agent._client, 'connect')
 
-  await agent.connect()
-
-  t.true(t.context.spies.error.calledWith('RECONNECTION LIMIT REACHED; RECONNECTION CANCELED'), 'Connection failure pt. 1')
-  t.is(spy.callCount, 10, 'Connection failure pt. 2')
+  return agent.connect().then(() => {
+    t.true(t.context.spies.error.calledWith('RECONNECTION LIMIT REACHED; RECONNECTION CANCELED'), 'Connection failure pt. 1')
+    return t.is(spy.callCount, 10, 'Connection failure pt. 2')
+  })
 })
 
 test.skip('DBL', (t) => {
@@ -76,25 +76,19 @@ test.skip('DBL', (t) => {
   return agent
 })
 
-test.skip('loopFunction', async (t) => {
-  function loopFunction () {
-    return true
-  }
-
-  const spy = sinon.spy(loopFunction)
+test.serial('loopFunction', async (t) => {
+  const spy = sinon.spy()
 
   const agent = new Agent({
     Eris: PDiscord,
     agentOptions: {
-      loopFunction,
-      loopInterval: 100
+      loopFunction: spy,
+      loopInterval: 200
     }
   })
 
-  await delay(200)
+  await delay(500)
 
-  loopFunction() // debug
-  console.log(spy.callCount)
   t.true(spy.calledTwice)
 
   return agent
@@ -102,7 +96,7 @@ test.skip('loopFunction', async (t) => {
 
 test.todo('messageEvent')
 
-test('lastMessage', (t) => {
+test.serial('lastMessage', (t) => {
   const agent = new Agent({
     Eris: PDiscord
   })

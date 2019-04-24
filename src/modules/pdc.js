@@ -49,6 +49,14 @@ class PseudoDiscordClient extends EventEmitter {
     const message = new Message(content, author, channel)
     return message
   }
+
+  setConnectStatus (status) {
+    this._connectStatus = status
+  }
+
+  async connect () {
+    if (!this._connectStatus) throw Error()
+  }
 }
 
 class Message {

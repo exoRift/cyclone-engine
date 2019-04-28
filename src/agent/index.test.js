@@ -94,14 +94,23 @@ test.serial('connectRetryLimit', async (t) => {
   })
 })
 
-test.skip('DBL', (t) => {
+test.serial('DBL', async (t) => {
   const agent = new Agent({
     Eris: PDiscord,
     agentOptions: {
       dblToken: '123'
     }
   })
-  return agent
+  const spy = sinon.spy(agent._dblAPI, 'postStats')
+
+  agent._client._createGuild()
+
+  agent._client._setConnectStatus(true)
+  await agent.connect()
+
+  t.true(spy.calledWith(1, 0, 1))
+
+  spy.restore()
 })
 
 test.serial('loopFunction', async (t) => {

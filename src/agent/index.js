@@ -123,6 +123,7 @@ class Agent {
     this._logFunction = logFunction
 
     this._bindEvents()
+
     if (loopFunction) this._setLoop(loopFunction, loopInterval)
   }
 
@@ -233,9 +234,11 @@ class Agent {
   _onCreateMessage (client, msg) {
     if (msg.author.bot) return
 
-    this.__CommandHandler.handle(msg)
+    this._CommandHandler.handle(msg)
       .catch((err) => this._handleError(err, msg))
-      .then((res) => console.log(this._logFunction(res)))
+      .then((res) => {
+        if (this._logFunction) console.log(this._logFunction(res))
+      })
   }
   /**
    * What to do when the client's ready.
@@ -244,14 +247,14 @@ class Agent {
    */
   async _onReady (client) {
     console.log('Initializing Command Handler')
-    this.__CommandHandler = new _CommandHandler({
+    this._CommandHandler = new _CommandHandler({
       agent: this,
       prefix: this._prefix,
       client,
       ownerId: (await client.getOAuthApplication()).owner.id,
       knex: this._knex,
-      commands: (await this._commands()),
-      replacers: (await this._replacers()),
+      commands: this._commands,
+      replacers: this._replacers,
       replacerBraces: this._replacerBraces
     })
   }

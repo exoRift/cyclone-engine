@@ -260,7 +260,7 @@ class Agent {
       name: `Prefix: '${this._prefix}'`,
       type: 2
     })
-    if (this._dblAPI) this._dblAPI.postStats(client.guilds.size, shard, client.shards.size)
+    if (this._dblAPI) this._dblAPI.postStats(client.guilds.size, shard, client.shards.size).catch((err) => this._onError(this._client, err))
   }
   /**
    * What to do when a shard loses connection.

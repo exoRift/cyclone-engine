@@ -31,7 +31,7 @@ class PseudoDiscordClient extends EventEmitter {
      * @private
      * @type {Collection}
      */
-    this._guilds = new Collection()
+    this.guilds = new Collection()
 
     this._createShard()
   }
@@ -58,7 +58,7 @@ class PseudoDiscordClient extends EventEmitter {
    */
   _createGuild (id, shard = this.shards.get(0), name) {
     const guild = new Guild(id, shard, name)
-    this._guilds.set(id, guild)
+    this.guilds.set(id, guild)
     return guild
   }
 
@@ -211,7 +211,7 @@ class Shard {
    * @param {PseudoDiscordClient} client The client to shard.
    */
   constructor (client = new PseudoDiscordClient()) {
-    this.id = client.shards.length || 0
+    this.id = client.shards.size
     this.client = client
   }
 

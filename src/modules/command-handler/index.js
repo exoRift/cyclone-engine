@@ -143,13 +143,27 @@ class CommandHandler {
       file
     } = typeof result === 'string' ? { content: result } : result
 
+    const _successfulResponse = (rsp) => {
+      if (wait && wait instanceof Await) this._addAwait(msg, rsp, wait)
+      return { command, content, embed, file, rsp }
+    }
+
     if (content || embed || file) {
       if (file && !(file instanceof Buffer)) throw TypeError('Supplied file not a Buffer instance:\n', file)
       return msg.channel.createMessage({ content, embed }, file)
-        .then((rsp) => {
-          if (wait && wait instanceof Await) this._addAwait(msg, rsp, wait)
-          return { command, content, embed, file }
+        .catch((err) => {
+          if (err.code === 50035) {
+            return msg.channel.createMessage({
+              content: 'Text was too long, sent as a file instead.',
+              file: {
+                name: 'Command Result',
+                file: Buffer.from(content)
+              }
+            }).then(_successfulResponse)
+          }
+          throw err
         })
+        .then(_successfulResponse)
     }
   }
 

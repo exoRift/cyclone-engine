@@ -109,6 +109,15 @@ test.serial('lastMessage', (t) => {
   t.is(agent.lastMessage(channel).content, 'hello')
 })
 
-test.todo('errorRecieved')
+test.serial('ErisErrorRecieved', (t) => {
+  const error = new Error('This is a test error')
+  const agent = new Agent({
+    Eris: PDiscord
+  })
+
+  agent._client.emit('error', error)
+
+  t.true(t.context.spies.error.calledWith('An error has occured', error))
+})
 
 test.todo('disconnection')

@@ -286,7 +286,7 @@ class Agent {
    * @param   {Error}       error  The error.
    */
   _onError (client, error) {
-    console.error('Error has occured', error)
+    console.error('An error has occured', error)
   }
 }
 

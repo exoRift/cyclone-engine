@@ -66,7 +66,7 @@ class Agent {
     } = databaseOptions
     const {
       connectRetryLimit = 10,
-      prefix,
+      prefix = '!',
       dblToken,
       loopFunction,
       loopInterval = 300000,
@@ -174,20 +174,7 @@ class Agent {
             where: columns
           })
         }
-      })
-      .then(() => console.log('Database set up!'))
-  }
-
-  /**
-   * Bind function to events.
-   * @private
-   */
-  _bindEvents () {
-    this._client.on('ready', this._onReady.bind(this, this._client))
-    this._client.on('error', this._onError.bind(this, this._client))
-    this._client.on('messageCreate', this._onCreateMessage.bind(this, this._client))
-    this._client.on('shardReady', this._onShardReady.bind(this, this._client))
-    this._client.on('shardDisconnect', this._onShardDisconnect.bind(this, this._client))
+      }).then(() => console.log('Database set up!'))
   }
 
   /**
@@ -204,27 +191,30 @@ class Agent {
    * Send an error message.
    * @private
    * @param   {Error}   err   The error.
-   * @param   {Message} msg   The original message from Discord.
-   * @param   {*}       [res] The response from a command.
+   * @param   {Object}  msg   The original message from Discord.
+   * @param   {String}  [res] The response from a command.
    */
-  _handleError (err, msg, res) {
-    if (res && typeof response === 'string' && err.code === 50035) {
-      msg.channel.createMessage({
-        content: 'Text was too long, sent as a file instead.',
-        file: {
-          name: 'Gaijin Result',
-          file: Buffer.from(res)
-        }
+  _handleError (err, msg) {
+    return msg.channel.createMessage('ERR:```\n' + err.message + '```\n```\n' + err.stack + '```')
+      .catch(() => {
+        console.error(err)
+        return msg.channel.createMessage('`ERROR, SEND TO A BOT ADMIN: `' + Date.now())
       })
-    } else {
-      msg.channel.createMessage('ERR:```\n' + err.message + '```\n```\n' + err.stack + '```')
-        .catch(() => {
-          console.error(err)
-          msg.channel.createMessage('`ERROR, SEND TO A BOT ADMIN: `' + Date.now())
-        })
-        .catch((err) => console.error('Error in error handler: ', err))
-    }
+      .catch((err) => console.error('Error in error handler: ', err))
   }
+
+  /**
+   * Bind function to events.
+   * @private
+   */
+  _bindEvents () {
+    this._client.on('ready', this._onReady.bind(this, this._client))
+    this._client.on('error', this._onError.bind(this, this._client))
+    this._client.on('messageCreate', this._onCreateMessage.bind(this, this._client))
+    this._client.on('shardReady', this._onShardReady.bind(this, this._client))
+    this._client.on('shardDisconnect', this._onShardDisconnect.bind(this, this._client))
+  }
+
   /**
    * What to do when a message is recived.
    * @private
@@ -234,10 +224,10 @@ class Agent {
   _onCreateMessage (client, msg) {
     if (msg.author.bot) return
 
-    this._CommandHandler.handle(msg)
+    return this._CommandHandler.handle(msg)
       .catch((err) => this._handleError(err, msg))
       .then((res) => {
-        if (this._logFunction) console.log(this._logFunction(res))
+        if (this._logFunction) console.log(this._logFunction(msg, res))
       })
   }
   /**

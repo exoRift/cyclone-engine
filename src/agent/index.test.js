@@ -2,9 +2,8 @@ import test from 'ava'
 import sinon from 'sinon'
 import Agent from '.'
 import Command from '../modules/command'
-import Await from '../modules/await'
 import Replacer from '../modules/replacer'
-import PDiscord from '../modules/pdc.js'
+import PDiscord from '../../test/pdc.js'
 import QueryBuilder from 'simple-knex'
 
 require('dotenv').config()
@@ -13,12 +12,21 @@ const {
   DATABASE_URL
 } = process.env
 
+const errorTest = Error('This is a fake command error')
+
 const chData = {
   commands: [
     new Command({
       name: 'command1',
       desc: 'A test command',
       action: () => '1'
+    }),
+    new Command({
+      name: 'commanderrortest',
+      desc: 'Testing when a command throws an error',
+      action: async () => {
+        throw errorTest
+      }
     })
   ],
   replacers: [
@@ -45,11 +53,30 @@ test.afterEach((t) => {
   for (const spy in t.context.spies) t.context.spies[spy].restore()
 })
 
-test.todo('noDatabase')
+test.skip('initialTables', (t) => {
+  const agent = new Agent({
+    Eris: PDiscord,
+    chData,
+    databaseOptions: {
+      connectionUrl: DATABASE_URL,
+      client: 'pg',
+      tables: [
+        {
+          name: 'cyclonetesting',
+          columns: [
+            {
+              name: 'test',
+              type: 'number'
+            }
+          ]
+        }
+      ]
+    }
+  })
 
-test.todo('database')
-
-test.todo('initialTables')
+  while (!t.context.spies.log.calledWith('Database set up!')) {}
+  console.log('hi')
+})
 
 test.todo('tableCleanup')
 
@@ -95,23 +122,42 @@ test.serial('loopFunction', async (t) => {
   return agent
 })
 
-test.serial('messageEvent', async (t) => {
+test.serial('messageEvent', (t) => {
   const agent = new Agent({
     Eris: PDiscord,
     chData
   })
 
-  await agent._onReady(agent._client)
+  return agent._onReady(agent._client).then(async () => {
+    const messages = {
+      proper: new PDiscord.Message('!command1'),
+      bot: new PDiscord.Message('!command1'),
+      error: new PDiscord.Message('!commanderrortest'),
+      createMessageError: new PDiscord.Message('!command1')
+    }
+    messages.bot.author.bot = true
+    for (const message in messages) sinon.spy(messages[message].channel, 'createMessage')
 
-  const spy = sinon.spy(agent._CommandHandler, 'handle')
+    const handlerSpy = sinon.spy(agent._CommandHandler, 'handle')
 
-  const message = new PDiscord.Message('!command1')
+    agent._client.emit('messageCreate', messages.proper)
+    t.true(handlerSpy.calledWith(messages.proper), 'Proper command')
 
-  agent._client.emit('messageCreate', message)
+    agent._client.emit('messageCreate', messages.bot)
+    t.false(handlerSpy.calledWith(messages.bot), 'Bot message')
 
-  t.true(spy.calledWith(message))
+    await agent._onCreateMessage(agent._client, messages.error)
+    t.is(messages.error.channel.createMessage.getCall(0).args[0], 'ERR:```\n' + errorTest.message + '```\n```\n' + errorTest.stack + '```', 'Command error')
 
-  spy.restore()
+    messages.createMessageError.channel._createMessageThrow = true
+    await agent._onCreateMessage(agent._client, messages.createMessageError)
+    t.is(t.context.spies.error.getCall(0).args[0].message, 'This is purposefully thrown', 'Error send failure')
+    t.is(t.context.spies.error.getCall(1).args[0], 'Error in error handler: ', 'Error send failure message fail pt. 1')
+    t.is(t.context.spies.error.getCall(1).args[1].message, 'This is purposefully thrown', 'Error send failure message fail pt. 2')
+
+    for (const message in messages) messages[message].channel.createMessage.restore()
+    return handlerSpy.restore()
+  })
 })
 
 test.serial('lastMessage', (t) => {
@@ -119,7 +165,7 @@ test.serial('lastMessage', (t) => {
     Eris: PDiscord
   })
 
-  const guild = agent._client._createGuild('1', agent._client)
+  const guild = agent._client._createGuild('1')
   const channel = agent._client._createChannel('1', guild)
 
   agent._client._sendMessage('hello', agent._client.user, channel)
@@ -138,4 +184,44 @@ test.serial('ErisErrorRecievedEvent', (t) => {
   t.true(t.context.spies.error.calledWith('An error has occured', error))
 })
 
-test.todo('disconnection')
+test.serial('disconnection', async (t) => {
+  const agent = new Agent({
+    Eris: PDiscord
+  })
+
+  const statusSpy = sinon.spy(agent._client.shards.get(0), 'editStatus')
+  const connectSpy = sinon.spy(agent, 'connect')
+
+  agent._client._setConnectStatus(true)
+  await agent.connect()
+  t.true(statusSpy.calledWith({
+    name: "Prefix: '!'",
+    type: 2
+  }), 'Status edited')
+
+  agent._client.emit('shardDisconnect', 0)
+
+  t.true(t.context.spies.log.calledWith('Shard 0 lost connection'), 'Disconnection logged')
+  t.true(connectSpy.calledTwice, 'Reconnected')
+
+  connectSpy.restore()
+  statusSpy.restore()
+})
+
+test.serial('logFunction', async (t) => {
+  const agent = new Agent({
+    Eris: PDiscord,
+    chData,
+    agentOptions: {
+      logFunction: (msg, { content }) => msg.timestamp + ' ' + content
+    }
+  })
+  agent._client._setConnectStatus(true)
+  await agent.connect()
+
+  const message = new PDiscord.Message('!command1')
+
+  await agent._onCreateMessage(agent._client, message)
+
+  t.true(t.context.spies.log.calledWith(message.timestamp + ' 1'))
+})

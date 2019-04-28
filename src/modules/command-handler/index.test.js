@@ -1,7 +1,7 @@
 import test from 'ava'
 import sinon from 'sinon'
 import CommandHandler from '.'
-import PDiscord from '../pdc.js'
+import PDiscord from '../../../test/pdc.js'
 import QueryBuilder from 'simple-knex'
 import Command from '../command'
 import Replacer from '../replacer'
@@ -35,6 +35,11 @@ const mockCommands = [
     name: 'command2',
     desc: 'Test command 2',
     action: () => '2'
+  }),
+  new Command({
+    name: 'longmessagetest',
+    desc: "Testing when a command returns a string that reaches Discord's limit",
+    action: () => '1'.repeat(2001)
   }),
   new Command({
     name: 'testrestricted',
@@ -97,10 +102,10 @@ const mockCommands = [
     name: 'dbtest',
     desc: 'Requires the database',
     options: {
-      dbTable: 'cycloneTesting'
+      dbTable: 'cyclonetesting'
     },
-    action: ({ cycloneTesting }) => {
-      return cycloneTesting.id
+    action: ({ cyclonetesting }) => {
+      return cyclonetesting.id
     }
   }),
   new Command({
@@ -163,9 +168,9 @@ const handler = new CommandHandler({
 })
 
 async function _prepareDatabases () {
-  if (!(await knex.listTables()).includes('cycloneTesting')) {
+  if (!(await knex.listTables()).includes('cyclonetesting')) {
     return knex.createTable({
-      name: 'cycloneTesting',
+      name: 'cyclonetesting',
       columns: [
         {
           name: 'id',
@@ -174,18 +179,22 @@ async function _prepareDatabases () {
         }
       ]
     }).then(async ({ name }) => {
-      if (await knex.select('cycloneTesting').length) {
-        knex.insert({ table: name,
+      if (!(await knex.select(name)).length) {
+        return knex.insert({
+          table: name,
           data: {
             id: '1'
           }
-        }).then(() => {
-          knex.insert({ table: name,
-            data: {
-              id: '2'
-            }
-          })
         })
+          .catch((ignore) => ignore)
+          .then(() => {
+            return knex.insert({
+              table: name,
+              data: {
+                id: '2'
+              }
+            }).catch((ignore) => ignore)
+          })
       }
     })
   }
@@ -312,6 +321,22 @@ test('commandDiscrimination', async (t) => {
   await handler.handle(spyMessage)
 
   t.true(spy.calledWith({ content: '1', embed: undefined }, undefined), 'Response sent to channel')
+
+  spy.restore()
+})
+
+test('commandHitsMaxLength', async (t) => {
+  const command = new PDiscord.Message('!longmessagetest')
+  const spy = sinon.spy(command.channel, 'createMessage')
+  await handler.handle(command)
+
+  t.true(spy.calledWith({
+    content: 'Text was too long, sent as a file instead.',
+    file: {
+      name: 'Command Result',
+      file: Buffer.from('1'.repeat(2001))
+    }
+  }))
 
   spy.restore()
 })
@@ -443,3 +468,5 @@ test('restrictedCommands', async (t) => {
 
   t.is((await handler.handle(new PDiscord.Message('!testrestricted', dOwner))).content, '3', 'Successful grant')
 })
+
+test.after.always((t) => knex.dropTable('cyclonetesting').catch((ignore) => ignore))

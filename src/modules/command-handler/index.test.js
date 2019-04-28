@@ -305,6 +305,15 @@ test('commandDiscrimination', async (t) => {
   t.is((await handler.handle(new PDiscord.Message('!command1'))).content, '1', 'Command 1 ran')
 
   t.is((await handler.handle(new PDiscord.Message('!command2'))).content, '2', 'Command 2 ran')
+
+  const spyMessage = new PDiscord.Message('!command1')
+  const spy = sinon.spy(spyMessage.channel, 'createMessage')
+
+  await handler.handle(spyMessage)
+
+  t.true(spy.calledWith({ content: '1', embed: undefined }, undefined), 'Response sent to channel')
+
+  spy.restore()
 })
 
 test('emptyAction', async (t) => {

@@ -57,6 +57,14 @@ class PseudoDiscordClient extends EventEmitter {
   async connect () {
     if (!this._connectStatus) throw Error()
   }
+
+  async getOAuthApplication () {
+    return {
+      owner: {
+        id: this.user.id
+      }
+    }
+  }
 }
 
 class Message {

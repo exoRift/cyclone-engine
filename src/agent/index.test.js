@@ -62,7 +62,8 @@ test.serial('connectRetryLimit', async (t) => {
 
   return agent.connect().then(() => {
     t.true(t.context.spies.error.calledWith('RECONNECTION LIMIT REACHED; RECONNECTION CANCELED'), 'Connection failure pt. 1')
-    return t.is(spy.callCount, 10, 'Connection failure pt. 2')
+    t.is(spy.callCount, 10, 'Connection failure pt. 2')
+    return spy.restore()
   })
 })
 
@@ -94,7 +95,24 @@ test.serial('loopFunction', async (t) => {
   return agent
 })
 
-test.todo('messageEvent')
+test.serial('messageEvent', async (t) => {
+  const agent = new Agent({
+    Eris: PDiscord,
+    chData
+  })
+
+  await agent._onReady(agent._client)
+
+  const spy = sinon.spy(agent._CommandHandler, 'handle')
+
+  const message = new PDiscord.Message('!command1')
+
+  agent._client.emit('messageCreate', message)
+
+  t.true(spy.calledWith(message))
+
+  spy.restore()
+})
 
 test.serial('lastMessage', (t) => {
   const agent = new Agent({
@@ -109,7 +127,7 @@ test.serial('lastMessage', (t) => {
   t.is(agent.lastMessage(channel).content, 'hello')
 })
 
-test.serial('ErisErrorRecieved', (t) => {
+test.serial('ErisErrorRecievedEvent', (t) => {
   const error = new Error('This is a test error')
   const agent = new Agent({
     Eris: PDiscord

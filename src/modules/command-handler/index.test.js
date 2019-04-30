@@ -161,7 +161,7 @@ const mockReplacers = [
 
 const handler = new CommandHandler({
   client,
-  ownerId: '1',
+  ownerID: '1',
   knex,
   commands: mockCommands,
   replacers: mockReplacers
@@ -204,7 +204,7 @@ function delay (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
 }
 
-test('invalidSimple-KnexSupply', async (t) => {
+test('invalidSimple-KnexSupply', (t) => {
   const fakeHandler = new CommandHandler({
     client,
     ownerId: '456',
@@ -212,7 +212,7 @@ test('invalidSimple-KnexSupply', async (t) => {
     replacers: mockReplacers
   })
 
-  await t.throwsAsync(fakeHandler.handle(new PDiscord.Message('!dbtest', dUser)), {
+  return t.throwsAsync(fakeHandler.handle(new PDiscord.Message('!dbtest', dUser)), {
     instanceOf: Error,
     message: 'QueryBuilder was not supplied to CommandHandler!'
   })
@@ -353,8 +353,8 @@ test('incompleteReturnObject', async (t) => {
   t.is(await handler.handle(new PDiscord.Message('!emptyobject')), undefined, 'Empty object')
 })
 
-test('invalidFileSupply', async (t) => {
-  await t.throwsAsync(handler.handle(new PDiscord.Message('!invalidfile')), {
+test('invalidFileSupply', (t) => {
+  return t.throwsAsync(handler.handle(new PDiscord.Message('!invalidfile')), {
     instanceOf: TypeError,
     message: 'Supplied file not a Buffer instance:\n'
   })
@@ -461,7 +461,7 @@ test('awaitSystem', async (t) => {
 })
 
 test('restrictedCommands', async (t) => {
-  t.throwsAsync(handler.handle(new PDiscord.Message('!testrestricted', dUser)), {
+  await t.throwsAsync(handler.handle(new PDiscord.Message('!testrestricted', dUser)), {
     instanceOf: Error,
     message: 'This command is either temporarily disabled, or restricted.'
   }, 'Successful denial')
@@ -469,14 +469,14 @@ test('restrictedCommands', async (t) => {
   t.is((await handler.handle(new PDiscord.Message('!testrestricted', dOwner))).content, '3', 'Successful grant')
 })
 
-test('createMessageFailRejects', async (t) => {
+test('createMessageFailRejects', (t) => {
   const guild = handler._client._createGuild()
   const channel = handler._client._createChannel(undefined, guild)
   const message = handler._client._sendMessage('!command1', undefined, channel)
 
   channel._createMessageThrow = true
 
-  await t.throwsAsync(handler.handle(message), {
+  return t.throwsAsync(handler.handle(message), {
     instanceOf: Error,
     message: 'This is purposefully thrown'
   })

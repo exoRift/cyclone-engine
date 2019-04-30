@@ -12,7 +12,7 @@ class CommandHandler {
    * @property {Agent}               [data.agent={}]                 The agent managing the bot.
    * @property {String}              [data.prefix='!']               The prefix of commands.
    * @property {Eris.Client}         data.client                     The Eris client.
-   * @property {String}              data.ownerId                    The ID of the bot owner.
+   * @property {String}              data.ownerID                    The ID of the bot owner.
    * @property {QueryBuilder}        [data.knex]                     The simple-knex query builder.
    * @property {Command[]|Command}   [data.commands=[]]              Map of commands to load initially.
    * @property {Replacer[]|Replacer} [data.replacers=[]]             The message content replacers.
@@ -20,7 +20,7 @@ class CommandHandler {
    * @property {String}              [data.replacerBraces.open='|']  The opening brace.
    * @property {String}              [data.replacerBraces.close='|'] The closing brace.
    */
-  constructor ({ agent = {}, prefix = '!', client, ownerId, knex, commands = [], replacers = [], replacerBraces = {} }) {
+  constructor ({ agent = {}, prefix = '!', client, ownerID, knex, commands = [], replacers = [], replacerBraces = {} }) {
     /**
      * The agent managing the bot.
      * @private
@@ -44,7 +44,7 @@ class CommandHandler {
      * @private
      * @type {String}
      */
-    this._ownerId = ownerId
+    this._ownerID = ownerID
     /**
      * The simple-knex query builder.
      * @private
@@ -113,7 +113,7 @@ class CommandHandler {
     const command = awaited || this._commands.get(keyword)
 
     if (!command) return
-    if (command.restricted && msg.author.id !== this._ownerId) throw Error('This command is either temporarily disabled, or restricted.')
+    if (command.restricted && msg.author.id !== this._ownerID) throw Error('This command is either temporarily disabled, or restricted.')
 
     args = this._sanitizeArgs(command, args)
     if (command.args && (!args || args.length < command.args.filter((a) => a.mand).length)) throw Error('Invalid arguments. Reference the help menu.')

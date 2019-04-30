@@ -141,7 +141,7 @@ class Agent {
 
   /**
    * Get the last message sent by the bot in a given channel.
-   * @param   {Channel}      channel The channel to pick your last message from.
+   * @param   {Eris.Channel} channel The channel to pick your last message from.
    * @returns {Eris.Message}         The last message.
    */
   lastMessage (channel) {
@@ -159,17 +159,18 @@ class Agent {
    * @param   {Object[]} tables         The initial tables set up for the bot.
    * @param   {String[]} clearEmptyRows The tables that have their unchanged rows cleared.
    */
-  _prepareDB (tables, clearEmptyRows) {
-    Promise.all(tables.map((table) => this._knex.createTable(table)))
+  async _prepareDB (tables, clearEmptyRows) {
+    const tableNames = tables.map((t) => t.name)
+    return Promise.all(tables.map((table) => this._knex.createTable(table)))
       .catch((ignore) => ignore)
       .finally(() => {
         for (const table of clearEmptyRows) {
-          const columns = tables.reduce((accum, element) => {
-            if (clearEmptyRows.includes(element.name) && element.default) accum[element.name] = element.default
+          if (!tableNames.includes(table)) throw Error('Provided a non-existent table')
+          const columns = tables[clearEmptyRows.indexOf(table)].columns.reduce((accum, element) => {
+            if (element.default) accum[element.name] = element.default
             return accum
           }, {})
-          console.log(columns)
-          this._knex.delete({
+          return this._knex.delete({
             table,
             where: columns
           })
@@ -180,7 +181,7 @@ class Agent {
   /**
    * Begin the loop function provided in the constructor.
    * @private
-   * @param   {function(agent)} func     The function run every interval. (Param is the agent)
+   * @param   {Function} func     The function run every interval. (Param is the agent)
    * @param   {Number}          interval How many milliseconds in between each call.
    */
   _setLoop (func, interval) {
@@ -190,9 +191,9 @@ class Agent {
   /**
    * Send an error message.
    * @private
-   * @param   {Error}   err   The error.
-   * @param   {Object}  msg   The original message from Discord.
-   * @param   {String}  [res] The response from a command.
+   * @param   {Error}        err   The error.
+   * @param   {Eris.Message} msg   The original message from Discord.
+   * @param   {String}       [res] The response from a command.
    */
   _handleError (err, msg) {
     return msg.channel.createMessage('ERR:```\n' + err.message + '```\n```\n' + err.stack + '```')

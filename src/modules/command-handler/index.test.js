@@ -428,7 +428,7 @@ test('databaseRequesting', (t) => {
   return _prepareDatabases().then(async () => {
     t.is((await handler.handle(new PDiscord.Message('!dbtest', dOwner))).content, '1', 'User 1')
 
-    t.is((await handler.handle(new PDiscord.Message('!dbtest', dUser))).content, '2', 'User 2')
+    return t.is((await handler.handle(new PDiscord.Message('!dbtest', dUser))).content, '2', 'User 2')
   })
 })
 
@@ -467,6 +467,19 @@ test('restrictedCommands', async (t) => {
   }, 'Successful denial')
 
   t.is((await handler.handle(new PDiscord.Message('!testrestricted', dOwner))).content, '3', 'Successful grant')
+})
+
+test('createMessageFailRejects', async (t) => {
+  const guild = handler._client._createGuild()
+  const channel = handler._client._createChannel(undefined, guild)
+  const message = handler._client._sendMessage('!command1', undefined, channel)
+
+  channel._createMessageThrow = true
+
+  await t.throwsAsync(handler.handle(message), {
+    instanceOf: Error,
+    message: 'This is purposefully thrown'
+  })
 })
 
 test.after.always((t) => knex.dropTable('cyclonetesting').catch((ignore) => ignore))

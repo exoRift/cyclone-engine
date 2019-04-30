@@ -10,7 +10,9 @@
   },
   "author": "mets11rap",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "simple-knex": "git+https://github.com/alex-taxiera/simple-knex.git#development"
+  },
   "devDependencies": {
     "ava": "^1.1.0",
     "dblapi.js": "^2.3.0",
@@ -24,7 +26,6 @@
     "eslint-plugin-standard": "^4.0.0",
     "nyc": "^13.3.0",
     "pg": "^7.9.0",
-    "simple-knex": "git+https://github.com/alex-taxiera/simple-knex.git#development",
     "sinon": "^7.3.2"
   },
   "repository": {

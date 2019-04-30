@@ -14,7 +14,7 @@ class Agent {
    * @param    {Object}   data                                     The agent data.
    * @property {Eris}     data.Eris                                The Eris class.
    * @property {String}   data.token                               The token to log in to the Discord API with.
-   * @property {Object}   data.chData                              An object containing command and replacer data.
+   * @property {Object}   [data.chData={}]                         An object containing command and replacer data.
    * @property {Map}      [data.chData.commands]                   The commands for the bot.
    * @property {Map}      [data.chData.replacers]                  The replacers for the bot.
    * @property {Object}   [data.chData.replacerBraces]             The braces that invoke a replacer.
@@ -242,7 +242,7 @@ class Agent {
       agent: this,
       prefix: this._prefix,
       client,
-      ownerId: (await client.getOAuthApplication()).owner.id,
+      ownerID: (await client.getOAuthApplication()).owner.id,
       knex: this._knex,
       commands: this._commands,
       replacers: this._replacers,

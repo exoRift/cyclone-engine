@@ -49,36 +49,71 @@ test.beforeEach((t) => {
   }
 })
 
-test.afterEach((t) => {
+test.afterEach.always((t) => {
   for (const spy in t.context.spies) t.context.spies[spy].restore()
 })
 
-test.skip('initialTables', (t) => {
+test.serial('databaseRecognized', (t) => {
   const agent = new Agent({
     Eris: PDiscord,
     chData,
     databaseOptions: {
-      connectionUrl: DATABASE_URL,
+      connectionURL: DATABASE_URL,
       client: 'pg',
-      tables: [
-        {
-          name: 'cyclonetesting',
-          columns: [
-            {
-              name: 'test',
-              type: 'number'
-            }
-          ]
-        }
-      ]
+      tables: []
     }
   })
 
-  while (!t.context.spies.log.calledWith('Database set up!')) {}
-  console.log('hi')
+  t.truthy(agent._knex)
 })
 
-test.todo('tableCleanup')
+test.serial('tableCleanup', (t) => {
+  const tables = [
+    {
+      name: 'cycloneagenttesting',
+      columns: [
+        {
+          name: 'test',
+          type: 'integer',
+          default: 1
+        },
+        {
+          name: 'nodefault',
+          type: 'integer'
+        }
+      ]
+    }
+  ]
+
+  const agent = new Agent({
+    Eris: PDiscord
+  })
+  agent._knex = new QueryBuilder({
+    connection: DATABASE_URL,
+    client: 'pg',
+    pool: {
+      min: 1,
+      max: 1
+    }
+  })
+
+  return agent._knex.createTable(tables[0]).then(({ name }) => {
+    return agent._knex.insert({
+      table: name,
+      data: {
+        nodefault: 2
+      }
+    }).then(() => {
+      agent._prepareDB(tables, [tables[0].name]).then(() => {
+        return agent._knex.select(tables[0].name).then((res) => t.is(res.length, 0, 'Proper clean'))
+      })
+      return t.throwsAsync(agent._prepareDB(tables, ['nonexistent']), {
+        instanceOf: Error,
+        message: 'Provided a non-existent table'
+      }, 'Non-existent table passed')
+    })
+  })
+})
 
 test.serial('connectRetryLimit', async (t) => {
   const agent = new Agent({
@@ -204,7 +239,7 @@ test.serial('disconnection', async (t) => {
   agent._client._setConnectStatus(true)
   await agent.connect()
   t.true(statusSpy.calledWith({
-    name: "Prefix: '!'",
+    name: 'Prefix: \'!\'',
     type: 2
   }), 'Status edited')
 
@@ -233,4 +268,17 @@ test.serial('logFunction', async (t) => {
   await agent._onCreateMessage(agent._client, message)
 
   t.true(t.context.spies.log.calledWith(message.timestamp + ' 1'))
+})
+
+test.after.always(() => {
+  const knex = new QueryBuilder({
+    connection: DATABASE_URL,
+    client: 'pg',
+    pool: {
+      min: 1,
+      max: 1
+    }
+  })
+
+  return knex.dropTable('cycloneagenttesting').catch((ignore) => ignore)
 })

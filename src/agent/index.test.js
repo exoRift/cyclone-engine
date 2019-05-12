@@ -54,6 +54,9 @@ test.afterEach.always((t) => {
 })
 
 test.serial('databaseRecognized', (t) => {
+  const oldFunc = Agent.prototype._prepareDB
+  Agent.prototype._prepareDB = sinon.spy()
+
   const agent = new Agent({
     Eris: PDiscord,
     chData,
@@ -64,7 +67,10 @@ test.serial('databaseRecognized', (t) => {
     }
   })
 
-  t.truthy(agent._knex)
+  t.truthy(agent._knex, 'Knex defined')
+  t.true(agent._prepareDB.calledWith([]), 'prepareDatabases called')
+
+  Agent.prototype._prepareDB = oldFunc
 })
 
 test.serial('tableCleanup', (t) => {

@@ -4,12 +4,13 @@
 class Replacer {
   /**
    * Create a replacer.
-   * @param    {Object}   data                   The data to make a replacer with.
-   * @property {String}   data.key               The key that invokes the replacer.
-   * @property {String}   data.desc              The description of the replacer.
-   * @property {Object}   [data.options={}]      The options for the replacer.
-   * @property {Object[]} [data.options.args=[]] The arguments for the replacer.
-   * @property {Function} data.action            Function returning the string to replace with. (Param is an object containing: content, capture)
+   * @class
+   * @param {Object}                                             data                   The data to make a replacer with.
+   * @prop  {String}                                             data.key               The key that invokes the replacer.
+   * @prop  {String}                                             data.desc              The description of the replacer.
+   * @prop  {Object}                                             [data.options={}]      The options for the replacer.
+   * @prop  {Object[]}                                           [data.options.args=[]] The arguments for the replacer.
+   * @prop  {function(content: String, capture: String): String} data.action            Function returning the string to replace with.
    */
   constructor ({ key, desc, options = {}, action }) {
     /**
@@ -31,8 +32,8 @@ class Replacer {
      */
     this.args = args
     /**
-     * Function returning the string to replace with. (Param is an object containing: content, capture, args)
-     * @type {Function}
+     * Function returning the string to replace with.
+     * @type {function(content: String, capture: String): String}
      */
     this.action = action
   }

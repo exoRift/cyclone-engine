@@ -11,27 +11,28 @@ const {
 class Agent {
   /**
    * Create an Agent.
-   * @param    {Object}   data                                     The agent data.
-   * @property {Eris}     data.Eris                                The Eris class.
-   * @property {String}   data.token                               The token to log in to the Discord API with.
-   * @property {Object}   [data.chData={}]                         An object containing command and replacer data.
-   * @property {Map}      [data.chData.commands]                   The commands for the bot.
-   * @property {Map}      [data.chData.replacers]                  The replacers for the bot.
-   * @property {Object}   [data.chData.replacerBraces]             The braces that invoke a replacer.
-   * @property {String}   [data.chData.replacerBraces.open='|']    The opening brace.
-   * @property {String}   [data.chData.replacerBraces.close]       The closing brace.
-   * @property {Object}   [data.databaseOptions]                   The info for the database.
-   * @property {String}   data.databaseOptions.connectionURL       The URL for connecting to the bot's database.
-   * @property {String}   data.databaseOptions.client              The database driver being used.
-   * @property {Object[]} [data.databaseOptions.tables=[]]         The initial tables to set up for the database.
-   * @property {String[]} [data.databaseOptions.clearEmptyRows=[]] The list of tables to have their unchanged from default rows cleared.
-   * @property {Object}   [data.agentOptions={}]                   Options for the agent.
-   * @property {Number}   [data.agentOptions.connectRetryLimit=10] How many times the agent will attempt to establish a connection with Discord before giving up.
-   * @property {String}   [data.agentOptions.prefix='!']           The prefix for bot commands.
-   * @property {String}   [data.agentOptions.dblToken]             The token used to connect to the Discord Bot Labs API.
-   * @property {Function} [data.agentOptions.loopFunction]         A function that will run every loopInterval amount of ms, supplied the agent. (Param is the agent)
-   * @property {Number}   [data.agentOptions.loopInterval=30000]   The interval at which the loopFunction runs.
-   * @property {Function} [data.agentOptions.logFunction]          A function that returns a string that's logged for every command. (Check docs for params)
+   * @class
+   * @param {Object}                                                   data                                     The agent data.
+   * @prop  {Eris}                                                     data.Eris                                The Eris class the system runs off of.
+   * @prop  {String}                                                   data.token                               The token to log in to the Discord API with.
+   * @prop  {Object}                                                   [data.chData={}]                         The commands and replacers the bot will respond to
+   * @prop  {Map}                                                      [data.chData.commands]                   The commands for the bot.
+   * @prop  {Map}                                                      [data.chData.replacers]                  The replacers for the bot.
+   * @prop  {Object}                                                   [data.chData.replacerBraces]             The braces that invoke a replacer.
+   * @prop  {String}                                                   [data.chData.replacerBraces.open='|']    The opening brace.
+   * @prop  {String}                                                   [data.chData.replacerBraces.close]       The closing brace.
+   * @prop  {Object}                                                   [data.databaseOptions]                   The info for the database the bot utilizes.
+   * @prop  {String}                                                   data.databaseOptions.connectionURL       The URL for connecting to the bot's database.
+   * @prop  {String}                                                   data.databaseOptions.client              The database driver being used.
+   * @prop  {Object[]}                                                 [data.databaseOptions.tables=[]]         The initial tables to set up for the database.
+   * @prop  {String[]}                                                 [data.databaseOptions.clearEmptyRows=[]] The list of tables to have their unchanged from default rows cleared.
+   * @prop  {Object}                                                   [data.agentOptions={}]                   Options for the agent.
+   * @prop  {Number}                                                   [data.agentOptions.connectRetryLimit=10] How many times the agent will attempt to establish a connection with Discord before giving up.
+   * @prop  {String}                                                   [data.agentOptions.prefix='!']           The prefix for bot commands.
+   * @prop  {String}                                                   [data.agentOptions.dblToken]             The token used to connect to the Discord Bot Labs API.
+   * @prop  {function(Agent)}                                          [data.agentOptions.loopFunction]         A function that will run every loopInterval amount of ms, supplied the agent.
+   * @prop  {Number}                                                   [data.agentOptions.loopInterval=30000]   The interval at which the loopFunction runs.
+   * @prop  {function(msg: Eris.Message, res: CommandResults): String} [data.agentOptions.logFunction]          A function that returns a string that's logged for every command.
    */
   constructor ({ Eris, token, chData = {}, databaseOptions = {}, agentOptions = {} }) {
     const {
@@ -42,19 +43,19 @@ class Agent {
     /**
      * The commands for the command handler.
      * @private
-     * @type {Map}
+     * @type    {Map}
      */
     this._commands = commands
     /**
      * The replacers for the command handler.
      * @private
-     * @type {Map}
+     * @type    {Map}
      */
     this._replacers = replacers
     /**
      * The braces that invoke a replacer.
      * @private
-     * @type {Object}
+     * @type    {Object}
      */
     this._replacerBraces = replacerBraces
 
@@ -75,13 +76,13 @@ class Agent {
     /**
      * The Eris client.
      * @private
-     * @type {Eris.Client}
+     * @type    {Eris.Client}
      */
     this._client = new Eris(token)
     /**
      * The simple-knex query builder.
      * @private
-     * @type {QueryBuilder}
+     * @type    {QueryBuilder}
      */
     if (connectionURL) {
       this._knex = new QueryBuilder({
@@ -97,13 +98,13 @@ class Agent {
     /**
      * How many times the agent will attempt to establish a connection with Discord before giving up.
      * @private
-     * @type {Number}
+     * @type    {Number}
      */
     this._connectRetryLimit = connectRetryLimit
     /**
      * The command prefix.
      * @private
-     * @type {String}
+     * @type    {String}
      */
     this._prefix = prefix
     /**
@@ -116,9 +117,9 @@ class Agent {
     }
 
     /**
-     * A function that returns a string that's logged for every command. (Check docs for params)
+     * A function that returns a string that's logged for every command.
      * @private
-     * @type {Function}
+     * @type    {function(msg: Eris.Message, res: CommandResults): String}
      */
     this._logFunction = logFunction
 
@@ -129,12 +130,12 @@ class Agent {
 
   /**
    * Connect to the Discord API. Will recursively retry this._connectRetryLimit number of times.
-   * @param {Number} [count=1] The current number of connection attempts. (Do not supply)
+   * @param {Number} [_count=1] The current number of connection attempts. (Do not supply)
    */
-  connect (count = 1) {
-    if (count <= this._connectRetryLimit) {
-      console.log(`CONNECTION ATTEMPT ${count}`)
-      return this._client.connect().catch(() => this.connect(count + 1))
+  connect (_count = 1) {
+    if (_count <= this._connectRetryLimit) {
+      console.log(`CONNECTION ATTEMPT ${_count}`)
+      return this._client.connect().catch(() => this.connect(_count + 1))
     }
     return console.error('RECONNECTION LIMIT REACHED; RECONNECTION CANCELED')
   }
@@ -166,7 +167,7 @@ class Agent {
       .finally(() => {
         for (const table of clearEmptyRows) {
           if (!tableNames.includes(table)) throw Error('Provided a non-existent table')
-          const columns = tables[clearEmptyRows.indexOf(table)].columns.reduce((accum, element) => {
+          const columns = tables.find((t) => t.name === table).columns.reduce((accum, element) => {
             if (element.default) accum[element.name] = element.default
             return accum
           }, {})
@@ -285,3 +286,13 @@ class Agent {
 }
 
 module.exports = Agent
+
+/**
+ * Object returned by a command.
+ * @typedef  {Object}       CommandResults
+ * @prop     {Command}      command        The object of the command called.
+ * @prop     {String}       content        The resulting message content sent by the bot.
+ * @prop     {Eris.Embed}   embed          The resulting embed sent by the bot.
+ * @prop     {Buffer}       file           The resulting file sent by the bot.
+ * @prop     {Eris.Message} rsp            The message object sent to Discord.
+ */

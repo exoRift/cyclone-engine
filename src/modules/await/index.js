@@ -4,13 +4,14 @@
 class Await {
   /**
    * Create an Await.
-   * @param    {Object}   data                          The await data.
-   * @property {Object}   data.options                  The options for the await
-   * @property {Number}   [data.options.timeout=15000]  How long until the await cancels.
-   * @property {Boolean}  [data.options.oneTime=false]  Whether a non-triggering message cancels the await.
-   * @property {Function} [data.options.check=()=>true] The condition to be met for the await to trigger. (Params are the bot's prefix and the message)
-   * @property {Object[]} [data.options.args=[]]        The argumentss for the await.
-   * @property {Function} data.action                   The await action.
+   * @class
+   * @param {Object}                                         data                          The await data.
+   * @prop  {Object}                                         data.options                  The options for the await
+   * @prop  {Number}                                         [data.options.timeout=15000]  How long until the await cancels.
+   * @prop  {Boolean}                                        [data.options.oneTime=false]  Whether a non-triggering message cancels the await.
+   * @prop  {function(prefix: String, msg: Eris.Message)}    [data.options.check=()=>true] The condition to be met for the await to trigger.
+   * @prop  {Object[]}                                       [data.options.args=[]]        The argumentss for the await.
+   * @prop  {function(AwaitData): (CommandResults|String)}   data.action                   The await action.
    */
   constructor (data) {
     const {
@@ -34,8 +35,8 @@ class Await {
      */
     this.oneTime = oneTime
     /**
-     * The condition to be met for the await to trigger. (Params are the bot's prefix and the message)
-     * @type {Function}
+     * The condition to be met for the await to trigger.
+     * @type {function(prefix: String, msg: Eris.Message)}
      */
     this.check = check
     /**
@@ -45,10 +46,34 @@ class Await {
     this.args = args
     /**
      * The await action.
-     * @type {Function}
+     * @type {function(AwaitData): (CommandResults|String)}
      */
     this.action = action
   }
 }
 
 module.exports = Await
+
+/**
+ * Object passed to a command action.
+ * @typedef {Object}                AwaitData
+ * @prop    {Agent}                 agent       The agent managing the bot.
+ * @prop    {Eris.Client}           client      The Eris client.
+ * @prop    {Map<String, Command>}  commands    The list of bot commands.
+ * @prop    {Map<String, Replacer>} replacers   The list of bot replacers.
+ * @prop    {Eris.Message}          msg         The message sent by the user.
+ * @prop    {String[]}              args        The arguments supplied by the user.
+ * @prop    {Object}                *           The data of the user in the database if requested. (Param name is table name)
+ * @prop    {QueryBuilder}          knex        The simple-knex query builder used by the command handler.
+ * @prop    {Eris.Message}          lastResponse The last message the bot sent before registering an await.
+ */
+
+/**
+ * Object returned by a command.
+ * @typedef  {Object}       CommandResults
+ * @prop     {Command}      command        The object of the command called.
+ * @prop     {String}       content        The resulting message content sent by the bot.
+ * @prop     {Eris.Embed}   embed          The resulting embed sent by the bot.
+ * @prop     {Buffer}       file           The resulting file sent by the bot.
+ * @prop     {Eris.Message} rsp            The message object sent to Discord.
+ */

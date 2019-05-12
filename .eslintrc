@@ -9,7 +9,9 @@
     "max-len": [
       "warn",
       {
-        "code": 155
+        "code": 155,
+        "tabWidth": 2,
+        "ignoreComments": true
       }
     ]
   }

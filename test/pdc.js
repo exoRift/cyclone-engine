@@ -7,6 +7,7 @@ const EventEmitter = require('events').EventEmitter
 class PseudoDiscordClient extends EventEmitter {
   /**
    * Create a client.
+   * @class
    * @param {String} [token='123456'] The token for the bot.
    */
   constructor (token = '123456') {
@@ -124,6 +125,7 @@ class PseudoDiscordClient extends EventEmitter {
 class Message {
   /**
    * Create a Message.
+   * @class
    * @param {String}  content The content of the message.
    * @param {User}    author  The author of the message.
    * @param {Channel} channel The channel the message is being sent in.
@@ -144,6 +146,7 @@ class Message {
 class User {
   /**
    * Create a user.
+   * @class
    * @param {String} id       The id of the user.
    * @param {String} username The username of the user.
    */
@@ -154,11 +157,12 @@ class User {
 }
 
 /**
- * Create a Discord Channel.
+ * Create a Discord Guild.
  */
 class Guild {
   /**
    * Create a guild.
+   * @class
    * @param {String} id    The id of the guild.
    * @param {Shard}  shard The shard that's on the guild.
    * @param {String} name  The name of the guild.
@@ -176,6 +180,7 @@ class Guild {
 class Channel {
   /**
    * Create a channel.
+   * @class
    * @param {String} id    The id of the channel.
    * @param {Guild}  guild The guild the channel is in.
    * @param {String} name  The name of the channel.
@@ -208,6 +213,7 @@ class Channel {
 class Shard {
   /**
    * Create a shard.
+   * @class
    * @param {PseudoDiscordClient} client The client to shard.
    */
   constructor (client = new PseudoDiscordClient()) {

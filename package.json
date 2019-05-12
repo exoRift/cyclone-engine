@@ -1,12 +1,25 @@
 {
   "name": "cyclone-engine",
   "version": "1.0.0",
-  "description": "A Discord bot client manager and command handler combo! Easy to use.",
+  "description": "A Discord bot client manager/engine and command handler combo! Easy to use.",
   "main": "index.js",
   "scripts": {
-    "start": "node bot.js",
     "test": "nyc --reporter lcov ava --verbose **/*.test.js",
-    "lint": "eslint ./"
+    "lint": "eslint ./",
+    "build": "node build"
+  },
+  "nyc": {
+    "exclude": [
+      "coverage/**",
+      "packages/*/test/**",
+      "test/**",
+      "build/**",
+      "test{,-*}.js",
+      "**/*{.,-}test.js",
+      "**/__tests__/**",
+      "**/node_modules/**",
+      "**/babel.config.js"
+    ]
   },
   "author": "mets11rap",
   "license": "MIT",

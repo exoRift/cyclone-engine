@@ -8,59 +8,60 @@ const Replacer = require('../replacer')
 class CommandHandler {
   /**
    * Create a CommandHandler
-   * @param    {Object}              data                            The command handler data.
-   * @property {Agent}               [data.agent={}]                 The agent managing the bot.
-   * @property {String}              [data.prefix='!']               The prefix of commands.
-   * @property {Eris.Client}         data.client                     The Eris client.
-   * @property {String}              data.ownerID                    The ID of the bot owner.
-   * @property {QueryBuilder}        [data.knex]                     The simple-knex query builder.
-   * @property {Command[]|Command}   [data.commands=[]]              Map of commands to load initially.
-   * @property {Replacer[]|Replacer} [data.replacers=[]]             The message content replacers.
-   * @property {Object}              [data.replacerBraces={}]        The braces that invoke a replacer.
-   * @property {String}              [data.replacerBraces.open='|']  The opening brace.
-   * @property {String}              [data.replacerBraces.close='|'] The closing brace.
+   * @class
+   * @param {Object}              data                            The command handler data.
+   * @prop  {Agent}               [data.agent={}]                 The agent managing the bot.
+   * @prop  {String}              [data.prefix='!']               The prefix of commands.
+   * @prop  {Eris.Client}         data.client                     The Eris client.
+   * @prop  {String}              data.ownerID                    The ID of the bot owner.
+   * @prop  {QueryBuilder}        [data.knex]                     The simple-knex query builder.
+   * @prop  {Command[]|Command}   [data.commands=[]]              Map of commands to load initially.
+   * @prop  {Replacer[]|Replacer} [data.replacers=[]]             Map of the message content replacers to load initially.
+   * @prop  {Object}              [data.replacerBraces={}]        The braces that invoke a replacer.
+   * @prop  {String}              [data.replacerBraces.open='|']  The opening brace.
+   * @prop  {String}              [data.replacerBraces.close='|'] The closing brace.
    */
   constructor ({ agent = {}, prefix = '!', client, ownerID, knex, commands = [], replacers = [], replacerBraces = {} }) {
     /**
      * The agent managing the bot.
      * @private
-     * @type {Agent}
+     * @type    {Agent}
      */
     this._agent = agent
     /**
      * The prefix of commands.
      * @private
-     * @type {String}
+     * @type    {String}
      */
     this._prefix = prefix
     /**
      * The Eris Client.
      * @private
-     * @type {Eris}
+     * @type    {Eris}
      */
     this._client = client
     /**
      * The ID of the bot owner.
      * @private
-     * @type {String}
+     * @type    {String}
      */
     this._ownerID = ownerID
     /**
      * The simple-knex query builder.
      * @private
-     * @type {QueryBuilder}
+     * @type    {QueryBuilder}
      */
     this._knex = knex
     /**
      * Map of commands to load initially.
      * @private
-     * @type {Map<String, Command>}
+     * @type    {Map<String, Command>}
      */
     this._commands = new Map()
     /**
-     * The message content replacers.
+     * Map of the message content replacers to load initially.
      * @private
-     * @type {Map<String, Replacer>}
+     * @type    {Map<String, Replacer>}
      */
     this._replacers = new Map()
     const {
@@ -71,7 +72,7 @@ class CommandHandler {
     /**
      * The braces that invoke a replacer.
      * @private
-     * @type {Object}
+     * @type    {Object}
      */
     this._replacerBraces = {
       open,
@@ -80,7 +81,7 @@ class CommandHandler {
     /**
      * An object containing message data used to wait for a user's response.
      * @private
-     * @type {Map<String, AwaitData>}
+     * @type    {Map<String, AwaitData>}
      */
     this._awaits = new Map()
 
@@ -90,8 +91,8 @@ class CommandHandler {
 
   /**
    * Handle incoming Discord messages.
-   * @param   {Eris.Message}    msg The Discord message.
-   * @returns {Promise<Object>} The results of the command.
+   * @param   {Eris.Message}            msg The Discord message.
+   * @returns {Promise<CommandResults>}     The results of the command.
    */
   async handle (msg) {
     let text = this._runReplacers(msg.content)
@@ -308,3 +309,13 @@ class CommandHandler {
 }
 
 module.exports = CommandHandler
+
+/**
+ * Object returned by a command.
+ * @typedef  {Object}       CommandResults
+ * @prop     {Command}      command        The object of the command called.
+ * @prop     {String}       content        The resulting message content sent by the bot.
+ * @prop     {Eris.Embed}   embed          The resulting embed sent by the bot.
+ * @prop     {Buffer}       file           The resulting file sent by the bot.
+ * @prop     {Eris.Message} rsp            The message object sent to Discord.
+ */

@@ -85,10 +85,58 @@ const agent = new Agent({
   }
 })
 ```
-<font size='+2'>Agent</font>
-Parameter|Function|Default
----------|--------|-------
-data|The agent data|X
-data.Eris|The Eris client the system runs off of|X
-data.token|The Discord token for the bot to connect to|X
-data.chData|The commands and replacers the bot will respond to|{}
+{docs.constructors: Agent}
+
+>Constructing the Command Handler.
+
+The Command Handler is taken care of automatically when the Agent is constructed. However, if you would not like to use the Agent, you can construct the handler separately.
+```js
+const {
+  TOKEN
+} = process.env
+
+const Eris = require('eris')
+const client = new Eris(TOKEN)
+
+const {
+  _CommandHandler
+} = require('cyclone-engine')
+
+const handler = client.getOAuthApplication().then((app) => {
+  return new _CommandHandler({
+    client,
+    ownerID: app.owner.id,
+    data: require('./data')
+  })
+})
+
+client.on('messageCreate', async (msg) => {
+  await handler
+  handler.handle(msg)
+})
+```
+{docs.constructors: CommandHandler}
+
+>Creating Commands.
+
+The Command Handler takes an array of command and replacer classes to function. A multifile system is optimal. A way to implement this would be a folder containing JS files of every command with an `index.js` that would require every command (Looping on an `fs.readdir()`) and return an array containing them.
+
+Command File:
+```js
+const {
+  Command
+} = require('cyclone-engine')
+
+const data = {
+  name: 'say',
+  desc: 'Make the bot say something.',
+  options: {
+    args: [{ name: 'content', mand: true }],
+    restricted: true /* Make this command admin only */
+  },
+  action: ({ args: [content] }) => content /* The command returns the content provided by the user */
+}
+
+module.exports = new Command(data)
+```
+{docs.constructors: Command}

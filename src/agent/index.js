@@ -79,12 +79,12 @@ class Agent {
      * @type    {Eris.Client}
      */
     this._client = new Eris(token)
-    /**
-     * The simple-knex query builder.
-     * @private
-     * @type    {QueryBuilder}
-     */
     if (connectionURL) {
+      /**
+       * The simple-knex query builder.
+       * @private
+       * @type    {QueryBuilder}
+       */
       this._knex = new QueryBuilder({
         connection: connectionURL,
         client,
@@ -107,12 +107,12 @@ class Agent {
      * @type    {String}
      */
     this._prefix = prefix
-    /**
-     * The dblapi.js DBLAPI (DiscordBotsList).
-     * @type {DBLAPI}
-     */
     if (dblToken) {
       DBLAPI = require('dblapi.js')
+      /**
+       * The dblapi.js DBLAPI (DiscordBotsList).
+       * @type {DBLAPI}
+       */
       this._dblAPI = new DBLAPI(dblToken, this._client)
     }
 

@@ -1,4 +1,5 @@
 const {
+  _CommandHandler,
   Command,
   Replacer,
   Await
@@ -6,6 +7,7 @@ const {
 const Agent = require('./src/agent')
 
 module.exports = {
+  _CommandHandler,
   Agent,
   Command,
   Replacer,

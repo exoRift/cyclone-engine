@@ -35,7 +35,7 @@ jobs:
       - store_artifacts:
           path: ./coverage/lcov.info
       - store_test_results:
-          ./coverage/lcov-report
+          path: ./coverage/lcov-report
       - codecov/upload:
           file: ./coverage/lcov.info
           when: always

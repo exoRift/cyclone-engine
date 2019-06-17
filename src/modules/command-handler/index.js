@@ -174,12 +174,8 @@ class CommandHandler {
    */
   loadCommands (commands) {
     if (commands instanceof Array) {
-      for (let i = 0; i < commands.length; i++) {
-        this._loadCommand(commands[i])
-      }
-    } else {
-      this._loadCommand(commands)
-    }
+      for (let i = 0; i < commands.length; i++) this._loadCommand(commands[i])
+    } else this._loadCommand(commands)
   }
 
   /**
@@ -188,12 +184,8 @@ class CommandHandler {
    */
   loadReplacers (replacers) {
     if (replacers instanceof Array) {
-      for (let i = 0; i < replacers.length; i++) {
-        this._loadReplacer(replacers[i])
-      }
-    } else {
-      this._loadReplacer(replacers)
-    }
+      for (let i = 0; i < replacers.length; i++) this._loadReplacer(replacers[i])
+    } else this._loadReplacer(replacers)
   }
 
   /**
@@ -245,7 +237,7 @@ class CommandHandler {
    * @param   {Command} command The command to load.
    */
   _loadCommand (command) {
-    if (!(command instanceof Command)) throw TypeError('Supplied commands not Command instances:\n', command)
+    if (!(command instanceof Command)) throw TypeError('Supplied commands not Command instances:\n')
     const lastArg = command.args[command.args.length - 1]
     if (lastArg && lastArg.delim) console.log(`Disclaimer: Your command: ${command.name}'s last argument unnecessarily has a delimiter.`)
     this._commands.set(command.name, command)
@@ -257,7 +249,7 @@ class CommandHandler {
    * @param   {Replacer} replacer The replacer to load.
    */
   _loadReplacer (replacer) {
-    if (!(replacer instanceof Replacer)) throw TypeError('Supplied replacers not Replacer instances:\n', replacer)
+    if (!(replacer instanceof Replacer)) throw TypeError('Supplied replacers not Replacer instances:\n')
     this._replacers.set(replacer.key, replacer)
   }
 

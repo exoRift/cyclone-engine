@@ -5,13 +5,14 @@ class Await {
   /**
    * Create an Await.
    * @class
-   * @param {Object}                                         data                          The await data.
-   * @prop  {Object}                                         data.options                  The options for the await
-   * @prop  {Number}                                         [data.options.timeout=15000]  How long until the await cancels.
-   * @prop  {Boolean}                                        [data.options.oneTime=false]  Whether a non-triggering message cancels the await.
-   * @prop  {function(prefix: String, msg: Eris.Message)}    [data.options.check=()=>true] The condition to be met for the await to trigger.
-   * @prop  {Object[]}                                       [data.options.args=[]]        The argumentss for the await.
-   * @prop  {function(AwaitData): (CommandResults|String)}   data.action                   The await action.
+   * @param {Object}                                         data                              The await data.
+   * @prop  {Object}                                         data.options                      The options for the await
+   * @prop  {Number}                                         [data.options.timeout=15000]      How long until the await cancels.
+   * @prop  {Boolean}                                        [data.options.oneTime=false]      Whether a non-triggering message cancels the await.
+   * @prop  {Boolean}                                        [data.options.refreshOnUse=false] Whether the timeout for the await refreshes after a use.
+   * @prop  {function(prefix: String, msg: Eris.Message)}    [data.options.check=()=>true]     The condition to be met for the await to trigger.
+   * @prop  {Object[]}                                       [data.options.args=[]]            The argumentss for the await.
+   * @prop  {function(AwaitData): (CommandResults|String)}   data.action                       The await action.
    */
   constructor (data) {
     const {
@@ -21,6 +22,7 @@ class Await {
     const {
       timeout = 15000,
       oneTime,
+      refreshOnUse,
       check = () => true,
       args = []
     } = options
@@ -29,21 +31,31 @@ class Await {
      * @type {Number}
      */
     this.timeout = timeout
+
     /**
      * Whether a non-triggering message cancels the await.
      * @type {Boolean}
      */
     this.oneTime = oneTime
+
+    /**
+     * Whether the timeout for the await refreshes after a use.
+     * @type {Boolean}
+     */
+    this.refreshOnUse = refreshOnUse
+
     /**
      * The condition to be met for the await to trigger.
      * @type {function(prefix: String, msg: Eris.Message)}
      */
     this.check = check
+
     /**
      * The argumentss for the await.
      * @type {Object[]}
      */
     this.args = args
+
     /**
      * The await action.
      * @type {function(AwaitData): (CommandResults|String)}

@@ -98,12 +98,13 @@ class CommandHandler {
     let text = this._runReplacers(msg.content)
 
     let awaited = this._awaits.get(msg.channel.id + msg.author.id)
-    if (awaited && !awaited.check({ prefix: this._prefix, msg })) {
-      if (awaited.oneTime) awaited.clear()
-      awaited = undefined
+    if (awaited) {
+      if (!awaited.check({ prefix: this._prefix, msg })) {
+        if (awaited.oneTime) awaited.clear()
+        awaited = undefined
+      }
     }
-    if (awaited) awaited.clear()
-    else {
+    if (!awaited) {
       text = this._replaceMentionWithPrefix(text)
       if (!text.startsWith(this._prefix)) return
       text = text.substring(this._prefix.length)
@@ -112,6 +113,7 @@ class CommandHandler {
     let args = text.split(' ')
     const keyword = args.shift()
     const command = awaited || this._commands.get(keyword)
+    if (msg.content === '!awaittest 1') console.log(command, keyword)
 
     if (!command) return
     if (command.restricted && msg.author.id !== this._ownerID) throw Error('This command is either temporarily disabled, or restricted.')
@@ -145,8 +147,13 @@ class CommandHandler {
     } = typeof result === 'string' ? { content: result } : result
 
     const _successfulResponse = (rsp) => {
+      const awaitedCopy = { ...awaited }
+      if (awaited) {
+        if (awaited.refreshOnUse) awaited.refresh()
+        else awaited.clear()
+      }
       if (wait && wait instanceof Await) this._addAwait(msg, rsp, wait)
-      return { command, content, embed, file, rsp }
+      return { command: awaitedCopy || command, content, embed, file, rsp }
     }
 
     if (content || embed || file) {
@@ -281,11 +288,12 @@ class CommandHandler {
    * Set an await.
    * @private
    * @param   {Message} msg  The message that started it all.
+   * @param   {Message} rsp  The last response to the command that created the await.
    * @param   {Await}   wait The command we are awaiting.
    */
   async _addAwait (msg, rsp, wait) {
     const id = msg.channel.id + msg.author.id
-    const timer = setTimeout(() => this._awaits.delete(id), wait.timeout)
+    let timer = setTimeout(() => this._awaits.delete(id), wait.timeout)
     this._awaits.set(id, {
       id,
       lastResponse: rsp,
@@ -295,6 +303,10 @@ class CommandHandler {
       clear: () => {
         clearTimeout(timer)
         this._awaits.delete(id)
+      },
+      refresh: () => {
+        clearTimeout(timer)
+        timer = setTimeout(() => this._awaits.delete(id), wait.timeout)
       }
     })
   }

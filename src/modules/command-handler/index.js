@@ -113,7 +113,6 @@ class CommandHandler {
     let args = text.split(' ')
     const keyword = args.shift()
     const command = awaited || this._commands.get(keyword)
-    if (msg.content === '!awaittest 1') console.log(command, keyword)
 
     if (!command) return
     if (command.restricted && msg.author.id !== this._ownerID) throw Error('This command is either temporarily disabled, or restricted.')
@@ -137,24 +136,28 @@ class CommandHandler {
       lastResponse: command.lastResponse
     })
 
-    if (!result) return
-
     const {
       content,
       embed,
       wait,
       file
-    } = typeof result === 'string' ? { content: result } : result
+    } = typeof result === 'string' ? { content: result } : result || {}
 
     const _successfulResponse = (rsp) => {
-      const awaitedCopy = { ...awaited }
+      let awaitedCopy
       if (awaited) {
+        awaitedCopy = {
+          ...awaited,
+          name: 'triggeredAwait'
+        }
         if (awaited.refreshOnUse) awaited.refresh()
         else awaited.clear()
       }
       if (wait && wait instanceof Await) this._addAwait(msg, rsp, wait)
       return { command: awaitedCopy || command, content, embed, file, rsp }
     }
+
+    if (!result) return _successfulResponse()
 
     if (content || embed || file) {
       if (file && !(file instanceof Buffer)) throw TypeError('Supplied file not a Buffer instance:\n', file)

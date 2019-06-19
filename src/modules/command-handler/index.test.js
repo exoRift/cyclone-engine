@@ -342,7 +342,18 @@ test('commandHitsMaxLength', async (t) => {
 })
 
 test('emptyAction', async (t) => {
-  t.is(await handler.handle(new PDiscord.Message('!emptyaction')), undefined)
+  const {
+    command,
+    content,
+    embed,
+    file,
+    rsp
+  } = await handler.handle(new PDiscord.Message('!emptyaction'))
+  t.is(command, mockCommands.find((c) => c.name === 'emptyaction'))
+  t.is(content, undefined)
+  t.is(embed, undefined)
+  t.is(file, undefined)
+  t.is(rsp, undefined)
 })
 
 test('incompleteReturnObject', async (t) => {

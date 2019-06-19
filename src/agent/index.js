@@ -228,7 +228,7 @@ class Agent {
 
     return this._CommandHandler.handle(msg)
       .catch((err) => this._handleError(err, msg))
-      .then((res) => {
+      .then((res = {}) => {
         if (this._logFunction) console.log(this._logFunction(msg, res))
       })
   }

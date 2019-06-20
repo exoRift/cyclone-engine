@@ -99,7 +99,7 @@ class CommandHandler {
 
     let awaited = this._awaits.get(msg.channel.id + msg.author.id)
     if (awaited) {
-      if (!awaited.check({ prefix: this._prefix, msg })) {
+      if (!awaited.check({ msg, prefix: this._prefix })) {
         if (awaited.oneTime) awaited.clear()
         awaited = undefined
       }

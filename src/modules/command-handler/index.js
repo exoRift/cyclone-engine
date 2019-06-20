@@ -91,6 +91,7 @@ class CommandHandler {
 
   /**
    * Handle incoming Discord messages.
+   * @async
    * @param   {Eris.Message}            msg The Discord message.
    * @returns {Promise<CommandResults>}     The results of the command.
    */
@@ -211,6 +212,7 @@ class CommandHandler {
   /**
    * Handle commands that request a table.
    * @private
+   * @async
    * @param   {String} table    The name of the table.
    * @param   {String} id       The ID of the user
    * @returns {Promise<Object>} The user's data.
@@ -290,9 +292,10 @@ class CommandHandler {
   /**
    * Set an await.
    * @private
-   * @param   {Message} msg  The message that started it all.
-   * @param   {Message} rsp  The last response to the command that created the await.
-   * @param   {Await}   wait The command we are awaiting.
+   * @async
+   * @param   {Message}          msg  The message that started it all.
+   * @param   {Message}          rsp  The last response to the command that created the await.
+   * @param   {Promise<Await>}   wait The command we are awaiting.
    */
   async _addAwait (msg, rsp, wait) {
     const id = msg.channel.id + msg.author.id

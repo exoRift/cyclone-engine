@@ -157,6 +157,7 @@ class Agent {
   /**
    * Prepare the database for the agent.
    * @private
+   * @async
    * @param   {Object[]} tables         The initial tables set up for the bot.
    * @param   {String[]} clearEmptyRows The tables that have their unchanged rows cleared.
    */
@@ -227,14 +228,15 @@ class Agent {
     if (msg.author.bot) return
 
     return this._CommandHandler.handle(msg)
-      .catch((err) => this._handleError(err, msg))
       .then((res) => {
         if (res && this._logFunction) console.log(this._logFunction(msg, res))
       })
+      .catch((err) => this._handleError(err, msg))
   }
   /**
    * What to do when the client's ready.
    * @private
+   * @async
    * @param   {Eris.Client} client The Eris client/
    */
   async _onReady (client) {

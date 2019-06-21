@@ -169,12 +169,9 @@ class CommandHandler {
       return msg.channel.createMessage({ content, embed }, file)
         .catch((err) => {
           if (err.code === 50035) {
-            return msg.channel.createMessage({
-              content: 'Text was too long, sent as a file instead.',
-              file: {
-                name: 'Command Result',
-                file: Buffer.from(`${content || 'undefined'}\n${inspect(embed)}`)
-              }
+            return msg.channel.createMessage('Text was too long, sent as a file instead.', {
+              name: 'Command Result.txt',
+              file: Buffer.from(`${content || 'undefined'}\n${inspect(embed)}`)
             }).then(_successfulResponse)
           }
           throw err

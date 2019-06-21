@@ -1,3 +1,7 @@
+const {
+  inspect
+} = require('util')
+
 const Command = require('../command')
 const Await = require('../await')
 const Replacer = require('../replacer')
@@ -169,7 +173,7 @@ class CommandHandler {
               content: 'Text was too long, sent as a file instead.',
               file: {
                 name: 'Command Result',
-                file: Buffer.from(content)
+                file: Buffer.from(`${content || 'undefined'}\n${inspect(embed)}`)
               }
             }).then(_successfulResponse)
           }

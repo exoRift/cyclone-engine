@@ -26,26 +26,31 @@ class Command {
      * @type {String}
      */
     this.name = name
+
     /**
      * The command description.
      * @type {String}
      */
     this.desc = desc
+
     /**
      * List of arguments that the command takes.
      * @type {Arg[]}
      */
     this.args = args
+
     /**
      * Name of database table to fetch, data is passed through to action with the same name.
      * @type {String}
      */
     this.dbTable = dbTable
+
     /**
      * Whether or not this command is restricted to admin only.
      * @type {Boolean}
      */
     this.restricted = restricted
+
     /**
      * The command action.
      * @type {function(CommandData): (CommandResults|String)}

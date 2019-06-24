@@ -13,24 +13,28 @@ class Replacer {
    * @prop  {function(content: String, capture: String): String} data.action            Function returning the string to replace with.
    */
   constructor ({ key, desc, options = {}, action }) {
+    const {
+      args = []
+    } = options
+    
     /**
      * The data to make a replacer with.
      * @type {String}
      */
     this.key = key
+
     /**
      * The description of the replacer.
      * @type {String}
      */
     this.desc = desc
-    const {
-      args = []
-    } = options
+
     /**
      * The arguments for the replacer.
      * @type {Object[]}
      */
     this.args = args
+    
     /**
      * Function returning the string to replace with.
      * @type {function(content: String, capture: String): String}

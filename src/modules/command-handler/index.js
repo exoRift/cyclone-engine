@@ -19,60 +19,68 @@ class CommandHandler {
    * @prop  {Eris.Client}         data.client                     The Eris client.
    * @prop  {String}              data.ownerID                    The ID of the bot owner.
    * @prop  {QueryBuilder}        [data.knex]                     The simple-knex query builder.
-   * @prop  {Command[]|Command}   [data.commands=[]]              Map of commands to load initially.
-   * @prop  {Replacer[]|Replacer} [data.replacers=[]]             Map of the message content replacers to load initially.
+   * @prop  {Command[]|Command}   [data.commands=[]]              Array of commands to load initially.
+   * @prop  {Replacer[]|Replacer} [data.replacers=[]]             Array of the message content replacers to load initially.
    * @prop  {Object}              [data.replacerBraces={}]        The braces that invoke a replacer.
    * @prop  {String}              [data.replacerBraces.open='|']  The opening brace.
    * @prop  {String}              [data.replacerBraces.close='|'] The closing brace.
    */
   constructor ({ agent = {}, prefix = '!', client, ownerID, knex, commands = [], replacers = [], replacerBraces = {} }) {
+    const {
+      open = '|',
+      close = '|'
+    } = replacerBraces
+    if (open.startsWith(prefix)) console.log('WARNING: Your replacer opening brace starts with your prefix. This could lead to some issues.')
+
     /**
      * The agent managing the bot.
      * @private
      * @type    {Agent}
      */
     this._agent = agent
+
     /**
      * The prefix of commands.
      * @private
      * @type    {String}
      */
     this._prefix = prefix
+
     /**
      * The Eris Client.
      * @private
      * @type    {Eris}
      */
     this._client = client
+
     /**
      * The ID of the bot owner.
      * @private
      * @type    {String}
      */
     this._ownerID = ownerID
+
     /**
      * The simple-knex query builder.
      * @private
      * @type    {QueryBuilder}
      */
     this._knex = knex
+
     /**
-     * Map of commands to load initially.
+     * Map of commands.
      * @private
      * @type    {Map<String, Command>}
      */
     this._commands = new Map()
+
     /**
-     * Map of the message content replacers to load initially.
+     * Map of the message content replacers .
      * @private
      * @type    {Map<String, Replacer>}
      */
     this._replacers = new Map()
-    const {
-      open = '|',
-      close = '|'
-    } = replacerBraces
-    if (open.startsWith(prefix)) console.log('WARNING: Your replacer opening brace starts with your prefix. This could lead to some issues.')
+
     /**
      * The braces that invoke a replacer.
      * @private
@@ -82,6 +90,7 @@ class CommandHandler {
       open,
       close
     }
+
     /**
      * An object containing message data used to wait for a user's response.
      * @private
@@ -94,7 +103,7 @@ class CommandHandler {
   }
 
   /**
-   * Handle incoming Discord messages.
+   * Handle an incoming Discord messages.
    * @async
    * @param   {Eris.Message}            msg The Discord message.
    * @returns {Promise<CommandResults>}     The results of the command.
@@ -186,7 +195,7 @@ class CommandHandler {
    */
   loadCommands (commands) {
     if (commands instanceof Array) {
-      for (let i = 0; i < commands.length; i++) this._loadCommand(commands[i])
+      for (const command of commands) this._loadCommand(command)
     } else this._loadCommand(commands)
   }
 
@@ -196,7 +205,7 @@ class CommandHandler {
    */
   loadReplacers (replacers) {
     if (replacers instanceof Array) {
-      for (let i = 0; i < replacers.length; i++) this._loadReplacer(replacers[i])
+      for (const replacer of replacers) this._loadReplacer(replacer)
     } else this._loadReplacer(replacers)
   }
 
@@ -250,7 +259,7 @@ class CommandHandler {
    * @param   {Command} command The command to load.
    */
   _loadCommand (command) {
-    if (!(command instanceof Command)) throw TypeError('Supplied commands not Command instances:\n')
+    if (!(command instanceof Command)) throw TypeError('Supplied command not Command instance:\n' + command.name)
     const lastArg = command.args[command.args.length - 1]
     if (lastArg && lastArg.delim) console.log(`Disclaimer: Your command: ${command.name}'s last argument unnecessarily has a delimiter.`)
     this._commands.set(command.name, command)
@@ -262,7 +271,7 @@ class CommandHandler {
    * @param   {Replacer} replacer The replacer to load.
    */
   _loadReplacer (replacer) {
-    if (!(replacer instanceof Replacer)) throw TypeError('Supplied replacers not Replacer instances:\n')
+    if (!(replacer instanceof Replacer)) throw TypeError('Supplied replacer not Replacer instance:\n' + replacer.name)
     this._replacers.set(replacer.key, replacer)
   }
 

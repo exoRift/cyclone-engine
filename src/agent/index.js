@@ -2,7 +2,8 @@ const QueryBuilder = require('simple-knex')
 let DBLAPI
 
 const {
-  _CommandHandler
+  _CommandHandler,
+  _ReactionHandler
 } = require('../modules')
 
 /**
@@ -16,11 +17,12 @@ class Agent {
    * @prop  {Eris}                                                     data.Eris                                The Eris class the system runs off of.
    * @prop  {String}                                                   data.token                               The token to log in to the Discord API with.
    * @prop  {Object}                                                   [data.chData={}]                         The commands and replacers the bot will respond to
-   * @prop  {Map}                                                      [data.chData.commands]                   The commands for the bot.
-   * @prop  {Map}                                                      [data.chData.replacers]                  The replacers for the bot.
+   * @prop  {Command[]}                                                [data.chData.commands]                   The commands for the bot.
+   * @prop  {Replacer[]}                                               [data.chData.replacers]                  The replacers for the bot.
    * @prop  {Object}                                                   [data.chData.replacerBraces]             The braces that invoke a replacer.
    * @prop  {String}                                                   [data.chData.replacerBraces.open='|']    The opening brace.
    * @prop  {String}                                                   [data.chData.replacerBraces.close]       The closing brace.
+   * @prop  {ReactionCommand[]}                                        [data.chData.reactionCommands]           The commands that trigger on reactions.
    * @prop  {Object}                                                   [data.databaseOptions]                   The info for the database the bot utilizes.
    * @prop  {String}                                                   data.databaseOptions.connectionURL       The URL for connecting to the bot's database.
    * @prop  {String}                                                   data.databaseOptions.client              The database driver being used.
@@ -29,6 +31,7 @@ class Agent {
    * @prop  {Object}                                                   [data.agentOptions={}]                   Options for the agent.
    * @prop  {Number}                                                   [data.agentOptions.connectRetryLimit=10] How many times the agent will attempt to establish a connection with Discord before giving up.
    * @prop  {String}                                                   [data.agentOptions.prefix='!']           The prefix for bot commands.
+   * @prop  {Boolean}                                                  [data.agentOptions.fireOnRemove=false]   Whether the reaction handler is triggered on the removal of reactions as well.
    * @prop  {String}                                                   [data.agentOptions.dblToken]             The token used to connect to the Discord Bot Labs API.
    * @prop  {function(Agent)}                                          [data.agentOptions.loopFunction]         A function that will run every loopInterval amount of ms, supplied the agent.
    * @prop  {Number}                                                   [data.agentOptions.loopInterval=30000]   The interval at which the loopFunction runs.
@@ -38,27 +41,9 @@ class Agent {
     const {
       commands,
       replacers,
-      replacerBraces
+      replacerBraces,
+      reactionCommands
     } = chData
-    /**
-     * The commands for the command handler.
-     * @private
-     * @type    {Map}
-     */
-    this._commands = commands
-    /**
-     * The replacers for the command handler.
-     * @private
-     * @type    {Map}
-     */
-    this._replacers = replacers
-    /**
-     * The braces that invoke a replacer.
-     * @private
-     * @type    {Object}
-     */
-    this._replacerBraces = replacerBraces
-
     const {
       connectionURL,
       client,
@@ -68,17 +53,48 @@ class Agent {
     const {
       connectRetryLimit = 10,
       prefix = '!',
+      fireOnRemove,
       dblToken,
       loopFunction,
       loopInterval = 300000,
       logFunction
     } = agentOptions
+
+    /**
+     * The commands for the command handler.
+     * @private
+     * @type    {Command[]}
+     */
+    this._commands = commands
+
+    /**
+     * The replacers for the command handler.
+     * @private
+     * @type    {Replacer[]}
+     */
+    this._replacers = replacers
+
+    /**
+     * The braces that invoke a replacer.
+     * @private
+     * @type    {Object}
+     */
+    this._replacerBraces = replacerBraces
+
+    /**
+     * The commands that trigger on reactions.
+     * @private
+     * @type    {ReactionCommand[]}
+     */
+    this._reactionCommands = reactionCommands
+
     /**
      * The Eris client.
      * @private
      * @type    {Eris.Client}
      */
     this._client = new Eris(token)
+
     if (connectionURL) {
       /**
        * The simple-knex query builder.
@@ -95,18 +111,28 @@ class Agent {
       })
       this._prepareDB(tables, clearEmptyRows)
     }
+
     /**
      * How many times the agent will attempt to establish a connection with Discord before giving up.
      * @private
      * @type    {Number}
      */
     this._connectRetryLimit = connectRetryLimit
+
     /**
      * The command prefix.
      * @private
      * @type    {String}
      */
     this._prefix = prefix
+
+    /**
+     * Whether the reaction handler triggers on the removal of reactions.
+     * @private
+     * @type    {Boolean}
+     */
+    this._fireOnRemove = fireOnRemove
+
     if (dblToken) {
       DBLAPI = require('dblapi.js')
       /**
@@ -213,7 +239,9 @@ class Agent {
   _bindEvents () {
     this._client.on('ready', this._onReady.bind(this, this._client))
     this._client.on('error', this._onError.bind(this, this._client))
-    this._client.on('messageCreate', this._onCreateMessage.bind(this, this._client))
+    this._client.on('messageCreate', this._onMessage.bind(this, this._client))
+    this._client.on('messageReactionAdd', this._onReaction.bind(this, this._client))
+    if (this._fireOnRemove) this._client.on('messageReactionRemove', this._onReaction.bind(this, this._client))
     this._client.on('shardReady', this._onShardReady.bind(this, this._client))
     this._client.on('shardDisconnect', this._onShardDisconnect.bind(this, this._client))
   }
@@ -224,7 +252,7 @@ class Agent {
    * @param   {Eris.Client}  client The Eris client.
    * @param   {Eris.Message} msg    The recieved message.
    */
-  _onCreateMessage (client, msg) {
+  _onMessage (client, msg) {
     if (msg.author.bot) return
 
     return this._CommandHandler.handle(msg)
@@ -233,6 +261,23 @@ class Agent {
       })
       .catch((err) => this._handleError(err, msg))
   }
+
+  /**
+   * What to do when a reaction is recieved.
+   * @private
+   * @param   {Eris.Client}  client The Eris client.
+   * @param   {Eris.Message} msg    The message reacted on.
+   * @param   {Eris.Emoji}   emoji  The emoji used to react.
+   * @param   {String}       userID The ID of the user who reacted.
+   */
+  _onReaction (client, msg, emoji, userID) {
+    const user = client.users.get(userID)
+    if (user.bot) return
+
+    return this._ReactionHandler.handle(msg, emoji, user)
+      .catch((err) => this._handleError(err, msg))
+  }
+
   /**
    * What to do when the client's ready.
    * @private
@@ -251,7 +296,13 @@ class Agent {
       replacers: this._replacers,
       replacerBraces: this._replacerBraces
     })
+
+    console.log('Initializing Reaction Handler')
+    this._ReactionHandler = new _ReactionHandler({
+
+    })
   }
+
   /**
    * What to do when a shard is ready.
    * @private
@@ -266,6 +317,7 @@ class Agent {
     })
     if (this._dblAPI) this._dblAPI.postStats(client.guilds.size, shard, client.shards.size).catch((err) => this._onError(this._client, err))
   }
+
   /**
    * What to do when a shard loses connection.
    * @private
@@ -276,6 +328,7 @@ class Agent {
     console.log(`Shard ${shard} lost connection`)
     this.connect()
   }
+
   /**
    * What to do when an unknown error occurs.
    * @private

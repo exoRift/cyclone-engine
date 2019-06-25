@@ -133,10 +133,9 @@ class CommandHandler {
 
     args = this._sanitizeArgs(command, args)
     if (command.args && (!args || args.length < command.args.filter((a) => a.mand).length)) throw Error('Invalid arguments. Reference the help menu.')
+
     let dbData
-    if (command.dbTable) {
-      dbData = await this._handleDBRequest(command.dbTable, msg.author.id)
-    }
+    if (command.dbTable) dbData = await this._handleDBRequest(command.dbTable, msg.author.id)
 
     const result = await command.action({
       agent: this._agent,
@@ -145,7 +144,7 @@ class CommandHandler {
       replacers: this._replacers,
       msg,
       args,
-      [command.dbTable]: dbData,
+      userData: dbData,
       knex: this._knex,
       lastResponse: command.lastResponse
     })
@@ -303,9 +302,9 @@ class CommandHandler {
    * Set an await.
    * @private
    * @async
-   * @param   {Message}          msg  The message that started it all.
-   * @param   {Message}          rsp  The last response to the command that created the await.
-   * @param   {Promise<Await>}   wait The command we are awaiting.
+   * @param   {Eris.Message}   msg  The message that started it all.
+   * @param   {Eris,Message}   rsp  The last response to the command that created the await.
+   * @param   {Promise<Await>} wait The command we are awaiting.
    */
   async _addAwait (msg, rsp, wait) {
     const id = msg.channel.id + msg.author.id
@@ -332,10 +331,10 @@ module.exports = CommandHandler
 
 /**
  * Object returned by a command.
- * @typedef  {Object}       CommandResults
- * @prop     {Command}      command        The object of the command called.
- * @prop     {String}       content        The resulting message content sent by the bot.
- * @prop     {Eris.Embed}   embed          The resulting embed sent by the bot.
- * @prop     {Buffer}       file           The resulting file sent by the bot.
- * @prop     {Eris.Message} rsp            The message object sent to Discord.
+ * @typedef {Object}       CommandResults
+ * @prop    {Command}      CommandResults.command The object of the command called.
+ * @prop    {String}       CommandResults.content The resulting message content sent by the bot.
+ * @prop    {Eris.Embed}   CommandResults.embed   The resulting embed sent by the bot.
+ * @prop    {Buffer}       CommandResults.file    The resulting file sent by the bot.
+ * @prop    {Eris.Message} CommandResults.rsp     The message object sent to Discord.
  */

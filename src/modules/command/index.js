@@ -10,7 +10,7 @@ class Command {
    * @prop  {String}                                         data.desc                       The command description.
    * @prop  {Object}                                         [data.options={}]               The command options.
    * @prop  {Object[]}                                       [data.options.args=[]]          List of arguments that the command takes.
-   * @prop  {String}                                         [data.options.dbTable='']       Name of database table to fetch, data is passed through to action with the same name.
+   * @prop  {String}                                         [data.options.dbTable='']       Name of database table to fetch user data from (primary key must be named `id`).
    * @prop  {Boolean}                                        [data.options.restricted=false] Whether or not this command is restricted to admin only.
    * @prop  {function(CommandData): (CommandResults|String)} data.action                     The command action.
    */
@@ -75,22 +75,22 @@ module.exports = Command
 /**
  * Object passed to a command action.
  * @typedef {Object}                CommandData
- * @prop    {Agent}                 agent       The agent managing the bot.
- * @prop    {Eris.Client}           client      The Eris client.
- * @prop    {Map<String, Command>}  commands    The list of bot commands.
- * @prop    {Map<String, Replacer>} replacers   The list of bot replacers.
- * @prop    {Eris.Message}          msg         The message sent by the user.
- * @prop    {String[]}              args        The arguments supplied by the user.
- * @prop    {Object}                *           The data of the user in the database if requested. (Param name is table name)
- * @prop    {QueryBuilder}          knex        The simple-knex query builder used by the command handler.
+ * @prop    {Agent}                 CommandData.agent     The agent managing the bot.
+ * @prop    {Eris.Client}           CommandData.client    The Eris client.
+ * @prop    {Map<String, Command>}  CommandData.commands  The list of bot commands.
+ * @prop    {Map<String, Replacer>} CommandData.replacers The list of bot replacers.
+ * @prop    {Eris.Message}          CommandData.msg       The message sent by the user.
+ * @prop    {String[]}              CommandData.args      The arguments supplied by the user.
+ * @prop    {Object}                CommandData.userData  The data of the user in the database if requested.
+ * @prop    {QueryBuilder}          CommandData.knex      The simple-knex query builder used by the command handler.
  */
 
 /**
  * Object returned by a command.
- * @typedef  {Object}       CommandResults
- * @prop     {Command}      command        The object of the command called.
- * @prop     {String}       content        The resulting message content sent by the bot.
- * @prop     {Eris.Embed}   embed          The resulting embed sent by the bot.
- * @prop     {Buffer}       file           The resulting file sent by the bot.
- * @prop     {Eris.Message} rsp            The message object sent to Discord.
+ * @typedef {Object}       CommandResults
+ * @prop    {Command}      CommandResults.command The object of the command called.
+ * @prop    {String}       CommandResults.content The resulting message content sent by the bot.
+ * @prop    {Eris.Embed}   CommandResults.embed   The resulting embed sent by the bot.
+ * @prop    {Buffer}       CommandResults.file    The resulting file sent by the bot.
+ * @prop    {Eris.Message} CommandResults.rsp     The message object sent to Discord.
  */

@@ -222,7 +222,7 @@ test('invalidCommandInstance', (t) => {
   let error
   const invalidCommand = true
   try {
-    CommandHandler({
+    error = new CommandHandler({
       client,
       ownerId: '456',
       commands: invalidCommand
@@ -230,14 +230,15 @@ test('invalidCommandInstance', (t) => {
   } catch (err) {
     error = err
   }
-  t.deepEqual(error, TypeError('Supplied commands not Command instances:\n', invalidCommand))
+
+  t.deepEqual(error, TypeError('Supplied command not Command instance:\n' + undefined))
 })
 
 test('invalidReplacerInstance', (t) => {
   let error
   const invalidReplacer = true
   try {
-    CommandHandler({
+    error = new CommandHandler({
       client,
       ownerId: '456',
       replacers: invalidReplacer

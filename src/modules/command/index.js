@@ -59,7 +59,7 @@ class Command {
   }
 
   /**
-   * Get info of this command.
+   * Get the info of this command.
    * @returns {String} A string describing the command. (**name <mand arg> (optional arg)** - *description*)
    */
   get info () {
@@ -88,9 +88,8 @@ module.exports = Command
 /**
  * Object returned by a command.
  * @typedef {Object}       CommandResults
- * @prop    {Command}      CommandResults.command The object of the command called.
  * @prop    {String}       CommandResults.content The resulting message content sent by the bot.
  * @prop    {Eris.Embed}   CommandResults.embed   The resulting embed sent by the bot.
  * @prop    {Buffer}       CommandResults.file    The resulting file sent by the bot.
- * @prop    {Eris.Message} CommandResults.rsp     The message object sent to Discord.
+ * @prop    {Await}        CommandResults.wait    An action that is awaited after the results are processed.
  */

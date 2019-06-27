@@ -23,7 +23,7 @@ class Agent {
    * @prop  {String}                                                   [data.chData.replacerBraces.open='|']    The opening brace.
    * @prop  {String}                                                   [data.chData.replacerBraces.close]       The closing brace.
    * @prop  {ReactionCommand[]}                                        [data.chData.reactionCommands]           The commands that trigger on reactions.
-   * @prop  {Object}                                                   [data.databaseOptions]                   The info for the database the bot utilizes.
+   * @prop  {Object}                                                   [data.databaseOptions={}]                The info for the database the bot utilizes.
    * @prop  {String}                                                   data.databaseOptions.connectionURL       The URL for connecting to the bot's database.
    * @prop  {String}                                                   data.databaseOptions.client              The database driver being used.
    * @prop  {Object[]}                                                 [data.databaseOptions.tables=[]]         The initial tables to set up for the database.
@@ -36,6 +36,7 @@ class Agent {
    * @prop  {function(Agent)}                                          [data.agentOptions.loopFunction]         A function that will run every loopInterval amount of ms, supplied the agent.
    * @prop  {Number}                                                   [data.agentOptions.loopInterval=30000]   The interval at which the loopFunction runs.
    * @prop  {function(msg: Eris.Message, res: CommandResults): String} [data.agentOptions.logFunction]          A function that returns a string that's logged for every command.
+   * @prop  {Number}                                                   [data.agentOptions.maxInterfaces=1500]   The maximum amount of reaction interfaces cached before they start getting deleted.
    */
   constructor ({ Eris, token, chData = {}, databaseOptions = {}, agentOptions = {} }) {
     const {
@@ -57,7 +58,8 @@ class Agent {
       dblToken,
       loopFunction,
       loopInterval = 300000,
-      logFunction
+      logFunction,
+      maxInterfaces
     } = agentOptions
 
     /**
@@ -148,6 +150,13 @@ class Agent {
      * @type    {function(msg: Eris.Message, res: CommandResults): String}
      */
     this._logFunction = logFunction
+
+    /**
+     * The maximum amount of interfaces cached before they start getting deleted.
+     * @private
+     * @type    {Number}
+     */
+    this._maxInterfaces = maxInterfaces
 
     this._bindEvents()
 
@@ -285,22 +294,44 @@ class Agent {
    * @param   {Eris.Client} client The Eris client/
    */
   async _onReady (client) {
+    const ownerID = (await client.getOAuthApplication()).owner.id
+
     console.log('Initializing Command Handler')
+
+    /**
+     * The command handler for the bot.
+     * @private
+     * @type    {CommandHandler}
+     */
     this._CommandHandler = new _CommandHandler({
       agent: this,
       prefix: this._prefix,
       client,
-      ownerID: (await client.getOAuthApplication()).owner.id,
+      ownerID,
       knex: this._knex,
       commands: this._commands,
       replacers: this._replacers,
       replacerBraces: this._replacerBraces
     })
+    if (this._reactionCommands) {
+      console.log('Initializing Reaction Handler')
 
-    console.log('Initializing Reaction Handler')
-    this._ReactionHandler = new _ReactionHandler({
-
-    })
+      /**
+       * The reaction handler for the bot.
+       * @private
+       * @type    {ReactionHandler}
+       */
+      this._ReactionHandler = new _ReactionHandler({
+        agent: this,
+        client,
+        ownerID,
+        knex: this._knex,
+        reactionCommands: this._reactionCommands,
+        options: {
+          maxInterfaces: this._maxInterfaces
+        }
+      })
+    }
   }
 
   /**

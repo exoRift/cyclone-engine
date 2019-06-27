@@ -2,6 +2,8 @@ const {
   Command,
   Replacer,
   Await,
+  ReactCommand,
+  ReactInterface,
   _CommandHandler,
   _ReactionHandler
 } = require('./src/modules')
@@ -12,6 +14,8 @@ module.exports = {
   Command,
   Replacer,
   Await,
+  ReactCommand,
+  ReactInterface,
   _CommandHandler,
   _ReactionHandler
 }

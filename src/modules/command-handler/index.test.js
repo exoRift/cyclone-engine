@@ -104,9 +104,7 @@ const mockCommands = [
     options: {
       dbTable: 'cyclonetesting'
     },
-    action: ({ cyclonetesting }) => {
-      return cyclonetesting.id
-    }
+    action: ({ userData }) => userData.id
   }),
   new Command({
     name: 'argstest',
@@ -332,11 +330,9 @@ test('commandHitsMaxLength', async (t) => {
   const spy = sinon.spy(command.channel, 'createMessage')
   await handler.handle(command)
 
-  t.true(spy.calledWith({
-    content: 'Text was too long, sent as a file instead.'
-  }, {
-    name: 'Command Result',
-    file: Buffer.from('1'.repeat(2001))
+  t.true(spy.calledWith('Text was too long, sent as a file instead.', {
+    name: 'Command Result.txt',
+    file: Buffer.from(`${'1'.repeat(2001)}\n\nundefined`)
   }))
 
   spy.restore()

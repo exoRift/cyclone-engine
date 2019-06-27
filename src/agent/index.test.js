@@ -196,11 +196,11 @@ test.serial('messageEvent', (t) => {
     agent._client.emit('messageCreate', messages.bot)
     t.false(handlerSpy.calledWith(messages.bot), 'Bot message')
 
-    await agent._onCreateMessage(agent._client, messages.error)
+    await agent._onMessage(agent._client, messages.error)
     t.is(messages.error.channel.createMessage.getCall(0).args[0], 'ERR:```\n' + errorTest.message + '```\n```\n' + errorTest.stack + '```', 'Command error')
 
     messages.createMessageError.channel._createMessageThrow = true
-    await agent._onCreateMessage(agent._client, messages.createMessageError)
+    await agent._onMessage(agent._client, messages.createMessageError)
     t.is(t.context.spies.error.getCall(0).args[0].message, 'This is purposefully thrown', 'Error send failure')
     t.is(t.context.spies.error.getCall(1).args[0], 'Error in error handler: ', 'Error send failure message fail pt. 1')
     t.is(t.context.spies.error.getCall(1).args[1].message, 'This is purposefully thrown', 'Error send failure message fail pt. 2')
@@ -271,7 +271,7 @@ test.serial('logFunction', async (t) => {
 
   const message = new PDiscord.Message('!command1')
 
-  await agent._onCreateMessage(agent._client, message)
+  await agent._onMessage(agent._client, message)
 
   t.true(t.context.spies.log.calledWith(message.timestamp + ' 1'))
 })

@@ -220,9 +220,9 @@ test('invalidSimple-KnexSupply', (t) => {
 
 test('invalidCommandInstance', (t) => {
   let error
-  let invalidCommand = true
+  const invalidCommand = true
   try {
-    invalidCommand = new CommandHandler({
+    CommandHandler({
       client,
       ownerId: '456',
       commands: invalidCommand
@@ -235,9 +235,9 @@ test('invalidCommandInstance', (t) => {
 
 test('invalidReplacerInstance', (t) => {
   let error
-  let invalidReplacer = true
+  const invalidReplacer = true
   try {
-    invalidReplacer = new CommandHandler({
+    CommandHandler({
       client,
       ownerId: '456',
       replacers: invalidReplacer
@@ -245,7 +245,8 @@ test('invalidReplacerInstance', (t) => {
   } catch (err) {
     error = err
   }
-  t.deepEqual(error, TypeError('Supplied replacers not Replacer instances:\n', invalidReplacer))
+
+  t.deepEqual(error, TypeError('Supplied replacer not Replacer instance:\n' + undefined))
 })
 
 test('openingReplacerBraceIncludesPrefix', (t) => {
@@ -331,11 +332,10 @@ test('commandHitsMaxLength', async (t) => {
   await handler.handle(command)
 
   t.true(spy.calledWith({
-    content: 'Text was too long, sent as a file instead.',
-    file: {
-      name: 'Command Result',
-      file: Buffer.from('1'.repeat(2001))
-    }
+    content: 'Text was too long, sent as a file instead.'
+  }, {
+    name: 'Command Result',
+    file: Buffer.from('1'.repeat(2001))
   }))
 
   spy.restore()

@@ -16,7 +16,7 @@ class Replacer {
     const {
       args = []
     } = options
-    
+
     /**
      * The data to make a replacer with.
      * @type {String}
@@ -34,7 +34,7 @@ class Replacer {
      * @type {Object[]}
      */
     this.args = args
-    
+
     /**
      * Function returning the string to replace with.
      * @type {function(content: String, capture: String): String}

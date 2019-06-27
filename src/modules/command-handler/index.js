@@ -167,7 +167,7 @@ class CommandHandler {
         else awaited.clear()
       }
       if (wait && wait instanceof Await) this._addAwait(msg, rsp, wait)
-      return { command: awaitedCopy || command, content, embed, file, rsp }
+      return { command: awaitedCopy || command, content, embed, file, wait, rsp }
     }
 
     if (!result) return _successfulResponse()
@@ -336,5 +336,6 @@ module.exports = CommandHandler
  * @prop    {String}       CommandResults.content The resulting message content sent by the bot.
  * @prop    {Eris.Embed}   CommandResults.embed   The resulting embed sent by the bot.
  * @prop    {Buffer}       CommandResults.file    The resulting file sent by the bot.
+ * @prop    {Await}        CommandResults.wait    An action that is awaited after the results are processed.
  * @prop    {Eris.Message} CommandResults.rsp     The message object sent to Discord.
  */

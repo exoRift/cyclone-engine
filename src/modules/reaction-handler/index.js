@@ -1,3 +1,7 @@
+const {
+  inspect
+} = require('util')
+
 const ReactCommand = require('../react-command')
 const ReactInterface = require('../react-interface')
 
@@ -8,14 +12,20 @@ class ReactionHandler {
   /**
    * Construct a reaction handler.
    * @class
-   * @param {Object}                      data               The reaction handler data.
-   * @prop  {Agent}                       [data.agent]       The agent managing the bot.
-   * @prop  {Eris.Client}                 data.client        The Eris client.
-   * @prop  {String}                      data.ownerID       The ID of the bot owner.
-   * @prop  {QueryBuilder}                [data.knex]        The simple-knex query builder.
-   * @prop  {reactCommand[]|reactCommand} [reactCommands=[]] Array of reaction commands to load initially.
+   * @param {Object}                      data                              The reaction handler data.
+   * @prop  {Agent}                       [data.agent]                      The agent managing the bot.
+   * @prop  {Eris.Client}                 data.client                       The Eris client.
+   * @prop  {String}                      data.ownerID                      The ID of the bot owner.
+   * @prop  {QueryBuilder}                [data.knex]                       The simple-knex query builder.
+   * @prop  {reactCommand[]|reactCommand} [datareactCommands=[]]            Array of reaction commands to load initially.
+   * @prop  {Object}                      [data.options={}]                 Options for the reaction handler.
+   * @prop  {Number}                      [data.options.maxInterfaces=1500] The maximum amount of interfaces cached before they start getting deleted.
    */
-  constructor ({ agent = {}, client, ownerID, knex, reactCommands = [] }) {
+  constructor ({ agent = {}, client, ownerID, knex, reactCommands = [], options = {} }) {
+    const {
+      maxInterfaces = 1500
+    } = options
+
     /**
      * The agent managing the bot.
      * @private
@@ -56,6 +66,12 @@ class ReactionHandler {
      */
     this._reactInterfaces = new Map()
 
+    /**
+     * The maximum amount of interfaces cached before they start getting deleted.
+     * @type {Number}
+     */
+    this._maxInterfaces = maxInterfaces
+
     this.loadReactCommands(reactCommands)
   }
 
@@ -68,11 +84,17 @@ class ReactionHandler {
    * @returns {Promise<ReactCommandResults|String>}       The results of the reaction command.
    */
   async handle (msg, emoji, user) {
+    if (!msg.content) return /* Uncached */
+
     const reactInterface = this._reactInterfaces.get(msg.id)
     let command
     if (reactInterface) {
       command = reactInterface.buttons[emoji]
-      if (!command.designatedUser && user.id === command.designatedUser) return
+      if (command.restricted) {
+        if (command.designatedUsers) {
+          if (!(command.designatedUsers instanceof Array ? command.designatedUsers.includes(user.id) : user.id === command.designatedUsers)) return
+        } else if (user.id !== msg.author.id) return
+      }
     } else command = this._reactCommands.get(emoji)
 
     if (!command) return
@@ -90,6 +112,33 @@ class ReactionHandler {
       userData: dbData,
       knex: this._knex
     })
+
+    const {
+      content,
+      embed,
+      file
+    } = typeof result === 'string' ? { content: result } : result || {}
+
+    const _successfulResponse = (rsp) => {
+      return { command, content, embed, file, rsp }
+    }
+
+    if (!result) return _successfulResponse()
+
+    if (content || embed || file) {
+      if (file && !(file instanceof Buffer)) throw TypeError('Supplied file not a Buffer instance:\n', file)
+      return msg.channel.creatMessage({ content, embed }, file)
+        .catch((err) => {
+          if (err.code === 50035) {
+            return msg.channel.createMessage('Text was too long, sent as a file instead.', {
+              name: 'Command Result.txt',
+              file: Buffer.from(`${content || 'undefined'}\n\n${inspect(embed)}`)
+            }).then(_successfulResponse)
+          }
+          throw err
+        })
+        .then(_successfulResponse)
+    }
   }
 
   /**
@@ -101,6 +150,14 @@ class ReactionHandler {
    */
   async bindInterface (msg, reactInterface) {
     if (!(reactInterface instanceof ReactInterface)) throw TypeError('Supplied react interface not ReactInterface instance:\n' + reactInterface)
+    if (this._reactInterfaces.size >= this._maxInterfaces) {
+      const keys = this._reactInterfaces.keys.slice(0, 19)
+
+      for (const key of keys) this._reactInterfaces.delete(key)
+    }
+
+    this._reactInterfaces.set(msg.id, reactInterface)
+    return reactInterface
   }
 
   /**
@@ -140,5 +197,9 @@ class ReactionHandler {
 module.exports = ReactionHandler
 
 /**
- * @typedef {Object} ReactCommandResults
+ * @typedef {Object}       ReactCommandResults
+ * @prop    {String}       ReactCommandResults.content The resulting message content sent by the bot.
+ * @prop    {Eris.Embed}   ReactCommandResults.embed   The resulting embed sent by the bot.
+ * @prop    {Buffer}       ReactCommandResults.file    The resulting file sent by the bot.
+ * @prop    {Eris.Message} ReactCommandResults.rsp     The message object sent to Discord.
  */

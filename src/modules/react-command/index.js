@@ -79,4 +79,5 @@ module.exports = ReactCommand
  * @prop    {String}     ReactCommandResults.content The resulting message content sent by the bot.
  * @prop    {Eris.Embed} ReactCommandResults.embed   The resulting embed sent by the bot.
  * @prop    {Buffer}     ReactCommandResults.file    The resulting file sent by the bot.
+ * @prop    {Await}      ReactCommandResults.wait    An action that is awaited after the results are processed.
  */

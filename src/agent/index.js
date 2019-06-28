@@ -264,7 +264,7 @@ class Agent {
   _onMessage (client, msg) {
     if (msg.author.bot) return
 
-    return this._CommandHandler.handle(msg)
+    return this._commandHandler.handle(msg)
       .then((res) => {
         if (res && this._logFunction) console.log(this._logFunction(msg, res))
       })
@@ -283,7 +283,7 @@ class Agent {
     const user = client.users.get(userID)
     if (user.bot) return
 
-    return this._ReactionHandler.handle(msg, emoji, user)
+    return this._reactionHandler.handle(msg, emoji, user)
       .catch((err) => this._handleError(err, msg))
   }
 
@@ -303,7 +303,7 @@ class Agent {
      * @private
      * @type    {CommandHandler}
      */
-    this._CommandHandler = new _CommandHandler({
+    this._commandHandler = new _CommandHandler({
       agent: this,
       prefix: this._prefix,
       client,
@@ -321,7 +321,7 @@ class Agent {
        * @private
        * @type    {ReactionHandler}
        */
-      this._ReactionHandler = new _ReactionHandler({
+      this._reactionHandler = new _ReactionHandler({
         agent: this,
         client,
         ownerID,

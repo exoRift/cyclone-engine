@@ -87,9 +87,10 @@ module.exports = Command
 
 /**
  * Object returned by a command.
- * @typedef {Object}       CommandResults
- * @prop    {String}       CommandResults.content The resulting message content sent by the bot.
- * @prop    {Eris.Embed}   CommandResults.embed   The resulting embed sent by the bot.
- * @prop    {Buffer}       CommandResults.file    The resulting file sent by the bot.
- * @prop    {Await}        CommandResults.wait    An action that is awaited after the results are processed.
+ * @typedef {Object}         CommandResults
+ * @prop    {String}         CommandResults.content        The resulting message content sent by the bot.
+ * @prop    {Eris.Embed}     CommandResults.embed          The resulting embed sent by the bot.
+ * @prop    {Buffer}         CommandResults.file           The resulting file sent by the bot.
+ * @prop    {Await}          CommandResults.wait           An action that is awaited after the results are processed.
+ * @prop    {ReactInterface} CommandResults.reactInterface A react interface that is bound to the resulting message.
  */

@@ -5,6 +5,7 @@ const {
 const Command = require('../command')
 const Await = require('../await')
 const Replacer = require('../replacer')
+const ReactInterface = require('../react-interface')
 
 /**
  * A class reprsenting the command handler.
@@ -153,6 +154,7 @@ class CommandHandler {
       content,
       embed,
       wait,
+      reactInterface,
       file
     } = typeof result === 'string' ? { content: result } : result || {}
 
@@ -166,8 +168,12 @@ class CommandHandler {
         if (awaited.refreshOnUse) awaited.refresh()
         else awaited.clear()
       }
+
       if (wait && wait instanceof Await) this._addAwait(msg, rsp, wait)
-      return { command: awaitedCopy || command, content, embed, file, wait, rsp }
+
+      if (reactInterface && reactInterface instanceof ReactInterface) this._agent._reactionHandler.bindInterface(msg, reactInterface)
+
+      return { command: awaitedCopy || command, content, embed, file, wait, reactInterface, rsp }
     }
 
     if (!result) return _successfulResponse()
@@ -331,11 +337,12 @@ module.exports = CommandHandler
 
 /**
  * Object returned by a command.
- * @typedef {Object}       CommandResults
- * @prop    {Command}      CommandResults.command The object of the command called.
- * @prop    {String}       CommandResults.content The resulting message content sent by the bot.
- * @prop    {Eris.Embed}   CommandResults.embed   The resulting embed sent by the bot.
- * @prop    {Buffer}       CommandResults.file    The resulting file sent by the bot.
- * @prop    {Await}        CommandResults.wait    An action that is awaited after the results are processed.
- * @prop    {Eris.Message} CommandResults.rsp     The message object sent to Discord.
+ * @typedef {Object}         CommandResults
+ * @prop    {Command}        CommandResults.command        The object of the command called.
+ * @prop    {String}         CommandResults.content        The resulting message content sent by the bot.
+ * @prop    {Eris.Embed}     CommandResults.embed          The resulting embed sent by the bot.
+ * @prop    {Buffer}         CommandResults.file           The resulting file sent by the bot.
+ * @prop    {Await}          CommandResults.wait           An action that is awaited after the results are processed.
+ * @prop    {ReactInterface} CommandResults.reactInterface A react interface that is bound to the resulting message.
+ * @prop    {Eris.Message}   CommandResults.rsp            The message object sent to Discord.
  */

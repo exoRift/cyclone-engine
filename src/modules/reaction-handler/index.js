@@ -4,6 +4,7 @@ const {
 
 const ReactCommand = require('../react-command')
 const ReactInterface = require('../react-interface')
+const Await = require('../await')
 
 /**
  * A class representing the reaction handler.
@@ -116,11 +117,14 @@ class ReactionHandler {
     const {
       content,
       embed,
-      file
+      file,
+      wait
     } = typeof result === 'string' ? { content: result } : result || {}
 
     const _successfulResponse = (rsp) => {
-      return { command, content, embed, file, rsp }
+      if (wait && wait instanceof Await) this._agent._commandHandler._addAwait(msg, rsp, wait)
+
+      return { command, content, embed, file, wait, rsp }
     }
 
     if (!result) return _successfulResponse()
@@ -198,8 +202,10 @@ module.exports = ReactionHandler
 
 /**
  * @typedef {Object}       ReactCommandResults
+ * @prop    {Command}      ReactCommandResults.command The object of the react command called.
  * @prop    {String}       ReactCommandResults.content The resulting message content sent by the bot.
  * @prop    {Eris.Embed}   ReactCommandResults.embed   The resulting embed sent by the bot.
  * @prop    {Buffer}       ReactCommandResults.file    The resulting file sent by the bot.
+ * @prop    {Await}        ReactCommandResults.wait    An action that is awaited after the results are processed.
  * @prop    {Eris.Message} ReactCommandResults.rsp     The message object sent to Discord.
  */

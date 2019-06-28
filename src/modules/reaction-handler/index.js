@@ -161,6 +161,9 @@ class ReactionHandler {
     }
 
     this._reactInterfaces.set(msg.id, reactInterface)
+
+    for (const button of reactInterface.buttons) msg.addReaction(button.emoji)
+
     return reactInterface
   }
 

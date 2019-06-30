@@ -6,7 +6,6 @@ class Await {
    * Create an Await.
    * @class
    * @param {Object}                                         data                              The await data.
-   * @prop  {function(AwaitData): (CommandResults|String)}   data.action                       The await action.
    * @prop  {Object}                                         [data.options={}]                 The options for the await
    * @prop  {Number}                                         [data.options.timeout=15000]      How long until the await cancels.
    * @prop  {Boolean}                                        [data.options.oneTime=false]      Whether a non-triggering message cancels the await.
@@ -14,8 +13,9 @@ class Await {
    * @prop  {function(prefix: String, msg: Eris.Message)}    [data.options.check=()=>true]     The condition to be met for the await to trigger.
    * @prop  {Object[]}                                       [data.options.args=[]]            The arguments for the await.
    * @prop  {String}                                         [data.options.channel]            The channel to await the message. (By default, it's the channel the command was called in.)
+   * @prop  {function(AwaitData): (CommandResults|String)}   data.action                       The await action.
    */
-  constructor ({ action, options = {} }) {
+  constructor ({ options = {}, action }) {
     const {
       timeout = 15000,
       oneTime,
@@ -24,12 +24,6 @@ class Await {
       args = [],
       channel
     } = options
-
-    /**
-     * The await action.
-     * @type {function(AwaitData): (CommandResults|String)}
-     */
-    this.action = action
 
     /**
      * How long until the await cancels.
@@ -66,6 +60,12 @@ class Await {
      * @type {String}
      */
     if (channel) this.channel = channel
+
+    /**
+     * The await action.
+     * @type {function(AwaitData): (CommandResults|String)}
+     */
+    this.action = action
   }
 }
 

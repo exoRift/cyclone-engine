@@ -111,7 +111,8 @@ class ReactionHandler {
       emoji,
       user,
       userData: dbData,
-      knex: this._knex
+      knex: this._knex,
+      interface: reactInterface
     })
 
     const {

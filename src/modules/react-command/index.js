@@ -45,9 +45,9 @@ class ReactCommand {
 
     /**
      * The IDs of the users who can use the interface.
-     * @type {String[]|String}
+     * @type {String[]}
      */
-    this.designatedUsers = designatedUsers instanceof Array ? designatedUsers : [designatedUsers]
+    if (designatedUsers) this.designatedUsers = designatedUsers instanceof Array ? designatedUsers : [designatedUsers]
   }
 
   /**

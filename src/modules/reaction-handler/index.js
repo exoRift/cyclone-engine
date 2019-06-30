@@ -112,7 +112,7 @@ class ReactionHandler {
       user,
       userData: dbData,
       knex: this._knex,
-      interface: reactInterface
+      reactInterface
     })
 
     const {

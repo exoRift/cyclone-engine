@@ -71,6 +71,7 @@ module.exports = ReactCommand
  * @prop    {Eris.User}                 ReactCommandData.user          The user who reacted.
  * @prop    {Object}                    ReactCommandData.userData      The table data fetched where `id` is the user's ID.
  * @prop    {QueryBuilder}              ReactCommandData.knex          The simple-knex query builder used by the reaction handler.
+ * @prop    {ReactInterface}            ReactCommandData.interface     If the react command was a button, the interface it was a part of.
  */
 
 /**

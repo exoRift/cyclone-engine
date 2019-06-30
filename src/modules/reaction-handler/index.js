@@ -125,7 +125,7 @@ class ReactionHandler {
     } = typeof result === 'string' ? { content: result } : result || {}
 
     const _successfulResponse = (rsp) => {
-      if (wait && wait instanceof Await) this._agent._commandHandler._addAwait({ channel: msg.channel, user, rsp, wait })
+      if (wait && wait instanceof Await) this._agent._commandHandler._addAwait({ channel: msg.channel.id, user: user.id, rsp, wait })
 
       return { command, content, embed, file, wait, rsp }
     }

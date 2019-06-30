@@ -188,7 +188,7 @@ test.serial('messageEvent', (t) => {
     messages.bot.author.bot = true
     for (const message in messages) sinon.spy(messages[message].channel, 'createMessage')
 
-    const handlerSpy = sinon.spy(agent._CommandHandler, 'handle')
+    const handlerSpy = sinon.spy(agent._commandHandler, 'handle')
 
     agent._client.emit('messageCreate', messages.proper)
     t.true(handlerSpy.calledWith(messages.proper), 'Proper command')

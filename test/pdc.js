@@ -200,6 +200,7 @@ class Channel {
       if ((content.content && content.content.length > 2000) || content.length > 2000) {
         const error = Error()
         error.code = 50035
+        error.message = 'content: Must be 2000 or fewer in length.'
         throw error
       }
     }

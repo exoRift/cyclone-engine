@@ -57,9 +57,9 @@ function formatReadme (readme, types) {
     const result = data.rows.reduce((accum, curr, index) => {
       const rowColumns = data.columns.reduce((colAccum, colCurr, colIndex) => {
         if (colCurr === 'name') curr[colCurr] = curr[colCurr].replace(dotRegex, '<span>.</span>')
-        return `${colAccum}${colIndex === 0 ? '' : '|'}${curr[colCurr] ? curr[colCurr].replace(barRegex, '\\|') : '<font color=\'red\'>X</font>'}`
+        return `${colAccum}${!colIndex ? '' : '|'}${curr[colCurr] ? curr[colCurr].replace(barRegex, '\\|') : '<font color=\'red\'>X</font>'}`
       }, '')
-      const string = `${accum}${index === 0 ? '' : '\n'}${rowColumns}`
+      const string = `${accum}${!index ? '' : '\n'}${rowColumns}`
 
       return string
     }, `<font size='+2'${nameColor ? ` color='${nameColor}'` : ''}>${name}</font>\n\n<font size='+1' color='${descColor}'>${data.desc}</font>\n\n---\n${columns}\n${columnUnderline}\n`)

@@ -177,7 +177,7 @@ async function _prepareDatabases () {
         }
       ]
     }).then(async ({ name }) => {
-      if (!(await knex.select(name)).length) {
+      if (!(await knex.select(name).length)) {
         return knex.insert({
           table: name,
           data: {

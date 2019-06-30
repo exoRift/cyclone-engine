@@ -63,15 +63,15 @@ module.exports = ReactCommand
 
 /**
  * @typedef {Object}                    ReactCommandData
- * @prop    {Agent}                     ReactCommandData.agent         The agent managing the bot.
- * @prop    {Eris.Client}               ReactCommandData.client        The Eris client.
- * @prop    {Map<String, ReactCommand>} ReactCommandData.reactCommands The list of bot react commands.
- * @prop    {Eris.Message}              ReactCommandData.msg           The message reacted on
- * @prop    {String}                    ReactCommandData.emoji         The emoji reacted with.
- * @prop    {Eris.User}                 ReactCommandData.user          The user who reacted.
- * @prop    {Object}                    ReactCommandData.userData      The table data fetched where `id` is the user's ID.
- * @prop    {QueryBuilder}              ReactCommandData.knex          The simple-knex query builder used by the reaction handler.
- * @prop    {ReactInterface}            ReactCommandData.interface     If the react command was a button, the interface it was a part of.
+ * @prop    {Agent}                     ReactCommandData.agent          The agent managing the bot.
+ * @prop    {Eris.Client}               ReactCommandData.client         The Eris client.
+ * @prop    {Map<String, ReactCommand>} ReactCommandData.reactCommands  The list of bot react commands.
+ * @prop    {Eris.Message}              ReactCommandData.msg            The message reacted on
+ * @prop    {String}                    ReactCommandData.emoji          The emoji reacted with.
+ * @prop    {Eris.User}                 ReactCommandData.user           The user who reacted.
+ * @prop    {Object}                    ReactCommandData.userData       The table data fetched where `id` is the user's ID.
+ * @prop    {QueryBuilder}              ReactCommandData.knex           The simple-knex query builder used by the reaction handler.
+ * @prop    {ReactInterface}            ReactCommandData.reactInterface If the react command was a button, the interface it was a part of.
  */
 
 /**

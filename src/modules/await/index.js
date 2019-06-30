@@ -6,19 +6,15 @@ class Await {
    * Create an Await.
    * @class
    * @param {Object}                                         data                              The await data.
-   * @prop  {Object}                                         data.options                      The options for the await
+   * @prop  {function(AwaitData): (CommandResults|String)}   data.action                       The await action.
+   * @prop  {Object}                                         [data.options={}]                 The options for the await
    * @prop  {Number}                                         [data.options.timeout=15000]      How long until the await cancels.
    * @prop  {Boolean}                                        [data.options.oneTime=false]      Whether a non-triggering message cancels the await.
    * @prop  {Boolean}                                        [data.options.refreshOnUse=false] Whether the timeout for the await refreshes after a use.
    * @prop  {function(prefix: String, msg: Eris.Message)}    [data.options.check=()=>true]     The condition to be met for the await to trigger.
    * @prop  {Object[]}                                       [data.options.args=[]]            The argumentss for the await.
-   * @prop  {function(AwaitData): (CommandResults|String)}   data.action                       The await action.
    */
-  constructor (data) {
-    const {
-      options = {},
-      action
-    } = data
+  constructor ({ action, options = {} }) {
     const {
       timeout = 15000,
       oneTime,
@@ -26,6 +22,13 @@ class Await {
       check = () => true,
       args = []
     } = options
+
+    /**
+     * The await action.
+     * @type {function(AwaitData): (CommandResults|String)}
+     */
+    this.action = action
+
     /**
      * How long until the await cancels.
      * @type {Number}
@@ -55,12 +58,6 @@ class Await {
      * @type {Object[]}
      */
     this.args = args
-
-    /**
-     * The await action.
-     * @type {function(AwaitData): (CommandResults|String)}
-     */
-    this.action = action
   }
 }
 
@@ -75,7 +72,7 @@ module.exports = Await
  * @prop    {Map<String, Replacer>} replacers   The list of bot replacers.
  * @prop    {Eris.Message}          msg         The message sent by the user.
  * @prop    {String[]}              args        The arguments supplied by the user.
- * @prop    {Object}                *           The data of the user in the database if requested. (Param name is table name)
+ * @prop    {Object}                userData    The data of the user in the database if requested.
  * @prop    {QueryBuilder}          knex        The simple-knex query builder used by the command handler.
  * @prop    {Eris.Message}          lastResponse The last message the bot sent before registering an await.
  */

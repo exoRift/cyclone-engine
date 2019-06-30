@@ -90,7 +90,7 @@ class ReactionHandler {
     const reactInterface = this._reactInterfaces.get(msg.id)
     let command
     if (reactInterface) {
-      command = reactInterface.buttons[emoji]
+      command = reactInterface.buttons.get(emoji)
       if (command.restricted) {
         if (command.designatedUsers) {
           if (!command.designatedUsers.includes(user.id)) return

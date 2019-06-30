@@ -125,7 +125,7 @@ class ReactionHandler {
     } = typeof result === 'string' ? { content: result } : result || {}
 
     const _successfulResponse = (rsp) => {
-      if (wait && wait instanceof Await) this._agent._commandHandler._addAwait(msg, rsp, wait)
+      if (wait && wait instanceof Await) this._agent._commandHandler._addAwait({ channel: msg.channel, user, rsp, wait })
 
       return { command, content, embed, file, wait, rsp }
     }
@@ -136,7 +136,7 @@ class ReactionHandler {
       if (file && !(file instanceof Buffer)) throw TypeError('Supplied file not a Buffer instance:\n', file)
       return msg.channel.createMessage({ content, embed }, file)
         .catch((err) => {
-          if (err.code === 50035) {
+          if (err.code === 50035 && (err.message.includes('length') || err.message.includes('size'))) {
             return msg.channel.createMessage('Text was too long, sent as a file instead.', {
               name: 'Command Result.txt',
               file: Buffer.from(`${content || 'undefined'}\n\n${inspect(embed)}`)

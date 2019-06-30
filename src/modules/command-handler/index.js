@@ -169,7 +169,7 @@ class CommandHandler {
         else awaited.clear()
       }
 
-      if (wait && wait instanceof Await) this._addAwait({ channel: msg.channel, user: msg.author, rsp, wait })
+      if (wait && wait instanceof Await) this._addAwait({ channel: msg.channel.id, user: msg.author.id, rsp, wait })
 
       if (reactInterface && reactInterface instanceof ReactInterface) {
         if (this._agent._reactionHandler) this._agent._reactionHandler.bindInterface(rsp, reactInterface)
@@ -312,8 +312,8 @@ class CommandHandler {
    * @private
    * @async
    * @param   {Object}           data         The data for the await.
-   * @prop    {Eris.TextChannel} data.channel The channel to listen for the message on.
-   * @prop    {Eris.User}        data.user    The user to listen for.
+   * @prop    {String}           data.channel The channel ID to listen for the message on.
+   * @prop    {String}           data.user    The user ID to listen for.
    * @prop    {Eris.Message}     data.rsp     The last response to the command that created the await.
    * @prop    {Promise<Await>}   data.wait    The command we are awaiting.
    */

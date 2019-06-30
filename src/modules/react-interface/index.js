@@ -30,6 +30,7 @@ class ReactInterface {
       if (!(button instanceof ReactCommand)) throw TypeError('Supplied button not ReactCommand instance:\n' + button.emoji)
       if (restricted) button.restricted = true
       if (designatedUsers) button.designatedUsers = designatedUsers
+      if (dbTable) button.dbTable = dbTable
 
       this._buttons.set(button.emoji, button)
     }

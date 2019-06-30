@@ -126,7 +126,8 @@ class CommandHandler {
     }
 
     let args = text.split(' ')
-    const keyword = args.shift()
+    let keyword
+    if (!awaited) keyword = args.shift()
     const command = awaited || this._commands.get(keyword)
 
     if (!command) return

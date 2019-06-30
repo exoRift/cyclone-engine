@@ -22,7 +22,7 @@ class Agent {
    * @prop  {Object}                                                   [data.chData.replacerBraces]             The braces that invoke a replacer.
    * @prop  {String}                                                   [data.chData.replacerBraces.open='|']    The opening brace.
    * @prop  {String}                                                   [data.chData.replacerBraces.close]       The closing brace.
-   * @prop  {ReactionCommand[]}                                        [data.chData.reactionCommands]           The commands that trigger on reactions.
+   * @prop  {ReactionCommand[]}                                        [data.chData.reactCommands]              The commands that trigger on reactions.
    * @prop  {Object}                                                   [data.databaseOptions={}]                The info for the database the bot utilizes.
    * @prop  {String}                                                   data.databaseOptions.connectionURL       The URL for connecting to the bot's database.
    * @prop  {String}                                                   data.databaseOptions.client              The database driver being used.
@@ -43,7 +43,7 @@ class Agent {
       commands,
       replacers,
       replacerBraces,
-      reactionCommands
+      reactCommands
     } = chData
     const {
       connectionURL,
@@ -88,7 +88,7 @@ class Agent {
      * @private
      * @type    {ReactionCommand[]}
      */
-    this._reactionCommands = reactionCommands
+    this._reactCommands = reactCommands
 
     /**
      * The Eris client.
@@ -313,7 +313,7 @@ class Agent {
       replacers: this._replacers,
       replacerBraces: this._replacerBraces
     })
-    if (this._reactionCommands) {
+    if (this._reactCommands) {
       console.log('Initializing Reaction Handler')
 
       /**
@@ -326,7 +326,7 @@ class Agent {
         client,
         ownerID,
         knex: this._knex,
-        reactionCommands: this._reactionCommands,
+        reactCommands: this._reactCommands,
         options: {
           maxInterfaces: this._maxInterfaces
         }

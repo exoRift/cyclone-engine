@@ -169,7 +169,7 @@ class CommandHandler {
         else awaited.clear()
       }
 
-      if (wait && wait instanceof Await) this._addAwait(msg, rsp, wait)
+      if (wait && wait instanceof Await) this._addAwait({ channel: msg.channel, user: msg.author, rsp, wait })
 
       if (reactInterface && reactInterface instanceof ReactInterface) {
         if (this._agent._reactionHandler) this._agent._reactionHandler.bindInterface(rsp, reactInterface)
@@ -185,7 +185,7 @@ class CommandHandler {
       if (file && !(file instanceof Buffer)) throw TypeError('Supplied file not a Buffer instance:\n', file)
       return msg.channel.createMessage({ content, embed }, file)
         .catch((err) => {
-          if (err.code === 50035 && err.message.includes('length')) {
+          if (err.code === 50035 && (err.message.includes('length') || err.message.includes('size'))) {
             return msg.channel.createMessage('Text was too long, sent as a file instead.', {
               name: 'Command Result.txt',
               file: Buffer.from(`${content || 'undefined'}\n\n${inspect(embed)}`)
@@ -311,12 +311,14 @@ class CommandHandler {
    * Set an await.
    * @private
    * @async
-   * @param   {Eris.Message}   msg  The message that started it all.
-   * @param   {Eris,Message}   rsp  The last response to the command that created the await.
-   * @param   {Promise<Await>} wait The command we are awaiting.
+   * @param   {Object}           data         The data for the await.
+   * @prop    {Eris.TextChannel} data.channel The channel to listen for the message on.
+   * @prop    {Eris.User}        data.user    The user to listen for.
+   * @prop    {Eris.Message}     data.rsp     The last response to the command that created the await.
+   * @prop    {Promise<Await>}   data.wait    The command we are awaiting.
    */
-  async _addAwait (msg, rsp, wait) {
-    const id = (wait.channel || msg.channel.id) + msg.author.id
+  async _addAwait ({ channel, user, rsp, wait }) {
+    const id = wait.channel || channel + user
     let timer = setTimeout(() => this._awaits.delete(id), wait.timeout)
     this._awaits.set(id, {
       id,

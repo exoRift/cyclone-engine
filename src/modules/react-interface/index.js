@@ -25,14 +25,14 @@ class ReactInterface {
      * The buttons of the interface.
      * @type {Map<String, ReactCommand>}
      */
-    this._buttons = new Map()
+    this.buttons = new Map()
     for (const button of buttons) {
       if (!(button instanceof ReactCommand)) throw TypeError('Supplied button not ReactCommand instance:\n' + button.emoji)
       if (restricted) button.restricted = true
       if (designatedUsers) button.designatedUsers = designatedUsers
       if (dbTable) button.dbTable = dbTable
 
-      this._buttons.set(button.emoji, button)
+      this.buttons.set(button.emoji, button)
     }
 
     /**

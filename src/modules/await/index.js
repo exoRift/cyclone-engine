@@ -12,7 +12,8 @@ class Await {
    * @prop  {Boolean}                                        [data.options.oneTime=false]      Whether a non-triggering message cancels the await.
    * @prop  {Boolean}                                        [data.options.refreshOnUse=false] Whether the timeout for the await refreshes after a use.
    * @prop  {function(prefix: String, msg: Eris.Message)}    [data.options.check=()=>true]     The condition to be met for the await to trigger.
-   * @prop  {Object[]}                                       [data.options.args=[]]            The argumentss for the await.
+   * @prop  {Object[]}                                       [data.options.args=[]]            The arguments for the await.
+   * @prop  {String}                                         [data.options.channel]            The channel to await the message. (By default, it's the channel the command was called in.)
    */
   constructor ({ action, options = {} }) {
     const {
@@ -20,7 +21,8 @@ class Await {
       oneTime,
       refreshOnUse,
       check = () => true,
-      args = []
+      args = [],
+      channel
     } = options
 
     /**
@@ -54,10 +56,16 @@ class Await {
     this.check = check
 
     /**
-     * The argumentss for the await.
+     * The arguments for the await.
      * @type {Object[]}
      */
     this.args = args
+
+    /**
+     * The channel to await the message. (By default, it's the channel the command was called in.)
+     * @type {String}
+     */
+    if (channel) this.channel = channel
   }
 }
 

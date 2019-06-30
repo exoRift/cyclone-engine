@@ -36,6 +36,18 @@ class ReactInterface {
     }
 
     /**
+     * Whether all buttons of the interface are restricted to selected users or not.
+     * @type {Boolean}
+     */
+    this.restricted = restricted
+
+    /**
+     * The IDs of the users who can use the react interface. By default, if restricted is true, it's the owner of the message reacted on.
+     * @type {String[]}
+     */
+    this.designatedUsers = designatedUsers
+
+    /**
      * Name of database table to fetch user data from (primary key must be named `id`).
      * @type {String}
      */

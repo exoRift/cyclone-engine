@@ -233,10 +233,10 @@ class Agent {
    * @param   {String}       [res] The response from a command.
    */
   _handleError (err, msg) {
-    return msg.channel.createMessage('ERR:```\n' + err.message + '```\n```\n' + err.stack + '```')
+    return msg.channel.createMessage(`ERR:\n\`\`\`\n${err.message}\`\`\`\n\`\`\`\n${err.stack}\`\`\``)
       .catch(() => {
         console.error(err)
-        return msg.channel.createMessage('`ERROR, SEND TO A BOT ADMIN: `' + Date.now())
+        return msg.channel.createMessage(`ERROR, SEND TO A BOT ADMIN: \`${Date.now()}\``)
       })
       .catch((err) => console.error('Error in error handler: ', err))
   }

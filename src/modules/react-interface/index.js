@@ -29,7 +29,7 @@ class ReactInterface {
     for (const button of buttons) {
       if (!(button instanceof ReactCommand)) throw TypeError('Supplied button not ReactCommand instance:\n' + button.emoji)
       if (restricted) button.restricted = true
-      if (designatedUsers) button.designatedUsers = designatedUsers
+      if (designatedUsers) button.designatedUsers = designatedUsers instanceof Array ? designatedUsers : [designatedUsers]
       if (dbTable) button.dbTable = dbTable
 
       this.buttons.set(button.emoji, button)
@@ -45,7 +45,7 @@ class ReactInterface {
      * The IDs of the users who can use the react interface. By default, if restricted is true, it's the owner of the message reacted on.
      * @type {String[]}
      */
-    this.designatedUsers = designatedUsers
+    this.designatedUsers = designatedUsers instanceof Array ? designatedUsers : [designatedUsers]
 
     /**
      * Name of database table to fetch user data from (primary key must be named `id`).

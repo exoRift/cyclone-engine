@@ -313,7 +313,7 @@ class CommandHandler {
    * @param   {Promise<Await>} wait The command we are awaiting.
    */
   async _addAwait (msg, rsp, wait) {
-    const id = msg.channel.id + msg.author.id
+    const id = (wait.channel || msg.channel.id) + msg.author.id
     let timer = setTimeout(() => this._awaits.delete(id), wait.timeout)
     this._awaits.set(id, {
       id,

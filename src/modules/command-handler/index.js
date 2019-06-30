@@ -172,7 +172,7 @@ class CommandHandler {
       if (wait && wait instanceof Await) this._addAwait(msg, rsp, wait)
 
       if (reactInterface && reactInterface instanceof ReactInterface) {
-        if (this._agent._reactionHandler) this._agent._reactionHandler.bindInterface(msg, reactInterface)
+        if (this._agent._reactionHandler) this._agent._reactionHandler.bindInterface(rsp, reactInterface)
         else throw Error('The reaction handler isn\'t enabled; enable it by passing an empty array to reactCommands.')
       }
 

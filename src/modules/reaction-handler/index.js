@@ -85,18 +85,20 @@ class ReactionHandler {
    * @returns {Promise<ReactCommandResults|String>}       The results of the reaction command.
    */
   async handle (msg, emoji, user) {
-    if (!msg.content) return /* Uncached */
+    if (!msg.content && !msg.embeds) return /* Uncached */
 
     const reactInterface = this._reactInterfaces.get(msg.id)
     let command
+
     if (reactInterface) {
-      command = reactInterface.buttons.get(emoji)
+      command = reactInterface.buttons.get(emoji.name)
+
       if (command.restricted) {
         if (command.designatedUsers) {
           if (!command.designatedUsers.includes(user.id)) return
         } else if (user.id !== msg.author.id) return
       }
-    } else command = this._reactCommands.get(emoji)
+    } else command = this._reactCommands.get(emoji.name)
 
     if (!command) return
 
@@ -132,7 +134,7 @@ class ReactionHandler {
 
     if (content || embed || file) {
       if (file && !(file instanceof Buffer)) throw TypeError('Supplied file not a Buffer instance:\n', file)
-      return msg.channel.creatMessage({ content, embed }, file)
+      return msg.channel.createMessage({ content, embed }, file)
         .catch((err) => {
           if (err.code === 50035) {
             return msg.channel.createMessage('Text was too long, sent as a file instead.', {

@@ -131,10 +131,10 @@ class CommandHandler {
     const command = awaited || this._commands.get(keyword)
 
     if (!command) return
-    if (command.restricted && msg.author.id !== this._ownerID) throw Error('This command is either temporarily disabled, or restricted.')
+    if (command.restricted && msg.author.id !== this._ownerID) return '```\nThis command is either temporarily disabled, or restricted.```'
 
     args = this._sanitizeArgs(command, args)
-    if (command.args && (!args || args.length < command.args.filter((a) => a.mand).length)) throw Error('Invalid arguments. Reference the help menu.')
+    if (command.args && (!args || args.length < command.args.filter((a) => a.mand).length)) return '```\nInvalid arguments. Reference the help menu.```'
 
     let dbData
     if (command.dbTable) dbData = await this._handleDBRequest(command.dbTable, msg.author.id)

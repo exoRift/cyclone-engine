@@ -180,7 +180,7 @@ class ReactionHandler {
    * @returns {Promise<Object>}       The user's data.
    */
   async _handleDBRequest (table, id) {
-    if (!this._knex) throw Error('QueryBuilder was not supplied to CommandHandler!')
+    if (!this._knex) throw Error('QueryBuilder was not supplied to ReactionHandler!')
     await this._knex.insert({ table, data: { id } }).catch((ignore) => ignore)
     return this._knex.get({ table, where: { id } })
   }

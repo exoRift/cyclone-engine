@@ -93,6 +93,8 @@ class ReactionHandler {
     if (reactInterface) {
       command = reactInterface.buttons.get(emoji.name)
 
+      if (!command) return
+
       if (command.restricted) {
         if (command.designatedUsers) {
           if (!command.designatedUsers.includes(user.id)) return

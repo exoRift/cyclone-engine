@@ -170,9 +170,13 @@ class CommandHandler {
         else awaited.clear()
       }
 
-      if (wait && wait instanceof Await) this._addAwait({ channel: msg.channel.id, user: msg.author.id, rsp, wait })
+      if (wait) {
+        if (!(wait instanceof Await)) throw TypeError('Supplied wait is not an Await instance:\n' + wait)
+        this._addAwait({ channel: msg.channel.id, user: msg.author.id, rsp, wait })
+      }
 
-      if (reactInterface && reactInterface instanceof ReactInterface) {
+      if (reactInterface) {
+        if (!(reactInterface instanceof ReactInterface)) throw TypeError('Supplied react interface is not a ReactInterface instance:\n' + reactInterface.buttons)
         if (this._agent._reactionHandler) this._agent._reactionHandler.bindInterface(rsp, reactInterface)
         else throw Error('The reaction handler isn\'t enabled; enable it by passing an empty array to reactCommands.')
       }
@@ -183,7 +187,7 @@ class CommandHandler {
     if (!result) return _successfulResponse()
 
     if (content || embed || file) {
-      if (file && !(file instanceof Buffer)) throw TypeError('Supplied file not a Buffer instance:\n', file)
+      if (file && !(file instanceof Buffer)) throw TypeError('Supplied file is not a Buffer instance:\n' + file)
       return msg.channel.createMessage({ content, embed }, file)
         .catch((err) => {
           if (err.code === 50035 && (err.message.includes('length') || err.message.includes('size'))) {

@@ -91,7 +91,12 @@ class ReactionHandler {
     let command
 
     if (reactInterface) {
-      command = reactInterface.buttons.get(emoji.name)
+      let emojiName
+      if (emoji.id) {
+        emojiName = `:${emoji.name}:${emoji.id}`
+      } else emojiName = emoji.name
+
+      command = reactInterface.buttons.get(emojiName)
 
       if (!command) return
 

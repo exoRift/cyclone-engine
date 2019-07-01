@@ -6,6 +6,9 @@ const {
   _ReactionHandler
 } = require('../modules')
 
+const {
+  helpIcon
+} = require('../../assets/images.json')
 /**
  * Class representing a bot Agent.
  */
@@ -190,6 +193,71 @@ class Agent {
   }
 
   /**
+   * Build an embed representing a help menu.
+   * @async
+   * @param   {Object}          data                         The data for the menu
+   * @prop    {String}          data.description             The description of the bot
+   * @prop    {String}          data.supportServerInviteCode The invite code to the support server. (Note: This is the code, not the link)
+   * @prop    {Number}          data.color                   An integer color that changes the sidebar color of the embed.
+   * @prop    {String}          data.prefixImage             A link leading to an image of the prefix. This is displayed in the footer.
+   * @prop    {String}          data.version                 The version of the bot.
+   * @prop    {Number}          data.page                    The page of the help menu to load.
+   * @returns {Promise<Object>}                              The embed containing the help menu.
+   */
+  async buildHelp ({ description, supportServerInviteCode, color, prefixImage, version, page = 0 }) {
+    page = parseInt(page)
+
+    const fields = this._commands.reduce((fields, command) => {
+      if (command.restricted) return fields
+
+      const content = command.info
+      const index = fields.length - 1
+
+      if (fields[index] + content > 1024) fields.push(content)
+      else fields[index] += (fields[index].length ? '\n' : '') + content
+
+      return fields
+    }, [''])
+    if (this._replacers) {
+      fields.push('**Replacers:**\n*Inserts live data values into commands. `|REPLACERNAME|`*\n\n' +
+        this._replacers.reduce((a, e) => `${a}**${e.info}*\n`, ''))
+    }
+    if (this._reactCommands) {
+      fields.push('**React Commands:**\n*React to any message with the appropriate reaction to trigger its command.*\n\n' +
+        this._reactCommands.reduce((a, e) => `${a}**${e.info}*\n`, ''))
+    }
+
+    if (page >= fields.length) page = fields.length - 1
+    if (page < 0) page = 0
+
+    const embed = {
+      title: '*[Click for support]* Made by ' + (await this._client.getOAuthApplication()).owner.username,
+      description,
+      url: 'https://discord.gg/' + supportServerInviteCode,
+      color,
+      footer: {
+        icon_url: prefixImage,
+        text: `Prefix: "${this._prefix}" or mention | <> = Mandatory () = Optional`
+      },
+      thumbnail: {
+        url: this._client.user.dynamicAvatarURL('png')
+      },
+      author: {
+        name: `${this._client.user.username} ${version} Help`,
+        icon_url: helpIcon
+      },
+      fields: [
+        {
+          name: `Commands page ${page + 1} out of ${fields.length}`,
+          value: fields[page]
+        }
+      ]
+    }
+
+    return embed
+  }
+
+  /**
    * Prepare the database for the agent.
    * @private
    * @async
@@ -219,7 +287,7 @@ class Agent {
    * Begin the loop function provided in the constructor.
    * @private
    * @param   {Function} func     The function run every interval. (Param is the agent)
-   * @param   {Number}          interval How many milliseconds in between each call.
+   * @param   {Number}   interval How many milliseconds in between each call.
    */
   _setLoop (func, interval) {
     setInterval(() => func(this), interval)

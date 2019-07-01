@@ -218,11 +218,11 @@ class Agent {
 
       return fields
     }, [''])
-    if (this._replacers) {
+    if (this._replacers && this._replacers.length) {
       fields.push('**Replacers:**\n*Inserts live data values into commands. `|REPLACERNAME|`*\n\n' +
         this._replacers.reduce((a, e) => `${a}**${e.info}*\n`, ''))
     }
-    if (this._reactCommands) {
+    if (this._reactCommands && this._reactCommands.length) {
       fields.push('**React Commands:**\n*React to any message with the appropriate reaction to trigger its command.*\n\n' +
         this._reactCommands.reduce((a, e) => `${a}**${e.info}*\n`, ''))
     }

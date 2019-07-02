@@ -7,18 +7,20 @@ class ReactInterface {
   /**
    * Construct a react interface.
    * @class
-   * @param {Object}          data                            The react interface data.
-   * @prop  {ReactCommand[]}  data.buttons                    The buttons of the interface.
-   * @prop  {Object}          [data.options={}]               The options for the interface.
-   * @prop  {Boolean}         [data.options.restricted=false] Whether all buttons of the interface are restricted to selected users or not.
-   * @prop  {String[]|String} [data.options.designatedUsers]  The IDs of the users who can use the react interface. By default, if restricted is true, it's the owner of the message reacted on.
-   * @prop  {String}          [data.options.dbTable]          Name of database table to fetch user data from (primary key must be named `id`).
+   * @param {Object}          data                                The react interface data.
+   * @prop  {ReactCommand[]}  data.buttons                        The buttons of the interface.
+   * @prop  {Object}          [data.options={}]                   The options for the interface.
+   * @prop  {Boolean}         [data.options.restricted=false]     Whether all buttons of the interface are restricted to selected users or not.
+   * @prop  {String[]|String} [data.options.designatedUsers]      The IDs of the users who can use the react interface. By default, if restricted is true, it's the owner of the message reacted on.
+   * @prop  {String}          [data.options.dbTable]              Name of database table to fetch user data from (primary key must be named `id`).
+   * @prop  {Boolean}         [data.options.deleteAfterUse=false] Whether the interface is deleted after a use or not.
    */
   constructor ({ buttons, options = {} }) {
     const {
       restricted,
       designatedUsers,
-      dbTable
+      dbTable,
+      deleteAfterUse
     } = options
 
     /**
@@ -52,6 +54,13 @@ class ReactInterface {
      * @type {String}
      */
     this.dbTable = dbTable
+
+    /**
+     * Whether the interface is deleted after a use or not.
+     * @private
+     * @type    {Boolean}
+     */
+    this._deleteAfterUse = deleteAfterUse
   }
 }
 

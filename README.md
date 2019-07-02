@@ -20,7 +20,11 @@
 
 - Log and track command usage (Tracking coming soon)
 
-- Create interactive menus with awaited actions and reactions (Reactions coming soon)
+- Create interactive menus with awaited actions and reactions
+
+- Have you bot do what you want it to
+
+- Do stuff with your bot's response after it's been sent
 
 # Documentation
 >Prerequisites

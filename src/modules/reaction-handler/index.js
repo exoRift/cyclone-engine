@@ -134,6 +134,11 @@ class ReactionHandler {
     const _successfulResponse = (rsp) => {
       if (wait && wait instanceof Await) this._agent._commandHandler._addAwait({ channel: msg.channel.id, user: user.id, rsp, wait })
 
+      if (reactInterface && reactInterface._deleteAfterUse) {
+        msg.removeReactions(this._client.id, reactInterface.buttons.map((b) => b.emoji))
+        this._reactInterfaces.delete(msg.id)
+      }
+
       return { command, content, embed, file, wait, rsp }
     }
 

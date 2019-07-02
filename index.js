@@ -6,8 +6,8 @@ const {
   ReactInterface,
   _CommandHandler,
   _ReactionHandler
-} = require('./src/modules')
-const Agent = require('./src/agent')
+} = require('./lib/modules')
+const Agent = require('./lib/agent')
 
 module.exports = {
   Agent,

@@ -76,9 +76,9 @@ const agent = new Agent({
     prefix: '.',
     dblToken: DBL_TOKEN,
     loopFunction: (agent) => {
-      agent._client.getDMChannel(agent._CommandHandler.ownerId).then((channel) => {
+      agent._client.getDMChannel(agent._CommandHandler.ownerId).then((channel) =>
         channel.createMessage('Current server count is: ' + agent._client.guilds.size)
-      })
+      )
     }, /* DM the number of guilds the bot is in to the owner */
     loopInterval: 1800000, /* 30 minutes */
     logFunction: (msg, { command }) => `${msg.timestamp} - **${msg.author.username}** > *${command.name}*` /* "5000000 - **mets11rap** > *help*" */

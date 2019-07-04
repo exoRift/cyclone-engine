@@ -1,6 +1,6 @@
 {
   "name": "cyclone-engine",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "A Discord bot client manager/engine and command handler combo! Easy to use.",
   "main": "index.js",
   "scripts": {

@@ -7,9 +7,6 @@
 # The dependencies
 node_modules
 
-# Debug shell shortcut
-cmd.lnk
-
 # Test Results
 .nyc_output
 coverage

@@ -23,21 +23,10 @@
   },
   "files": [
     "lib/",
-    "!coverage/",
-    "!.circleci/",
-    "!.github/",
-    "!.nyc_output/",
-    "!.vscode/",
+    "assets/",
     "!assets/src/",
     "!assets/icon.png",
-    "!assets/splash.png",
-    "!build/",
-    "!test/",
-    "!.env",
-    "!.eslintrc",
-    "!.gitignore",
-    "!CODE_OF_CONDUCT.md",
-    "!CONTRIBUTING.md"
+    "!assets/splash.png"
   ],
   "author": "mets11rap",
   "license": "MIT",

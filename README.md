@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/mets11rap/cyclone-engine/tree/master.svg?style=svg)](https://circleci.com/gh/mets11rap/cyclone-engine/tree/master)
 [![codecov](https://codecov.io/gh/mets11rap/cyclone-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/mets11rap/cyclone-engine)
+[![Discord Server](https://img.shields.io/badge/-Support%20Server-b.svg?colorA=697ec4&colorB=7289da&logo=discord)](https://discord.gg/Rqd8SJ9)
+![Version](https://img.shields.io/github/package-json/v/mets11rap/guildlink.svg?label=Version)
 
 An advanced bot engine for Discord
 -
@@ -11,6 +13,8 @@ An advanced bot engine for Discord
 
 - Handle commands with capability, versatility, and ease
 
+- Add user flexibility to your bot with command aliases
+
 - Stop your bot from crashing due to errors
 
 - Integrate automated actions
@@ -19,13 +23,14 @@ An advanced bot engine for Discord
 
 - Auto generate command info
 
-- Log and track command usage (Tracking coming soon)
+- Get command results for analysing and logging
 
 - Create interactive menus with awaited actions and reactions
 
-- Have you bot do what you want it to
+- Have your bot do what you want it to
 
-- Do stuff with your bot's response after it's been sent
+# Examples of bots that use Cyclone
+<font size='+1'>[**GuildLink**](https://github.com/mets11rap/guildlink)</font>
 
 # Documentation
 >Prerequisites

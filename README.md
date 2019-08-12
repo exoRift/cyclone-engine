@@ -43,7 +43,7 @@ An advanced bot engine for Discord
 
 `dblapi.js` - If you plan on integrating the Discord Bot Labs API into your bot, make sure to have this installed.
 
-<a href='http://cyclone-engine-docs.com' style='color: #4747d1'><font size='+2'>**Documentation**</font></a>
+<a href='https://mets11rap.github.io/cyclone-engine/' style='color: #4747d1'><font size='+2'>**Documentation**</font></a>
 
 >Constructing the Agent class
 

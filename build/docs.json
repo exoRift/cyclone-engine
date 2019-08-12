@@ -1,0 +1,40 @@
+{
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "source": {
+    "include": ["lib/", "README.md"]
+  },
+  "plugins": ["plugins/markdown"],
+  "markdown": {
+    "parser": "gfm",
+    "hardwrap": true
+  },
+  "templates": {
+    "name": "Cyclone Engine",
+    "logo": {
+      "splashDir": "./assets/Splash.png",
+      "iconDir": "./assets/Icon.png",
+      "width": "200px",
+      "height": "100px",
+      "iconWidth": "30px",
+      "iconHeight": "30px",
+      "link": "https://github.com/mets11rap/cyclone-engine"
+    },
+    "footerText": "One of the best bot engines for Discord!",
+    "github": "https://github.com/mets11rap/cyclone-engine",
+    "cleverLinks": true,
+    "monospaceLinks": false,
+    "default": {
+      "outputSourceFiles": true
+    }
+  },
+  "opts": {
+    "encoding": "utf8",
+    "package": "package.json",
+    "template": "./docs/",
+    "destination": "../cyclone-engine-pages",
+    "private": true,
+    "recurse": true
+  }
+}

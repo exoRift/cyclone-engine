@@ -1,6 +1,9 @@
 const Collection = require('eris').Collection
 const EventEmitter = require('events').EventEmitter
 
+/**
+ * A fake Eris Discord client to simulate a connected bot.
+ */
 class PseudoClient extends EventEmitter {
   /**
    * Create a client.

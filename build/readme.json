@@ -1,0 +1,19 @@
+{
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "source": {
+    "include": ["lib/"]
+  },
+  "templates": {
+
+  },
+  "opts": {
+    "encoding": "utf8",
+    "package": "package.json",
+    "template": "./readme/",
+    "destination": "./",
+    "private": true,
+    "recurse": true
+  }
+}

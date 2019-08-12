@@ -1,0 +1,604 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<link rel="shortcut icon" type="image" href=./assets/Icon.png>
+<head>
+    <meta charset="utf-8">
+    <title>Source: agent/index.js | Cyclone Engine</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+
+    
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="width: 200px; height: 100px">
+        
+            <a href="https://github.com/mets11rap/cyclone-engine" rel="noopener noreferrer" target="_blank">
+                <img src="./assets/Splash.png" width="100%" height="100%">
+            </a>
+        
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">Cyclone Engine</a></h1>
+        
+            <span class="version">v1.1.0</span>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+    <div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="Agent.html">Agent</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Agent_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Agent.html#_client">_client</a></li><li><a href="Agent.html#_commandHandler">_commandHandler</a></li><li><a href="Agent.html#_commands">_commands</a></li><li><a href="Agent.html#_connectRetryLimit">_connectRetryLimit</a></li><li><a href="Agent.html#_dblAPI">_dblAPI</a></li><li><a href="Agent.html#_fireOnEdit">_fireOnEdit</a></li><li><a href="Agent.html#_fireOnReactionRemove">_fireOnReactionRemove</a></li><li><a href="Agent.html#_knex">_knex</a></li><li><a href="Agent.html#_maxInterfaces">_maxInterfaces</a></li><li><a href="Agent.html#_postMessageFunction">_postMessageFunction</a></li><li><a href="Agent.html#_prefix">_prefix</a></li><li><a href="Agent.html#_reactCommands">_reactCommands</a></li><li><a href="Agent.html#_reactionHandler">_reactionHandler</a></li><li><a href="Agent.html#_replacerBraces">_replacerBraces</a></li><li><a href="Agent.html#_replacers">_replacers</a></li><li><a href="Agent.html#_statusMessage">_statusMessage</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Agent.html#_bindEvents">_bindEvents</a></li><li><a href="Agent.html#_compileInfo">_compileInfo</a></li><li><a href="Agent.html#_handleError">_handleError</a></li><li><a href="Agent.html#_onError">_onError</a></li><li><a href="Agent.html#_onMessage">_onMessage</a></li><li><a href="Agent.html#_onReaction">_onReaction</a></li><li><a href="Agent.html#_onReady">_onReady</a></li><li><a href="Agent.html#_onShardDisconnect">_onShardDisconnect</a></li><li><a href="Agent.html#_onShardReady">_onShardReady</a></li><li><a href="Agent.html#_prepareDB">_prepareDB</a></li><li><a href="Agent.html#_setLoop">_setLoop</a></li><li><a href="Agent.html#buildHelp">buildHelp</a></li><li><a href="Agent.html#connect">connect</a></li><li><a href="Agent.html#lastMessage">lastMessage</a></li></ul></div></li><li><a href="Await.html">Await</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Await_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Await.html#_awaitMap">_awaitMap</a></li><li><a href="Await.html#_id">_id</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#action">action</a></li><li><a href="Await.html#args">args</a></li><li><a href="Await.html#check">check</a></li><li><a href="Await.html#oneTime">oneTime</a></li><li><a href="Await.html#refreshOnUse">refreshOnUse</a></li><li><a href="Await.html#timeout">timeout</a></li><li><a href="Await.html#triggerResponse">triggerResponse</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Await.html#clear">clear</a></li><li><a href="Await.html#refresh">refresh</a></li><li><a href="Await.html#startTimer">startTimer</a></li></ul></div></li><li><a href="Command.html">Command</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Command_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Command.html#action">action</a></li><li><a href="Command.html#aliases">aliases</a></li><li><a href="Command.html#args">args</a></li><li><a href="Command.html#dbTable">dbTable</a></li><li><a href="Command.html#desc">desc</a></li><li><a href="Command.html#info">info</a></li><li><a href="Command.html#name">name</a></li><li><a href="Command.html#restricted">restricted</a></li></ul></div></li><li><a href="CommandHandler.html">CommandHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="CommandHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="CommandHandler.html#_agent">_agent</a></li><li><a href="CommandHandler.html#_aliases">_aliases</a></li><li><a href="CommandHandler.html#_awaits">_awaits</a></li><li><a href="CommandHandler.html#_client">_client</a></li><li><a href="CommandHandler.html#_commands">_commands</a></li><li><a href="CommandHandler.html#_ignoreCodes">_ignoreCodes</a></li><li><a href="CommandHandler.html#_knex">_knex</a></li><li><a href="CommandHandler.html#_ownerID">_ownerID</a></li><li><a href="CommandHandler.html#_prefix">_prefix</a></li><li><a href="CommandHandler.html#_replacerBraces">_replacerBraces</a></li><li><a href="CommandHandler.html#_replacers">_replacers</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="CommandHandler.html#_addAwait">_addAwait</a></li><li><a href="CommandHandler.html#_getAwait">_getAwait</a></li><li><a href="CommandHandler.html#_handleDBRequest">_handleDBRequest</a></li><li><a href="CommandHandler.html#_loadCommand">_loadCommand</a></li><li><a href="CommandHandler.html#_loadReplacer">_loadReplacer</a></li><li><a href="CommandHandler.html#_parseArgs">_parseArgs</a></li><li><a href="CommandHandler.html#_replaceMentionWithPrefix">_replaceMentionWithPrefix</a></li><li><a href="CommandHandler.html#_runReplacers">_runReplacers</a></li><li><a href="CommandHandler.html#_successfulResponses">_successfulResponses</a></li><li><a href="CommandHandler.html#handle">handle</a></li><li><a href="CommandHandler.html#loadCommands">loadCommands</a></li><li><a href="CommandHandler.html#loadReplacers">loadReplacers</a></li></ul></div></li><li><a href="InputError.html">InputError</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="InputError_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="InputError.html#code">code</a></li><li><a href="InputError.html#name">name</a></li></ul></div></li><li><a href="ReactCommand.html">ReactCommand</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactCommand_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactCommand.html#action">action</a></li><li><a href="ReactCommand.html#dbTable">dbTable</a></li><li><a href="ReactCommand.html#desc">desc</a></li><li><a href="ReactCommand.html#emoji">emoji</a></li><li><a href="ReactCommand.html#info">info</a></li><li><a href="ReactCommand.html#removeReaction">removeReaction</a></li><li><a href="ReactCommand.html#restricted">restricted</a></li></ul></div></li><li><a href="ReactInterface.html">ReactInterface</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactInterface_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactInterface.html#buttons">buttons</a></li><li><a href="ReactInterface.html#dbTable">dbTable</a></li><li><a href="ReactInterface.html#deleteAfterUse">deleteAfterUse</a></li><li><a href="ReactInterface.html#removeReaction">removeReaction</a></li><li><a href="ReactInterface.html#restricted">restricted</a></li></ul></div></li><li><a href="ReactionHandler.html">ReactionHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactionHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactionHandler.html#_agent">_agent</a></li><li><a href="ReactionHandler.html#_client">_client</a></li><li><a href="ReactionHandler.html#_ignoreCodes">_ignoreCodes</a></li><li><a href="ReactionHandler.html#_knex">_knex</a></li><li><a href="ReactionHandler.html#_maxInterfaces">_maxInterfaces</a></li><li><a href="ReactionHandler.html#_ownerID">_ownerID</a></li><li><a href="ReactionHandler.html#_reactCommands">_reactCommands</a></li><li><a href="ReactionHandler.html#_reactInterfaces">_reactInterfaces</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ReactionHandler.html#_getInterface">_getInterface</a></li><li><a href="ReactionHandler.html#_handleDBRequest">_handleDBRequest</a></li><li><a href="ReactionHandler.html#_loadReactCommand">_loadReactCommand</a></li><li><a href="ReactionHandler.html#_successfulResponses">_successfulResponses</a></li><li><a href="ReactionHandler.html#bindInterface">bindInterface</a></li><li><a href="ReactionHandler.html#handle">handle</a></li><li><a href="ReactionHandler.html#loadReactCommands">loadReactCommands</a></li></ul></div></li><li><a href="Replacer.html">Replacer</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Replacer_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Replacer.html#action">action</a></li><li><a href="Replacer.html#args">args</a></li><li><a href="Replacer.html#desc">desc</a></li><li><a href="Replacer.html#key">key</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3><a href="global.html">Global</a></h3></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const QueryBuilder = require('simple-knex')
+let DBLAPI
+
+const {
+  _CommandHandler,
+  _ReactionHandler
+} = require('../modules')
+
+const { helpIcon } = require('../../assets/images.json')
+
+const ignoreCodes = [
+  50013,
+  50001
+]
+
+/**
+ * The main controlling agent of the bot.
+ */
+class Agent {
+  /**
+   * Create an Agent.
+   * @class
+   * @param {Object}                       data                                            The agent data.
+   * @prop  {Eris}                         data.Eris                                       The Eris class the system runs off of.
+   * @prop  {String}                       data.token                                      The token to log in to the Discord API with.
+   * @prop  {Object}                       [data.handlerData={}]                           The commands and replacers the bot will respond to
+   * @prop  {Command[]}                    [data.handlerData.commands]                     The commands for the bot.
+   * @prop  {Replacer[]}                   [data.handlerData.replacers]                    The replacers for the bot.
+   * @prop  {ReactCommand[]}               [data.handlerData.reactCommands]                The commands that trigger on reactions.
+   * @prop  {Object}                       [data.handlerData.replacerBraces]               The braces that invoke a replacer.
+   * @prop  {String}                       [data.handlerData.replacerBraces.open='|']      The opening brace.
+   * @prop  {String}                       [data.handlerData.replacerBraces.close]         The closing brace.
+   * @prop  {Object}                       [data.databaseOptions={}]                       The info for the database the bot utilizes.
+   * @prop  {String}                       data.databaseOptions.connectionURL              The URL for connecting to the bot's database.
+   * @prop  {String}                       data.databaseOptions.client                     The database driver being used.
+   * @prop  {Object[]}                     [data.databaseOptions.tables=[]]                The initial tables to set up for the database.
+   * @prop  {String[]}                     [data.databaseOptions.clearEmptyRows=[]]        The list of tables to have their unchanged from default rows cleared.
+   * @prop  {Object}                       [data.agentOptions={}]                          Options for the agent.
+   * @prop  {Number}                       [data.agentOptions.connectRetryLimit=10]        How many times the agent will attempt to establish a connection with Discord before giving up.
+   * @prop  {String}                       [data.agentOptions.prefix='!']                  The prefix for bot commands.
+   * @prop  {Object|statusMessageFunction} [data.agentOptions.statusMessage]               The status for the bot. It can be an object containing the data, or a callback function for each shard. By default, it's the bot's prefix.
+   * @prop  {String}                       [data.agentOptions.dblToken]                    The token used to connect to the Discord Bot Labs API.
+   * @prop  {Object}                       [data.agentOptions.loopFunction={}]             A function that will run every loopInterval amount of ms, supplied the agent.
+   * @prop  {function(Agent)}              [data.agentOptions.loopFunction.func]           The function.
+   * @prop  {Number}                       [data.agentOptions.loopFunction.interval=30000] The interval at which the loopFunction runs.
+   * @prop  {Boolean}                      [data.agentOptions.fireOnEdit=false]            Whether the command handler is called when a command is edited or not.
+   * @prop  {Boolean}                      [data.agentOptions.fireOnReactionRemove=false]  Whether the reaction handler is triggered on the removal of reactions as well.
+   * @prop  {postMessageFunction}          [data.agentOptions.postMessageFunction]         A function that runs after every message if it triggers a command.
+   * @prop  {Number}                       [data.agentOptions.maxInterfaces=1500]          The maximum amount of reaction interfaces cached before they start getting deleted.
+   */
+  constructor ({ Eris, token, handlerData = {}, databaseOptions = {}, agentOptions = {} }) {
+    const {
+      commands,
+      replacers,
+      replacerBraces,
+      reactCommands
+    } = handlerData
+    const {
+      connectionURL,
+      client,
+      tables = [],
+      clearEmptyRows
+    } = databaseOptions
+    const {
+      connectRetryLimit = 10,
+      prefix = '!',
+      statusMessage,
+      dblToken,
+      loopFunction: {
+        func,
+        interval = 300000
+      } = {},
+      fireOnEdit,
+      postMessageFunction,
+      fireOnReactionRemove,
+      maxInterfaces
+    } = agentOptions
+
+    /**
+     * The commands for the command handler.
+     * @private
+     * @type    {Command[]}
+     */
+    this._commands = commands
+
+    /**
+     * The replacers for the command handler.
+     * @private
+     * @type    {Replacer[]}
+     */
+    this._replacers = replacers
+
+    /**
+     * The braces that invoke a replacer.
+     * @private
+     * @type    {Object}
+     */
+    this._replacerBraces = replacerBraces
+
+    /**
+     * The commands that trigger on reactions.
+     * @private
+     * @type    {ReactionCommand[]}
+     */
+    this._reactCommands = reactCommands
+
+    /**
+     * The Eris client.
+     * @private
+     * @type    {Eris.Client}
+     */
+    this._client = new Eris(token)
+
+    if (connectionURL) {
+      /**
+       * The simple-knex query builder.
+       * @private
+       * @type    {QueryBuilder}
+       */
+      this._knex = new QueryBuilder({
+        connection: connectionURL,
+        client,
+        pool: {
+          min: 1,
+          max: 1
+        }
+      })
+      this._prepareDB(tables, clearEmptyRows)
+    }
+
+    /**
+     * How many times the agent will attempt to establish a connection with Discord before giving up.
+     * @private
+     * @type    {Number}
+     */
+    this._connectRetryLimit = connectRetryLimit
+
+    /**
+     * The command prefix.
+     * @private
+     * @type    {String}
+     */
+    this._prefix = prefix
+
+    /**
+     * The status for the bot. It can be an object containing the data, or a callback function for each shard. By default, it's the bot's prefix.
+     * @private
+     * @type    {Object|statusMessageFunction}
+     */
+    this._statusMessage = statusMessage
+
+    if (dblToken) {
+      DBLAPI = require('dblapi.js')
+      /**
+       * The dblapi.js DBLAPI (DiscordBotsList).
+       * @private
+       * @type    {DBLAPI}
+       */
+      this._dblAPI = new DBLAPI(dblToken, this._client)
+    }
+
+    /**
+     * Whether the command handler is called when a command is edited or not.
+     * @private
+     * @type    {Boolean}
+     */
+    this._fireOnEdit = fireOnEdit
+
+    /**
+     * A function that runs after every message if it triggers a command.
+     * @private
+     * @type    {postMessageFunction}
+     */
+    this._postMessageFunction = postMessageFunction
+
+    /**
+     * Whether the reaction handler triggers on the removal of reactions.
+     * @private
+     * @type    {Boolean}
+     */
+    this._fireOnReactionRemove = fireOnReactionRemove
+
+    /**
+     * The maximum amount of interfaces cached before they start getting deleted.
+     * @private
+     * @type    {Number}
+     */
+    this._maxInterfaces = maxInterfaces
+
+    this._bindEvents()
+
+    if (func) this._setLoop(func, interval)
+  }
+
+  /**
+   * Connect to the Discord API. Will recursively retry this._connectRetryLimit number of times.
+   * @param {Number} [_count=1] The current number of connection attempts. (Do not supply)
+   */
+  connect (_count = 1) {
+    if (_count &lt;= this._connectRetryLimit) {
+      console.log(`CONNECTION ATTEMPT ${_count}`)
+
+      return this._client.connect().catch(() => this.connect(_count + 1))
+    }
+
+    return console.error('RECONNECTION LIMIT REACHED; RECONNECTION CANCELED')
+  }
+
+  /**
+   * Get the last message sent by the bot in a given channel.
+   * @param   {Eris.Channel} channel The channel to pick your last message from.
+   * @returns {Eris.Message}         The last message.
+   */
+  lastMessage (channel) {
+    const {
+      messages,
+      guild
+    } = channel
+
+    const filtered = messages.filter((m) => m.author.id === guild.shard.client.user.id)
+
+    return filtered[filtered.length - 1]
+  }
+
+  /**
+   * Build an embed representing a help menu.
+   * @async
+   * @param   {Object}          data                         The data for the menu
+   * @prop    {String}          data.description             The description of the bot
+   * @prop    {String}          data.supportServerInviteCode The invite code to the support server. (Note: This is the code, not the link)
+   * @prop    {Number}          data.color                   An integer color that changes the sidebar color of the embed.
+   * @prop    {String}          data.prefixImage             A link leading to an image of the prefix. This is displayed in the footer.
+   * @prop    {String}          data.version                 The version of the bot.
+   * @prop    {Number}          [data.page=1]                The page of the help menu to load.
+   * @returns {Promise&lt;Object>}                              The embed containing the help menu.
+   */
+  async buildHelp ({ description, supportServerInviteCode, color, prefixImage, version, page = 1 }) {
+    page = parseInt(page)
+
+    const pages = []
+    if (this._commands) pages.push(...this._compileInfo(this._commands))
+    if (this._replacers) pages.push(...this._compileInfo(this._replacers, '**Replacers:**\n*Inserts live data values into commands. `|REPLACERNAME|`*'))
+    if (this._reactCommands) pages.push(...this._compileInfo(this._reactCommands, '**React Commands:**\n*React to any message with the appropriate reaction to trigger its command.*'))
+
+    if (page > pages.length) page = pages.length
+    if (page &lt; 1) page = 1
+
+    const embed = {
+      author: {
+        name: `${this._client.user.username} ${version} Help`,
+        icon_url: helpIcon
+      },
+      title: '*[Click for support]* Made by ' + (await this._client.getOAuthApplication()).owner.username,
+      url: 'https://discord.gg/' + supportServerInviteCode,
+      description,
+      thumbnail: {
+        url: this._client.user.dynamicAvatarURL('png')
+      },
+      color,
+      fields: [
+        {
+          name: `Commands page ${page} out of ${pages.length}`,
+          value: pages[page - 1]
+        }
+      ],
+      footer: {
+        icon_url: prefixImage,
+        text: `Prefix: "${this._prefix}" or mention | &lt;> = Mandatory () = Optional # = Arg is a number`
+      }
+    }
+
+    return embed
+  }
+
+  /**
+   * Compile command info into a list.
+   * @private
+   * @param   {Command[]|Command|Replacer[]|Replacer|ReactCommand[]|ReactCommand} items  The items to compile.
+   * @param   {String}                                                            header The header of the content.
+   * @returns {String[]}                                                                 The resulting fields sent in a Discord embed.
+   */
+  _compileInfo (items, header) {
+    if (!(items instanceof Array)) items = [items]
+    header = header ? `${header}\n` : ''
+
+    const content = items.reduce((info, command) => {
+      if (command.restricted) return info
+
+      const content = command.info
+      const index = info.length - 1
+      const newline = info[index].length ? '\n' : ''
+
+      if ((info[index] + newline + content).length > 1024) info.push(content)
+      else info[index] += newline + content
+
+      return info
+    }, [header])
+
+    if (content[0] === header) return []
+
+    return content
+  }
+
+  /**
+   * Prepare the database for the agent.
+   * @private
+   * @async
+   * @param   {Object[]} tables              The initial tables set up for the bot.
+   * @param   {String[]} [clearEmptyRows=[]] The tables that have their unchanged rows cleared.
+   */
+  async _prepareDB (tables, clearEmptyRows = []) {
+    const tableNames = tables.map((t) => t.name)
+
+    return Promise.all(tables.map((table) => this._knex.createTable(table)))
+      .catch((err) => err.message.endsWith('already exists.') ? null : console.error(err))
+      .finally(() => {
+        for (const table of clearEmptyRows) {
+          if (!tableNames.includes(table)) throw Error('Provided a non-existent table')
+          const columns = tables.find((t) => t.name === table).columns.reduce((accum, column) => {
+            if (column.default) accum[column.name] = column.default
+            return accum
+          }, {})
+          return this._knex.delete({
+            table,
+            where: columns
+          })
+        }
+      }).then(() => console.log('Database set up!'))
+  }
+
+  /**
+   * Begin the loop function provided in the constructor.
+   * @private
+   * @param   {Function} func     The function run every interval. (Param is the agent)
+   * @param   {Number}   interval How many milliseconds in between each call.
+   */
+  _setLoop (func, interval) {
+    setInterval(() => func(this), interval)
+  }
+
+  /**
+   * Send an error message.
+   * @private
+   * @param   {Error}        err   The error.
+   * @param   {Eris.Message} msg   The original message from Discord.
+   * @param   {String}       [res] The response from a command.
+   */
+  _handleError (err, msg) {
+    return msg.channel.createMessage(`ERR:\n\`\`\`\n${err.message}\`\`\`${err.stack ? `\n\`\`\`\n${err.stack}\`\`\`` : ''}`)
+      .catch(() => {
+        console.error(err)
+        return msg.channel.createMessage(`ERROR, SEND TO A BOT ADMIN: \`${Date.now()}\``)
+      })
+      .catch((err) => console.error('Error in error handler: ', err))
+  }
+
+  /**
+   * Bind functions to events.
+   * @private
+   */
+  _bindEvents () {
+    this._client.on('ready', this._onReady.bind(this))
+    this._client.on('error', this._onError.bind(this))
+    this._client.on('messageCreate', this._onMessage.bind(this))
+    if (this._fireOnEdit) this._client.on('messageUpdate', this._onMessage.bind(this))
+    this._client.on('messageReactionAdd', this._onReaction.bind(this))
+    if (this._fireOnReactionRemove) this._client.on('messageReactionRemove', this._onReaction.bind(this))
+    this._client.on('shardReady', this._onShardReady.bind(this))
+    this._client.on('shardDisconnect', this._onShardDisconnect.bind(this))
+  }
+
+  /**
+   * What to do when a message is recived.
+   * @private
+   * @async
+   * @param   {Eris.Message} msg The recieved message.
+   */
+  _onMessage (msg) {
+    if (msg.author.bot) return
+
+    if (this._commandHandler) {
+      return this._commandHandler.handle(msg)
+        .then((res) => {
+          if (this._postMessageFunction) this._postMessageFunction(msg, res)
+        })
+        .catch((err) => this._handleError(err, msg))
+    }
+  }
+
+  /**
+   * What to do when a reaction is recieved.
+   * @private
+   * @async
+   * @param   {Eris.Message} msg    The message reacted on.
+   * @param   {Eris.Emoji}   emoji  The emoji used to react.
+   * @param   {String}       userID The ID of the user who reacted.
+   */
+  _onReaction (msg, emoji, userID) {
+    const user = this._client.users.get(userID)
+
+    if (user.bot) return
+
+    if (this._reactionHandler) {
+      return this._reactionHandler.handle(msg, emoji, user)
+        .catch((err) => this._handleError(err, msg))
+    }
+  }
+
+  /**
+   * What to do when the client's ready.
+   * @private
+   * @async
+   * @param   {Eris.Client} client The Eris client.
+   */
+  async _onReady () {
+    const ownerID = (await this._client.getOAuthApplication()).owner.id
+
+    console.log('Initializing Command Handler')
+
+    /**
+     * The command handler for the bot.
+     * @private
+     * @type    {CommandHandler}
+     */
+    this._commandHandler = new _CommandHandler({
+      agent: this,
+      prefix: this._prefix,
+      client: this._client,
+      ownerID,
+      knex: this._knex,
+      commands: this._commands,
+      replacers: this._replacers,
+      options: {
+        replacerBraces: this._replacerBraces,
+        ignoreCodes
+      }
+    })
+
+    if (this._reactCommands) {
+      console.log('Initializing Reaction Handler')
+
+      /**
+       * The reaction handler for the bot.
+       * @private
+       * @type    {ReactionHandler}
+       */
+      this._reactionHandler = new _ReactionHandler({
+        agent: this,
+        client: this._client,
+        ownerID,
+        knex: this._knex,
+        reactCommands: this._reactCommands,
+        options: {
+          maxInterfaces: this._maxInterfaces,
+          ignoreCodes
+        }
+      })
+    }
+  }
+
+  /**
+   * What to do when a shard is ready.
+   * @private
+   * @param   {Eris.Client} client The Eris client.
+   * @param   {Eris.Shard}  shard  The shard that's ready.
+   */
+  _onShardReady (shard) {
+    console.log(`Connected as ${this._client.user.username} on shard ${shard}`)
+
+    if (this._statusMessage) {
+      if (typeof this._statusMessage === 'function') this._statusMessage(this, shard, this._client.shards.get(shard).editStatus)
+      else this._client.shards.get(shard).editStatus(this._statusMessage)
+    } else {
+      this._client.shards.get(shard).editStatus({
+        name: `Prefix: '${this._prefix}'`,
+        type: 2
+      })
+    }
+
+    if (this._dblAPI) this._dblAPI.postStats(this._client.guilds.size, shard, this._client.shards.size).catch((err) => this._onError(err))
+  }
+
+  /**
+   * What to do when a shard loses connection.
+   * @private
+   * @param   {Eris.Client} client The Eris client.
+   * @param   {Eris.Shard}  shard  The disconnected shard.
+   */
+  _onShardDisconnect (shard) {
+    console.log(`Shard ${shard} lost connection`)
+
+    this.connect()
+  }
+
+  /**
+   * What to do when an unknown error occurs.
+   * @private
+   * @param   {Eris.Client} client The Eris client.
+   * @param   {Error}       error  The error.
+   */
+  _onError (error) {
+    console.error('An error has occured:', error)
+  }
+}
+
+module.exports = Agent
+
+/**
+ * The status for the bot. It's a callback function for each shard.
+ * @callback                         statusMessage
+ * @param    {Agent}                 agent          The agent.
+ * @param    {Number}                shard          The Eris shard the status is being applied to.
+ * @param    {Eris.Client.setStatus} setStatus      The setStatus function from the Eris client.
+ */
+
+/**
+ * A function that runs after every message if it triggers a command.
+ * @callback                         postMessageFunction
+ * @param    {Eris.Message}          msg                 The message that triggered the command.
+ * @param    {CommandHandlerResults} results             The results of the command.
+ */
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<footer>
+    <img class="footerLogo" src="./assets/Icon.png" style="width: 30px; height: 30px">
+    <div class="footer-text">One of the best bot engines for Discord!</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = '_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<link rel="shortcut icon" type="image" href=./assets/Icon.png>
+<head>
+    <meta charset="utf-8">
+    <title>Source: modules/await/index.js | Cyclone Engine</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+
+    
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="width: 200px; height: 100px">
+        
+            <a href="https://github.com/mets11rap/cyclone-engine" rel="noopener noreferrer" target="_blank">
+                <img src="./assets/Splash.png" width="100%" height="100%">
+            </a>
+        
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">Cyclone Engine</a></h1>
+        
+            <span class="version">v1.1.0</span>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+    <div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="Agent.html">Agent</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Agent_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Agent.html#_client">_client</a></li><li><a href="Agent.html#_commandHandler">_commandHandler</a></li><li><a href="Agent.html#_commands">_commands</a></li><li><a href="Agent.html#_connectRetryLimit">_connectRetryLimit</a></li><li><a href="Agent.html#_dblAPI">_dblAPI</a></li><li><a href="Agent.html#_fireOnEdit">_fireOnEdit</a></li><li><a href="Agent.html#_fireOnReactionRemove">_fireOnReactionRemove</a></li><li><a href="Agent.html#_knex">_knex</a></li><li><a href="Agent.html#_maxInterfaces">_maxInterfaces</a></li><li><a href="Agent.html#_postMessageFunction">_postMessageFunction</a></li><li><a href="Agent.html#_prefix">_prefix</a></li><li><a href="Agent.html#_reactCommands">_reactCommands</a></li><li><a href="Agent.html#_reactionHandler">_reactionHandler</a></li><li><a href="Agent.html#_replacerBraces">_replacerBraces</a></li><li><a href="Agent.html#_replacers">_replacers</a></li><li><a href="Agent.html#_statusMessage">_statusMessage</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Agent.html#_bindEvents">_bindEvents</a></li><li><a href="Agent.html#_compileInfo">_compileInfo</a></li><li><a href="Agent.html#_handleError">_handleError</a></li><li><a href="Agent.html#_onError">_onError</a></li><li><a href="Agent.html#_onMessage">_onMessage</a></li><li><a href="Agent.html#_onReaction">_onReaction</a></li><li><a href="Agent.html#_onReady">_onReady</a></li><li><a href="Agent.html#_onShardDisconnect">_onShardDisconnect</a></li><li><a href="Agent.html#_onShardReady">_onShardReady</a></li><li><a href="Agent.html#_prepareDB">_prepareDB</a></li><li><a href="Agent.html#_setLoop">_setLoop</a></li><li><a href="Agent.html#buildHelp">buildHelp</a></li><li><a href="Agent.html#connect">connect</a></li><li><a href="Agent.html#lastMessage">lastMessage</a></li></ul></div></li><li><a href="Await.html">Await</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Await_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Await.html#_awaitMap">_awaitMap</a></li><li><a href="Await.html#_id">_id</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#action">action</a></li><li><a href="Await.html#args">args</a></li><li><a href="Await.html#check">check</a></li><li><a href="Await.html#oneTime">oneTime</a></li><li><a href="Await.html#refreshOnUse">refreshOnUse</a></li><li><a href="Await.html#timeout">timeout</a></li><li><a href="Await.html#triggerResponse">triggerResponse</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Await.html#clear">clear</a></li><li><a href="Await.html#refresh">refresh</a></li><li><a href="Await.html#startTimer">startTimer</a></li></ul></div></li><li><a href="Command.html">Command</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Command_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Command.html#action">action</a></li><li><a href="Command.html#aliases">aliases</a></li><li><a href="Command.html#args">args</a></li><li><a href="Command.html#dbTable">dbTable</a></li><li><a href="Command.html#desc">desc</a></li><li><a href="Command.html#info">info</a></li><li><a href="Command.html#name">name</a></li><li><a href="Command.html#restricted">restricted</a></li></ul></div></li><li><a href="CommandHandler.html">CommandHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="CommandHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="CommandHandler.html#_agent">_agent</a></li><li><a href="CommandHandler.html#_aliases">_aliases</a></li><li><a href="CommandHandler.html#_awaits">_awaits</a></li><li><a href="CommandHandler.html#_client">_client</a></li><li><a href="CommandHandler.html#_commands">_commands</a></li><li><a href="CommandHandler.html#_ignoreCodes">_ignoreCodes</a></li><li><a href="CommandHandler.html#_knex">_knex</a></li><li><a href="CommandHandler.html#_ownerID">_ownerID</a></li><li><a href="CommandHandler.html#_prefix">_prefix</a></li><li><a href="CommandHandler.html#_replacerBraces">_replacerBraces</a></li><li><a href="CommandHandler.html#_replacers">_replacers</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="CommandHandler.html#_addAwait">_addAwait</a></li><li><a href="CommandHandler.html#_getAwait">_getAwait</a></li><li><a href="CommandHandler.html#_handleDBRequest">_handleDBRequest</a></li><li><a href="CommandHandler.html#_loadCommand">_loadCommand</a></li><li><a href="CommandHandler.html#_loadReplacer">_loadReplacer</a></li><li><a href="CommandHandler.html#_parseArgs">_parseArgs</a></li><li><a href="CommandHandler.html#_replaceMentionWithPrefix">_replaceMentionWithPrefix</a></li><li><a href="CommandHandler.html#_runReplacers">_runReplacers</a></li><li><a href="CommandHandler.html#_successfulResponses">_successfulResponses</a></li><li><a href="CommandHandler.html#handle">handle</a></li><li><a href="CommandHandler.html#loadCommands">loadCommands</a></li><li><a href="CommandHandler.html#loadReplacers">loadReplacers</a></li></ul></div></li><li><a href="InputError.html">InputError</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="InputError_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="InputError.html#code">code</a></li><li><a href="InputError.html#name">name</a></li></ul></div></li><li><a href="ReactCommand.html">ReactCommand</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactCommand_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactCommand.html#action">action</a></li><li><a href="ReactCommand.html#dbTable">dbTable</a></li><li><a href="ReactCommand.html#desc">desc</a></li><li><a href="ReactCommand.html#emoji">emoji</a></li><li><a href="ReactCommand.html#info">info</a></li><li><a href="ReactCommand.html#removeReaction">removeReaction</a></li><li><a href="ReactCommand.html#restricted">restricted</a></li></ul></div></li><li><a href="ReactInterface.html">ReactInterface</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactInterface_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactInterface.html#buttons">buttons</a></li><li><a href="ReactInterface.html#dbTable">dbTable</a></li><li><a href="ReactInterface.html#deleteAfterUse">deleteAfterUse</a></li><li><a href="ReactInterface.html#removeReaction">removeReaction</a></li><li><a href="ReactInterface.html#restricted">restricted</a></li></ul></div></li><li><a href="ReactionHandler.html">ReactionHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactionHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactionHandler.html#_agent">_agent</a></li><li><a href="ReactionHandler.html#_client">_client</a></li><li><a href="ReactionHandler.html#_ignoreCodes">_ignoreCodes</a></li><li><a href="ReactionHandler.html#_knex">_knex</a></li><li><a href="ReactionHandler.html#_maxInterfaces">_maxInterfaces</a></li><li><a href="ReactionHandler.html#_ownerID">_ownerID</a></li><li><a href="ReactionHandler.html#_reactCommands">_reactCommands</a></li><li><a href="ReactionHandler.html#_reactInterfaces">_reactInterfaces</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ReactionHandler.html#_getInterface">_getInterface</a></li><li><a href="ReactionHandler.html#_handleDBRequest">_handleDBRequest</a></li><li><a href="ReactionHandler.html#_loadReactCommand">_loadReactCommand</a></li><li><a href="ReactionHandler.html#_successfulResponses">_successfulResponses</a></li><li><a href="ReactionHandler.html#bindInterface">bindInterface</a></li><li><a href="ReactionHandler.html#handle">handle</a></li><li><a href="ReactionHandler.html#loadReactCommands">loadReactCommands</a></li></ul></div></li><li><a href="Replacer.html">Replacer</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Replacer_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Replacer.html#action">action</a></li><li><a href="Replacer.html#args">args</a></li><li><a href="Replacer.html#desc">desc</a></li><li><a href="Replacer.html#key">key</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3><a href="global.html">Global</a></h3></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * A class used for the awaiting of a criteria-matching message.
+ */
+class Await {
+  /**
+   * Create an Await.
+   * @class
+   * @param {Object}        data                              The await data.
+   * @prop  {Object}        [data.options={}]                 The options for the await
+   * @prop  {Argument[]}    [data.options.args=[]]            The arguments for the await.
+   * @prop  {checkFunction} [data.options.check=() => true]   The condition to be met for the await to trigger.
+   * @prop  {Number}        [data.options.timeout=15000]      How long until the await cancels.
+   * @prop  {Boolean}       [data.options.oneTime=false]      Whether a non-triggering message cancels the await.
+   * @prop  {Boolean}       [data.options.refreshOnUse=false] Whether the timeout for the await refreshes after a use.
+   * @prop  {String}        [data.options.channel]            The channel to await the message. (By default, it's the channel the command was called in.)
+   * @prop  {awaitAction}   data.action                       The await action.
+   */
+  constructor ({ options = {}, action }) {
+    const {
+      args = [],
+      check = () => true,
+      timeout = 15000,
+      oneTime,
+      refreshOnUse,
+      channel
+    } = options
+
+    for (const arg of args) {
+      if (arg.delim &amp;&amp; arg.delim.length > 1) console.error(`WARNING: Delimiters that are longer than 1 character will not work:\n${arg.name}:`, arg.delim)
+    }
+
+    /**
+     * The arguments for the await.
+     * @type {Object[]}
+     */
+    this.args = args
+
+    /**
+     * The condition to be met for the await to trigger.
+     * @type {checkFunction}
+     */
+    this.check = check
+
+    /**
+     * How long until the await cancels.
+     * @type {Number}
+     */
+    this.timeout = timeout
+
+    /**
+     * Whether a non-triggering message cancels the await.
+     * @type {Boolean}
+     */
+    this.oneTime = oneTime
+
+    /**
+     * Whether the timeout for the await refreshes after a use.
+     * @type {Boolean}
+     */
+    this.refreshOnUse = refreshOnUse
+
+    /**
+     * The channel to await the message. (By default, it's the channel the command was called in.)
+     * @type {String}
+     */
+    if (channel) this.channel = channel
+
+    /**
+     * The await action.
+     * @type {awaitAction}
+     */
+    this.action = action
+  }
+
+  /**
+   * Start the delete timer for the await.
+   * @async
+   * @param   {Object}             data                 Further await data.
+   * @prop    {String}             data.id              The ID of the await in its parent map.
+   * @prop    {Map&lt;String, Await>} data.awaitMap        The map that the await is stored in.
+   * @prop    {Eris.Message}       data.triggerResponse The response to the command that initiated the await.
+   * @returns {Promise&lt;Await>}                          The await.
+   */
+  async startTimer ({ id, awaitMap, triggerResponse }) {
+    /**
+     * The ID of the await.
+     * @private
+     * @type {String}
+     */
+    this._id = id
+
+    /**
+     * The map that the await is stored in.
+     * @private
+     * @type {Map&lt;String, Await>}
+     */
+    this._awaitMap = awaitMap
+
+    /**
+     * The response to the command that initiated the await.
+     * @private
+     * @type {Eris.Message}
+     */
+    this.triggerResponse = triggerResponse
+
+    /**
+     * The delete timer for the await.
+     * @private
+     * @type {Timeout}
+     */
+    this._timer = setTimeout(() => this.clear(), this.timeout)
+
+    return this
+  }
+
+  /**
+   * Clear the await from its storage.
+   * @async
+   * @returns {Promise&lt;Await>} The await that was cleared.
+   */
+  async clear () {
+    if (!this._timer) throw Error('You have not started the timer yet!')
+
+    clearTimeout(this._timer)
+
+    this._awaitMap.delete(this._id)
+
+    return this
+  }
+
+  /**
+   * Refresh the delete timer for the await
+   * @async
+   * @returns {Promise&lt;Await>} The await.
+   */
+  async refresh () {
+    if (!this._timer) throw Error('You have not started the timer yet!')
+
+    clearTimeout(this._timer)
+
+    /**
+     * The delete timer for the await.
+     * @private
+     * @type    {Timeout}
+     */
+    this._timer = setTimeout(this.clear, this.timeout)
+
+    return this
+  }
+}
+
+module.exports = Await
+
+/**
+ * The condition to be met for the await to trigger.
+ * @callback                checkFunction
+ * @param    {String}       prefix The bot prefix.
+ * @param    {Eris.Message} msg The message.
+ * @returns  {Boolean}
+ */
+
+/**
+ * The await action.
+ * @callback                                                   awaitAction
+ * @param    {AwaitData}                                       data        Data passed from the handler.
+ * @returns  {CommandResults[]|CommandResults|String[]|String}             Data to respond with.
+ */
+
+/**
+ * Object passed to a command action.
+ * @typedef {Object}                AwaitData
+ * @prop    {Agent}                 agent             The agent managing the bot.
+ * @prop    {Eris.Client}           client            The Eris client.
+ * @prop    {Map&lt;String, Command>}  commands          The list of bot commands.
+ * @prop    {Map&lt;String, Replacer>} replacers         The list of bot replacers.
+ * @prop    {Eris.Message}          msg               The message sent by the user.
+ * @prop    {String[]}              args              The arguments supplied by the user.
+ * @prop    {Object}                userData          The data of the user in the database if requested.
+ * @prop    {QueryBuilder}          knex              The simple-knex query builder used by the command handler.
+ * @prop    {Eris.Message}          initResponse      The bot's response to the message that initiated the await.
+ */
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<footer>
+    <img class="footerLogo" src="./assets/Icon.png" style="width: 30px; height: 30px">
+    <div class="footer-text">One of the best bot engines for Discord!</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = '_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>

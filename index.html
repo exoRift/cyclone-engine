@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="shortcut icon" type="image" href=./assets/Icon.png>
+<head>
+    <meta charset="utf-8">
+    <title>Home | Cyclone Engine</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+
+    
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="width: 200px; height: 100px">
+        
+            <a href="https://github.com/mets11rap/cyclone-engine" rel="noopener noreferrer" target="_blank">
+                <img src="./assets/Splash.png" width="100%" height="100%">
+            </a>
+        
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">Cyclone Engine</a></h1>
+        
+            <span class="version">v1.1.0</span>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+    <div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="Agent.html">Agent</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Agent_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Agent.html#_client">_client</a></li><li><a href="Agent.html#_commandHandler">_commandHandler</a></li><li><a href="Agent.html#_commands">_commands</a></li><li><a href="Agent.html#_connectRetryLimit">_connectRetryLimit</a></li><li><a href="Agent.html#_dblAPI">_dblAPI</a></li><li><a href="Agent.html#_fireOnEdit">_fireOnEdit</a></li><li><a href="Agent.html#_fireOnReactionRemove">_fireOnReactionRemove</a></li><li><a href="Agent.html#_knex">_knex</a></li><li><a href="Agent.html#_maxInterfaces">_maxInterfaces</a></li><li><a href="Agent.html#_postMessageFunction">_postMessageFunction</a></li><li><a href="Agent.html#_prefix">_prefix</a></li><li><a href="Agent.html#_reactCommands">_reactCommands</a></li><li><a href="Agent.html#_reactionHandler">_reactionHandler</a></li><li><a href="Agent.html#_replacerBraces">_replacerBraces</a></li><li><a href="Agent.html#_replacers">_replacers</a></li><li><a href="Agent.html#_statusMessage">_statusMessage</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Agent.html#_bindEvents">_bindEvents</a></li><li><a href="Agent.html#_compileInfo">_compileInfo</a></li><li><a href="Agent.html#_handleError">_handleError</a></li><li><a href="Agent.html#_onError">_onError</a></li><li><a href="Agent.html#_onMessage">_onMessage</a></li><li><a href="Agent.html#_onReaction">_onReaction</a></li><li><a href="Agent.html#_onReady">_onReady</a></li><li><a href="Agent.html#_onShardDisconnect">_onShardDisconnect</a></li><li><a href="Agent.html#_onShardReady">_onShardReady</a></li><li><a href="Agent.html#_prepareDB">_prepareDB</a></li><li><a href="Agent.html#_setLoop">_setLoop</a></li><li><a href="Agent.html#buildHelp">buildHelp</a></li><li><a href="Agent.html#connect">connect</a></li><li><a href="Agent.html#lastMessage">lastMessage</a></li></ul></div></li><li><a href="Await.html">Await</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Await_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Await.html#_awaitMap">_awaitMap</a></li><li><a href="Await.html#_id">_id</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#action">action</a></li><li><a href="Await.html#args">args</a></li><li><a href="Await.html#check">check</a></li><li><a href="Await.html#oneTime">oneTime</a></li><li><a href="Await.html#refreshOnUse">refreshOnUse</a></li><li><a href="Await.html#timeout">timeout</a></li><li><a href="Await.html#triggerResponse">triggerResponse</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Await.html#clear">clear</a></li><li><a href="Await.html#refresh">refresh</a></li><li><a href="Await.html#startTimer">startTimer</a></li></ul></div></li><li><a href="Command.html">Command</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Command_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Command.html#action">action</a></li><li><a href="Command.html#aliases">aliases</a></li><li><a href="Command.html#args">args</a></li><li><a href="Command.html#dbTable">dbTable</a></li><li><a href="Command.html#desc">desc</a></li><li><a href="Command.html#info">info</a></li><li><a href="Command.html#name">name</a></li><li><a href="Command.html#restricted">restricted</a></li></ul></div></li><li><a href="CommandHandler.html">CommandHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="CommandHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="CommandHandler.html#_agent">_agent</a></li><li><a href="CommandHandler.html#_aliases">_aliases</a></li><li><a href="CommandHandler.html#_awaits">_awaits</a></li><li><a href="CommandHandler.html#_client">_client</a></li><li><a href="CommandHandler.html#_commands">_commands</a></li><li><a href="CommandHandler.html#_ignoreCodes">_ignoreCodes</a></li><li><a href="CommandHandler.html#_knex">_knex</a></li><li><a href="CommandHandler.html#_ownerID">_ownerID</a></li><li><a href="CommandHandler.html#_prefix">_prefix</a></li><li><a href="CommandHandler.html#_replacerBraces">_replacerBraces</a></li><li><a href="CommandHandler.html#_replacers">_replacers</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="CommandHandler.html#_addAwait">_addAwait</a></li><li><a href="CommandHandler.html#_getAwait">_getAwait</a></li><li><a href="CommandHandler.html#_handleDBRequest">_handleDBRequest</a></li><li><a href="CommandHandler.html#_loadCommand">_loadCommand</a></li><li><a href="CommandHandler.html#_loadReplacer">_loadReplacer</a></li><li><a href="CommandHandler.html#_parseArgs">_parseArgs</a></li><li><a href="CommandHandler.html#_replaceMentionWithPrefix">_replaceMentionWithPrefix</a></li><li><a href="CommandHandler.html#_runReplacers">_runReplacers</a></li><li><a href="CommandHandler.html#_successfulResponses">_successfulResponses</a></li><li><a href="CommandHandler.html#handle">handle</a></li><li><a href="CommandHandler.html#loadCommands">loadCommands</a></li><li><a href="CommandHandler.html#loadReplacers">loadReplacers</a></li></ul></div></li><li><a href="InputError.html">InputError</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="InputError_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="InputError.html#code">code</a></li><li><a href="InputError.html#name">name</a></li></ul></div></li><li><a href="ReactCommand.html">ReactCommand</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactCommand_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactCommand.html#action">action</a></li><li><a href="ReactCommand.html#dbTable">dbTable</a></li><li><a href="ReactCommand.html#desc">desc</a></li><li><a href="ReactCommand.html#emoji">emoji</a></li><li><a href="ReactCommand.html#info">info</a></li><li><a href="ReactCommand.html#removeReaction">removeReaction</a></li><li><a href="ReactCommand.html#restricted">restricted</a></li></ul></div></li><li><a href="ReactInterface.html">ReactInterface</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactInterface_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactInterface.html#buttons">buttons</a></li><li><a href="ReactInterface.html#dbTable">dbTable</a></li><li><a href="ReactInterface.html#deleteAfterUse">deleteAfterUse</a></li><li><a href="ReactInterface.html#removeReaction">removeReaction</a></li><li><a href="ReactInterface.html#restricted">restricted</a></li></ul></div></li><li><a href="ReactionHandler.html">ReactionHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactionHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactionHandler.html#_agent">_agent</a></li><li><a href="ReactionHandler.html#_client">_client</a></li><li><a href="ReactionHandler.html#_ignoreCodes">_ignoreCodes</a></li><li><a href="ReactionHandler.html#_knex">_knex</a></li><li><a href="ReactionHandler.html#_maxInterfaces">_maxInterfaces</a></li><li><a href="ReactionHandler.html#_ownerID">_ownerID</a></li><li><a href="ReactionHandler.html#_reactCommands">_reactCommands</a></li><li><a href="ReactionHandler.html#_reactInterfaces">_reactInterfaces</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ReactionHandler.html#_getInterface">_getInterface</a></li><li><a href="ReactionHandler.html#_handleDBRequest">_handleDBRequest</a></li><li><a href="ReactionHandler.html#_loadReactCommand">_loadReactCommand</a></li><li><a href="ReactionHandler.html#_successfulResponses">_successfulResponses</a></li><li><a href="ReactionHandler.html#bindInterface">bindInterface</a></li><li><a href="ReactionHandler.html#handle">handle</a></li><li><a href="ReactionHandler.html#loadReactCommands">loadReactCommands</a></li></ul></div></li><li><a href="Replacer.html">Replacer</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Replacer_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Replacer.html#action">action</a></li><li><a href="Replacer.html#args">args</a></li><li><a href="Replacer.html#desc">desc</a></li><li><a href="Replacer.html#key">key</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3><a href="global.html">Global</a></h3></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section>
+        <article class="readme"><img src="assets/Splash.png" alt="Splash Banner" width="500"/>
+<p><a href="https://circleci.com/gh/mets11rap/cyclone-engine/tree/master"><img src="https://circleci.com/gh/mets11rap/cyclone-engine/tree/master.svg?style=svg" alt="CircleCI"></a><br>
+<a href="https://codecov.io/gh/mets11rap/cyclone-engine"><img src="https://codecov.io/gh/mets11rap/cyclone-engine/branch/master/graph/badge.svg" alt="codecov"></a><br>
+<a href="https://discord.gg/Rqd8SJ9"><img src="https://img.shields.io/badge/-Support%20Server-b.svg?colorA=697ec4&amp;colorB=7289da&amp;logo=discord" alt="Discord Server"></a><br>
+<img src="https://img.shields.io/github/package-json/v/mets11rap/cyclone-engine.svg?label=Version" alt="Version"></p>
+<h2>An advanced bot engine for Discord</h2>
+<p><strong>What can Cyclone do?</strong></p>
+<ul>
+<li>
+<p>Manage and automate connections to the Discord API</p>
+</li>
+<li>
+<p>Handle commands with capability, versatility, and ease</p>
+</li>
+<li>
+<p>Add user flexibility to your bot with command aliases</p>
+</li>
+<li>
+<p>Stop your bot from crashing due to errors</p>
+</li>
+<li>
+<p>Integrate automated actions</p>
+</li>
+<li>
+<p>Simplify how your database is integrated into your systems</p>
+</li>
+<li>
+<p>Auto generate command info</p>
+</li>
+<li>
+<p>Utilize a built-in help menu</p>
+</li>
+<li>
+<p>Get command results for analysis and logging</p>
+</li>
+<li>
+<p>Create interactive menus with awaited actions and reactions</p>
+</li>
+<li>
+<p>Complete freedom of bot design</p>
+</li>
+</ul>
+<h1>Examples of bots that use Cyclone</h1>
+<p><font size='+1'><a href="https://github.com/mets11rap/guildlink"><strong>GuildLink</strong></a></font></p>
+<h1>Getting started</h1>
+<blockquote>
+<p>Prerequisites</p>
+</blockquote>
+<p><code>eris</code> - You need to install Eris and supply it to the agent or Command Handler. Eris is supplied to allow custom Eris classes to be used by the engine.</p>
+<p><code>pg, mysql, sqlite, etc.</code> - In order for the database wrapper, <code>simple-knex</code> to function, the database driver you are using must be installed.</p>
+<p><code>dblapi.js</code> - If you plan on integrating the Discord Bot Labs API into your bot, make sure to have this installed.</p>
+<blockquote>
+<p>Constructing the Agent class</p>
+</blockquote>
+<p>The Agent class is the main manager of the bot. This will be controlling automated actions as well as call the Command &amp; Reaction Handler.</p>
+<pre class="prettyprint source lang-js"><code>const {
+  TOKEN,
+  DBL_TOKEN,
+  DATABASE_URL
+} = process.env
+
+const Eris = require('eris')
+const {
+  Agent 
+} = require('cyclone-engine')
+
+const agentData = require('./data')
+
+const agent = new Agent({
+  Eris,
+  token: TOKEN,
+  chData: agentData,
+  databaseOptions: {
+    connectionURL: DATABASE_URL,
+    client: 'pg',
+    tables: [
+      {
+        name: 'users',
+        columns: [
+          {
+            name: 'score',
+            type: 'integer',
+            default: 0
+          }
+        ]
+      }
+    ],
+    clearEmptyRows: [
+      'users'
+    ]
+  },
+  agentOptions: {
+    connectRetryLimit: 5,
+    prefix: '.',
+    dblToken: DBL_TOKEN,
+    loopFunction: (agent) => {
+      agent._client.getDMChannel(agent._CommandHandler.ownerId).then((channel) =>
+        channel.createMessage('Current server count is: ' + agent._client.guilds.size)
+      )
+    }, /* DM the number of guilds the bot is in to the owner */
+    loopInterval: 1800000, /* 30 minutes */
+    logFunction: (msg, { command }) => `${msg.timestamp} - **${msg.author.username}** > *${command.name}*` /* &quot;5000000 - **mets11rap** > *help*&quot; */
+  }
+})
+</code></pre>
+<p><font size='+2'>Agent</font></p>
+<p><font size='+1' color='#a0a0a0'>The main controlling agent of the bot.</font></p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td>Object</td>
+<td>The agent data.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>Eris</td>
+<td>Eris</td>
+<td>The Eris class the system runs off of.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>token</td>
+<td>String</td>
+<td>The token to log in to the Discord API with.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>handlerData]</td>
+<td>Object</td>
+<td>The commands and replacers the bot will respond to</td>
+<td><font color='#f5c842'>{}</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>handlerData<span>.</span>commands]</td>
+<td>Array<span>&lt;</span>Command<span>&gt;</span></td>
+<td>The commands for the bot.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>handlerData<span>.</span>replacers]</td>
+<td>Array<span>&lt;</span>Replacer<span>&gt;</span></td>
+<td>The replacers for the bot.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>handlerData<span>.</span>reactCommands]</td>
+<td>Array<span>&lt;</span>ReactCommand<span>&gt;</span></td>
+<td>The commands that trigger on reactions.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>handlerData<span>.</span>replacerBraces]</td>
+<td>Object</td>
+<td>The braces that invoke a replacer.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>handlerData<span>.</span>replacerBraces<span>.</span>open]</td>
+<td>String</td>
+<td>The opening brace.</td>
+<td><font color='#f5c842'>'|'</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>handlerData<span>.</span>replacerBraces<span>.</span>close]</td>
+<td>String</td>
+<td>The closing brace.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>databaseOptions]</td>
+<td>Object</td>
+<td>The info for the database the bot utilizes.</td>
+<td><font color='#f5c842'>{}</font></td>
+</tr>
+<tr>
+<td>data<span>.</span>databaseOptions<span>.</span>connectionURL</td>
+<td>String</td>
+<td>The URL for connecting to the bot's database.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>databaseOptions<span>.</span>client</td>
+<td>String</td>
+<td>The database driver being used.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>databaseOptions<span>.</span>tables]</td>
+<td>Array<span>&lt;</span>Object<span>&gt;</span></td>
+<td>The initial tables to set up for the database.</td>
+<td><font color='#f5c842'>[]</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>databaseOptions<span>.</span>clearEmptyRows]</td>
+<td>Array<span>&lt;</span>String<span>&gt;</span></td>
+<td>The list of tables to have their unchanged from default rows cleared.</td>
+<td><font color='#f5c842'>[]</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>agentOptions]</td>
+<td>Object</td>
+<td>Options for the agent.</td>
+<td><font color='#f5c842'>{}</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>agentOptions<span>.</span>connectRetryLimit]</td>
+<td>Number</td>
+<td>How many times the agent will attempt to establish a connection with Discord before giving up.</td>
+<td><font color='#f5c842'>10</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>agentOptions<span>.</span>prefix]</td>
+<td>String</td>
+<td>The prefix for bot commands.</td>
+<td><font color='#f5c842'>'!'</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>agentOptions<span>.</span>statusMessage]</td>
+<td>Object<span>|</span>statusMessageFunction</td>
+<td>The status for the bot. It can be an object containing the data, or a callback function for each shard. By default, it's the bot's prefix.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>agentOptions<span>.</span>dblToken]</td>
+<td>String</td>
+<td>The token used to connect to the Discord Bot Labs API.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>agentOptions<span>.</span>loopFunction]</td>
+<td>Object</td>
+<td>A function that will run every loopInterval amount of ms, supplied the agent.</td>
+<td><font color='#f5c842'>{}</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>agentOptions<span>.</span>loopFunction<span>.</span>func]</td>
+<td>function</td>
+<td>The function.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>agentOptions<span>.</span>loopFunction<span>.</span>interval]</td>
+<td>Number</td>
+<td>The interval at which the loopFunction runs.</td>
+<td><font color='#f5c842'>30000</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>agentOptions<span>.</span>fireOnEdit]</td>
+<td>Boolean</td>
+<td>Whether the command handler is called when a command is edited or not.</td>
+<td><font color='#f5c842'>false</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>agentOptions<span>.</span>fireOnReactionRemove]</td>
+<td>Boolean</td>
+<td>Whether the reaction handler is triggered on the removal of reactions as well.</td>
+<td><font color='#f5c842'>false</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>agentOptions<span>.</span>postMessageFunction]</td>
+<td>postMessageFunction</td>
+<td>A function that runs after every message if it triggers a command.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>agentOptions<span>.</span>maxInterfaces]</td>
+<td>Number</td>
+<td>The maximum amount of reaction interfaces cached before they start getting deleted.</td>
+<td><font color='#f5c842'>1500</font></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Constructing the Command Handler without the agent</p>
+</blockquote>
+<p>The Command Handler is taken care of automatically when the agent is constructed and connected. However, if you would not like to use the agent, you can construct the handler separately.</p>
+<pre class="prettyprint source lang-js"><code>const {
+  TOKEN
+} = process.env
+
+const Eris = require('eris')
+const client = new Eris(TOKEN)
+
+const {
+  _CommandHandler
+} = require('cyclone-engine')
+
+const handler = client.getOAuthApplication().then((app) => {
+  return new _CommandHandler({
+    client,
+    ownerID: app.owner.id,
+    ...require('./data')
+  })
+})
+
+client.on('messageCreate', async (msg) => {
+  await handler
+
+  handler.handle(msg)
+})
+</code></pre>
+<p><font size='+2'>CommandHandler</font></p>
+<p><font size='+1' color='#a0a0a0'>The module that handles incoming commands.</font></p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td>Object</td>
+<td>The command handler data.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>agent]</td>
+<td>Agent</td>
+<td>The agent managing the bot.</td>
+<td><font color='#f5c842'>{}</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>prefix]</td>
+<td>String</td>
+<td>The prefix of commands.</td>
+<td><font color='#f5c842'>'!'</font></td>
+</tr>
+<tr>
+<td>data<span>.</span>client</td>
+<td>Eris.Client</td>
+<td>The Eris client.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>ownerID</td>
+<td>String</td>
+<td>The ID of the bot owner.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>knex]</td>
+<td>QueryBuilder</td>
+<td>The simple-knex query builder.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>commands]</td>
+<td>Array<span>&lt;</span>Command<span>&gt;</span><span>|</span>Command</td>
+<td>Array of commands to load initially.</td>
+<td><font color='#f5c842'>[]</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>replacers]</td>
+<td>Array<span>&lt;</span>Replacer<span>&gt;</span><span>|</span>Replacer</td>
+<td>Array of the message content replacers to load initially.</td>
+<td><font color='#f5c842'>[]</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options]</td>
+<td>Object</td>
+<td>Additional options for the command handler.</td>
+<td><font color='#f5c842'>{}</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>replacerBraces]</td>
+<td>Object</td>
+<td>The braces that invoke a replacer.</td>
+<td><font color='#f5c842'>{}</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>replacerBraces<span>.</span>open]</td>
+<td>String</td>
+<td>The opening brace.</td>
+<td><font color='#f5c842'>'|'</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>replacerBraces<span>.</span>close]</td>
+<td>String</td>
+<td>The closing brace.</td>
+<td><font color='#f5c842'>'|'</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>ignoreCodes]</td>
+<td>Array<span>&lt;</span>Number<span>&gt;</span></td>
+<td>The Discord error codes to ignore.</td>
+<td><font color='#f5c842'>[]</font></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Creating Commands</p>
+</blockquote>
+<p>The Command Handler takes an array of command and replacer classes to function. A multifile system is optimal. A way to implement this would be a folder containing JS files of every command with an <code>index.js</code> that would require every command (Looping on an <code>fs.readdir()</code>) and return an array containing them.</p>
+<p>Command File:</p>
+<pre class="prettyprint source lang-js"><code>const {
+  Command
+} = require('cyclone-engine')
+
+const data = {
+  name: 'say',
+  desc: 'Make the bot say something.',
+  options: {
+    args: [{ name: 'content', mand: true }],
+    restricted: true /* Make this command admin only */
+  },
+  action: ({ args: [content] }) => content /* The command returns the content provided by the user */
+}
+
+module.exports = new Command(data)
+</code></pre>
+<p><font size='+2'>Command</font></p>
+<p><font size='+1' color='#a0a0a0'>Class representing a command.</font></p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td>Object</td>
+<td>The command data.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>name</td>
+<td>String</td>
+<td>The command name.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>desc</td>
+<td>String</td>
+<td>The command description.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>options]</td>
+<td>Object</td>
+<td>The command options.</td>
+<td><font color='#f5c842'>{}</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>args]</td>
+<td>Array<span>&lt;</span>Argument<span>&gt;</span></td>
+<td>The arguments for the command.</td>
+<td><font color='#f5c842'>[]</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>aliases]</td>
+<td>Array<span>&lt;</span>String<span>&gt;</span></td>
+<td>Other names that trigger the command.</td>
+<td><font color='#f5c842'>[]</font></td>
+</tr>
+<tr>
+<td>data<span>.</span>options<span>.</span>dbTable</td>
+<td>String</td>
+<td>The name of database table to fetch user data from (primary key must be named <code>id</code>).</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>restricted]</td>
+<td>Boolean</td>
+<td>Whether or not this command is restricted to admin only.</td>
+<td><font color='#f5c842'>false</font></td>
+</tr>
+<tr>
+<td>data<span>.</span>action</td>
+<td>commandAction</td>
+<td>The command action.</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Awaiting Messages</p>
+</blockquote>
+<p>Certain commands require multiple messages from a user. If a command asks a question, it will usually want to await a response from the user. This can be done with awaits.</p>
+<p>Command File:</p>
+<pre class="prettyprint source lang-js"><code>const {
+  Command,
+  Await
+} = require('cylcone-engine')
+
+const data = {
+  name: 'ban',
+  desc: 'Ban a user',
+  options: {
+    args: [{ name: 'username', mand: true }]
+  },
+  action: ({ client, msg, args: [username] }) => {
+    const user = client.users.find((u) => u.username.toLowerCase() === username.toLowerCase())
+
+    if (!user) return '`Could not find user.`'
+
+    return {
+      content: `Are you sure you want to ban `${user.username}`? (Cancels in 10 seconds)`,
+      wait: new Await({
+        options: {
+          args: [{ name: 'response', mand: true }],
+          timeout: 10000
+        },
+        action: ({ args: [response] }) => {
+          if (response.toLowerCase() === 'yes') {
+            return client.banMember(user.id, 0, 'Banned by: ' + msg.author.username)
+              .then(() => 'User banned')
+              .catch(() => '`Bot does not have permissions.`')
+          } else return 'Ban cancelled.'
+        }
+      })
+    }
+  }
+}
+
+module.exports = new Command(data)
+</code></pre>
+<p><font size='+2'>Await</font></p>
+<p><font size='+1' color='#a0a0a0'>A class used for the awaiting of a criteria-matching message.</font></p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td>Object</td>
+<td>The await data.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>options]</td>
+<td>Object</td>
+<td>The options for the await</td>
+<td><font color='#f5c842'>{}</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>args]</td>
+<td>Array<span>&lt;</span>Argument<span>&gt;</span></td>
+<td>The arguments for the await.</td>
+<td><font color='#f5c842'>[]</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>check]</td>
+<td>checkFunction</td>
+<td>The condition to be met for the await to trigger.</td>
+<td><font color='#f5c842'>() =&gt; true</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>timeout]</td>
+<td>Number</td>
+<td>How long until the await cancels.</td>
+<td><font color='#f5c842'>15000</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>oneTime]</td>
+<td>Boolean</td>
+<td>Whether a non-triggering message cancels the await.</td>
+<td><font color='#f5c842'>false</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>refreshOnUse]</td>
+<td>Boolean</td>
+<td>Whether the timeout for the await refreshes after a use.</td>
+<td><font color='#f5c842'>false</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>channel]</td>
+<td>String</td>
+<td>The channel to await the message. (By default, it's the channel the command was called in.)</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>action</td>
+<td>awaitAction</td>
+<td>The await action.</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Creating Replacers</p>
+</blockquote>
+<p>Replacers are passed to the command handler and are applied to messages that trigger commands. Using keywords, live data can be inserted into your message as if you typed it. For example, you could replace <code>|TIME|</code> in a message with the current date and time.</p>
+<p>Replacer File:</p>
+<pre class="prettyprint source lang-js"><code>const {
+  Replacer
+} = require('cyclone-engine')
+
+const data = {
+  key: 'TIME',
+  desc: 'The current time',
+  options: {
+    args: [{ name: 'timezone' }]
+  },
+  action: ({ args: [timezone] }) => new Date(new Date().toLocaleString('en-US', { timeZone: timezone })).toLocaleString()
+} /* If I wrote `!say |TIME America/New_York|` at 12:00PM in London on Frebruary 2nd 1996, The bot would respond with `2/2/1996, 7:00:00 AM`. (The timezone is optional)*/
+
+module.exports = new Replacer(data)
+</code></pre>
+<p><font size='+2'>Replacer</font></p>
+<p><font size='+1' color='#a0a0a0'>A class used to register keywords in a message that are replaced with live data.</font></p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td>Object</td>
+<td>The data to make a replacer with.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>key</td>
+<td>String</td>
+<td>The key that invokes the replacer.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>desc</td>
+<td>String</td>
+<td>The description of the replacer.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>options]</td>
+<td>Object</td>
+<td>The options for the replacer.</td>
+<td><font color='#f5c842'>{}</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>args]</td>
+<td>Array<span>&lt;</span>Argument<span>&gt;</span></td>
+<td>The arguments for the replacer.</td>
+<td><font color='#f5c842'>[]</font></td>
+</tr>
+<tr>
+<td>data<span>.</span>action</td>
+<td>replacerAction</td>
+<td>A function returning the string to replace with.</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Constructing the Reaction Handler without the agent</p>
+</blockquote>
+<p>The Reaction Handler is taken care of automatically when the agent is constructed and connected. However, if you would not like to use the agent, you can construct the handler separately.</p>
+<pre class="prettyprint source lang-js"><code>
+const {
+  _ReactionHandler
+} = require('cyclone-engine')
+
+const handler = client.getOAuthApplication().then((app) => {
+  return new _ReactionHandler({
+    client,
+    ownerID: app.owner.id,
+    ...require('./data')
+  })
+})
+
+client.on('messageReactionAdd', async (msg, emoji, userID) => {
+  await handler
+
+  handler.handle(msg, emoji, userID)
+})
+</code></pre>
+<p><font size='+2'>ReactionHandler</font></p>
+<p><font size='+1' color='#a0a0a0'>The module that handles incoming reactions.</font></p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td>Object</td>
+<td>The reaction handler data.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>agent]</td>
+<td>Agent</td>
+<td>The agent managing the bot.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>client</td>
+<td>Eris.Client</td>
+<td>The Eris client.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>ownerID</td>
+<td>String</td>
+<td>The ID of the bot owner.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>knex]</td>
+<td>QueryBuilder</td>
+<td>The simple-knex query builder.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>reactCommands]</td>
+<td>Array<span>&lt;</span>ReactCommand<span>&gt;</span><span>|</span>ReactCommand</td>
+<td>rray of reaction commands to load initially.</td>
+<td><font color='#f5c842'>[]</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options]</td>
+<td>Object</td>
+<td>Options for the reaction handler.</td>
+<td><font color='#f5c842'>{}</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>maxInterfaces]</td>
+<td>Number</td>
+<td>The maximum amount of interfaces cached before they start getting deleted.</td>
+<td><font color='#f5c842'>1500</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>ignoreCodes]</td>
+<td>Array<span>&lt;</span>Number<span>&gt;</span></td>
+<td>The Discord error codes to ignore.</td>
+<td><font color='#f5c842'>[]</font></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Creating React Commands</p>
+</blockquote>
+<p>React commands listen for when any user reacts to any command with a certain emoji.</p>
+<p>React Command File:</p>
+<pre class="prettyprint source lang-js"><code>const {
+  ReactCommand
+} = require('cyclone-engine')
+
+const {
+  MODERATOR_CHANNELID
+} = process.env
+
+const data = {
+  emoji: '❗', /* A custom emoji would be `:name:id` (Animated emojis are `a:name:id`) */
+  desc: 'Report a message to the moderators',
+  action: ({ msg, user }) => {
+    return {
+      content: `Reported by *${user.username}*. Message link: https://discordapp.com/channels/${msg.channel.guild.id}/${msg.channel.id}/${msg.id}`,
+      embed: {
+        author: {
+          name: msg.author.username,
+          icon_url: msg.author.avatarURL
+        },
+        title: msg.content
+      },
+      options: {
+        channel: MODERATOR_CHANNELID
+      }
+    }
+  }
+}
+
+module.exports = new ReactCommand(data)
+</code></pre>
+<p><font size='+2'>ReactCommand</font></p>
+<p><font size='+1' color='#a0a0a0'>A class used to register commands for the command handler.</font></p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td>Object</td>
+<td>The react command data.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>emoji</td>
+<td>String</td>
+<td>The emoji that triggers the command.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>desc</td>
+<td>String</td>
+<td>The description of the react command.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>options</td>
+<td>Object</td>
+<td>Additional options for the react command</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>restricted]</td>
+<td>Boolean</td>
+<td>Whether the react command is restricted to selected users or not.</td>
+<td><font color='#f5c842'>false</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>designatedUsers]</td>
+<td>Array<span>&lt;</span>String<span>&gt;</span><span>|</span>String</td>
+<td>The IDs of the users who can use the react command. By default, if restricted is true, it's the owner of the message reacted on.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>dbTable]</td>
+<td>String</td>
+<td>Name of database table to fetch user data from (primary key must be named <code>id</code>).</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>removeReaction]</td>
+<td>Boolean</td>
+<td>Whether the triggering reaction is removed after executed or not.</td>
+<td><font color='#f5c842'>false</font></td>
+</tr>
+<tr>
+<td>data<span>.</span>action</td>
+<td>reactCommandAction</td>
+<td>The react command action.</td>
+<td>*</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Binding interfaces to messages</p>
+</blockquote>
+<p>Interfaces are a group of emojis the bot adds to a messages. When an emoji is clicked, the bot executes the appropriate action. Interfaces can be bound manually with <code>ReactionHandler.prototype.bindInterface()</code> <em>See documentation</em>, or they can be included in the options of an action return (This includes commands, awaits, and react commands).</p>
+<pre class="prettyprint source lang-js"><code>const {
+  Command,
+  ReactInterface
+} = require('cyclone-engine')
+
+const {
+  ADMIN_ROLEID,
+  MUTED_ROLEID
+}
+
+const data = {
+  name: 'manage',
+  desc: 'Open an administrative control panel for a user',
+  options: {
+    args: [{ name: 'username', mand: true }]
+  },
+  action: ({ client, msg, args: [username] }) => {
+    if (!msg.member.roles.includes(ADMIN_ROLEID)) return '`You are not authorized.`'
+
+    const user = msg.channel.guild.members.find((u) => u.username.toLowerCase() === username.toLowerCase())
+
+    if (!user) return '`Could not find user.`'
+
+    const muteButton = user.roles.includes(MUTED_ROLEID)
+      ? new ReactCommand({
+        emoji '😮', /* Unmute */
+        action: () => {
+          return user.removeRole(MUTED_ROLEID, 'Unmuted by: ' + msg.author.username)
+            .then(() => 'User unmuted')
+            .catch(() => 'Missing permissions')
+        }
+      })
+      : new ReactCommand({
+        emoji: '🤐', /* Mute */
+        action: () => {
+          return user.addRole(MUTED_ROLEID, 'Muted by: ' + msg.author.username)
+            .then(() => 'User muted')
+            .catch(() => 'Missing permissions')
+        }
+      })
+
+    return {
+      content: `**${user.username}#${user.descriminator}**`,
+      options: {
+        reactInterface: new ReactInterface({
+          buttons: [
+            muteButton,
+            new ReactCommand({
+              emoji: '👢', /* Kick */
+              action: () => user.kick('Kicked by: ' + msg.author.username).catch(() => 'Missing permissions')
+            }),
+            new ReactCommand({
+              emoji: '🔨', /* Ban */
+              action: () => user.ban('Banned by: ' + msg.author.username).catch(() => 'Missing permissions')
+            })
+          ],
+          options: {
+            deleteAfterUse: true
+          }
+        })
+      }
+    }
+  }
+}
+
+module.exports = new Command(data)
+</code></pre>
+<p><font size='+2'>ReactInterface</font></p>
+<p><font size='+1' color='#a0a0a0'>An array of emoji button that attach to a message to do different actions.</font></p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data</td>
+<td>Object</td>
+<td>The react interface data.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>data<span>.</span>buttons</td>
+<td>Array<span>&lt;</span>ReactCommand<span>&gt;</span><span>|</span>ReactCommand</td>
+<td>The buttons of the interface.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>options]</td>
+<td>Object</td>
+<td>The options for the interface.</td>
+<td><font color='#f5c842'>{}</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>restricted]</td>
+<td>Boolean</td>
+<td>Whether all buttons of the interface are restricted to selected users or not.</td>
+<td><font color='#f5c842'>false</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>designatedUsers]</td>
+<td>Array<span>&lt;</span>String<span>&gt;</span><span>|</span>String</td>
+<td>The IDs of the users who can use the react interface. By default, if restricted is true, it's the owner of the message reacted on.</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>dbTable]</td>
+<td>String</td>
+<td>Name of database table to fetch user data from (primary key must be named <code>id</code>).</td>
+<td>*</td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>deleteAfterUse]</td>
+<td>Boolean</td>
+<td>Whether the interface is deleted after a use or not.</td>
+<td><font color='#f5c842'>false</font></td>
+</tr>
+<tr>
+<td>[data<span>.</span>options<span>.</span>removeReaction]</td>
+<td>Boolean</td>
+<td>Whether the triggering reaction is removed after executed or not.</td>
+<td><font color='#f5c842'>false</font></td>
+</tr>
+</tbody>
+</table></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<footer>
+    <img class="footerLogo" src="./assets/Icon.png" style="width: 30px; height: 30px">
+    <div class="footer-text">One of the best bot engines for Discord!</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = 'package:cyclone-engine_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>

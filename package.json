@@ -1,7 +1,7 @@
 {
   "name": "cyclone-engine",
   "version": "1.1.0",
-  "description": "A Discord bot client manager/engine and command handler combo! Easy to use.",
+  "description": "An easy to use Discord bot client manager/engine and event handler combo! Automate everything with a stable bot framework.",
   "main": "index.js",
   "scripts": {
     "test": "nyc --reporter lcov ava --verbose **/*.test.js",

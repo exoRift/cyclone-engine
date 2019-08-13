@@ -4,6 +4,10 @@
 [![codecov](https://codecov.io/gh/mets11rap/cyclone-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/mets11rap/cyclone-engine)
 [![Discord Server](https://img.shields.io/badge/-Support%20Server-b.svg?colorA=697ec4&colorB=7289da&logo=discord)](https://discord.gg/Rqd8SJ9)
 ![Version](https://img.shields.io/github/package-json/v/mets11rap/cyclone-engine.svg?label=Version)
+![Node Version](https://img.shields.io/node/v/cyclone-engine?label=Node%20Version&logo=node.js)
+![NPM Downloads](https://img.shields.io/npm/dt/cyclone-engine?label=Downloads&logo=npm)
+
+[![NPM Page](https://img.shields.io/badge/NPM-Page-critical?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/cyclone-engine)
 
 An advanced bot engine for Discord
 -
@@ -44,6 +48,10 @@ An advanced bot engine for Discord
 `dblapi.js` - If you plan on integrating the Discord Bot Labs API into your bot, make sure to have this installed.
 
 <a href='https://mets11rap.github.io/cyclone-engine/' style='color: #4747d1'><font size='+2'>**Documentation**</font></a>
+
+```
+npm i cyclone-engine
+```
 
 >Constructing the Agent class
 

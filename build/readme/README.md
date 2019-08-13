@@ -89,9 +89,7 @@ const agent = new Agent({
         ]
       }
     ],
-    clearEmptyRows: [
-      'users'
-    ]
+    clearEmptyRows: ['users']
   },
   agentOptions: {
     connectRetryLimit: 5,

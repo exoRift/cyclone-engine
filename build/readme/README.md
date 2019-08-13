@@ -183,7 +183,8 @@ const data = {
       wait: new Await({
         options: {
           args: [{ name: 'response', mand: true }],
-          timeout: 10000
+          timeout: 10000,
+          onCancelFunction: () => msg.channel.createMessage('Ban cancelled.').catch((ignore) => ignore)
         },
         action: ({ args: [response] }) => {
           if (response.toLowerCase() === 'yes') {

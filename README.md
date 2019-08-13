@@ -250,7 +250,8 @@ const data = {
       wait: new Await({
         options: {
           args: [{ name: 'response', mand: true }],
-          timeout: 10000
+          timeout: 10000,
+          onCancelFunction: () => msg.channel.createMessage('Ban cancelled.').catch((ignore) => ignore)
         },
         action: ({ args: [response] }) => {
           if (response.toLowerCase() === 'yes') {
@@ -277,9 +278,10 @@ data|Object|The await data.|*
 [data<span>.</span>options]|Object|The options for the await|<font color='#f5c842'>{}</font>
 [data<span>.</span>options<span>.</span>args]|Array<span><</span>Argument<span>></span>|The arguments for the await.|<font color='#f5c842'>[]</font>
 [data<span>.</span>options<span>.</span>check]|checkFunction|The condition to be met for the await to trigger.|<font color='#f5c842'>() => true</font>
-[data<span>.</span>options<span>.</span>timeout]|Number|How long until the await cancels.|<font color='#f5c842'>15000</font>
+[data<span>.</span>options<span>.</span>timeout]|Number|How long until the await expires.|<font color='#f5c842'>15000</font>
 [data<span>.</span>options<span>.</span>oneTime]|Boolean|Whether a non-triggering message cancels the await.|<font color='#f5c842'>false</font>
 [data<span>.</span>options<span>.</span>refreshOnUse]|Boolean|Whether the timeout for the await refreshes after a use.|<font color='#f5c842'>false</font>
+[data<span>.</span>options<span>.</span>onCancelFunction]|function|A function to run once the await expires or is cancelled.|*
 [data<span>.</span>options<span>.</span>channel]|String|The channel to await the message. (By default, it's the channel the command was called in.)|*
 data<span>.</span>action|awaitAction|The await action.|*
 

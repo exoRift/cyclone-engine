@@ -6,7 +6,8 @@
   "scripts": {
     "test": "nyc --reporter lcov ava --verbose **/*.test.js",
     "lint": "eslint ./",
-    "build": "build.bat"
+    "build": "build.bat",
+    "publish": "npm publish"
   },
   "nyc": {
     "exclude": [

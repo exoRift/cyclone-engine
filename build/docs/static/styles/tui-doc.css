@@ -2,7 +2,10 @@
     --bg-color: #0b0e0f;
     --bg-accent-color: #161b1d;
     --bg-highlight-color: #4d5f66;
-    --tone-color: #007399;
+    /*darker*/
+    /* --tone-color: #6666ff;  */
+    /* lighter */
+    --tone-color: #8888ff; 
     --tone-acent-color: #0099cc;
     --main-color: #00ace6;
     --main-accent-color: #4dd2ff;

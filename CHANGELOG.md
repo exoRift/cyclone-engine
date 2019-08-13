@@ -12,3 +12,7 @@
 ### **New developer-favoring features**
 
 - User blacklisting
+
+### **New handling features**
+
+- There's now a post-handle function for react commands

@@ -9,7 +9,7 @@
 
 [![NPM Page](https://img.shields.io/badge/NPM-Page-critical?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/cyclone-engine)
 
-An advanced bot engine for Discord
+An advanced bot engine for Discord running on lightweight Eris
 -
 **What can Cyclone do?**
 
@@ -41,9 +41,9 @@ An advanced bot engine for Discord
 # Getting started
 >Prerequisites
 
-`eris` - You need to install Eris and supply it to the agent or Command Handler. Eris is supplied to allow custom Eris classes to be used by the engine.
+`eris` - You need to install Eris and supply it to the agent. Eris is supplied to allow custom Eris classes to be used by the engine.
 
-`pg, mysql, sqlite, etc.` - In order for the database wrapper, `simple-knex` to function, the database driver you are using must be installed.
+`pg, mysql, sqlite, etc.` - In order for the database wrapper, `simple-knex`, to function, the database driver you are using must be installed.
 
 `dblapi.js` - If you plan on integrating the Discord Bot Labs API into your bot, make sure to have this installed.
 

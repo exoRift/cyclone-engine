@@ -3,9 +3,9 @@
 [![CircleCI](https://circleci.com/gh/mets11rap/cyclone-engine/tree/master.svg?style=svg)](https://circleci.com/gh/mets11rap/cyclone-engine/tree/master)
 [![codecov](https://codecov.io/gh/mets11rap/cyclone-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/mets11rap/cyclone-engine)
 [![Discord Server](https://img.shields.io/badge/-Support%20Server-b.svg?colorA=697ec4&colorB=7289da&logo=discord)](https://discord.gg/Rqd8SJ9)
-![Version](https://img.shields.io/github/package-json/v/mets11rap/cyclone-engine.svg?label=Version)
-![Node Version](https://img.shields.io/node/v/cyclone-engine?label=Node%20Version&logo=node.js)
-![NPM Downloads](https://img.shields.io/npm/dt/cyclone-engine?label=Downloads&logo=npm)
+[![Version](https://img.shields.io/github/package-json/v/mets11rap/cyclone-engine.svg?label=Version)](#)
+[![Node Version](https://img.shields.io/node/v/cyclone-engine?label=Node%20Version&logo=node.js)](#)
+[![NPM Downloads](https://img.shields.io/npm/dt/cyclone-engine?label=Downloads&logo=npm)](#)
 
 [![NPM Page](https://img.shields.io/badge/NPM-Page-critical?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/cyclone-engine)
 
@@ -77,18 +77,14 @@ const agent = new Agent({
   databaseOptions: {
     connectionURL: DATABASE_URL,
     client: 'pg',
-    tables: [
-      {
-        name: 'users',
-        columns: [
-          {
-            name: 'score',
-            type: 'integer',
-            default: 0
-          }
-        ]
-      }
-    ],
+    tables: [{
+      name: 'users',
+      columns: [{
+        name: 'score',
+        type: 'integer',
+        default: 0
+      }]
+    }],
     clearEmptyRows: ['users']
   },
   agentOptions: {
@@ -101,7 +97,8 @@ const agent = new Agent({
       )
     }, /* DM the number of guilds the bot is in to the owner */
     loopInterval: 1800000, /* 30 minutes */
-    logFunction: (msg, { command }) => `${msg.timestamp} - **${msg.author.username}** > *${command.name}*` /* "5000000 - **mets11rap** > *help*" */
+    postMessageFunction: (msg, { command }) => console.log(`${msg.timestamp} - **${msg.author.username}** > *${command.name}*`),
+    postReactionFunction: (msg, { reactCommand }) => console.log(`${msg.timestamp} - **${msg.author.username}** > *${reactCommand.name}*`)
   }
 })
 ```

@@ -117,7 +117,7 @@ function updateItemName(item) {
     }
 
     if (attributes && attributes.length) {
-        itemName = util.format( '%s<span class="signature-attributes">%s</span>', itemName,
+        itemName = util.format( '%s<span class="signature-attributes"> : %s</span>', itemName,
             attributes.join(', ') );
     }
 
@@ -194,7 +194,7 @@ function addSignatureReturns(f) {
     }
 
     if (source) {
-        returnTypes = addNonParamAttributes(f.returns);
+        returnTypes = f.returns ? addNonParamAttributes(f.returns) : [];
     }
     if (returnTypes.length) {
         returnTypesString = util.format( ' &rarr; %s{%s}', attribsString, returnTypes.join('|') );

@@ -516,3 +516,7 @@ span.arrow {
     font-size: 8pt;
     padding-right: 5px;
 }
+
+span.signature-attributes {
+    color: var(--tone-color)
+}

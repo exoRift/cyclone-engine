@@ -1,12 +1,13 @@
 /**
  * Compile a doclet into a table.
- * @param   {Doclet}   doclet                   The doclet.
- * @param   {String[]} columns                  The column names.
- * @param   {String[]} rows                     The row values.
- * @param   {Object}   options                  Options for the table.
- * @prop    {String}   [options.tableNameColor] The color of the table name.
- * @prop    {String}   [options.tableDescColor] The color of the table description.
- * @returns {String}                            The resulting table.
+ * @generator
+ * @param     {Doclet}   doclet                   The doclet.
+ * @param     {String[]} columns                  The column names.
+ * @param     {String[]} rows                     The row values.
+ * @param     {Object}   options                  Options for the table.
+ * @prop      {String}   [options.tableNameColor] The color of the table name.
+ * @prop      {String}   [options.tableDescColor] The color of the table description.
+ * @returns   {String}                            The resulting table.
  */
 function compileTable (doclet, columns, rows, options) {
   const {

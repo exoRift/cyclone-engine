@@ -5,9 +5,10 @@ const typeDetailRegex = /\.</g
 
 /**
  * Format the properties of a doclet into a table column.
- * @param   {String[]} columns The columns of the table.
- * @param   {Doclet}   doclet  The doclet to format.
- * @returns {String}           The table column values.
+ * @generator
+ * @param     {String[]} columns The columns of the table.
+ * @param     {Doclet}   doclet  The doclet to format.
+ * @returns   {String}           The table column values.
  */
 function format (columns, doclet) {
   const rows = doclet.properties

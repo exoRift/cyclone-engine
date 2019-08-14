@@ -346,9 +346,14 @@ class Channel {
    * @returns {Promise<PseudoClient.Message>}             The resulting message.
    */
   async createMessage (msg, file) {
-    if (this._createMessageThrow) throw Error('This is purposefully thrown')
+    if (this._createMessageThrow) {
+      const error = Error('This is purposefully thrown')
+      error.code = 101
 
-    if (this.type) {
+      throw error
+    }
+
+    if (![0, 1, 3].includes(this.type)) {
       const err = new Error()
       err.name = 'DiscordRESTError [50008]'
       err.message = 'Cannot send messages in a non-text channel'

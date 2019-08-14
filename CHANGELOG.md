@@ -16,3 +16,8 @@
 ### **New handling features**
 
 - There's now a post-handle function for react commands
+
+### **Quality of life**
+
+- Capitalization of command names and aliases while defining or calling no longer matters
+- Command aliases will now automatically turn into an array

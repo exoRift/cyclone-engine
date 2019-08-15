@@ -517,6 +517,14 @@ class Message {
    * @async
    */
   async delete () {
+    if (!this.channel.messages.has(this.id)) {
+      const error = new Error('Unknown Message')
+      error.name = 'DiscordRESTError [10008]'
+      error.code = 10008
+
+      throw error
+    }
+
     this.channel.messages.delete(this.id)
   }
 

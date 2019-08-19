@@ -6,12 +6,12 @@
     "include": ["lib/"]
   },
   "templates": {
-
+    "templateDir": "build/readme/"
   },
   "opts": {
     "encoding": "utf8",
     "package": "package.json",
-    "template": "./readme/",
+    "template": "node_modules/readmetables-jsdoc-template",
     "destination": "./",
     "private": true,
     "recurse": true

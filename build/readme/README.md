@@ -36,7 +36,7 @@ An advanced bot engine for Discord running on lightweight Eris
 - Complete freedom of bot design
 
 # Examples of bots that use Cyclone
-<font size='+1'>[**GuildLink**](https://github.com/mets11rap/guildlink)</font>
+- <font size='+1'>[**GuildLink**](https://github.com/mets11rap/guildlink)</font>
 
 # Getting started
 >Prerequisites

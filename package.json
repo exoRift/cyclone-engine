@@ -50,6 +50,7 @@
     "jsdoc": "^3.6.3",
     "nyc": "^13.3.0",
     "pg": "^7.12.1",
+    "readmetables-jsdoc-template": "^1.0.2",
     "sinon": "^7.4.1"
   },
   "engines": {

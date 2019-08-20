@@ -1,3 +1,10 @@
+1.2.1
+-
+### **Bug Fixes**
+
+- Fixed bug where on a shard disconnect, the shard wasn't properly displayed.
+- The agent will only log `Initiating Command Handler` when the command handler is actually being initiated (yikes)
+
 1.2.0
 -
 ### **New developer-favoring features**

@@ -78,7 +78,7 @@ class PseudoClient extends EventEmitter {
     if (!this._connectStatus) throw Error()
 
     this.emit('ready')
-    this.emit('shardReady', this.shards.get(0).id)
+    this.emit('shardReady', 0)
   }
 
   /**

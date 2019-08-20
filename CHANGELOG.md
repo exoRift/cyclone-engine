@@ -1,12 +1,3 @@
-1.1.1
--
-### **Base version with**
-
-- Automated bot functions
-- Command handling
-- Reaction handling
-- Message awaiting
-
 1.2.0
 -
 ### **New developer-favoring features**
@@ -39,3 +30,12 @@
 
 - Added more catches for promises to reduce unhandled rejections for when they are no longer ignored by the Node runtime
 - Fixed issue where `initResponse` was not being passed to await actions when they were registered by react commands
+
+1.1.1
+-
+### **Base version with**
+
+- Automated bot functions
+- Command handling
+- Reaction handling
+- Message awaiting

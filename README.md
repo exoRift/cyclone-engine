@@ -52,7 +52,7 @@ An advanced bot engine for Discord running on lightweight Eris
 ```
 npm i cyclone-engine
 ```
-
+***
 >Constructing the Agent class
 
 The Agent class is the main manager of the bot. This will be controlling automated actions as well as call the Command & Reaction Handler.
@@ -138,7 +138,7 @@ data<span>.</span>databaseOptions<span>.</span>client|<font color='#f5c842'>Stri
 [data<span>.</span>agentOptions<span>.</span>maxInterfaces]|<font color='#f5c842'>Number</font>|The maximum amount of reaction interfaces cached before they start getting deleted.|<font color='#f5c842'>1500</font>
 data|<font color='#f5c842'>Object</font>|The agent data.|<font color='red'>X</font>
 [data<span>.</span>agentOptions<span>.</span>userBlacklist]|<font color='#f5c842'>Array<span><</span>String<span>></span></font>|An array of user IDs to be blacklisted from using the bot.|<font color='#f5c842'>[]</font>
-
+***
 >Constructing the Command Handler without the agent
 
 The Command Handler is taken care of automatically when the agent is constructed and connected. However, if you would not like to use the agent, you can construct the handler separately.
@@ -188,7 +188,7 @@ data<span>.</span>ownerID|<font color='#f5c842'>String</font>|The ID of the bot 
 [data<span>.</span>options<span>.</span>replacerBraces<span>.</span>close]|<font color='#f5c842'>String</font>|The closing brace.|<font color='#f5c842'>'\|'</font>
 data|<font color='#f5c842'>Object</font>|The command handler data.|<font color='red'>X</font>
 [data<span>.</span>options<span>.</span>ignoreCodes]|<font color='#f5c842'>Array<span><</span>Number<span>></span></font>|The Discord error codes to ignore.|<font color='#f5c842'>[]</font>
-
+***
 >Creating Commands
 
 The Command Handler takes an array of command and replacer classes to function. A multifile system is optimal. A way to implement this would be a folder containing JS files of every command with an `index.js` that would require every command (Looping on an `fs.readdir()`) and return an array containing them.
@@ -227,7 +227,7 @@ data<span>.</span>options<span>.</span>dbTable|<font color='#f5c842'>String</fon
 [data<span>.</span>options<span>.</span>restricted]|<font color='#f5c842'>Boolean</font>|Whether or not this command is restricted to admin only.|*
 data|<font color='#f5c842'>Object</font>|The command data.|<font color='red'>X</font>
 data<span>.</span>action|<font color='#f5c842'>commandAction</font>|The command action.|<font color='red'>X</font>
-
+***
 >Awaiting Messages
 
 Certain commands require multiple messages from a user. If a command asks a question, it will usually want to await a response from the user. This can be done with awaits.
@@ -289,7 +289,7 @@ Parameter|Type|Description|Default
 [data<span>.</span>options<span>.</span>channel]|<font color='#f5c842'>String</font>|The ID of the channel to await the message. (By default, it's the channel the command was called in.)|*
 data|<font color='#f5c842'>Object</font>|The await data.|<font color='red'>X</font>
 data<span>.</span>action|<font color='#f5c842'>awaitAction</font>|The await action.|<font color='red'>X</font>
-
+***
 >Creating Replacers
 
 Replacers are passed to the command handler and are applied to messages that trigger commands. Using keywords, live data can be inserted into your message as if you typed it. For example, you could replace `|TIME|` in a message with the current date and time.
@@ -324,7 +324,7 @@ data<span>.</span>desc|<font color='#f5c842'>String</font>|The description of th
 [data<span>.</span>options<span>.</span>args]|<font color='#f5c842'>Array<span><</span>Argument<span>></span></font>|The arguments for the replacer.|<font color='#f5c842'>[]</font>
 data|<font color='#f5c842'>Object</font>|The data to make a replacer with.|<font color='red'>X</font>
 data<span>.</span>action|<font color='#f5c842'>replacerAction</font>|A function returning the string to replace with.|<font color='red'>X</font>
-
+***
 >Constructing the Reaction Handler without the agent
 
 The Reaction Handler is taken care of automatically when the agent is constructed and connected. However, if you would not like to use the agent, you can construct the handler separately.
@@ -365,7 +365,7 @@ data<span>.</span>ownerID|<font color='#f5c842'>String</font>|The ID of the bot 
 [data<span>.</span>options<span>.</span>maxInterfaces]|<font color='#f5c842'>Number</font>|The maximum amount of interfaces cached before they start getting deleted.|<font color='#f5c842'>1500</font>
 data|<font color='#f5c842'>Object</font>|The reaction handler data.|<font color='red'>X</font>
 [data<span>.</span>options<span>.</span>ignoreCodes]|<font color='#f5c842'>Array<span><</span>Number<span>></span></font>|The Discord error codes to ignore.|<font color='#f5c842'>[]</font>
-
+***
 >Creating React Commands
 
 React commands listen for when any user reacts to any command with a certain emoji.
@@ -394,7 +394,7 @@ const data = {
         title: msg.content
       },
       options: {
-        channel: MODERATOR_CHANNELID
+        channels: MODERATOR_CHANNELID
       }
     }
   }
@@ -418,7 +418,7 @@ data<span>.</span>options|<font color='#f5c842'>Object</font>|Additional options
 [data<span>.</span>options<span>.</span>removeReaction]|<font color='#f5c842'>Boolean</font>|Whether the triggering reaction is removed after executed or not.|*
 data|<font color='#f5c842'>Object</font>|The react command data.|<font color='red'>X</font>
 data<span>.</span>action|<font color='#f5c842'>reactCommandAction</font>|The react command action.|<font color='red'>X</font>
-
+***
 >Binding interfaces to messages
 
 Interfaces are a group of emojis the bot adds to a messages. When an emoji is clicked, the bot executes the appropriate action. Interfaces can be bound manually with `ReactionHandler.prototype.bindInterface()` *See documentation*, or they can be included in the options of an action return (This includes commands, awaits, and react commands).

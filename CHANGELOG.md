@@ -1,3 +1,17 @@
+1.2.2
+-
+### **Quality of life**
+
+- Readded a catch after an issue in Eris was fixed
+
+### **Important notes**
+
+- `initResponse` passed to await actions has been changed to `triggerResponse`
+
+### **Bug fixes**
+
+- Fixed an issue with `initResponse`/`triggerResponse` for Awaits
+
 1.2.1
 -
 ### **Bug Fixes**

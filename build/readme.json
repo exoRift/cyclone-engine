@@ -6,7 +6,7 @@
     "include": ["lib/"]
   },
   "templates": {
-    "templateDir": "build/readme/"
+    "templateDir": "build/templates/"
   },
   "opts": {
     "encoding": "utf8",

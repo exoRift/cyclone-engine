@@ -32,7 +32,7 @@
   "opts": {
     "encoding": "utf8",
     "package": "package.json",
-    "template": "./docs/",
+    "template": "node_modules/tui-jsdoc-template",
     "destination": "../cyclone-engine-pages",
     "private": true,
     "recurse": true

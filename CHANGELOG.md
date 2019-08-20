@@ -1,9 +1,5 @@
 1.2.2
 -
-### **Quality of life**
-
-- Readded a catch after an issue in Eris was fixed
-
 ### **Important notes**
 
 - `initResponse` passed to await actions has been changed to `triggerResponse`
@@ -18,7 +14,7 @@
 
 - Fixed bug where on a shard disconnect, the shard wasn't properly displayed.
 - The agent will only log `Initiating Command Handler` when the command handler is actually being initiated (yikes)
-- Temporarily removed a catch until Eris fixes an issue
+- Removed a catch that caused issues
 
 1.2.0
 -

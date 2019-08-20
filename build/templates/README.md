@@ -52,7 +52,7 @@ An advanced bot engine for Discord running on lightweight Eris
 ```
 npm i cyclone-engine
 ```
-
+***
 >Constructing the Agent class
 
 The Agent class is the main manager of the bot. This will be controlling automated actions as well as call the Command & Reaction Handler.
@@ -103,7 +103,7 @@ const agent = new Agent({
 })
 ```
 {docs.class.Agent}
-
+***
 >Constructing the Command Handler without the agent
 
 The Command Handler is taken care of automatically when the agent is constructed and connected. However, if you would not like to use the agent, you can construct the handler separately.
@@ -134,7 +134,7 @@ client.on('messageCreate', async (msg) => {
 })
 ```
 {docs.class.CommandHandler}
-
+***
 >Creating Commands
 
 The Command Handler takes an array of command and replacer classes to function. A multifile system is optimal. A way to implement this would be a folder containing JS files of every command with an `index.js` that would require every command (Looping on an `fs.readdir()`) and return an array containing them.
@@ -158,7 +158,7 @@ const data = {
 module.exports = new Command(data)
 ```
 {docs.class.Command}
-
+***
 >Awaiting Messages
 
 Certain commands require multiple messages from a user. If a command asks a question, it will usually want to await a response from the user. This can be done with awaits.
@@ -204,7 +204,7 @@ const data = {
 module.exports = new Command(data)
 ```
 {docs.class.Await}
-
+***
 >Creating Replacers
 
 Replacers are passed to the command handler and are applied to messages that trigger commands. Using keywords, live data can be inserted into your message as if you typed it. For example, you could replace `|TIME|` in a message with the current date and time.
@@ -227,7 +227,7 @@ const data = {
 module.exports = new Replacer(data)
 ```
 {docs.class.Replacer}
-
+***
 >Constructing the Reaction Handler without the agent
 
 The Reaction Handler is taken care of automatically when the agent is constructed and connected. However, if you would not like to use the agent, you can construct the handler separately.
@@ -253,7 +253,7 @@ client.on('messageReactionAdd', async (msg, emoji, userID) => {
 })
 ```
 {docs.class.ReactionHandler}
-
+***
 >Creating React Commands
 
 React commands listen for when any user reacts to any command with a certain emoji.
@@ -291,7 +291,7 @@ const data = {
 module.exports = new ReactCommand(data)
 ```
 {docs.class.ReactCommand}
-
+***
 >Binding interfaces to messages
 
 Interfaces are a group of emojis the bot adds to a messages. When an emoji is clicked, the bot executes the appropriate action. Interfaces can be bound manually with `ReactionHandler.prototype.bindInterface()` *See documentation*, or they can be included in the options of an action return (This includes commands, awaits, and react commands).

@@ -7,7 +7,7 @@
 - Reaction handling
 - Message awaiting
 
-1.1.2
+1.2.0
 -
 ### **New developer-favoring features**
 

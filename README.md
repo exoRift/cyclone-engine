@@ -3,13 +3,13 @@
 [![CircleCI](https://circleci.com/gh/mets11rap/cyclone-engine/tree/master.svg?style=svg)](https://circleci.com/gh/mets11rap/cyclone-engine/tree/master)
 [![codecov](https://codecov.io/gh/mets11rap/cyclone-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/mets11rap/cyclone-engine)
 [![Discord Server](https://img.shields.io/badge/-Support%20Server-b.svg?colorA=697ec4&colorB=7289da&logo=discord)](https://discord.gg/Rqd8SJ9)
-![Version](https://img.shields.io/github/package-json/v/mets11rap/cyclone-engine.svg?label=Version)
-![Node Version](https://img.shields.io/node/v/cyclone-engine?label=Node%20Version&logo=node.js)
-![NPM Downloads](https://img.shields.io/npm/dt/cyclone-engine?label=Downloads&logo=npm)
+[![Version](https://img.shields.io/github/package-json/v/mets11rap/cyclone-engine.svg?label=Version)](#)
+[![Node Version](https://img.shields.io/node/v/cyclone-engine?label=Node%20Version&logo=node.js)](#)
+[![NPM Downloads](https://img.shields.io/npm/dt/cyclone-engine?label=Downloads&logo=npm)](#)
 
 [![NPM Page](https://img.shields.io/badge/NPM-Page-critical?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/cyclone-engine)
 
-An advanced bot engine for Discord
+An advanced bot engine for Discord running on lightweight Eris
 -
 **What can Cyclone do?**
 
@@ -36,14 +36,14 @@ An advanced bot engine for Discord
 - Complete freedom of bot design
 
 # Examples of bots that use Cyclone
-<font size='+1'>[**GuildLink**](https://github.com/mets11rap/guildlink)</font>
+- <font size='+1'>[**GuildLink**](https://github.com/mets11rap/guildlink)</font>
 
 # Getting started
 >Prerequisites
 
-`eris` - You need to install Eris and supply it to the agent or Command Handler. Eris is supplied to allow custom Eris classes to be used by the engine.
+`eris` - You need to install Eris and supply it to the agent. Eris is supplied to allow custom Eris classes to be used by the engine.
 
-`pg, mysql, sqlite, etc.` - In order for the database wrapper, `simple-knex` to function, the database driver you are using must be installed.
+`pg, mysql, sqlite, etc.` - In order for the database wrapper, `simple-knex`, to function, the database driver you are using must be installed.
 
 `dblapi.js` - If you plan on integrating the Discord Bot Labs API into your bot, make sure to have this installed.
 
@@ -77,21 +77,15 @@ const agent = new Agent({
   databaseOptions: {
     connectionURL: DATABASE_URL,
     client: 'pg',
-    tables: [
-      {
-        name: 'users',
-        columns: [
-          {
-            name: 'score',
-            type: 'integer',
-            default: 0
-          }
-        ]
-      }
-    ],
-    clearEmptyRows: [
-      'users'
-    ]
+    tables: [{
+      name: 'users',
+      columns: [{
+        name: 'score',
+        type: 'integer',
+        default: 0
+      }]
+    }],
+    clearEmptyRows: ['users']
   },
   agentOptions: {
     connectRetryLimit: 5,
@@ -103,7 +97,8 @@ const agent = new Agent({
       )
     }, /* DM the number of guilds the bot is in to the owner */
     loopInterval: 1800000, /* 30 minutes */
-    logFunction: (msg, { command }) => `${msg.timestamp} - **${msg.author.username}** > *${command.name}*` /* "5000000 - **mets11rap** > *help*" */
+    postMessageFunction: (msg, { command }) => console.log(`${msg.timestamp} - **${msg.author.username}** > *${command.name}*`),
+    postReactionFunction: (msg, { reactCommand }) => console.log(`${msg.timestamp} - **${msg.author.username}** > *${reactCommand.name}*`)
   }
 })
 ```
@@ -114,33 +109,35 @@ const agent = new Agent({
 ---
 Parameter|Type|Description|Default
 ---------|----|-----------|-------
-data|Object|The agent data.|*
-data<span>.</span>Eris|Eris|The Eris class the system runs off of.|*
-data<span>.</span>token|String|The token to log in to the Discord API with.|*
-[data<span>.</span>handlerData]|Object|The commands and replacers the bot will respond to|<font color='#f5c842'>{}</font>
-[data<span>.</span>handlerData<span>.</span>commands]|Array<span><</span>Command<span>></span>|The commands for the bot.|*
-[data<span>.</span>handlerData<span>.</span>replacers]|Array<span><</span>Replacer<span>></span>|The replacers for the bot.|*
-[data<span>.</span>handlerData<span>.</span>reactCommands]|Array<span><</span>ReactCommand<span>></span>|The commands that trigger on reactions.|*
-[data<span>.</span>handlerData<span>.</span>replacerBraces]|Object|The braces that invoke a replacer.|*
-[data<span>.</span>handlerData<span>.</span>replacerBraces<span>.</span>open]|String|The opening brace.|<font color='#f5c842'>'\|'</font>
-[data<span>.</span>handlerData<span>.</span>replacerBraces<span>.</span>close]|String|The closing brace.|*
-[data<span>.</span>databaseOptions]|Object|The info for the database the bot utilizes.|<font color='#f5c842'>{}</font>
-data<span>.</span>databaseOptions<span>.</span>connectionURL|String|The URL for connecting to the bot's database.|*
-data<span>.</span>databaseOptions<span>.</span>client|String|The database driver being used.|*
-[data<span>.</span>databaseOptions<span>.</span>tables]|Array<span><</span>Object<span>></span>|The initial tables to set up for the database.|<font color='#f5c842'>[]</font>
-[data<span>.</span>databaseOptions<span>.</span>clearEmptyRows]|Array<span><</span>String<span>></span>|The list of tables to have their unchanged from default rows cleared.|<font color='#f5c842'>[]</font>
-[data<span>.</span>agentOptions]|Object|Options for the agent.|<font color='#f5c842'>{}</font>
-[data<span>.</span>agentOptions<span>.</span>connectRetryLimit]|Number|How many times the agent will attempt to establish a connection with Discord before giving up.|<font color='#f5c842'>10</font>
-[data<span>.</span>agentOptions<span>.</span>prefix]|String|The prefix for bot commands.|<font color='#f5c842'>'!'</font>
-[data<span>.</span>agentOptions<span>.</span>statusMessage]|Object<span>\|</span>statusMessageFunction|The status for the bot. It can be an object containing the data, or a callback function for each shard. By default, it's the bot's prefix.|*
-[data<span>.</span>agentOptions<span>.</span>dblToken]|String|The token used to connect to the Discord Bot Labs API.|*
-[data<span>.</span>agentOptions<span>.</span>loopFunction]|Object|A function that will run every loopInterval amount of ms, supplied the agent.|<font color='#f5c842'>{}</font>
-[data<span>.</span>agentOptions<span>.</span>loopFunction<span>.</span>func]|function|The function.|*
-[data<span>.</span>agentOptions<span>.</span>loopFunction<span>.</span>interval]|Number|The interval at which the loopFunction runs.|<font color='#f5c842'>30000</font>
-[data<span>.</span>agentOptions<span>.</span>fireOnEdit]|Boolean|Whether the command handler is called when a command is edited or not.|<font color='#f5c842'>false</font>
-[data<span>.</span>agentOptions<span>.</span>fireOnReactionRemove]|Boolean|Whether the reaction handler is triggered on the removal of reactions as well.|<font color='#f5c842'>false</font>
-[data<span>.</span>agentOptions<span>.</span>postMessageFunction]|postMessageFunction|A function that runs after every message if it triggers a command.|*
-[data<span>.</span>agentOptions<span>.</span>maxInterfaces]|Number|The maximum amount of reaction interfaces cached before they start getting deleted.|<font color='#f5c842'>1500</font>
+data<span>.</span>Eris|<font color='#f5c842'>Eris</font>|The Eris class the system runs off of.|<font color='red'>X</font>
+data<span>.</span>token|<font color='#f5c842'>String</font>|The token to log in to the Discord API with.|<font color='red'>X</font>
+[data<span>.</span>handlerData]|<font color='#f5c842'>Object</font>|The commands and replacers the bot will respond to|<font color='#f5c842'>{}</font>
+[data<span>.</span>handlerData<span>.</span>commands]|<font color='#f5c842'>Array<span><</span>Command<span>></span></font>|The commands for the bot.|*
+[data<span>.</span>handlerData<span>.</span>replacers]|<font color='#f5c842'>Array<span><</span>Replacer<span>></span></font>|The replacers for the bot.|*
+[data<span>.</span>handlerData<span>.</span>reactCommands]|<font color='#f5c842'>Array<span><</span>ReactCommand<span>></span></font>|The commands that trigger on reactions.|*
+[data<span>.</span>handlerData<span>.</span>replacerBraces]|<font color='#f5c842'>Object</font>|The braces that invoke a replacer.|*
+[data<span>.</span>handlerData<span>.</span>replacerBraces<span>.</span>open]|<font color='#f5c842'>String</font>|The opening brace.|<font color='#f5c842'>'\|'</font>
+[data<span>.</span>handlerData<span>.</span>replacerBraces<span>.</span>close]|<font color='#f5c842'>String</font>|The closing brace.|*
+[data<span>.</span>databaseOptions]|<font color='#f5c842'>Object</font>|The info for the database the bot utilizes.|<font color='#f5c842'>{}</font>
+data<span>.</span>databaseOptions<span>.</span>connectionURL|<font color='#f5c842'>String</font>|The URL for connecting to the bot's database.|<font color='red'>X</font>
+data<span>.</span>databaseOptions<span>.</span>client|<font color='#f5c842'>String</font>|The database driver being used.|<font color='red'>X</font>
+[data<span>.</span>databaseOptions<span>.</span>tables]|<font color='#f5c842'>Array<span><</span>Object<span>></span></font>|The initial tables to set up for the database.|<font color='#f5c842'>[]</font>
+[data<span>.</span>databaseOptions<span>.</span>clearDefaultRows]|<font color='#f5c842'>Array<span><</span>String<span>></span></font>|The list of tables to have their unchanged from default rows cleared.|<font color='#f5c842'>[]</font>
+[data<span>.</span>agentOptions]|<font color='#f5c842'>Object</font>|Options for the agent.|<font color='#f5c842'>{}</font>
+[data<span>.</span>agentOptions<span>.</span>connectRetryLimit]|<font color='#f5c842'>Number</font>|How many times the agent will attempt to establish a connection with Discord before giving up.|<font color='#f5c842'>10</font>
+[data<span>.</span>agentOptions<span>.</span>prefix]|<font color='#f5c842'>String</font>|The prefix for bot commands.|<font color='#f5c842'>'!'</font>
+[data<span>.</span>agentOptions<span>.</span>statusMessage]|<font color='#f5c842'>Object</font>\|<font color='#f5c842'>statusMessageFunction</font>|The status for the bot. It can be an object containing the data, or a callback function for each shard. By default, it's the bot's prefix.|*
+[data<span>.</span>agentOptions<span>.</span>dblToken]|<font color='#f5c842'>String</font>|The token used to connect to the Discord Bot Labs API.|*
+[data<span>.</span>agentOptions<span>.</span>loopFunction]|<font color='#f5c842'>Object</font>|A function that will run every loopInterval amount of ms, supplied the agent.|<font color='#f5c842'>{}</font>
+[data<span>.</span>agentOptions<span>.</span>loopFunction<span>.</span>func]|<font color='#f5c842'>function</font>|The function.|*
+[data<span>.</span>agentOptions<span>.</span>loopFunction<span>.</span>interval]|<font color='#f5c842'>Number</font>|The interval at which the loopFunction runs.|<font color='#f5c842'>30000</font>
+[data<span>.</span>agentOptions<span>.</span>fireOnEdit]|<font color='#f5c842'>Boolean</font>|Whether the command handler is called when a command is edited or not.|*
+[data<span>.</span>agentOptions<span>.</span>fireOnReactionRemove]|<font color='#f5c842'>Boolean</font>|Whether the reaction handler is triggered on the removal of reactions as well.|*
+[data<span>.</span>agentOptions<span>.</span>postMessageFunction]|<font color='#f5c842'>postMessageFunction</font>|A function that runs after every message whether it triggers a command or not.|*
+[data<span>.</span>agentOptions<span>.</span>postReactionFunction]|<font color='#f5c842'>postReactionFunction</font>|A function that runs after every reaction whether it triggers a react command or not.|*
+[data<span>.</span>agentOptions<span>.</span>maxInterfaces]|<font color='#f5c842'>Number</font>|The maximum amount of reaction interfaces cached before they start getting deleted.|<font color='#f5c842'>1500</font>
+data|<font color='#f5c842'>Object</font>|The agent data.|<font color='red'>X</font>
+[data<span>.</span>agentOptions<span>.</span>userBlacklist]|<font color='#f5c842'>Array<span><</span>String<span>></span></font>|An array of user IDs to be blacklisted from using the bot.|<font color='#f5c842'>[]</font>
 
 >Constructing the Command Handler without the agent
 
@@ -178,19 +175,19 @@ client.on('messageCreate', async (msg) => {
 ---
 Parameter|Type|Description|Default
 ---------|----|-----------|-------
-data|Object|The command handler data.|*
-[data<span>.</span>agent]|Agent|The agent managing the bot.|<font color='#f5c842'>{}</font>
-[data<span>.</span>prefix]|String|The prefix of commands.|<font color='#f5c842'>'!'</font>
-data<span>.</span>client|Eris.Client|The Eris client.|*
-data<span>.</span>ownerID|String|The ID of the bot owner.|*
-[data<span>.</span>knex]|QueryBuilder|The simple-knex query builder.|*
-[data<span>.</span>commands]|Array<span><</span>Command<span>></span><span>\|</span>Command|Array of commands to load initially.|<font color='#f5c842'>[]</font>
-[data<span>.</span>replacers]|Array<span><</span>Replacer<span>></span><span>\|</span>Replacer|Array of the message content replacers to load initially.|<font color='#f5c842'>[]</font>
-[data<span>.</span>options]|Object|Additional options for the command handler.|<font color='#f5c842'>{}</font>
-[data<span>.</span>options<span>.</span>replacerBraces]|Object|The braces that invoke a replacer.|<font color='#f5c842'>{}</font>
-[data<span>.</span>options<span>.</span>replacerBraces<span>.</span>open]|String|The opening brace.|<font color='#f5c842'>'\|'</font>
-[data<span>.</span>options<span>.</span>replacerBraces<span>.</span>close]|String|The closing brace.|<font color='#f5c842'>'\|'</font>
-[data<span>.</span>options<span>.</span>ignoreCodes]|Array<span><</span>Number<span>></span>|The Discord error codes to ignore.|<font color='#f5c842'>[]</font>
+[data<span>.</span>agent]|<font color='#f5c842'>Agent</font>|The agent managing the bot.|<font color='#f5c842'>{}</font>
+[data<span>.</span>prefix]|<font color='#f5c842'>String</font>|The prefix of commands.|<font color='#f5c842'>'!'</font>
+data<span>.</span>client|<font color='#f5c842'>Eris.Client</font>|The Eris client.|<font color='red'>X</font>
+data<span>.</span>ownerID|<font color='#f5c842'>String</font>|The ID of the bot owner.|<font color='red'>X</font>
+[data<span>.</span>knex]|<font color='#f5c842'>QueryBuilder</font>|The simple-knex query builder.|*
+[data<span>.</span>commands]|<font color='#f5c842'>Array<span><</span>Command<span>></span></font>\|<font color='#f5c842'>Command</font>|Array of commands to load initially.|<font color='#f5c842'>[]</font>
+[data<span>.</span>replacers]|<font color='#f5c842'>Array<span><</span>Replacer<span>></span></font>\|<font color='#f5c842'>Replacer</font>|Array of the message content replacers to load initially.|<font color='#f5c842'>[]</font>
+[data<span>.</span>options]|<font color='#f5c842'>Object</font>|Additional options for the command handler.|<font color='#f5c842'>{}</font>
+[data<span>.</span>options<span>.</span>replacerBraces]|<font color='#f5c842'>Object</font>|The braces that invoke a replacer.|<font color='#f5c842'>{}</font>
+[data<span>.</span>options<span>.</span>replacerBraces<span>.</span>open]|<font color='#f5c842'>String</font>|The opening brace.|<font color='#f5c842'>'\|'</font>
+[data<span>.</span>options<span>.</span>replacerBraces<span>.</span>close]|<font color='#f5c842'>String</font>|The closing brace.|<font color='#f5c842'>'\|'</font>
+data|<font color='#f5c842'>Object</font>|The command handler data.|<font color='red'>X</font>
+[data<span>.</span>options<span>.</span>ignoreCodes]|<font color='#f5c842'>Array<span><</span>Number<span>></span></font>|The Discord error codes to ignore.|<font color='#f5c842'>[]</font>
 
 >Creating Commands
 
@@ -221,15 +218,15 @@ module.exports = new Command(data)
 ---
 Parameter|Type|Description|Default
 ---------|----|-----------|-------
-data|Object|The command data.|*
-data<span>.</span>name|String|The command name.|*
-data<span>.</span>desc|String|The command description.|*
-[data<span>.</span>options]|Object|The command options.|<font color='#f5c842'>{}</font>
-[data<span>.</span>options<span>.</span>args]|Array<span><</span>Argument<span>></span>|The arguments for the command.|<font color='#f5c842'>[]</font>
-[data<span>.</span>options<span>.</span>aliases]|Array<span><</span>String<span>></span>|Other names that trigger the command.|<font color='#f5c842'>[]</font>
-data<span>.</span>options<span>.</span>dbTable|String|The name of database table to fetch user data from (primary key must be named `id`).|*
-[data<span>.</span>options<span>.</span>restricted]|Boolean|Whether or not this command is restricted to admin only.|<font color='#f5c842'>false</font>
-data<span>.</span>action|commandAction|The command action.|*
+data<span>.</span>name|<font color='#f5c842'>String</font>|The command name.|<font color='red'>X</font>
+data<span>.</span>desc|<font color='#f5c842'>String</font>|The command description.|<font color='red'>X</font>
+[data<span>.</span>options]|<font color='#f5c842'>Object</font>|The command options.|<font color='#f5c842'>{}</font>
+[data<span>.</span>options<span>.</span>args]|<font color='#f5c842'>Array<span><</span>Argument<span>></span></font>|The arguments for the command.|<font color='#f5c842'>[]</font>
+[data<span>.</span>options<span>.</span>aliases]|<font color='#f5c842'>Array<span><</span>String<span>></span></font>\|<font color='#f5c842'>String</font>|Other names that trigger the command.|<font color='#f5c842'>[]</font>
+data<span>.</span>options<span>.</span>dbTable|<font color='#f5c842'>String</font>|The name of database table to fetch user data from (primary key must be named `id`).|<font color='red'>X</font>
+[data<span>.</span>options<span>.</span>restricted]|<font color='#f5c842'>Boolean</font>|Whether or not this command is restricted to admin only.|*
+data|<font color='#f5c842'>Object</font>|The command data.|<font color='red'>X</font>
+data<span>.</span>action|<font color='#f5c842'>commandAction</font>|The command action.|<font color='red'>X</font>
 
 >Awaiting Messages
 
@@ -282,16 +279,16 @@ module.exports = new Command(data)
 ---
 Parameter|Type|Description|Default
 ---------|----|-----------|-------
-data|Object|The await data.|*
-[data<span>.</span>options]|Object|The options for the await|<font color='#f5c842'>{}</font>
-[data<span>.</span>options<span>.</span>args]|Array<span><</span>Argument<span>></span>|The arguments for the await.|<font color='#f5c842'>[]</font>
-[data<span>.</span>options<span>.</span>check]|checkFunction|The condition to be met for the await to trigger.|<font color='#f5c842'>() => true</font>
-[data<span>.</span>options<span>.</span>timeout]|Number|How long until the await expires.|<font color='#f5c842'>15000</font>
-[data<span>.</span>options<span>.</span>oneTime]|Boolean|Whether a non-triggering message cancels the await.|<font color='#f5c842'>false</font>
-[data<span>.</span>options<span>.</span>refreshOnUse]|Boolean|Whether the timeout for the await refreshes after a use.|<font color='#f5c842'>false</font>
-[data<span>.</span>options<span>.</span>onCancelFunction]|function|A function to run once the await expires or is cancelled.|*
-[data<span>.</span>options<span>.</span>channel]|String|The channel to await the message. (By default, it's the channel the command was called in.)|*
-data<span>.</span>action|awaitAction|The await action.|*
+[data<span>.</span>options]|<font color='#f5c842'>Object</font>|The options for the await|<font color='#f5c842'>{}</font>
+[data<span>.</span>options<span>.</span>args]|<font color='#f5c842'>Array<span><</span>Argument<span>></span></font>|The arguments for the await.|<font color='#f5c842'>[]</font>
+[data<span>.</span>options<span>.</span>check]|<font color='#f5c842'>checkFunction</font>|The condition to be met for the await to trigger.|<font color='#f5c842'>() => true</font>
+[data<span>.</span>options<span>.</span>timeout]|<font color='#f5c842'>Number</font>|How long until the await expires.|<font color='#f5c842'>15000</font>
+[data<span>.</span>options<span>.</span>oneTime]|<font color='#f5c842'>Boolean</font>|Whether a non-triggering message cancels the await.|*
+[data<span>.</span>options<span>.</span>refreshOnUse]|<font color='#f5c842'>Boolean</font>|Whether the timeout for the await refreshes after a use.|*
+[data<span>.</span>options<span>.</span>onCancelFunction]|<font color='#f5c842'>function</font>|A function to run once the await expires or is cancelled.|*
+[data<span>.</span>options<span>.</span>channel]|<font color='#f5c842'>String</font>|The ID of the channel to await the message. (By default, it's the channel the command was called in.)|*
+data|<font color='#f5c842'>Object</font>|The await data.|<font color='red'>X</font>
+data<span>.</span>action|<font color='#f5c842'>awaitAction</font>|The await action.|<font color='red'>X</font>
 
 >Creating Replacers
 
@@ -321,12 +318,12 @@ module.exports = new Replacer(data)
 ---
 Parameter|Type|Description|Default
 ---------|----|-----------|-------
-data|Object|The data to make a replacer with.|*
-data<span>.</span>key|String|The key that invokes the replacer.|*
-data<span>.</span>desc|String|The description of the replacer.|*
-[data<span>.</span>options]|Object|The options for the replacer.|<font color='#f5c842'>{}</font>
-[data<span>.</span>options<span>.</span>args]|Array<span><</span>Argument<span>></span>|The arguments for the replacer.|<font color='#f5c842'>[]</font>
-data<span>.</span>action|replacerAction|A function returning the string to replace with.|*
+data<span>.</span>key|<font color='#f5c842'>String</font>|The key that invokes the replacer.|<font color='red'>X</font>
+data<span>.</span>desc|<font color='#f5c842'>String</font>|The description of the replacer.|<font color='red'>X</font>
+[data<span>.</span>options]|<font color='#f5c842'>Object</font>|The options for the replacer.|<font color='#f5c842'>{}</font>
+[data<span>.</span>options<span>.</span>args]|<font color='#f5c842'>Array<span><</span>Argument<span>></span></font>|The arguments for the replacer.|<font color='#f5c842'>[]</font>
+data|<font color='#f5c842'>Object</font>|The data to make a replacer with.|<font color='red'>X</font>
+data<span>.</span>action|<font color='#f5c842'>replacerAction</font>|A function returning the string to replace with.|<font color='red'>X</font>
 
 >Constructing the Reaction Handler without the agent
 
@@ -359,15 +356,15 @@ client.on('messageReactionAdd', async (msg, emoji, userID) => {
 ---
 Parameter|Type|Description|Default
 ---------|----|-----------|-------
-data|Object|The reaction handler data.|*
-[data<span>.</span>agent]|Agent|The agent managing the bot.|*
-data<span>.</span>client|Eris.Client|The Eris client.|*
-data<span>.</span>ownerID|String|The ID of the bot owner.|*
-[data<span>.</span>knex]|QueryBuilder|The simple-knex query builder.|*
-[data<span>.</span>reactCommands]|Array<span><</span>ReactCommand<span>></span><span>\|</span>ReactCommand|rray of reaction commands to load initially.|<font color='#f5c842'>[]</font>
-[data<span>.</span>options]|Object|Options for the reaction handler.|<font color='#f5c842'>{}</font>
-[data<span>.</span>options<span>.</span>maxInterfaces]|Number|The maximum amount of interfaces cached before they start getting deleted.|<font color='#f5c842'>1500</font>
-[data<span>.</span>options<span>.</span>ignoreCodes]|Array<span><</span>Number<span>></span>|The Discord error codes to ignore.|<font color='#f5c842'>[]</font>
+[data<span>.</span>agent]|<font color='#f5c842'>Agent</font>|The agent managing the bot.|*
+data<span>.</span>client|<font color='#f5c842'>Eris.Client</font>|The Eris client.|<font color='red'>X</font>
+data<span>.</span>ownerID|<font color='#f5c842'>String</font>|The ID of the bot owner.|<font color='red'>X</font>
+[data<span>.</span>knex]|<font color='#f5c842'>QueryBuilder</font>|The simple-knex query builder.|*
+[data<span>.</span>reactCommands]|<font color='#f5c842'>Array<span><</span>ReactCommand<span>></span></font>\|<font color='#f5c842'>ReactCommand</font>|rray of reaction commands to load initially.|<font color='#f5c842'>[]</font>
+[data<span>.</span>options]|<font color='#f5c842'>Object</font>|Options for the reaction handler.|<font color='#f5c842'>{}</font>
+[data<span>.</span>options<span>.</span>maxInterfaces]|<font color='#f5c842'>Number</font>|The maximum amount of interfaces cached before they start getting deleted.|<font color='#f5c842'>1500</font>
+data|<font color='#f5c842'>Object</font>|The reaction handler data.|<font color='red'>X</font>
+[data<span>.</span>options<span>.</span>ignoreCodes]|<font color='#f5c842'>Array<span><</span>Number<span>></span></font>|The Discord error codes to ignore.|<font color='#f5c842'>[]</font>
 
 >Creating React Commands
 
@@ -412,15 +409,15 @@ module.exports = new ReactCommand(data)
 ---
 Parameter|Type|Description|Default
 ---------|----|-----------|-------
-data|Object|The react command data.|*
-data<span>.</span>emoji|String|The emoji that triggers the command.|*
-data<span>.</span>desc|String|The description of the react command.|*
-data<span>.</span>options|Object|Additional options for the react command|*
-[data<span>.</span>options<span>.</span>restricted]|Boolean|Whether the react command is restricted to selected users or not.|<font color='#f5c842'>false</font>
-[data<span>.</span>options<span>.</span>designatedUsers]|Array<span><</span>String<span>></span><span>\|</span>String|The IDs of the users who can use the react command. By default, if restricted is true, it's the owner of the message reacted on.|*
-[data<span>.</span>options<span>.</span>dbTable]|String|Name of database table to fetch user data from (primary key must be named `id`).|*
-[data<span>.</span>options<span>.</span>removeReaction]|Boolean|Whether the triggering reaction is removed after executed or not.|<font color='#f5c842'>false</font>
-data<span>.</span>action|reactCommandAction|The react command action.|*
+data<span>.</span>emoji|<font color='#f5c842'>String</font>|The emoji that triggers the command.|<font color='red'>X</font>
+data<span>.</span>desc|<font color='#f5c842'>String</font>|The description of the react command.|<font color='red'>X</font>
+data<span>.</span>options|<font color='#f5c842'>Object</font>|Additional options for the react command|<font color='red'>X</font>
+[data<span>.</span>options<span>.</span>restricted]|<font color='#f5c842'>Boolean</font>|Whether the react command is restricted to selected users or not.|*
+[data<span>.</span>options<span>.</span>designatedUsers]|<font color='#f5c842'>Array<span><</span>String<span>></span></font>\|<font color='#f5c842'>String</font>|The IDs of the users who can use the react command. By default, if restricted is true, it's the owner of the message reacted on.|*
+[data<span>.</span>options<span>.</span>dbTable]|<font color='#f5c842'>String</font>|Name of database table to fetch user data from (primary key must be named `id`).|*
+[data<span>.</span>options<span>.</span>removeReaction]|<font color='#f5c842'>Boolean</font>|Whether the triggering reaction is removed after executed or not.|*
+data|<font color='#f5c842'>Object</font>|The react command data.|<font color='red'>X</font>
+data<span>.</span>action|<font color='#f5c842'>reactCommandAction</font>|The react command action.|<font color='red'>X</font>
 
 >Binding interfaces to messages
 
@@ -501,11 +498,11 @@ module.exports = new Command(data)
 ---
 Parameter|Type|Description|Default
 ---------|----|-----------|-------
-data|Object|The react interface data.|*
-data<span>.</span>buttons|Array<span><</span>ReactCommand<span>></span><span>\|</span>ReactCommand|The buttons of the interface.|*
-[data<span>.</span>options]|Object|The options for the interface.|<font color='#f5c842'>{}</font>
-[data<span>.</span>options<span>.</span>restricted]|Boolean|Whether all buttons of the interface are restricted to selected users or not.|<font color='#f5c842'>false</font>
-[data<span>.</span>options<span>.</span>designatedUsers]|Array<span><</span>String<span>></span><span>\|</span>String|The IDs of the users who can use the react interface. By default, if restricted is true, it's the owner of the message reacted on.|*
-[data<span>.</span>options<span>.</span>dbTable]|String|Name of database table to fetch user data from (primary key must be named `id`).|*
-[data<span>.</span>options<span>.</span>deleteAfterUse]|Boolean|Whether the interface is deleted after a use or not.|<font color='#f5c842'>false</font>
-[data<span>.</span>options<span>.</span>removeReaction]|Boolean|Whether the triggering reaction is removed after executed or not.|<font color='#f5c842'>false</font>
+data<span>.</span>buttons|<font color='#f5c842'>Array<span><</span>ReactCommand<span>></span></font>\|<font color='#f5c842'>ReactCommand</font>|The buttons of the interface.|<font color='red'>X</font>
+[data<span>.</span>options]|<font color='#f5c842'>Object</font>|The options for the interface.|<font color='#f5c842'>{}</font>
+[data<span>.</span>options<span>.</span>restricted]|<font color='#f5c842'>Boolean</font>|Whether all buttons of the interface are restricted to selected users or not.|*
+[data<span>.</span>options<span>.</span>designatedUsers]|<font color='#f5c842'>Array<span><</span>String<span>></span></font>\|<font color='#f5c842'>String</font>|The IDs of the users who can use the react interface. By default, if restricted is true, it's the owner of the message reacted on.|*
+[data<span>.</span>options<span>.</span>dbTable]|<font color='#f5c842'>String</font>|Name of database table to fetch user data from (primary key must be named `id`).|*
+[data<span>.</span>options<span>.</span>deleteAfterUse]|<font color='#f5c842'>Boolean</font>|Whether the interface is deleted after a use or not.|*
+data|<font color='#f5c842'>Object</font>|The react interface data.|<font color='red'>X</font>
+[data<span>.</span>options<span>.</span>removeReaction]|<font color='#f5c842'>Boolean</font>|Whether the triggering reaction is removed after executed or not.|*

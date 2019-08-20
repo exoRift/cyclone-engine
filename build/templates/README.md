@@ -282,7 +282,7 @@ const data = {
         title: msg.content
       },
       options: {
-        channel: MODERATOR_CHANNELID
+        channels: MODERATOR_CHANNELID
       }
     }
   }

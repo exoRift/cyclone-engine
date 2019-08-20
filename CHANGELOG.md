@@ -4,6 +4,7 @@
 
 - Fixed bug where on a shard disconnect, the shard wasn't properly displayed.
 - The agent will only log `Initiating Command Handler` when the command handler is actually being initiated (yikes)
+- Temporarily removed a catch until Eris fixes an issue
 
 1.2.0
 -

@@ -31,7 +31,7 @@
     <div class="title">
         <h1><a href="index.html" class="link">Cyclone Engine</a></h1>
         
-            <span class="version">v1.2.0</span>
+            <span class="version">v1.2.2</span>
         
     </div>
     <div class="search-container" id="search-container">
@@ -288,7 +288,7 @@ class ReactionHandler {
     } = options
 
     if (wait) {
-      if (this._agent._commandHandler) await this._agent._commandHandler._addAwait({ channel, user: user.id, initResponse: response, wait })
+      if (this._agent._commandHandler) await this._agent._commandHandler._addAwait({ channel, user: user.id, triggerResponse: response, wait })
       else throw Error('The command handler isn\'t enabled; enable it by passing an empty array to Agent.handlerData.commands')
     }
 

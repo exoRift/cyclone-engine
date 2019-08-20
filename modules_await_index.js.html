@@ -31,7 +31,7 @@
     <div class="title">
         <h1><a href="index.html" class="link">Cyclone Engine</a></h1>
         
-            <span class="version">v1.2.0</span>
+            <span class="version">v1.2.2</span>
         
     </div>
     <div class="search-container" id="search-container">
@@ -231,15 +231,15 @@ module.exports = Await
 /**
  * The object passed to a command action.
  * @typedef {Object}                AwaitData
- * @prop    {Agent}                 agent             The agent managing the bot.
- * @prop    {Eris.Client}           client            The Eris client.
- * @prop    {Map&lt;String, Command>}  commands          The list of bot commands.
- * @prop    {Map&lt;String, Replacer>} replacers         The list of bot replacers.
- * @prop    {Eris.Message}          msg               The message sent by the user.
- * @prop    {String[]}              args              The arguments supplied by the user.
- * @prop    {Object}                userData          The data of the user in the database if requested.
- * @prop    {QueryBuilder}          knex              The simple-knex query builder used by the command handler.
- * @prop    {Eris.Message}          initResponse      The bot's response to the message that initiated the await.
+ * @prop    {Agent}                 agent           The agent managing the bot.
+ * @prop    {Eris.Client}           client          The Eris client.
+ * @prop    {Map&lt;String, Command>}  commands        The list of bot commands.
+ * @prop    {Map&lt;String, Replacer>} replacers       The list of bot replacers.
+ * @prop    {Eris.Message}          msg             The message sent by the user.
+ * @prop    {String[]}              args            The arguments supplied by the user.
+ * @prop    {Object}                userData        The data of the user in the database if requested.
+ * @prop    {QueryBuilder}          knex            The simple-knex query builder used by the command handler.
+ * @prop    {Eris.Message}          triggerResponse The bot's response to the message that initiated the await.
  */
 </code></pre>
         </article>

@@ -29,7 +29,7 @@
     <div class="title">
         <h1><a href="index.html" class="link">Cyclone Engine</a></h1>
         
-            <span class="version">v1.2.0</span>
+            <span class="version">v1.2.2</span>
         
     </div>
     <div class="search-container" id="search-container">
@@ -119,6 +119,7 @@
 <p><a href='https://mets11rap.github.io/cyclone-engine/' style='color: #4747d1'><font size='+2'><strong>Documentation</strong></font></a></p>
 <pre class="prettyprint source"><code>npm i cyclone-engine
 </code></pre>
+<hr>
 <blockquote>
 <p>Constructing the Agent class</p>
 </blockquote>
@@ -357,6 +358,7 @@ const agent = new Agent({
 </tr>
 </tbody>
 </table>
+<hr>
 <blockquote>
 <p>Constructing the Command Handler without the agent</p>
 </blockquote>
@@ -479,6 +481,7 @@ client.on('messageCreate', async (msg) => {
 </tr>
 </tbody>
 </table>
+<hr>
 <blockquote>
 <p>Creating Commands</p>
 </blockquote>
@@ -569,6 +572,7 @@ module.exports = new Command(data)
 </tr>
 </tbody>
 </table>
+<hr>
 <blockquote>
 <p>Awaiting Messages</p>
 </blockquote>
@@ -687,6 +691,7 @@ module.exports = new Command(data)
 </tr>
 </tbody>
 </table>
+<hr>
 <blockquote>
 <p>Creating Replacers</p>
 </blockquote>
@@ -758,6 +763,7 @@ module.exports = new Replacer(data)
 </tr>
 </tbody>
 </table>
+<hr>
 <blockquote>
 <p>Constructing the Reaction Handler without the agent</p>
 </blockquote>
@@ -850,6 +856,7 @@ client.on('messageReactionAdd', async (msg, emoji, userID) => {
 </tr>
 </tbody>
 </table>
+<hr>
 <blockquote>
 <p>Creating React Commands</p>
 </blockquote>
@@ -877,7 +884,7 @@ const data = {
         title: msg.content
       },
       options: {
-        channel: MODERATOR_CHANNELID
+        channels: MODERATOR_CHANNELID
       }
     }
   }
@@ -954,6 +961,7 @@ module.exports = new ReactCommand(data)
 </tr>
 </tbody>
 </table>
+<hr>
 <blockquote>
 <p>Binding interfaces to messages</p>
 </blockquote>

@@ -31,7 +31,7 @@
     <div class="title">
         <h1><a href="index.html" class="link">Cyclone Engine</a></h1>
         
-            <span class="version">v1.2.0</span>
+            <span class="version">v1.2.2</span>
         
     </div>
     <div class="search-container" id="search-container">
@@ -218,7 +218,7 @@ class CommandHandler {
       args,
       userData,
       knex: this._knex,
-      initResponse: command.initResponse
+      triggerResponse: command.triggerResponse
     })
 
     if (!(commandResults instanceof Array)) commandResults = [commandResults]
@@ -328,7 +328,7 @@ class CommandHandler {
       deleteAfter
     } = options
 
-    if (wait) await this._addAwait({ channel, user: msg.author.id, initResponse: response, wait })
+    if (wait) await this._addAwait({ channel, user: msg.author.id, triggerResponse: response, wait })
 
     if (reactInterface) {
       if (this._agent._reactionHandler) await this._agent._reactionHandler.bindInterface(response, reactInterface)
@@ -489,21 +489,21 @@ class CommandHandler {
    * Set an await.
    * @private
    * @async
-   * @param   {Object}         data              The data for the await.
-   * @prop    {String}         data.channel      The channel ID to listen for the message on.
-   * @prop    {String}         data.user         The user ID to listen for.
-   * @prop    {Eris.Message}   data.initResponse The response to the command that created the await.
-   * @prop    {Await}          data.wait         The command we are awaiting.
-   * @returns {Promise&lt;Await>}                   The await.
+   * @param   {Object}         data                 The data for the await.
+   * @prop    {String}         data.channel         The channel ID to listen for the message on.
+   * @prop    {String}         data.user            The user ID to listen for.
+   * @prop    {Eris.Message}   data.triggerResponse The response to the command that created the await.
+   * @prop    {Await}          data.wait            The command we are awaiting.
+   * @returns {Promise&lt;Await>}                      The await.
    */
-  async _addAwait ({ channel, user, initResponse, wait }) {
+  async _addAwait ({ channel, user, triggerResponse, wait }) {
     if (!(wait instanceof Await)) throw TypeError('Supplied wait is not an Await instance:\n' + wait)
 
     const id = (wait.channel || channel) + user
 
     this._awaits.set(id, wait)
 
-    wait.startTimer({ id, awaitMap: this._awaits, initResponse })
+    wait.startTimer({ id, awaitMap: this._awaits, triggerResponse })
 
     return wait
   }

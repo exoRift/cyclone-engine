@@ -31,7 +31,7 @@
     <div class="title">
         <h1><a href="index.html" class="link">Cyclone Engine</a></h1>
         
-            <span class="version">v1.2.0</span>
+            <span class="version">v1.2.2</span>
         
     </div>
     <div class="search-container" id="search-container">
@@ -420,7 +420,6 @@ class Agent {
    * @private
    * @param   {Error}        err   The error.
    * @param   {Eris.Message} msg   The original message from Discord.
-   * @param   {String}       [res] The response from a command.
    */
   _handleError (err, msg) {
     return msg.channel.createMessage(`ERR:\n\`\`\`\n${err.message}\`\`\`${err.stack ? `\n\`\`\`\n${err.stack}\`\`\`` : ''}`)
@@ -490,16 +489,15 @@ class Agent {
    * What to do when the client's ready.
    * @private
    * @async
-   * @param   {Eris.Client} client The Eris client.
    */
   _onReady () {
     return this._client.getOAuthApplication()
       .then((app) => {
         const ownerID = app.owner.id
 
-        console.log('Initializing Command Handler')
-
         if (this._commands) {
+          console.log('Initializing Command Handler')
+
           /**
            * The command handler for the bot.
            * @private
@@ -547,20 +545,19 @@ class Agent {
   /**
    * What to do when a shard is ready.
    * @private
-   * @param   {Eris.Client} client The Eris client.
-   * @param   {Eris.Shard}  shard  The shard that's ready.
+   * @param   {Number} shard The ID of the shard that's ready.
    */
   _onShardReady (shard) {
     console.log(`Connected as ${this._client.user.username} on shard ${shard}`)
 
     if (this._statusMessage) {
       if (typeof this._statusMessage === 'function') this._statusMessage(this, shard, this._client.shards.get(shard).editStatus)
-      else this._client.shards.get(shard).editStatus(this._statusMessage).catch(this._onError)
+      else this._client.shards.get(shard).editStatus(this._statusMessage)
     } else {
       this._client.shards.get(shard).editStatus({
         name: `Prefix: '${this._prefix}'`,
         type: 2
-      }).catch(this._onError)
+      })
     }
 
     if (this._dblAPI) this._dblAPI.postStats(this._client.guilds.size, shard, this._client.shards.size).catch(this._onError)
@@ -569,11 +566,11 @@ class Agent {
   /**
    * What to do when a shard loses connection.
    * @private
-   * @param   {Eris.Client} client The Eris client.
-   * @param   {Eris.Shard}  shard  The disconnected shard.
+   * @param   {Error}      err   The error
+   * @param   {Eris.Shard} shard The disconnected shard.
    */
-  _onShardDisconnect (shard) {
-    console.log(`Shard ${shard} lost connection`)
+  _onShardDisconnect (err, shard) {
+    console.log(`Shard ${shard} lost connection. Error:\n${err}`)
 
     this.connect()
   }

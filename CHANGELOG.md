@@ -1,3 +1,8 @@
+1.2.3
+-
+### **New handling features**
+- You can now designate a shift count for awaits to shift the args a number of spaces to improve argument usage,
+
 1.2.2
 -
 ### **Important notes**

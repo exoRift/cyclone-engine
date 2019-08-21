@@ -27,13 +27,13 @@ An advanced bot engine for Discord running on lightweight Eris
 
 - Auto generate command info
 
-- Utilize a built-in help menu
+- Utilize a dynamic built-in help menu generator
 
-- Get command results for analysis and logging
+- Return command results for analysis and logging
 
 - Create interactive menus with awaited actions and reactions
 
-- Complete freedom of bot design
+- Grant complete freedom of bot design
 
 # Examples of bots that use Cyclone
 - <font size='+1'>[**GuildLink**](https://github.com/mets11rap/guildlink)</font>

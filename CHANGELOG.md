@@ -1,7 +1,10 @@
 1.2.3
 -
 ### **New handling features**
-- You can now designate a shift count for awaits to shift the args a number of spaces to improve argument usage,
+- You can now designate a shift count for awaits to shift the args a number of spaces to improve argument usage
+
+### **Important notes**
+- If a function is passed for `Agent.agentOptions.statusMessage`, `editStatus` is now the first parameter
 
 ### **Bug fixes**
 - The command handler will now send the length error for the invalid form body error `Embed size exceeds maximum size of 6000`

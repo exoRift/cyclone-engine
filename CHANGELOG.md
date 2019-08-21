@@ -3,6 +3,10 @@
 ### **New handling features**
 - You can now designate a shift count for awaits to shift the args a number of spaces to improve argument usage,
 
+### **Bug fixes**
+- The command handler will now send the length error for the invalid form body error `Embed size exceeds maximum size of 6000`
+##### (This was removed previously due to me forgetting the name of this error and removing the check for keyword 'size')
+
 1.2.2
 -
 ### **Important notes**

@@ -68,7 +68,8 @@
     "eris",
     "circle-ci",
     "knex",
-    "simple-knex"
+    "simple-knex",
+    "command-handler"
   ],
   "bugs": {
     "url": "https://github.com/mets11rap/cyclone-engine/issues"

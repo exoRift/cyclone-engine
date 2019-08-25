@@ -211,7 +211,7 @@ class Shard {
     this.client = client
   }
 
-  async editStatus () {
+  editStatus () {
 
   }
 }

@@ -365,3 +365,5 @@ const data = {
 module.exports = new Command(data)
 ```
 {docs.class.ReactInterface}
+***
+##### Design sparked by [Alex Taxiera](https://github.com/alex-taxiera)

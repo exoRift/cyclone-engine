@@ -24,7 +24,7 @@ ul, ol, li { list-style: none; padding-left: 0; margin-left: 0;}
 .lnb {
     width: var(--navbar-size);
     position: absolute;
-    bottom: 30px;
+    bottom: 13px;
     top: 0;
     overflow: auto;
     left: 0;
@@ -45,6 +45,7 @@ ul, ol, li { list-style: none; padding-left: 0; margin-left: 0;}
     font-style: italic;
 }
 .lnb h3 {
+    margin-top: 20px;
     font-size: 1.5em;
     color: var(--dark-main-color-light-offset);
 }
@@ -69,7 +70,7 @@ ul, ol, li { list-style: none; padding-left: 0; margin-left: 0;}
 }
 .lnb .lnb-api a,
 .lnb .lnb-examples a {
-    color: var(--dark-main-color);
+    color: var(--main-accent-color);
 }
 .lnb .lnb-api a:hover,
 .lnb .lnb-examples a:hover {
@@ -146,7 +147,7 @@ ul, ol, li { list-style: none; padding-left: 0; margin-left: 0;}
     bottom: 0;
     position: absolute;
     overflow: auto;
-    margin-bottom: 35px;
+    margin-bottom: 18px;
 }
 .main article ol,
 .main article ul {
@@ -289,21 +290,11 @@ ul, ol, li { list-style: none; padding-left: 0; margin-left: 0;}
 
 /* FOOTER */
 footer {
-    padding-top: 3px;
-    line-height: 32px;
-    height: 32px;
+    height: 15px;
     position: fixed;
     width: 100%;
     bottom: 0;
     background-color: var(--main-accent-color);
-    color: #ebf8ff;
-    text-align: center;
-    overflow: hidden;
-}
-.footerContent {
-    margin: 0;
-    transform: translateX(60%);
-    animation: textScroll 18s linear infinite;
 }
 
 /* README*/
@@ -521,16 +512,32 @@ code {
 pre.prettyprint.source {
     padding: 5px;
 }
+hr {
+    border-top: 4px solid rgba(0, 0, 0, 0.2);
+}
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.glyphicon-plus:before {
+    content: '\002b';
+}
+.btn-link {
+    color: #337ab7;
+}
+.btn-link:hover {
+    color: #3c97e7;
+}
 
-/* ANIMATIONS */
-@keyframes textScroll {
-    0%   {
-        transform: translateX(60%);
-    }
-    50% {
-        transform: translateX(-60%);
-    }
-    100% {
-        transform: translateX(60%)
-    }
+@font-face {
+	font-family: 'Glyphicons Halflings';
+	src: url(../fonts/glyphicons-halflings-regular.eot);
+	src: url(../fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), url(../fonts/glyphicons-halflings-regular.woff2) format('woff2'), url(../fonts/glyphicons-halflings-regular.woff) format('woff'), url(../fonts/glyphicons-halflings-regular.ttf) format('truetype'), url(../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg');
 }

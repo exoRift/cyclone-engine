@@ -1,9 +1,11 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <link rel="shortcut icon" type="image" href=./assets/Icon.png>
 <head>
     <meta charset="utf-8">
-    <title>Class: Replacer | Cyclone Engine</title>
+    <title>Source: structures/react-command/index.js | Cyclone Engine</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -46,825 +48,112 @@
 
 
 
-
-<section>
-
-<header>
-    
-        <h2><span class="attribs"><span class="type-signature"></span></span>Replacer<span class="signature">(data)</span><span class="type-signature"></span></h2>
-        
-            <div class="class-description"><p>A class used to register keywords in a message that are replaced with live data.</p></div>
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-
-<dt>
-    
-        <h4 class="name" id="Replacer">
-            
-                new <span class="type-signature"></span>Replacer<span class="signature">(data)</span><span class="type-signature"></span>
-                
-            
-            <div class="container-source members">
-                <code><a href="structures_replacer_index.js.html">structures/replacer/index.js</a></code>,
-                <code><a href="structures_replacer_index.js.html#line15">line 15</a></code>
-            </div>
-            
-        </h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        <p>Create a replacer.</p>
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-    <div class="container-params">
-        <h5>Parameters:</h5>
-        
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>data</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The data to make a replacer with.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>data.key</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>The key that invokes the replacer.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>data.desc</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>The description of the replacer.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>data.options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    {}
-                
-                </td>
-            
-
-            <td class="description last"><p>The options for the replacer.</p>
-                <h6>Properties</h6>
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>args</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array&lt;<a href="global.html#Argument">Argument</a>></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    []
-                
-                </td>
-            
-
-            <td class="description last"><p>The arguments for the replacer.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>data.action</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#replacerAction">replacerAction</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>A function returning the string to replace with.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-</dd>
-
-        
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        <dl>
-            
-
-<dt>
-<h4 class="name" id="action">
-    <span class="type-signature"></span>action<span class="type-signature"> : <a href="global.html#replacerAction">replacerAction</a></span>
-    
-    <div class="container-source members">
-        <code><a href="structures_replacer_index.js.html">structures/replacer/index.js</a></code>,
-        <code><a href="structures_replacer_index.js.html#line42">line 42</a></code>
-    </div>
-    
-</h4>
-
-
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>Function returning the string to replace with.</p>
-    </div>
-    
-
-    <!--
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type"><a href="global.html#replacerAction">replacerAction</a></span>
-
-
-            </li>
-        </ul>
-    
-    -->
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-</dd>
-
-        
-            
-
-<dt>
-<h4 class="name" id="args">
-    <span class="type-signature"></span>args<span class="type-signature"> : Array&lt;<a href="global.html#Argument">Argument</a>></span>
-    
-    <div class="container-source members">
-        <code><a href="structures_replacer_index.js.html">structures/replacer/index.js</a></code>,
-        <code><a href="structures_replacer_index.js.html#line36">line 36</a></code>
-    </div>
-    
-</h4>
-
-
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>The arguments for the replacer.</p>
-    </div>
-    
-
-    <!--
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Array&lt;<a href="global.html#Argument">Argument</a>></span>
-
-
-            </li>
-        </ul>
-    
-    -->
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-</dd>
-
-        
-            
-
-<dt>
-<h4 class="name" id="desc">
-    <span class="type-signature"></span>desc<span class="type-signature"> : String</span>
-    
-    <div class="container-source members">
-        <code><a href="structures_replacer_index.js.html">structures/replacer/index.js</a></code>,
-        <code><a href="structures_replacer_index.js.html#line30">line 30</a></code>
-    </div>
-    
-</h4>
-
-
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>The description of the replacer.</p>
-    </div>
-    
-
-    <!--
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">String</span>
-
-
-            </li>
-        </ul>
-    
-    -->
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-</dd>
-
-        
-            
-
-<dt>
-<h4 class="name" id="info">
-    <span class="type-signature"></span>info<span class="type-signature"> : String</span>
-    
-    <div class="container-source members">
-        <code><a href="structures_replacer_index.js.html">structures/replacer/index.js</a></code>,
-        <code><a href="structures_replacer_index.js.html#line50">line 50</a></code>
-    </div>
     
-</h4>
-
-
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>Get the info of this replacer. as a string</p>
-    </div>
-    
-
-    <!--
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">String</span>
-
-
-            </li>
-        </ul>
-    
-    -->
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>'**name &lt;mandatory arg> (optional arg) (#number arg)** - *description*'</code></pre>
-
-    
-</dd>
-
-        
-            
-
-<dt>
-<h4 class="name" id="key">
-    <span class="type-signature"></span>key<span class="type-signature"> : String</span>
-    
-    <div class="container-source members">
-        <code><a href="structures_replacer_index.js.html">structures/replacer/index.js</a></code>,
-        <code><a href="structures_replacer_index.js.html#line24">line 24</a></code>
-    </div>
-    
-</h4>
-
-
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>The data to make a replacer with.</p>
-    </div>
-    
-
-    <!--
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">String</span>
-
-
-            </li>
-        </ul>
-    
-    -->
-
-    
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-</dd>
-
-        </dl>
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * A class used to register commands for the command handler.
+ */
+class ReactCommand {
+  /**
+   * Construct a react command.
+   * @class
+   * @param {Object}             data                                The react command data.
+   * @prop  {String}             data.emoji                          The emoji that triggers the command.
+   * @prop  {String}             data.desc                           The description of the react command.
+   * @prop  {Object}             data.options                        Additional options for the react command
+   * @prop  {Boolean}            [data.options.restricted=false]     Whether the react command is restricted to selected users or not.
+   * @prop  {String[]|String}    [data.options.designatedUsers]      The IDs of the users who can use the react command. By default, if restricted is true, it's the owner of the message reacted on.
+   * @prop  {String}             [data.options.dbTable]              Name of database table to fetch user data from (primary key must be named `id`).
+   * @prop  {Boolean}            [data.options.removeReaction=false] Whether the triggering reaction is removed after executed or not.
+   * @prop  {reactCommandAction} data.action                         The react command action.
+   */
+  constructor ({ emoji, desc, options = {}, action }) {
+    const {
+      restricted,
+      designatedUsers,
+      dbTable,
+      removeReaction
+    } = options
+
+    /**
+     * The emoji that triggers the command.
+     * @type {String}
+     */
+    this.emoji = emoji
+
+    /**
+     * The description of the react command.
+     * @type {String}
+     */
+    this.desc = desc
+
+    /**
+     * Whether the interface is restricted to selected users or not.
+     * @type {Boolean}
+     */
+    this.restricted = restricted
+
+    /**
+     * The IDs of the users who can use the interface.
+     * @type {String[]}
+     */
+    if (designatedUsers) this.designatedUsers = designatedUsers instanceof Array ? designatedUsers : [designatedUsers]
+
+    /**
+     * Name of database table to fetch user data from (primary key must be named `id`).
+     * @type {String}
+     */
+    this.dbTable = dbTable
+
+    /**
+     * Whether the triggering reaction is removed after executed or not.
+     * @type {Boolean}
+     */
+    this.removeReaction = removeReaction
+
+    /**
+     * The react command action.
+     * @type {reactCommandAction}
+     */
+    this.action = action
+  }
+
+  /**
+   * Get the info of this react command.
+   * @type    {String}
+   * @example          '**name &lt;mandatory arg> (optional arg) (#number arg)** - *description*'
+   */
+  get info () {
+    return `${this.restricted ? '~~' : ''}**${this.emoji}** - *${this.desc}*${this.restricted ? '~~' : ''}`
+  }
+}
+
+module.exports = ReactCommand
+
+/**
+ * The react command action.
+ * @callback                                                   reactCommandAction
+ * @param    {ReactCommandData}                                data               Data passed from the handler.
+ * @returns  {CommandResults[]|CommandResults|String[]|String}                    Data to respond with.
+ */
+
+/**
+ * The object passed to a react command action.
+ * @typedef {Object}                    ReactCommandData
+ * @prop    {Agent}                     ReactCommandData.agent           The agent managing the bot.
+ * @prop    {Eris.Client}               ReactCommandData.client          The Eris client.
+ * @prop    {Map&lt;String, ReactCommand>} ReactCommandData.reactCommands   The list of bot react commands.
+ * @prop    {Eris.Message}              ReactCommandData.msg             The message reacted on
+ * @prop    {String}                    ReactCommandData.emoji           The emoji reacted with.
+ * @prop    {Eris.User}                 ReactCommandData.user            The user who reacted.
+ * @prop    {Object}                    ReactCommandData.userData        The table data fetched where `id` is the user's ID (Requested with dbData).
+ * @prop    {QueryBuilder}              ReactCommandData.knex            The simple-knex query builder used by the reaction handler.
+ * @prop    {ReactInterface}            ReactCommandData.parentInterface If the react command was a button, the interface it was a part of.
+ */
+</code></pre>
+        </article>
+    </section>
 
 
 
@@ -880,7 +169,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'Replacer_sub'.replace(/"/g, '_');
+        var id = '_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 

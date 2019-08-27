@@ -27,13 +27,13 @@ An advanced bot engine for Discord running on lightweight Eris
 
 - Auto generate command info
 
-- Utilize a built-in help menu
+- Utilize a dynamic built-in help menu generator
 
-- Get command results for analysis and logging
+- Return command results for analysis and logging
 
 - Create interactive menus with awaited actions and reactions
 
-- Complete freedom of bot design
+- Grant complete freedom of bot design
 
 # Examples of bots that use Cyclone
 - <font size='+1'>[**GuildLink**](https://github.com/mets11rap/guildlink)</font>
@@ -68,7 +68,7 @@ const {
   Agent 
 } = require('cyclone-engine')
 
-const agentData = require('./data')
+const agentData = require('./data/')
 
 const agent = new Agent({
   Eris,
@@ -129,7 +129,7 @@ data<span>.</span>databaseOptions<span>.</span>client|<font color='#f5c842'>Stri
 [data<span>.</span>agentOptions<span>.</span>statusMessage]|<font color='#f5c842'>Object</font>\|<font color='#f5c842'>statusMessageFunction</font>|The status for the bot. It can be an object containing the data, or a callback function for each shard. By default, it's the bot's prefix.|*
 [data<span>.</span>agentOptions<span>.</span>dblToken]|<font color='#f5c842'>String</font>|The token used to connect to the Discord Bot Labs API.|*
 [data<span>.</span>agentOptions<span>.</span>loopFunction]|<font color='#f5c842'>Object</font>|A function that will run every loopInterval amount of ms, supplied the agent.|<font color='#f5c842'>{}</font>
-[data<span>.</span>agentOptions<span>.</span>loopFunction<span>.</span>func]|<font color='#f5c842'>function</font>|The function.|*
+data<span>.</span>agentOptions<span>.</span>loopFunction<span>.</span>func|<font color='#f5c842'>function</font>|The function.|<font color='red'>X</font>
 [data<span>.</span>agentOptions<span>.</span>loopFunction<span>.</span>interval]|<font color='#f5c842'>Number</font>|The interval at which the loopFunction runs.|<font color='#f5c842'>30000</font>
 [data<span>.</span>agentOptions<span>.</span>fireOnEdit]|<font color='#f5c842'>Boolean</font>|Whether the command handler is called when a command is edited or not.|*
 [data<span>.</span>agentOptions<span>.</span>fireOnReactionRemove]|<font color='#f5c842'>Boolean</font>|Whether the reaction handler is triggered on the removal of reactions as well.|*
@@ -158,7 +158,7 @@ const handler = client.getOAuthApplication().then((app) => {
   return new _CommandHandler({
     client,
     ownerID: app.owner.id,
-    ...require('./data')
+    ...require('./data/')
   })
 })
 
@@ -340,7 +340,7 @@ const handler = client.getOAuthApplication().then((app) => {
   return new _ReactionHandler({
     client,
     ownerID: app.owner.id,
-    ...require('./data')
+    ...require('./data/')
   })
 })
 
@@ -507,3 +507,5 @@ data<span>.</span>buttons|<font color='#f5c842'>Array<span><</span>ReactCommand<
 [data<span>.</span>options<span>.</span>deleteAfterUse]|<font color='#f5c842'>Boolean</font>|Whether the interface is deleted after a use or not.|*
 data|<font color='#f5c842'>Object</font>|The react interface data.|<font color='red'>X</font>
 [data<span>.</span>options<span>.</span>removeReaction]|<font color='#f5c842'>Boolean</font>|Whether the triggering reaction is removed after executed or not.|*
+***
+##### Design sparked by [Alex Taxiera](https://github.com/alex-taxiera)

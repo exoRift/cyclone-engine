@@ -1,8 +1,12 @@
+1.2.4
+-
+###
+
 1.2.3
 -
 ### **New handling features**
 - You can now designate a shift count for awaits to shift the args a number of spaces to improve argument usage
-- `Command.info()` now includes command aliases
+- `Command.info` now includes command aliases
 
 ### **Important notes**
 - If a function is passed for `Agent.agentOptions.statusMessage`, `editStatus` is now the first parameter

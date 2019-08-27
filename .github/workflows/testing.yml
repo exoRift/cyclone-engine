@@ -3,19 +3,19 @@ name: Testing
 on: 
   push:
     branches:
-      - master
-      - dev
+      - '!gh-pages'
   pull_request:
     branches:
-      - *
+      - '!gh-pages'
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [10.x]
+        os: ubuntu-latest
+        
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout

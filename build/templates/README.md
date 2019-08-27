@@ -68,7 +68,7 @@ const {
   Agent 
 } = require('cyclone-engine')
 
-const agentData = require('./data')
+const agentData = require('./data/')
 
 const agent = new Agent({
   Eris,
@@ -123,7 +123,7 @@ const handler = client.getOAuthApplication().then((app) => {
   return new _CommandHandler({
     client,
     ownerID: app.owner.id,
-    ...require('./data')
+    ...require('./data/')
   })
 })
 
@@ -242,7 +242,7 @@ const handler = client.getOAuthApplication().then((app) => {
   return new _ReactionHandler({
     client,
     ownerID: app.owner.id,
-    ...require('./data')
+    ...require('./data/')
   })
 })
 

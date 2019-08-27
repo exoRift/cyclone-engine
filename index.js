@@ -1,14 +1,14 @@
 const {
+  Agent,
   Command,
   Replacer,
   Await,
   ReactCommand,
   ReactInterface,
-  _CommandHandler,
-  _ReactionHandler,
-  _InputError
-} = require('./lib/modules')
-const Agent = require('./lib/agent')
+  CommandHandler,
+  ReactionHandler,
+  InputError
+} = require('./lib/')
 
 module.exports = {
   Agent,
@@ -17,7 +17,7 @@ module.exports = {
   Await,
   ReactCommand,
   ReactInterface,
-  _CommandHandler,
-  _ReactionHandler,
-  _InputError
+  _CommandHandler: CommandHandler,
+  _ReactionHandler: ReactionHandler,
+  InputError
 }

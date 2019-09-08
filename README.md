@@ -288,6 +288,7 @@ Parameter|Type|Description|Default
 [data<span>.</span>options<span>.</span>onCancelFunction]|<font color='#f5c842'>function</font>|A function to run once the await expires or is cancelled.|*
 [data<span>.</span>options<span>.</span>channel]|<font color='#f5c842'>String</font>|The ID of the channel to await the message. (By default, it's the channel the command was called in.)|*
 [data<span>.</span>options<span>.</span>shiftCount]|<font color='#f5c842'>Number</font>|The amount of times the command handler shifts space-separated words to improve argument usage.|*
+[data<span>.</span>options<span>.</span>requirePrefix]|<font color='#f5c842'>Boolean</font>|Whether the await requires the bot prefix to be triggered.|*
 data|<font color='#f5c842'>Object</font>|The await data.|<font color='red'>X</font>
 data<span>.</span>action|<font color='#f5c842'>awaitAction</font>|The await action.|<font color='red'>X</font>
 ***

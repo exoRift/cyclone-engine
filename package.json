@@ -4,7 +4,7 @@
   "description": "An easy to use Discord bot client manager/engine and event handler combo! Automate everything with a stable bot framework.",
   "main": "index.js",
   "scripts": {
-    "test": "nyc --reporter lcov ava --verbose **/*.test.js",
+    "test": "node ./ && nyc --reporter lcov ava --verbose **/*.test.js",
     "lint": "eslint ./",
     "build": "build.bat",
     "publishModule": "npm publish"

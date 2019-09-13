@@ -1,7 +1,12 @@
+1.2.5
+-
+### **New handling features**
+- Commands and Awaits now support delimiters longer than 1 character
+
 1.2.4
 -
 ### **New handling features**
-- Awaits are no longer passed an object to the checj function. They are now directly passed the Message object.
+- Awaits are no longer passed an object to the check function. They are now directly passed the Message object.
 - There is a new option for Awaits called `requirePrefix` which will only trigger the await when it is prefaced with the bot prefix or mention. The Message object passed to the check function contains message content without the prefix.
 
 ### **Bug fixes**

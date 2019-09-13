@@ -1,0 +1,44 @@
+name: Testing
+
+on: 
+  push:
+    branches:
+      - '*'
+      - '!gh-pages'
+  pull_request:
+    branches:
+      - '*'
+      - '!gh-pages'
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [10.x]
+        
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Initiate Database
+        uses: harmon758/postgresql-action@v1
+        with:
+          postgresql db: action_test
+          postgresql user: postgres
+          postgresql password: admin
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run Tests
+        run: npm test
+        env:
+          DATABASE_URL: postgresql://postgres:admin@localhost/action_test
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v1.0.2
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          file: ./coverage/lcov.info

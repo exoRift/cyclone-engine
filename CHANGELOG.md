@@ -3,6 +3,7 @@
 ### **New handling features**
 - Commands and Awaits now support delimiters longer than 1 character
 - ReactionHandler now has a method for detaching interfaces from messages
+- You can now supply a user ID in the options for an Await
 
 1.2.4
 -

@@ -10,6 +10,8 @@
 ### **Important notes**
 - `CommandResults.options.wait` has beeen changed to `CommandResults.options.awaits`
 - Upgraded to Node 12
+- All `simple-knex` oriented support has been dropped in light of the new attachments system
+- All `dblapi.js` oriented support has been dropped in light of the new attachments system
 
 1.2.4
 -

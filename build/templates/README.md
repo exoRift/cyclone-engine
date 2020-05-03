@@ -1,6 +1,6 @@
 <img src="assets/Splash.png" alt="Splash Banner" width="500"/>
 
-[![CircleCI](https://circleci.com/gh/mets11rap/cyclone-engine/tree/master.svg?style=svg)](https://circleci.com/gh/mets11rap/cyclone-engine/tree/master)
+![Build Verification](https://github.com/mets11rap/cyclone-engine/workflows/Build%20Verification/badge.svg?branch=master&event=push)
 [![codecov](https://codecov.io/gh/mets11rap/cyclone-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/mets11rap/cyclone-engine)
 [![Discord Server](https://img.shields.io/badge/-Support%20Server-b.svg?colorA=697ec4&colorB=7289da&logo=discord)](https://discord.gg/Rqd8SJ9)
 [![Version](https://img.shields.io/github/package-json/v/mets11rap/cyclone-engine.svg?label=Version)](#)

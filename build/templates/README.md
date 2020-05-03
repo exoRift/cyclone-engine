@@ -19,11 +19,11 @@ An advanced bot engine for Discord running on lightweight Eris
 
 - Add user flexibility to your bot with command aliases
 
-- Stop your bot from crashing due to errors
+- Prevent crashing due to errors
 
 - Integrate automated actions
 
-- Simplify how your database is integrated into your systems
+- Simplify how attachments such as databases are integrated into systems
 
 - Auto generate command info
 
@@ -43,10 +43,6 @@ An advanced bot engine for Discord running on lightweight Eris
 
 `eris` - You need to install Eris and supply it to the agent. Eris is supplied to allow custom Eris classes to be used by the engine.
 
-`pg, mysql, sqlite, etc.` - In order for the database wrapper, `simple-knex`, to function, the database driver you are using must be installed.
-
-`dblapi.js` - If you plan on integrating the Discord Bot Labs API into your bot, make sure to have this installed.
-
 <a href='https://mets11rap.github.io/cyclone-engine/' style='color: #4747d1'><font size='+2'>**Documentation**</font></a>
 
 ```
@@ -58,9 +54,7 @@ npm i cyclone-engine
 The Agent class is the main manager of the bot. This will be controlling automated actions as well as call the Command & Reaction Handler.
 ```js
 const {
-  TOKEN,
-  DBL_TOKEN,
-  DATABASE_URL
+  TOKEN
 } = process.env
 
 const Eris = require('eris')
@@ -74,23 +68,9 @@ const agent = new Agent({
   Eris,
   token: TOKEN,
   chData: agentData,
-  databaseOptions: {
-    connectionURL: DATABASE_URL,
-    client: 'pg',
-    tables: [{
-      name: 'users',
-      columns: [{
-        name: 'score',
-        type: 'integer',
-        default: 0
-      }]
-    }],
-    clearEmptyRows: ['users']
-  },
   agentOptions: {
     connectRetryLimit: 5,
     prefix: '.',
-    dblToken: DBL_TOKEN,
     loopFunction: (agent) => {
       agent._client.getDMChannel(agent._CommandHandler.ownerId).then((channel) =>
         channel.createMessage('Current server count is: ' + agent._client.guilds.size)
@@ -183,7 +163,7 @@ const data = {
 
     return {
       content: `Are you sure you want to ban `${user.username}`? (Cancels in 10 seconds)`,
-      wait: new Await({
+      awaits: new Await({
         options: {
           args: [{ name: 'response', mand: true }],
           timeout: 10000,

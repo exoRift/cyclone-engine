@@ -1,4 +1,4 @@
-name: Build Verification
+name: Quality Assurance
 
 on: 
   push:

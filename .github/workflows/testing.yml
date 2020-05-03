@@ -39,7 +39,6 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Install Dependencies
-        if: failure()
         run: npm i
       - name: Run Tests
         run: npm test
@@ -77,7 +76,6 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Install Dependencies
-        if: failure()
         run: npm i
       - name: Lint Code
-        run: npm lint
+        run: npm run lint

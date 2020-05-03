@@ -13,6 +13,8 @@
 - All `simple-knex` oriented support has been dropped in light of the new attachments system
 - All `dblapi.js` oriented support has been dropped in light of the new attachments system
 - Upgraded the default help menu help icon (Now hosted in the repository)
+- `new Agent({ agentOptions: { prefix } })` has been changed to `new Agent({ handlerData: { prefix } })`
+- `new CommandHandler({ prefix })` has been changed to `new CommandHandler({ options: { prefix } })`
 
 1.2.4
 -

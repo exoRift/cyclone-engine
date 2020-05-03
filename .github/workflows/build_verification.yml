@@ -3,12 +3,12 @@ name: Build Verification
 on: 
   push:
     branches:
-      - '*'
-      - '!gh-pages'
+      - master
+      - dev
   pull_request:
     branches:
-      - '*'
-      - '!gh-pages'
+      - *
+      - !gh-pages
 
 jobs:
   test:

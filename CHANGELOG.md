@@ -1,12 +1,20 @@
-1.2.5
+1.3.0
 -
 ### **New handling features**
 - Commands and Awaits now support delimiters longer than 1 character
+- ReactionHandler now has a method for detaching interfaces from messages
+- You can now supply a user ID in the options for an Await
+- `CommandHandler.addAwait` is now public
+- An array of awaits can now be added
+
+### **Important notes**
+- `CommandResults.options.wait` has beeen changed to `CommandResults.options.awaits`
+- Upgraded to Node 12
 
 1.2.4
 -
 ### **New handling features**
-- Awaits are no longer passed an object to the check function. They are now directly passed the Message object.
+- Awaits are no longer passed an object to the check function. They are now directly passed the Message object
 - There is a new option for Awaits called `requirePrefix` which will only trigger the await when it is prefaced with the bot prefix or mention. The Message object passed to the check function contains message content without the prefix.
 
 ### **Bug fixes**

@@ -450,7 +450,7 @@ class Message {
    * @param {Object}               file        The file to attach to the message.
    * @prop  {String}               file.name   The name of the file
    * @prop  {Buffer}               file.file   The file content.
-   * @param {PseudoClient.User}    _author      The author of the message.
+   * @param {PseudoClient.User}    _author     The author of the message.
    */
   constructor (channel, msg, file, _author) {
     if (typeof msg === 'string') msg = { content: msg }

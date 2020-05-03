@@ -12,6 +12,7 @@
 - Upgraded to Node 12
 - All `simple-knex` oriented support has been dropped in light of the new attachments system
 - All `dblapi.js` oriented support has been dropped in light of the new attachments system
+- Upgraded the default help menu help icon (Now hosted in the repository)
 
 1.2.4
 -

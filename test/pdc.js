@@ -279,6 +279,8 @@ class Guild {
 
     this.shard.client.channelGuildMap[id] = this.id
 
+    channel._setPermission(this.shard.client.user.id, 'sendMessages', true)
+
     return channel
   }
 }
@@ -417,6 +419,15 @@ class Channel {
         }
       }
     }
+  }
+
+  /**
+   * Delete all records of the channel.
+   * @private
+   */
+  _delete () {
+    this.guild.channels.delete(this.id)
+    delete this.guild.shard.client.channelGuildMap[this.id]
   }
 
   /**

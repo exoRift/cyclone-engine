@@ -17,7 +17,7 @@ A clear and concise description of what you want to happen.
 A clear and concise explanation of the feature.
 
 **Why should this feature be a part of the engine/website?**
-Describeb why this feature should exist.
+Describe why this feature should exist.
 
 **Additional context**
 Add any other context or screenshots about the feature request here.

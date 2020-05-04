@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Report bugs found in the module or website
+about: Report bugs found in the engine or website
 title: ''
 labels: ''
 assignees: ''

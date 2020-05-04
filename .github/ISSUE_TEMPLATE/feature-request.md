@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Suggest an improvement to the module or website
+about: Suggest an improvement to the engine or website
 title: ''
 labels: enhancement
 assignees: ''

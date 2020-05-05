@@ -18,6 +18,10 @@
 - `new Agent({ agentOptions: { maxInterfaces } })` has been changed to `new Agent({ handlerData: { options: { maxInterfaces } } })`
 - Many class members have been moved around and changed. Refer to docs
 - Many class methods are no longer async. Refer to docs
+- The event handlers no longer support custom error code ignoring. Error code ignoring is now handled by the agent. To propose more codes to ignore, make an issue on the repository
+
+### **Bug fixes**
+- Fixed bug where supplying a single replacer without an array would not meet the conditions for the prefix-replacer braces error
 
 1.2.4
 -

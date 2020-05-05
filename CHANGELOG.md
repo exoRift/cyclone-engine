@@ -16,6 +16,8 @@
 - `new Agent({ agentOptions: { prefix } })` has been changed to `new Agent({ handlerData: { options: { prefix } } })`
 - `new CommandHandler({ prefix })` has been changed to `new CommandHandler({ options: { prefix } })`
 - `new Agent({ agentOptions: { maxInterfaces } })` has been changed to `new Agent({ handlerData: { options: { maxInterfaces } } })`
+- Many class members have been moved around and changed. Refer to docs
+- Many class methods are no longer async. Refer to docs
 
 1.2.4
 -

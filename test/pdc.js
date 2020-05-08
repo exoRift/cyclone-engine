@@ -9,9 +9,9 @@ class PseudoClient extends EventEmitter {
    * Create a client.
    * @class
    * @param {String}            [token='1234'] The bot token.
-   * @param {PseudoClient.User} [owner]        The bot owner.
+   * @param {PseudoClient.User} [_owner]       The bot owner.
    */
-  constructor (token = '1234', owner = new User({ id: '1', username: 'owner' })) {
+  constructor (token = '1234', _owner = new User({ id: '1', username: 'owner' })) {
     super()
 
     /**
@@ -25,7 +25,7 @@ class PseudoClient extends EventEmitter {
      * @private
      * @type    {PseudoClient.User}
      */
-    this._owner = owner
+    this._owner = _owner
 
     /**
      * The client user.
@@ -368,15 +368,15 @@ class Channel {
     let index
 
     if (msg.embed && msg.embed.fields) {
-      for (let i = 0; i < msg.embed.fields.length; i++) {
-        if (!msg.embed.fields[i].name) {
+      for (let e = 0; e < msg.embed.fields.length; e++) {
+        if (!msg.embed.fields[e].name) {
           tooLong = 'name'
-          index = i
+          index = e
           break
         }
-        if (msg.embed.fields[i].value.length > 1024) {
+        if (msg.embed.fields[e].value.length > 1024) {
           tooLong = 'embed'
-          index = i
+          index = e
           break
         }
       }

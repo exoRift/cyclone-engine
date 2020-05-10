@@ -7,6 +7,7 @@
 - `CommandHandler.addAwait` is now public
 - An array of awaits can now be added
 - `Agent.buildHelp` now returns an object containing the embed and help menu pages
+- Prefixes are no longer needed when the bot is DM'd
 
 ### **Important notes**
 - `CommandResults.options.wait` has beeen changed to `CommandResults.options.awaits`

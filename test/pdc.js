@@ -2,40 +2,40 @@ const Collection = require('eris').Collection
 const EventEmitter = require('events').EventEmitter
 
 /**
- * A fake Eris Discord client to simulate a connected bot.
+ * A fake Eris Discord client to simulate a connected bot
  */
 class PseudoClient extends EventEmitter {
   /**
-   * Create a client.
+   * Create a client
    * @class
-   * @param {String}            [token='1234'] The bot token.
-   * @param {PseudoClient.User} [_owner]       The bot owner.
+   * @param {String}            [token='1234'] The bot token
+   * @param {PseudoClient.User} [_owner]       The bot owner
    */
   constructor (token = '1234', _owner = new User({ id: '1', username: 'owner' })) {
     super()
 
     /**
-     * The bot token.
+     * The bot token
      * @type {String}
      */
     this.token = 'Bot ' + token
 
     /**
-     * The bot owner.
+     * The bot owner
      * @private
      * @type    {PseudoClient.User}
      */
     this._owner = _owner
 
     /**
-     * The client user.
+     * The client user
      * @type {PseudoClient.User}
      */
     this.user = new User({ id: '0', username: 'client' }, this)
     this.user.bot = true
 
     /**
-     * The client shards.
+     * The client shards
      * @type {Collection<String, PseudoClient.Shard>}
      */
     this.shards = new Collection()
@@ -43,36 +43,36 @@ class PseudoClient extends EventEmitter {
     this._addShard(this)
 
     /**
-     * The guilds the user is in.
+     * The guilds the user is in
      * @type {Collection<String, PseudoClient.Guild>}
      */
     this.guilds = new Collection()
 
     /**
-     * The users the bot has cached.
+     * The users the bot has cached
      * @type {Collection<String, PseudoClient.User>}
      */
     this.users = new Collection()
     this.users.set(this.user.id, this.user)
 
     /**
-     * An object mapping channel IDs to guild IDs.
+     * An object mapping channel IDs to guild IDs
      * @type {Object}
      */
     this.channelGuildMap = {}
   }
 
   /**
-   * Set whether the connect method should succeed or fail.
+   * Set whether the connect method should succeed or fail
    * @private
-   * @param {Boolean} status The status of the connect method.
+   * @param {Boolean} status The status of the connect method
    */
   _setConnectStatus (status) {
     this._connectStatus = status
   }
 
   /**
-   * Simulate connecting to the Discord API.
+   * Simulate connecting to the Discord API
    */
   async connect () {
     if (!this._connectStatus) throw Error()
@@ -82,9 +82,9 @@ class PseudoClient extends EventEmitter {
   }
 
   /**
-   * Add a shard to the client.
+   * Add a shard to the client
    * @private
-   * @param   {PseudoClient} client The client that's being sharded.
+   * @param   {PseudoClient} client The client that's being sharded
    */
   _addShard (client) {
     this.shards.set(this.shards.size, new Shard({ id: this.shards.size, client }))
@@ -93,8 +93,8 @@ class PseudoClient extends EventEmitter {
   /**
    * Add a user to the cache.
    * @private
-   * @param   {Object}            userData The user data to add.
-   * @return  {PseudoClient.User}          The added user.
+   * @param   {Object}            userData The user data to add
+   * @return  {PseudoClient.User}          The added user
    */
   _addUser (userData) {
     const user = new User(userData)
@@ -105,13 +105,13 @@ class PseudoClient extends EventEmitter {
   }
 
   /**
-   * Simulate joining a guild.
+   * Simulate joining a guild
    * @private
-   * @param   {Object}   [data={}]                     The data for the guild object.
-   * @prop    {Object}   [data.guildData={}]           The data of the guild.
+   * @param   {Object}   [data={}]                     The data for the guild object
+   * @prop    {Object}   [data.guildData={}]           The data of the guild
    * @prop    {String}   [data.guildData.id]           The ID of the guild
-   * @prop    {String}   [data.guildData.name='guild'] The name of the guild.
-   * @prop    {Object[]} [data.channels=[]]            The guild channels (Objects containing channel data).
+   * @prop    {String}   [data.guildData.name='guild'] The name of the guild
+   * @prop    {Object[]} [data.channels=[]]            The guild channels (Objects containing channel data)
    */
   _joinGuild ({ guildData = {}, channels = [] } = {}) {
     const {
@@ -127,16 +127,16 @@ class PseudoClient extends EventEmitter {
   }
 
   /**
-   * Create a message in the designated channel.
+   * Create a message in the designated channel
    * @async
-   * @param   {String}                        channel     The channel ID.
-   * @param   {Object}                        msg         The message data.
-   * @prop    {String}                        msg.content The message content.
+   * @param   {String}                        channel     The channel ID
+   * @param   {Object}                        msg         The message data
+   * @prop    {String}                        msg.content The message content
    * @prop    {Object}                        msg.embed   The embed to attach
-   * @param   {Object}                        file        The file to attach to the message.
+   * @param   {Object}                        file        The file to attach to the message
    * @prop    {String}                        file.name   The name of the file
-   * @prop    {Buffer}                        file.file   The file content.
-   * @returns {Promise<PseudoClient.Message>}             The resulting message.
+   * @prop    {Buffer}                        file.file   The file content
+   * @returns {Promise<PseudoClient.Message>}             The resulting message
    */
   async createMessage (channel, msg, file) {
     const target = this.guilds.find((g) => g.channels.has(channel))
@@ -147,7 +147,7 @@ class PseudoClient extends EventEmitter {
   }
 
   /**
-   * Return fake OAuth application data.
+   * Return fake OAuth application data
    */
   async getOAuthApplication () {
     return {
@@ -157,25 +157,25 @@ class PseudoClient extends EventEmitter {
 }
 
 /**
- * A class representing an Eris user.
+ * A class representing an Eris user
  */
 class User {
   /**
    * Construct a user.
    * @class
-   * @param {Object}       [data={}]              The data for the User object.
-   * @prop  {String}       [data.id]              The ID of the user.
-   * @prop  {String}       [data.username='user'] The username of the user.
+   * @param {Object}       [data={}]              The data for the User object
+   * @prop  {String}       [data.id]              The ID of the user
+   * @prop  {String}       [data.username='user'] The username of the user
    */
   constructor ({ id = String(Date.now()), username = 'user' } = {}) {
     /**
-     * The ID of the user.
+     * The ID of the user
      * @type {String}
      */
     this.id = id
 
     /**
-     * The username of the user.
+     * The username of the user
      * @type {String}
      */
     this.username = username
@@ -187,15 +187,15 @@ class User {
 }
 
 /**
- * A class representing an Eris shard.
+ * A class representing an Eris shard
  */
 class Shard {
   /**
    * Construct a shard.
    * @class
-   * @param {Object}       [data={}]   The data for the Shard object.
-   * @prop  {String}       data.id     The shard ID.
-   * @prop  {PseudoClient} data.client The client to shard.
+   * @param {Object}       [data={}]   The data for the Shard object
+   * @prop  {String}       data.id     The shard ID
+   * @prop  {PseudoClient} data.client The client to shard
    */
   constructor ({ id, client }) {
     /**
@@ -205,7 +205,7 @@ class Shard {
     this.id = id
 
     /**
-     * The shard client.
+     * The shard client
      * @type {PseudoClient}
      */
     this.client = client
@@ -217,39 +217,39 @@ class Shard {
 }
 
 /**
- * A class representing an Eris guild.
+ * A class representing an Eris guild
  */
 class Guild {
   /**
-   * Construct a guild.
+   * Construct a guild
    * @class
-   * @param {Object}       [data={}]           The data for the guild object.
-   * @prop  {String}       [data.id]           The ID of the guild.
-   * @prop  {String}       [data.name='guild'] The name of the guild.
-   * @prop  {Object[]}     [data.channels=[]]  The channels of the guild (Objects containing channel information).
-   * @prop  {PseudoClient} shard               The shard.
+   * @param {Object}       [data={}]           The data for the guild object
+   * @prop  {String}       [data.id]           The ID of the guild
+   * @prop  {String}       [data.name='guild'] The name of the guild
+   * @prop  {Object[]}     [data.channels=[]]  The channels of the guild (Objects containing channel information)
+   * @prop  {PseudoClient} shard               The shard
    */
   constructor ({ id = String(Date.now()), name = 'guild', channels = [] } = {}, shard) {
     /**
-     * The ID of the guild.
+     * The ID of the guild
      * @type {String}
      */
     this.id = id
 
     /**
-     * The name of the guild.
+     * The name of the guild
      * @type {String}
      */
     this.name = name
 
     /**
-     * The channels of the guild.
+     * The channels of the guild
      * @type {PseudoClient.Collection<String, PseudoClient.Channel>}
      */
     this.channels = new Collection()
 
     /**
-     * The shard.
+     * The shard
      * @type {PseudoClient.Shard}
      */
     this.shard = shard
@@ -265,12 +265,12 @@ class Guild {
   }
 
   /**
-   * Create a channel for the guild.
-   * @param   {Object}               data                  The data for the channel.
-   * @prop    {String}               [data.id]             The ID of the channel.
-   * @prop    {String}               [data.name='channel'] The name of the channel.
-   * @prop    {PseudoClient.Guild}   data.guild            The parent guild of the channel.
-   * @returns {PseudoClient.Channel}                       The created channel.
+   * Create a channel for the guild
+   * @param   {Object}               data                  The data for the channel
+   * @prop    {String}               [data.id]             The ID of the channel
+   * @prop    {String}               [data.name='channel'] The name of the channel
+   * @prop    {PseudoClient.Guild}   data.guild            The parent guild of the channel
+   * @returns {PseudoClient.Channel}                       The created channel
    */
   _createChannel ({ id = String(Date.now()), name = 'channel' } = {}) {
     const channel = new Channel({ id, name, guild: this })
@@ -286,50 +286,50 @@ class Guild {
 }
 
 /**
- * A class representing an Eris channel.
+ * A class representing an Eris channel
  */
 class Channel {
   /**
-   * Construct a channel.
+   * Construct a channel
    * @class
-   * @param {Object}             [data={}]             The data for the channel object.
-   * @prop  {String}             [data.id]         The ID of the channel.
-   * @prop  {String}             [data.name='channel'] The name of the channel.
-   * @prop  {PseudoClient.Guild} data.guild            The parent guild of the channel.
+   * @param {Object}             [data={}]             The data for the channel object
+   * @prop  {String}             [data.id]         The ID of the channel
+   * @prop  {String}             [data.name='channel'] The name of the channel
+   * @prop  {PseudoClient.Guild} data.guild            The parent guild of the channel
    */
   constructor ({ id = String(Date.now()), name = 'channel', guild } = {}) {
     /**
-     * The ID of the channel.
+     * The ID of the channel
      * @type {String}
      */
     this.id = id
 
     /**
-     * The name of the channel.
+     * The name of the channel
      * @type {String}
      */
     this.name = name
 
     /**
-     * The parent guild of the channel.
+     * The parent guild of the channel
      * @type {PseudoClient.Guild}
      */
     this.guild = guild
 
     /**
-     * The messages of the channel.
+     * The messages of the channel
      * @type {PseudoClient.Message}
      */
     this.messages = new PseudoClient.Collection()
 
     /**
-     * The type of channel.
+     * The type of channel
      * @type {Number}
      */
     this.type = 0
 
     /**
-     * The permissions of the users.
+     * The permissions of the users
      * @private
      * @type    {Object}
      */
@@ -337,15 +337,15 @@ class Channel {
   }
 
   /**
-   * Create a message in the channel.
+   * Create a message in the channel
    * @async
-   * @param   {String|Object}                 msg         The message content or data.
-   * @prop    {String}                        msg.content The message content.
+   * @param   {String|Object}                 msg         The message content or data
+   * @prop    {String}                        msg.content The message content
    * @prop    {Object}                        msg.embed   The embed to attach
-   * @param   {Object}                        file        The file to attach to the message.
+   * @param   {Object}                        file        The file to attach to the message
    * @prop    {String}                        file.name   The name of the file
-   * @prop    {Buffer}                        file.file   The file content.
-   * @returns {Promise<PseudoClient.Message>}             The resulting message.
+   * @prop    {Buffer}                        file.file   The file content
+   * @returns {Promise<PseudoClient.Message>}             The resulting message
    */
   async createMessage (msg, file) {
     if (this._createMessageThrow) {
@@ -403,9 +403,9 @@ class Channel {
   }
 
   /**
-   * Get the permissions of a user.
-   * @param   {String} user The ID of the user.
-   * @returns {Object}      The permissions of the user which has() can be executed on.
+   * Get the permissions of a user
+   * @param   {String} user The ID of the user
+   * @returns {Object}      The permissions of the user which has() can be executed on
    */
   permissionsOf (user) {
     return {
@@ -422,7 +422,7 @@ class Channel {
   }
 
   /**
-   * Delete all records of the channel.
+   * Delete all records of the channel
    * @private
    */
   _delete () {
@@ -431,11 +431,11 @@ class Channel {
   }
 
   /**
-   * Set the permission of a user.
+   * Set the permission of a user
    * @private
-   * @param   {String}  user          The ID of the user.
-   * @param   {String}  permission    The name of the permission.
-   * @param   {Boolean} [value=false] Whether the permission is allowed or not.
+   * @param   {String}  user          The ID of the user
+   * @param   {String}  permission    The name of the permission
+   * @param   {Boolean} [value=false] Whether the permission is allowed or not
    */
   _setPermission (user, permission, value) {
     if (!this._permissions[user]) this._permissions[user] = []
@@ -448,20 +448,20 @@ class Channel {
 }
 
 /**
- * A class representing an Eris message.
+ * A class representing an Eris message
  */
 class Message {
   /**
-   * Construct a message.
+   * Construct a message
    * @class
-   * @param {PseudoClient.Channel} channel     The channel the message is in.
-   * @param {String|Object}        msg         The message data or content.
-   * @prop  {String}               msg.content The message content.
+   * @param {PseudoClient.Channel} channel     The channel the message is in
+   * @param {String|Object}        msg         The message data or content
+   * @prop  {String}               msg.content The message content
    * @prop  {Object}               msg.embed   The embed to attach
-   * @param {Object}               file        The file to attach to the message.
+   * @param {Object}               file        The file to attach to the message
    * @prop  {String}               file.name   The name of the file
-   * @prop  {Buffer}               file.file   The file content.
-   * @param {PseudoClient.User}    _author     The author of the message.
+   * @prop  {Buffer}               file.file   The file content
+   * @param {PseudoClient.User}    _author     The author of the message
    */
   constructor (channel, msg, file, _author) {
     if (typeof msg === 'string') msg = { content: msg }
@@ -471,37 +471,37 @@ class Message {
     } = msg
 
     /**
-     * The ID of the message.
+     * The ID of the message
      * @type {String}
      */
     this.id = String(Date.now())
 
     /**
-     * The channel the message is in.
+     * The channel the message is in
      * @type {PseudoClient.Channel}
      */
     this.channel = channel
 
     /**
-     * The author of the message.
+     * The author of the message
      * @type {PseudoClient.User}
      */
     this.author = _author
 
     /**
-     * The content of the message.
+     * The content of the message
      * @type {String}
      */
     this.content = content
 
     /**
-     * The embeds of the message.
+     * The embeds of the message
      * @type {Object[]}
      */
     this.embeds = embed ? [embed] : []
 
     /**
-     * The attachments of the message.
+     * The attachments of the message
      * @type {Object[]}
      */
     this.attachments = file ? [{
@@ -510,21 +510,21 @@ class Message {
     }] : []
 
     /**
-     * The buffer of the file provided.
+     * The buffer of the file provided
      * @private
      * @type    {Buffer}
      */
     if (file) this._attachmentFile = file.file
 
     /**
-     * The reactions on the message.
+     * The reactions on the message
      * @type {Object}
      */
     this.reactions = {}
   }
 
   /**
-   * Delete the message.
+   * Delete the message
    * @async
    */
   async delete () {
@@ -540,11 +540,11 @@ class Message {
   }
 
   /**
-   * React to the message with an emoji.
+   * React to the message with an emoji
    * @async
-   * @param   {String}            reaction The emoji.
-   * @param   {PseudoClient.User} user     The user.
-   * @returns {Object}                     The reaction data.
+   * @param   {String}            reaction The emoji
+   * @param   {PseudoClient.User} user     The user
+   * @returns {Object}                     The reaction data
    */
   async addReaction (reaction, user = new User()) {
     if (this.reactions[reaction]) {
@@ -563,9 +563,9 @@ class Message {
   }
 
   /**
-   * Remove a reaction on the message.
+   * Remove a reaction on the message
    * @async
-   * @param {String} reaction The emoji to remove.
+   * @param {String} reaction The emoji to remove
    */
   async removeReaction (reaction) {
     if (this._removeReactionError) throw Error()

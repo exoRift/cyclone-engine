@@ -23,11 +23,7 @@
   },
   "files": [
     "lib/",
-    "!**/*.test.js",
-    "assets/",
-    "!assets/src/",
-    "!assets/icon.png",
-    "!assets/splash.png"
+    "!**/*.test.js"
   ],
   "author": "mets11rap",
   "license": "MIT",

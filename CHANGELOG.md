@@ -8,6 +8,7 @@
 - An array of awaits can now be added
 - `Agent.buildHelp` now returns an object containing the embed and help menu pages
 - Prefixes are no longer needed when the bot is DM'd
+- Commands and react commands can now be assigned `serverOnly` options that prevent them from being used in channels such as DMs
 
 ### **Important notes**
 - `CommandResults.options.wait` has beeen changed to `CommandResults.options.awaits`

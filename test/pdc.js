@@ -94,7 +94,7 @@ class PseudoClient extends EventEmitter {
    * Add a user to the cache.
    * @private
    * @param   {Object}            userData The user data to add
-   * @return  {PseudoClient.User}          The added user
+   * @returns {PseudoClient.User}          The added user
    */
   _addUser (userData) {
     const user = new User(userData)

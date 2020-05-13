@@ -62,27 +62,94 @@ const {
   Agent 
 } = require('cyclone-engine')
 
-const agentData = require('./data/')
+const handlerData = require('./data/')
 
 const agent = new Agent({
   Eris,
   token: TOKEN,
-  chData: agentData,
+  handlerData,
   agentOptions: {
     connectRetryLimit: 5,
     prefix: '.',
-    loopFunction: (agent) => {
-      agent._client.getDMChannel(agent._CommandHandler.ownerId).then((channel) =>
-        channel.createMessage('Current server count is: ' + agent._client.guilds.size)
-      )
-    }, /* DM the number of guilds the bot is in to the owner */
-    loopInterval: 1800000, /* 30 minutes */
+    loopFunction: {
+      func: (agent) => {
+        agent._client.getDMChannel(agent._CommandHandler.ownerId).then((channel) =>
+          channel.createMessage('Current server count is: ' + agent._client.guilds.size)
+        )
+      }, /* DM the number of guilds the bot is in to the owner */
+      interval: 1800000, /* 30 minutes */
+    },
     postMessageFunction: (msg, { command }) => console.log(`${msg.timestamp} - **${msg.author.username}** > *${command.name}*`),
     postReactionFunction: (msg, { reactCommand }) => console.log(`${msg.timestamp} - **${msg.author.username}** > *${reactCommand.name}*`)
   }
 })
+
+agent.connect()
 ```
 {docs.class.Agent}
+***
+>Using an attachment such as a database manager
+
+If you'd like to have a class/object/value that can be utilized by commands even if it's not defined in the same scope, you can use the attachment feature
+
+**Knex example:**
+--
+Main file:
+```js
+const {
+  TOKEN,
+  DATABASE_URL
+} = process.env
+
+const Eris = require('eris')
+const Knex = require('knex')
+
+const {
+  commands
+} = require('./data/')
+
+const knex = new Knex({
+  client: 'pg',
+  connection: DATABASE_URL
+})
+
+const agent = new Agent({
+  Eris,
+  token: TOKEN,
+  handlerData: {
+    commands
+  }
+})
+
+agent.addAttachment('db', knex)
+
+agent.connect()
+```
+Command file:
+```js
+const {
+  Command
+} = require('cyclone-engine')
+
+const data = {
+  name: 'points',
+  desc: 'See how many points you have',
+  action: ({ msg, attachments: { db } }) => {
+    return db('users')
+      .select('points')
+      .where({
+        id: msg.author.id
+      })
+      .limit(1)
+      .then((res) => {
+        if (res) return res.points
+        else return 'You aren\'t registered in the database'
+      })
+  }
+}
+
+module.exports = new Command(data)
+```
 ***
 >Constructing the Command Handler without the agent
 
@@ -96,14 +163,20 @@ const Eris = require('eris')
 const client = new Eris(TOKEN)
 
 const {
-  _CommandHandler
+  CommandHandler
 } = require('cyclone-engine')
 
+const {
+  commands,
+  replacers
+} = require('./data/')
+
 const handler = client.getOAuthApplication().then((app) => {
-  return new _CommandHandler({
+  return new CommandHandler({
     client,
     ownerID: app.owner.id,
-    ...require('./data/')
+    commands,
+    replacers
   })
 })
 
@@ -130,7 +203,7 @@ const data = {
   desc: 'Make the bot say something.',
   options: {
     args: [{ name: 'content', mand: true }],
-    restricted: true /* Make this command admin only */
+    restricted: true /* Make this command bot-owner only */
   },
   action: ({ args: [content] }) => content /* The command returns the content provided by the user */
 }
@@ -215,14 +288,18 @@ The Reaction Handler is taken care of automatically when the agent is constructe
 ```js
 
 const {
-  _ReactionHandler
+  ReactionHandler
 } = require('cyclone-engine')
 
+const {
+  reactCommands
+} = require('./data/')
+
 const handler = client.getOAuthApplication().then((app) => {
-  return new _ReactionHandler({
+  return new ReactionHandler({
     client,
     ownerID: app.owner.id,
-    ...require('./data/')
+    reactCommands
   })
 })
 

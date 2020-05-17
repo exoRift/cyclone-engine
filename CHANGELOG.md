@@ -10,6 +10,7 @@
 - Prefixes are no longer needed when the bot is DM'd
 - Commands and react commands can now be assigned `serverOnly` options that prevent them from being used in channels such as DMs
 - Added attachments! Attachments are attached to the agent via the proper method and are supplied to commands. A good use for the attachments system would be supplying your database manager
+- Changed command and handler interaction flow to make more sense. All references now go through the agent. (For example, to access a command, use `action: ({ agent }) => agent.commandHandler.getCommand('name')`)
 
 ### **Important notes**
 - `CommandResults.options.wait` has beeen changed to `CommandResults.options.awaits`

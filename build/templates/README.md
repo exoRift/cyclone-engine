@@ -41,7 +41,7 @@ An advanced bot engine for Discord running on lightweight Eris
 # Getting started
 >Prerequisites
 
-`eris` - You need to install Eris and supply it to the agent. Eris is supplied to allow custom Eris classes to be used by the engine.
+`eris` - You need to install Eris and supply it to the agent. Eris is supplied manually to allow custom Eris classes to be used by the engine.
 
 <a href='https://mets11rap.github.io/cyclone-engine/' style='color: #4747d1'><font size='+2'>**Documentation**</font></a>
 
@@ -134,8 +134,8 @@ const {
 const data = {
   name: 'points',
   desc: 'See how many points you have',
-  action: ({ msg, attachments: { db } }) => {
-    return db('users')
+  action: ({ agent, msg }) => {
+    return agent.attachments.db('users')
       .select('points')
       .where({
         id: msg.author.id

@@ -1,3 +1,4 @@
 src/
 exclude.txt
 Help Icon.png
+Wiki Filesystem Example.png

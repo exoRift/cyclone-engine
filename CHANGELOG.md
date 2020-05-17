@@ -25,6 +25,7 @@
 - Many class methods are no longer async. Refer to docs
 - The event handlers no longer support custom error code ignoring. Error code ignoring is now handled by the agent. To propose more codes to ignore, make an issue on the repository
 - `Agent.buildHelp({ page })` has been changed to `Agent.buildHelp({}, page)`
+- Blacklisting users is now done through methods instead of the constructor
 
 ### **Bug fixes**
 - Fixed bug where supplying a single replacer without an array would not meet the conditions for the prefix-replacer braces error

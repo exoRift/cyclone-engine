@@ -11,6 +11,7 @@
 - Commands and react commands can now be assigned `serverOnly` options that prevent them from being used in channels such as DMs
 - Added attachments! Attachments are attached to the agent via the proper method and are supplied to commands. A good use for the attachments system would be supplying your database manager
 - Changed command and handler interaction flow to make more sense. All references now go through the agent. (For example, to access a command, use `action: ({ agent }) => agent.commandHandler.getCommand('name')`)
+- `Agent.buildHelp`'s speed has been dramatically increased
 
 ### **Important notes**
 - `CommandResults.options.wait` has beeen changed to `CommandResults.options.awaits`
@@ -25,6 +26,7 @@
 - Many class methods are no longer async. Refer to docs
 - The event handlers no longer support custom error code ignoring. Error code ignoring is now handled by the agent. To propose more codes to ignore, make an issue on the repository
 - `Agent.buildHelp({ page })` has been changed to `Agent.buildHelp({}, page)`
+- `Agent.buildHelp({ description })` has been changed to `Agent.buildHelp({ desc })`
 - Blacklisting users is now done through methods instead of the constructor
 
 ### **Bug fixes**

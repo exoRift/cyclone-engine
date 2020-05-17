@@ -172,6 +172,8 @@ const {
 } = require('./data/')
 
 const handler = client.getOAuthApplication().then((app) => {
+  client.connect()
+
   return new CommandHandler({
     client,
     ownerID: app.owner.id,
@@ -180,11 +182,7 @@ const handler = client.getOAuthApplication().then((app) => {
   })
 })
 
-client.on('messageCreate', async (msg) => {
-  await handler
-
-  handler.handle(msg)
-})
+client.on('messageCreate', (msg) => handler.handle(msg))
 ```
 {docs.class.CommandHandler}
 ***
@@ -296,6 +294,8 @@ const {
 } = require('./data/')
 
 const handler = client.getOAuthApplication().then((app) => {
+  client.connect()
+
   return new ReactionHandler({
     client,
     ownerID: app.owner.id,
@@ -303,11 +303,7 @@ const handler = client.getOAuthApplication().then((app) => {
   })
 })
 
-client.on('messageReactionAdd', async (msg, emoji, userID) => {
-  await handler
-
-  handler.handle(msg, emoji, userID)
-})
+client.on('messageReactionAdd', async (msg, emoji, userID) => handler.handle(msg, emoji, userID))
 ```
 {docs.class.ReactionHandler}
 ***

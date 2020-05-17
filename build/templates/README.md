@@ -64,6 +64,10 @@ const {
 
 const handlerData = require('./data/')
 
+function postFunction (msg, results) {
+  if (results) console.log(`${msg.timestamp} - **${msg.author.username}** > *${results.command.name}*`)
+}
+
 const agent = new Agent({
   Eris,
   token: TOKEN,
@@ -79,8 +83,8 @@ const agent = new Agent({
       }, /* DM the number of guilds the bot is in to the owner */
       interval: 1800000, /* 30 minutes */
     },
-    postMessageFunction: (msg, { command }) => console.log(`${msg.timestamp} - **${msg.author.username}** > *${command.name}*`),
-    postReactionFunction: (msg, { reactCommand }) => console.log(`${msg.timestamp} - **${msg.author.username}** > *${reactCommand.name}*`)
+    postMessageFunction: postFunction,
+    postReactionFunction: postFunction
   }
 })
 

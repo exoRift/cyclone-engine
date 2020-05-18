@@ -28,6 +28,7 @@
 - `Agent.buildHelp({ page })` has been changed to `Agent.buildHelp({}, page)`
 - `Agent.buildHelp({ description })` has been changed to `Agent.buildHelp({ desc })`
 - Blacklisting users is now done through methods instead of the constructor
+- `new Agent({ agentOptions })` has been changed to `new Agent({ options })`
 
 ### **Bug fixes**
 - Fixed bug where supplying a single replacer without an array would not meet the conditions for the prefix-replacer braces error

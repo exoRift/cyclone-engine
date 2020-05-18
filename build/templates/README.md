@@ -35,6 +35,8 @@ An advanced bot engine for Discord running on lightweight Eris
 
 - Grant complete freedom of bot design
 
+- Assign authority levels to server roles with an ALO permissions system
+
 # Examples of bots that use Cyclone
 - <font size='+1'>[**GuildLink**](https://github.com/mets11rap/guildlink)</font>
 

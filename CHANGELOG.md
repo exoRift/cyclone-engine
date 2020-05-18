@@ -12,6 +12,7 @@
 - Added attachments! Attachments are attached to the agent via the proper method and are supplied to commands. A good use for the attachments system would be supplying your database manager
 - Changed command and handler interaction flow to make more sense. All references now go through the agent. (For example, to access a command, use `action: ({ agent }) => agent.commandHandler.getCommand('name')`)
 - `Agent.buildHelp`'s speed has been dramatically increased
+- Added an ALO permissions system (Authority Level Oriented)
 
 ### **Important notes**
 - `CommandResults.options.wait` has beeen changed to `CommandResults.options.awaits`

@@ -101,6 +101,12 @@ class PseudoClient extends EventEmitter {
 
     this.users.set(user.id, user)
 
+    user.roles = []
+
+    for (const guild of this.guilds.map((g) => g)) {
+      guild.members.set(user.id, user)
+    }
+
     return user
   }
 
@@ -254,6 +260,17 @@ class Guild {
      */
     this.shard = shard
 
+    /**
+     * The members of the guild
+     * @type {PseudoClient.Collection<String, PseudoClient.User>}
+     */
+    this.members = new Collection()
+    for (const user of shard.client.users.map((u) => u)) {
+      user.roles = []
+
+      this.members.set(user.id, user)
+    }
+
     for (const channel of channels) {
       const {
         id,
@@ -282,6 +299,17 @@ class Guild {
     channel._setPermission(this.shard.client.user.id, 'sendMessages', true)
 
     return channel
+  }
+
+  /**
+   * Grant a user a role
+   * @param {String} id   The ID of the user
+   * @param {String} role The ID of the role
+   */
+  _giveRole (id, role) {
+    const user = this.members.get(id)
+
+    user.roles.push(role)
   }
 }
 

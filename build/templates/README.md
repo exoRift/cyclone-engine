@@ -72,7 +72,7 @@ const agent = new Agent({
   Eris,
   token: TOKEN,
   handlerData,
-  agentOptions: {
+  options: {
     connectRetryLimit: 5,
     prefix: '.',
     loopFunction: {

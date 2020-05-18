@@ -30,6 +30,10 @@
 - `Agent.buildHelp({ description })` has been changed to `Agent.buildHelp({ desc })`
 - Blacklisting users is now done through methods instead of the constructor
 - `new Agent({ agentOptions })` has been changed to `new Agent({ options })`
+- `ReactCommand.restricted`'s behavior has been changed to act more like `Command.restricted`'s
+- `designatedUsers` is no longer supported in the ReactCommand constructor
+- `restricted` is no longer supported in the ReactInterface constructor
+- `designatedUsers` for react interfaces no longer requires the `restricted` property to be true. (It's by default an array containing the ID of the bound message author)
 
 ### **Bug fixes**
 - Fixed bug where supplying a single replacer without an array would not meet the conditions for the prefix-replacer braces error

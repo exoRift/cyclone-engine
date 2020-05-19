@@ -312,14 +312,17 @@ class Guild {
 
   /**
    * Grant a user a role
-   * @param {String} id   The ID of the user
-   * @param {String} role The ID of the role
+   * @param   {String} id   The ID of the user
+   * @param   {String} role The ID of the role
+   * @returns {String}      The ID of the role
    */
   _giveRole (id, role) {
     const user = this.members.get(id)
 
-    this.roles.set(role, { role })
+    this.roles.set(role, { id: role })
     user.roles.push(role)
+
+    return role
   }
 }
 

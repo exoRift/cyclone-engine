@@ -93,15 +93,17 @@ class PseudoClient extends EventEmitter {
   /**
    * Add a user to the cache.
    * @private
-   * @param   {Object}            userData The user data to add
-   * @returns {PseudoClient.User}          The added user
+   * @param   {Object}             userData The user data to add
+   * @param   {PseudoClient.Guild} guild    The guild the user is in
+   * @returns {PseudoClient.User}           The added user
    */
-  _addUser (userData) {
+  _addUser (userData, guild) {
     const user = new User(userData)
 
     this.users.set(user.id, user)
 
     user.roles = []
+    user.guild = guild
 
     for (const guild of this.guilds.map((g) => g)) {
       guild.members.set(user.id, user)
@@ -265,6 +267,13 @@ class Guild {
      * @type {PseudoClient.Collection<String, PseudoClient.User>}
      */
     this.members = new Collection()
+
+    /**
+     * The roles of the guild
+     * @type {PseudoClient.Collection<String, Object>}
+     */
+    this.roles = new Collection()
+
     for (const user of shard.client.users.map((u) => u)) {
       user.roles = []
 
@@ -309,6 +318,7 @@ class Guild {
   _giveRole (id, role) {
     const user = this.members.get(id)
 
+    this.roles.set(role, { role })
     user.roles.push(role)
   }
 }

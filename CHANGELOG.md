@@ -8,10 +8,11 @@
 - An array of awaits can now be added
 - `Agent.buildHelp` now returns an object containing the embed and help menu pages
 - Prefixes are no longer needed when the bot is DM'd
-- Commands and react commands can now be assigned `serverOnly` options that prevent them from being used in channels such as DMs
+- Commands and react commands can now be assigned a `guildOnly` option that prevent them from being used in channels such as DMs
 - Added attachments! Attachments are attached to the agent via the proper method and are supplied to commands. A good use for the attachments system would be supplying your database manager
 - Changed command and handler interaction flow to make more sense. All references now go through the agent. (For example, to access a command, use `action: ({ agent }) => agent.commandHandler.getCommand('name')`)
 - `Agent.buildHelp`'s speed has been dramatically increased
+- Added an ALO permissions system (Authority Level Oriented)
 
 ### **Important notes**
 - `CommandResults.options.wait` has beeen changed to `CommandResults.options.awaits`
@@ -29,6 +30,10 @@
 - `Agent.buildHelp({ description })` has been changed to `Agent.buildHelp({ desc })`
 - Blacklisting users is now done through methods instead of the constructor
 - `new Agent({ agentOptions })` has been changed to `new Agent({ options })`
+- `ReactCommand.restricted`'s behavior has been changed to act more like `Command.restricted`'s
+- `designatedUsers` is no longer supported in the ReactCommand constructor
+- `restricted` is no longer supported in the ReactInterface constructor
+- `designatedUsers` for react interfaces no longer requires the `restricted` property to be true. (It's by default an array containing the ID of the bound message author)
 
 ### **Bug fixes**
 - Fixed bug where supplying a single replacer without an array would not meet the conditions for the prefix-replacer braces error

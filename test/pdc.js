@@ -93,13 +93,21 @@ class PseudoClient extends EventEmitter {
   /**
    * Add a user to the cache.
    * @private
-   * @param   {Object}            userData The user data to add
-   * @returns {PseudoClient.User}          The added user
+   * @param   {Object}             userData The user data to add
+   * @param   {PseudoClient.Guild} guild    The guild the user is in
+   * @returns {PseudoClient.User}           The added user
    */
-  _addUser (userData) {
+  _addUser (userData, guild) {
     const user = new User(userData)
 
     this.users.set(user.id, user)
+
+    user.roles = []
+    user.guild = guild
+
+    for (const guild of this.guilds.map((g) => g)) {
+      guild.members.set(user.id, user)
+    }
 
     return user
   }
@@ -254,6 +262,24 @@ class Guild {
      */
     this.shard = shard
 
+    /**
+     * The members of the guild
+     * @type {PseudoClient.Collection<String, PseudoClient.User>}
+     */
+    this.members = new Collection()
+
+    /**
+     * The roles of the guild
+     * @type {PseudoClient.Collection<String, Object>}
+     */
+    this.roles = new Collection()
+
+    for (const user of shard.client.users.map((u) => u)) {
+      user.roles = []
+
+      this.members.set(user.id, user)
+    }
+
     for (const channel of channels) {
       const {
         id,
@@ -282,6 +308,21 @@ class Guild {
     channel._setPermission(this.shard.client.user.id, 'sendMessages', true)
 
     return channel
+  }
+
+  /**
+   * Grant a user a role
+   * @param   {String} id   The ID of the user
+   * @param   {String} role The ID of the role
+   * @returns {String}      The ID of the role
+   */
+  _giveRole (id, role) {
+    const user = this.members.get(id)
+
+    this.roles.set(role, { id: role })
+    user.roles.push(role)
+
+    return role
   }
 }
 

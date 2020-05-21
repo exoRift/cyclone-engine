@@ -19,10 +19,10 @@
       "height": "100px",
       "iconWidth": "30px",
       "iconHeight": "30px",
-      "link": "https://github.com/mets11rap/cyclone-engine"
+      "link": "https://github.com/exoRift/cyclone-engine"
     },
     "footerText": "One of the best bot engines for Discord!",
-    "github": "https://github.com/mets11rap/cyclone-engine",
+    "github": "https://github.com/exoRift/cyclone-engine",
     "cleverLinks": true,
     "monospaceLinks": false,
     "default": {

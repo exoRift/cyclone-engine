@@ -1,9 +1,9 @@
 <img src="assets/Splash.png" alt="Splash Banner" width="500"/>
 
-![Build Verification](https://github.com/mets11rap/cyclone-engine/workflows/Build%20Verification/badge.svg?branch=master&event=push)
-[![codecov](https://codecov.io/gh/mets11rap/cyclone-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/mets11rap/cyclone-engine)
+![Build Verification](https://github.com/exoRift/cyclone-engine/workflows/Build%20Verification/badge.svg?branch=master&event=push)
+[![codecov](https://codecov.io/gh/exoRift/cyclone-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/exoRift/cyclone-engine)
 [![Discord Server](https://img.shields.io/badge/-Support%20Server-b.svg?colorA=697ec4&colorB=7289da&logo=discord)](https://discord.gg/Rqd8SJ9)
-[![Version](https://img.shields.io/github/package-json/v/mets11rap/cyclone-engine.svg?label=Version)](#)
+[![Version](https://img.shields.io/github/package-json/v/exoRift/cyclone-engine.svg?label=Version)](#)
 [![Node Version](https://img.shields.io/node/v/cyclone-engine?label=Node%20Version&logo=node.js)](#)
 [![NPM Downloads](https://img.shields.io/npm/dt/cyclone-engine?label=Downloads&logo=npm)](#)
 
@@ -38,14 +38,14 @@ An advanced bot engine for Discord running on lightweight Eris
 - Assign authority levels to server roles with an ALO permissions system
 
 # Examples of bots that use Cyclone
-- <font size='+1'>[**GuildLink**](https://github.com/mets11rap/guildlink)</font>
+- <font size='+1'>[**GuildLink**](https://github.com/exoRift/guildlink)</font>
 
 # Getting started
 >Prerequisites
 
 `eris` - You need to install Eris and supply it to the agent. Eris is supplied manually to allow custom Eris classes to be used by the engine.
 
-<a href='https://mets11rap.github.io/cyclone-engine/' style='color: #4747d1'><font size='+2'>**Documentation**</font></a>
+<a href='https://exoRift.github.io/cyclone-engine/' style='color: #4747d1'><font size='+2'>**Documentation**</font></a>
 
 ```
 npm i cyclone-engine

@@ -1,9 +1,9 @@
 <img src="assets/Splash.png" alt="Splash Banner" width="500"/>
 
-[![CircleCI](https://circleci.com/gh/mets11rap/cyclone-engine/tree/master.svg?style=svg)](https://circleci.com/gh/mets11rap/cyclone-engine/tree/master)
-[![codecov](https://codecov.io/gh/mets11rap/cyclone-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/mets11rap/cyclone-engine)
+[![CircleCI](https://circleci.com/gh/exoRift/cyclone-engine/tree/master.svg?style=svg)](https://circleci.com/gh/exoRift/cyclone-engine/tree/master)
+[![codecov](https://codecov.io/gh/exoRift/cyclone-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/exoRift/cyclone-engine)
 [![Discord Server](https://img.shields.io/badge/-Support%20Server-b.svg?colorA=697ec4&colorB=7289da&logo=discord)](https://discord.gg/Rqd8SJ9)
-[![Version](https://img.shields.io/github/package-json/v/mets11rap/cyclone-engine.svg?label=Version)](#)
+[![Version](https://img.shields.io/github/package-json/v/exoRift/cyclone-engine.svg?label=Version)](#)
 [![Node Version](https://img.shields.io/node/v/cyclone-engine?label=Node%20Version&logo=node.js)](#)
 [![NPM Downloads](https://img.shields.io/npm/dt/cyclone-engine?label=Downloads&logo=npm)](#)
 
@@ -36,7 +36,7 @@ An advanced bot engine for Discord running on lightweight Eris
 - Grant complete freedom of bot design
 
 # Examples of bots that use Cyclone
-- <font size='+1'>[**GuildLink**](https://github.com/mets11rap/guildlink)</font>
+- <font size='+1'>[**GuildLink**](https://github.com/exoRift/guildlink)</font>
 
 # Getting started
 >Prerequisites
@@ -47,7 +47,7 @@ An advanced bot engine for Discord running on lightweight Eris
 
 `dblapi.js` - If you plan on integrating the Discord Bot Labs API into your bot, make sure to have this installed.
 
-<a href='https://mets11rap.github.io/cyclone-engine/' style='color: #4747d1'><font size='+2'>**Documentation**</font></a>
+<a href='https://exoRift.github.io/cyclone-engine/' style='color: #4747d1'><font size='+2'>**Documentation**</font></a>
 
 ```
 npm i cyclone-engine

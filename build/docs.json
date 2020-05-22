@@ -13,8 +13,8 @@
   "templates": {
     "name": "Cyclone Engine",
     "logo": {
-      "splashDir": "./assets/Splash.png",
-      "iconDir": "./assets/Icon.png",
+      "splashDir": "assets/Splash.png",
+      "iconDir": "assets/Icon.png",
       "width": "200px",
       "height": "100px",
       "iconWidth": "30px",
@@ -33,7 +33,7 @@
     "encoding": "utf8",
     "package": "package.json",
     "template": "node_modules/tui-jsdoc-template",
-    "destination": "../cyclone-engine-pages",
+    "destination": "docsite",
     "private": true,
     "recurse": true
   }

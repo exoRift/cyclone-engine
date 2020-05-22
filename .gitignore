@@ -10,3 +10,6 @@ node_modules/
 # Test Results
 .nyc_output/
 coverage/
+
+# The compiled documentation site
+docsite/

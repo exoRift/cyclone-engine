@@ -14,17 +14,19 @@
 - `Agent.buildHelp`'s speed has been dramatically increased
 - Added an ALO permissions system (Authority Level Oriented)
 
+### **Quality of life**
+- Upgraded the `Agent.buildHelp` help menu help icon (Now hosted in the repository as well)
+- Many class members have been moved around and changed. Refer to docs
+- Many class methods are no longer async. Refer to docs
+
 ### **Important notes**
 - `CommandResults.options.wait` has beeen changed to `CommandResults.options.awaits`
 - Upgraded to Node 12
 - All `simple-knex` oriented support has been dropped in light of the new attachments system
 - All `dblapi.js` oriented support has been dropped in light of the new attachments system
-- Upgraded the `Agent.buildHelp` help menu help icon (Now hosted in the repository as well)
 - `new Agent({ agentOptions: { prefix } })` has been changed to `new Agent({ handlerData: { options: { prefix } } })`
 - `new CommandHandler({ prefix })` has been changed to `new CommandHandler({ options: { prefix } })`
 - `new Agent({ agentOptions: { maxInterfaces } })` has been changed to `new Agent({ handlerData: { options: { maxInterfaces } } })`
-- Many class members have been moved around and changed. Refer to docs
-- Many class methods are no longer async. Refer to docs
 - The event handlers no longer support custom error code ignoring. Error code ignoring is now handled by the agent. To propose more codes to ignore, make an issue on the repository
 - `Agent.buildHelp({ page })` has been changed to `Agent.buildHelp({}, page)`
 - `Agent.buildHelp({ description })` has been changed to `Agent.buildHelp({ desc })`

@@ -1,4 +1,4 @@
-name: Update Docsite
+name: Publish Update
 
 on:
   release:
@@ -6,8 +6,8 @@ on:
       - created
 
 jobs:
-  build:
-    name: Build Docsite
+  docsite:
+    name: Update Docsite
 
     strategy:
       matrix:
@@ -45,3 +45,23 @@ jobs:
         FOLDER: docsite
         GIT_CONFIG_NAME: Docsite Deployer
         COMMIT_MESSAGE: Update docsite for version '${{ fromJson(steps.define_pkg.outputs.package).version }}'
+
+  publish:
+    name: Publish
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Node
+      uses: actions/setup-node@v1.4.2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Publish to NPM
+      uses: JS-DevTools/npm-publish@v1
+      with:
+        token: ${{ secrets.NPM_TOKEN }}

@@ -33,7 +33,7 @@ jobs:
     - name: Define package data
       id: define_pkg
       run: |
-        content=`cat **/package.json`
+        content=`cat package.json`
         echo "::set-output name=package::$content"
     - name: Build Resources
       run: npm run build
@@ -62,6 +62,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Publish to NPM
-      uses: JS-DevTools/npm-publish@v1
-      with:
-        token: ${{ secrets.NPM_TOKEN }}
+      run: npm publish --access public
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

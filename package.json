@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node ./ && nyc --reporter lcov ava --verbose **/*.test.js",
     "lint": "eslint ./",
-    "build": "./build.sh"
+    "build": "chmod +rwx build.sh && ./build.sh"
   },
   "nyc": {
     "exclude": [
@@ -47,9 +47,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/exoRift/cyclone-engine.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   },
   "keywords": [
     "javascript",

@@ -38,7 +38,6 @@ jobs:
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}" 
           echo "::set-output name=package::$content"
-      - run: chmod +rwx build.sh
       - name: Build Resources
         run: npm run build
       - name: Deploy Docsite

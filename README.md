@@ -1,6 +1,6 @@
 <img src="assets/Splash.png" alt="Splash Banner" width="500"/>
 
-![Build Verification](https://github.com/exoRift/cyclone-engine/workflows/Build%20Verification/badge.svg?branch=master&event=push)
+[![Quality Assurance](https://github.com/exoRift/cyclone-engine/workflows/Quality%20Assurance/badge.svg)](https://github.com/exoRift/cyclone-engine/actions?query=workflow%3A%22Quality+Assurance%22)
 [![codecov](https://codecov.io/gh/exoRift/cyclone-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/exoRift/cyclone-engine)
 [![Discord Server](https://img.shields.io/badge/-Support%20Server-b.svg?colorA=697ec4&colorB=7289da&logo=discord)](https://discord.gg/Rqd8SJ9)
 [![Version](https://img.shields.io/github/package-json/v/exoRift/cyclone-engine.svg?label=Version)](#)

@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<link rel="shortcut icon" type="image" href=./assets/Icon.png>
+<link rel="shortcut icon" type="image" href=assets/Icon.png>
 <head>
     <meta charset="utf-8">
     <title>Source: modules/reaction-handler/index.js | Cyclone Engine</title>
@@ -23,15 +23,15 @@
 <nav class="lnb" id="lnb">
     <div class="logo" style="width: 200px; height: 100px">
         
-            <a href="https://github.com/mets11rap/cyclone-engine" rel="noopener noreferrer" target="_blank">
-                <img src="./assets/Splash.png" width="100%" height="100%">
+            <a href="https://github.com/exoRift/cyclone-engine" rel="noopener noreferrer" target="_blank">
+                <img src="assets/Splash.png" width="100%" height="100%">
             </a>
         
     </div>
     <div class="title">
         <h1><a href="index.html" class="link">Cyclone Engine</a></h1>
         
-            <span class="version">v1.2.4</span>
+            <span class="version">v1.3.0</span>
         
     </div>
     <div class="search-container" id="search-container">
@@ -39,7 +39,7 @@
         <ul></ul>
     </div>
     
-    <div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="Agent.html">Agent</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Agent_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Agent.html#_client">_client</a></li><li><a href="Agent.html#_commandHandler">_commandHandler</a></li><li><a href="Agent.html#_commands">_commands</a></li><li><a href="Agent.html#_connectRetryLimit">_connectRetryLimit</a></li><li><a href="Agent.html#_dblAPI">_dblAPI</a></li><li><a href="Agent.html#_fireOnEdit">_fireOnEdit</a></li><li><a href="Agent.html#_fireOnReactionRemove">_fireOnReactionRemove</a></li><li><a href="Agent.html#_knex">_knex</a></li><li><a href="Agent.html#_maxInterfaces">_maxInterfaces</a></li><li><a href="Agent.html#_postMessageFunction">_postMessageFunction</a></li><li><a href="Agent.html#_postReactionFunction">_postReactionFunction</a></li><li><a href="Agent.html#_prefix">_prefix</a></li><li><a href="Agent.html#_reactCommands">_reactCommands</a></li><li><a href="Agent.html#_reactionHandler">_reactionHandler</a></li><li><a href="Agent.html#_replacerBraces">_replacerBraces</a></li><li><a href="Agent.html#_replacers">_replacers</a></li><li><a href="Agent.html#_statusMessage">_statusMessage</a></li><li><a href="Agent.html#_userBlacklist">_userBlacklist</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Agent.html#_bindEvents">_bindEvents</a></li><li><a href="Agent.html#_compileInfo">_compileInfo</a></li><li><a href="Agent.html#_handleError">_handleError</a></li><li><a href="Agent.html#_onError">_onError</a></li><li><a href="Agent.html#_onMessage">_onMessage</a></li><li><a href="Agent.html#_onReaction">_onReaction</a></li><li><a href="Agent.html#_onReady">_onReady</a></li><li><a href="Agent.html#_onShardDisconnect">_onShardDisconnect</a></li><li><a href="Agent.html#_onShardReady">_onShardReady</a></li><li><a href="Agent.html#_prepareDB">_prepareDB</a></li><li><a href="Agent.html#_setLoop">_setLoop</a></li><li><a href="Agent.html#buildHelp">buildHelp</a></li><li><a href="Agent.html#connect">connect</a></li><li><a href="Agent.html#lastMessage">lastMessage</a></li></ul></div></li><li><a href="Await.html">Await</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Await_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Await.html#_awaitMap">_awaitMap</a></li><li><a href="Await.html#_id">_id</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#action">action</a></li><li><a href="Await.html#args">args</a></li><li><a href="Await.html#check">check</a></li><li><a href="Await.html#onCancelFunction">onCancelFunction</a></li><li><a href="Await.html#oneTime">oneTime</a></li><li><a href="Await.html#refreshOnUse">refreshOnUse</a></li><li><a href="Await.html#requirePrefix">requirePrefix</a></li><li><a href="Await.html#shiftCount">shiftCount</a></li><li><a href="Await.html#timeout">timeout</a></li><li><a href="Await.html#triggerResponse">triggerResponse</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Await.html#clear">clear</a></li><li><a href="Await.html#refresh">refresh</a></li><li><a href="Await.html#startTimer">startTimer</a></li></ul></div></li><li><a href="Command.html">Command</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Command_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Command.html#action">action</a></li><li><a href="Command.html#aliases">aliases</a></li><li><a href="Command.html#args">args</a></li><li><a href="Command.html#dbTable">dbTable</a></li><li><a href="Command.html#desc">desc</a></li><li><a href="Command.html#info">info</a></li><li><a href="Command.html#name">name</a></li><li><a href="Command.html#restricted">restricted</a></li></ul></div></li><li><a href="CommandHandler.html">CommandHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="CommandHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="CommandHandler.html#_agent">_agent</a></li><li><a href="CommandHandler.html#_aliases">_aliases</a></li><li><a href="CommandHandler.html#_awaits">_awaits</a></li><li><a href="CommandHandler.html#_client">_client</a></li><li><a href="CommandHandler.html#_commands">_commands</a></li><li><a href="CommandHandler.html#_ignoreCodes">_ignoreCodes</a></li><li><a href="CommandHandler.html#_knex">_knex</a></li><li><a href="CommandHandler.html#_ownerID">_ownerID</a></li><li><a href="CommandHandler.html#_prefix">_prefix</a></li><li><a href="CommandHandler.html#_replacerBraces">_replacerBraces</a></li><li><a href="CommandHandler.html#_replacers">_replacers</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="CommandHandler.html#_addAwait">_addAwait</a></li><li><a href="CommandHandler.html#_getAwait">_getAwait</a></li><li><a href="CommandHandler.html#_handleDBRequest">_handleDBRequest</a></li><li><a href="CommandHandler.html#_loadCommand">_loadCommand</a></li><li><a href="CommandHandler.html#_loadReplacer">_loadReplacer</a></li><li><a href="CommandHandler.html#_parseArgs">_parseArgs</a></li><li><a href="CommandHandler.html#_replaceMentionWithPrefix">_replaceMentionWithPrefix</a></li><li><a href="CommandHandler.html#_runReplacers">_runReplacers</a></li><li><a href="CommandHandler.html#_sendResponse">_sendResponse</a></li><li><a href="CommandHandler.html#_successfulResponse">_successfulResponse</a></li><li><a href="CommandHandler.html#handle">handle</a></li><li><a href="CommandHandler.html#loadCommands">loadCommands</a></li><li><a href="CommandHandler.html#loadReplacers">loadReplacers</a></li></ul></div></li><li><a href="InputError.html">InputError</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="InputError_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="InputError.html#code">code</a></li><li><a href="InputError.html#name">name</a></li></ul></div></li><li><a href="ReactCommand.html">ReactCommand</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactCommand_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactCommand.html#action">action</a></li><li><a href="ReactCommand.html#dbTable">dbTable</a></li><li><a href="ReactCommand.html#desc">desc</a></li><li><a href="ReactCommand.html#emoji">emoji</a></li><li><a href="ReactCommand.html#info">info</a></li><li><a href="ReactCommand.html#removeReaction">removeReaction</a></li><li><a href="ReactCommand.html#restricted">restricted</a></li></ul></div></li><li><a href="ReactInterface.html">ReactInterface</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactInterface_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactInterface.html#buttons">buttons</a></li><li><a href="ReactInterface.html#dbTable">dbTable</a></li><li><a href="ReactInterface.html#deleteAfterUse">deleteAfterUse</a></li><li><a href="ReactInterface.html#removeReaction">removeReaction</a></li><li><a href="ReactInterface.html#restricted">restricted</a></li></ul></div></li><li><a href="ReactionHandler.html">ReactionHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactionHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactionHandler.html#_agent">_agent</a></li><li><a href="ReactionHandler.html#_client">_client</a></li><li><a href="ReactionHandler.html#_ignoreCodes">_ignoreCodes</a></li><li><a href="ReactionHandler.html#_knex">_knex</a></li><li><a href="ReactionHandler.html#_maxInterfaces">_maxInterfaces</a></li><li><a href="ReactionHandler.html#_ownerID">_ownerID</a></li><li><a href="ReactionHandler.html#_reactCommands">_reactCommands</a></li><li><a href="ReactionHandler.html#_reactInterfaces">_reactInterfaces</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ReactionHandler.html#_getInterface">_getInterface</a></li><li><a href="ReactionHandler.html#_handleDBRequest">_handleDBRequest</a></li><li><a href="ReactionHandler.html#_loadReactCommand">_loadReactCommand</a></li><li><a href="ReactionHandler.html#_sendResponse">_sendResponse</a></li><li><a href="ReactionHandler.html#_successfulResponse">_successfulResponse</a></li><li><a href="ReactionHandler.html#bindInterface">bindInterface</a></li><li><a href="ReactionHandler.html#handle">handle</a></li><li><a href="ReactionHandler.html#loadReactCommands">loadReactCommands</a></li></ul></div></li><li><a href="Replacer.html">Replacer</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Replacer_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Replacer.html#action">action</a></li><li><a href="Replacer.html#args">args</a></li><li><a href="Replacer.html#desc">desc</a></li><li><a href="Replacer.html#info">info</a></li><li><a href="Replacer.html#key">key</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3><a href="global.html">Global</a></h3></div>
+    <div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="Agent.html">Agent</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Agent_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Agent.html#_handlerData">_handlerData</a></li><li><a href="Agent.html#_helpCache">_helpCache</a></li><li><a href="Agent.html#_options">_options</a></li><li><a href="Agent.html#app">app</a></li><li><a href="Agent.html#attachments">attachments</a></li><li><a href="Agent.html#client">client</a></li><li><a href="Agent.html#commandHandler">commandHandler</a></li><li><a href="Agent.html#permissions">permissions</a></li><li><a href="Agent.html#reactionHandler">reactionHandler</a></li><li><a href="Agent.html#userBlacklist">userBlacklist</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Agent.html#_bindEvents">_bindEvents</a></li><li><a href="Agent.html#_compileInfo">_compileInfo</a></li><li><a href="Agent.html#_handleError">_handleError</a></li><li><a href="Agent.html#_onError">_onError</a></li><li><a href="Agent.html#_onMessage">_onMessage</a></li><li><a href="Agent.html#_onReaction">_onReaction</a></li><li><a href="Agent.html#_onReady">_onReady</a></li><li><a href="Agent.html#_onShardDisconnect">_onShardDisconnect</a></li><li><a href="Agent.html#_onShardReady">_onShardReady</a></li><li><a href="Agent.html#_setLoop">_setLoop</a></li><li><a href="Agent.html#addAttachment">addAttachment</a></li><li><a href="Agent.html#blacklistUsers">blacklistUsers</a></li><li><a href="Agent.html#buildHelp">buildHelp</a></li><li><a href="Agent.html#connect">connect</a></li><li><a href="Agent.html#getTopPermissionLevel">getTopPermissionLevel</a></li><li><a href="Agent.html#lastMessage">lastMessage</a></li><li><a href="Agent.html#removeAttachment">removeAttachment</a></li><li><a href="Agent.html#resetHelpCache">resetHelpCache</a></li><li><a href="Agent.html#updatePermission">updatePermission</a></li><li><a href="Agent.html#whitelistUsers">whitelistUsers</a></li></ul></div></li><li><a href="Await.html">Await</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Await_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Await.html#_awaitMap">_awaitMap</a></li><li><a href="Await.html#_id">_id</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#action">action</a></li><li><a href="Await.html#options">options</a></li><li><a href="Await.html#triggerResponse">triggerResponse</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Await.html#clear">clear</a></li><li><a href="Await.html#refresh">refresh</a></li><li><a href="Await.html#startTimer">startTimer</a></li></ul></div></li><li><a href="Command.html">Command</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Command_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Command.html#action">action</a></li><li><a href="Command.html#desc">desc</a></li><li><a href="Command.html#info">info</a></li><li><a href="Command.html#name">name</a></li><li><a href="Command.html#options">options</a></li></ul></div></li><li><a href="CommandHandler.html">CommandHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="CommandHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="CommandHandler.html#_agent">_agent</a></li><li><a href="CommandHandler.html#_aliases">_aliases</a></li><li><a href="CommandHandler.html#_awaits">_awaits</a></li><li><a href="CommandHandler.html#_client">_client</a></li><li><a href="CommandHandler.html#_commands">_commands</a></li><li><a href="CommandHandler.html#_options">_options</a></li><li><a href="CommandHandler.html#_ownerID">_ownerID</a></li><li><a href="CommandHandler.html#_replacers">_replacers</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="CommandHandler.html#_generateError">_generateError</a></li><li><a href="CommandHandler.html#_getAwait">_getAwait</a></li><li><a href="CommandHandler.html#_loadCommand">_loadCommand</a></li><li><a href="CommandHandler.html#_loadReplacer">_loadReplacer</a></li><li><a href="CommandHandler.html#_parseArgs">_parseArgs</a></li><li><a href="CommandHandler.html#_replaceMentionWithPrefix">_replaceMentionWithPrefix</a></li><li><a href="CommandHandler.html#_runReplacers">_runReplacers</a></li><li><a href="CommandHandler.html#_sendResponse">_sendResponse</a></li><li><a href="CommandHandler.html#_successfulResponse">_successfulResponse</a></li><li><a href="CommandHandler.html#addAwaits">addAwaits</a></li><li><a href="CommandHandler.html#getCommand">getCommand</a></li><li><a href="CommandHandler.html#getReplacer">getReplacer</a></li><li><a href="CommandHandler.html#handle">handle</a></li><li><a href="CommandHandler.html#loadCommands">loadCommands</a></li><li><a href="CommandHandler.html#loadReplacers">loadReplacers</a></li></ul></div></li><li><a href="IgnoredError.html">IgnoredError</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="IgnoredError_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="IgnoredError.html#code">code</a></li><li><a href="IgnoredError.html#name">name</a></li></ul></div></li><li><a href="InputError.html">InputError</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="InputError_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="InputError.html#code">code</a></li><li><a href="InputError.html#name">name</a></li></ul></div></li><li><a href="ReactCommand.html">ReactCommand</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactCommand_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactCommand.html#action">action</a></li><li><a href="ReactCommand.html#desc">desc</a></li><li><a href="ReactCommand.html#emoji">emoji</a></li><li><a href="ReactCommand.html#info">info</a></li><li><a href="ReactCommand.html#options">options</a></li></ul></div></li><li><a href="ReactInterface.html">ReactInterface</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactInterface_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactInterface.html#buttons">buttons</a></li><li><a href="ReactInterface.html#options">options</a></li></ul></div></li><li><a href="ReactionHandler.html">ReactionHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactionHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactionHandler.html#_agent">_agent</a></li><li><a href="ReactionHandler.html#_client">_client</a></li><li><a href="ReactionHandler.html#_options">_options</a></li><li><a href="ReactionHandler.html#_ownerID">_ownerID</a></li><li><a href="ReactionHandler.html#_reactCommands">_reactCommands</a></li><li><a href="ReactionHandler.html#_reactInterfaces">_reactInterfaces</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ReactionHandler.html#_generateError">_generateError</a></li><li><a href="ReactionHandler.html#_getInterfaceButton">_getInterfaceButton</a></li><li><a href="ReactionHandler.html#_loadReactCommand">_loadReactCommand</a></li><li><a href="ReactionHandler.html#_sendResponse">_sendResponse</a></li><li><a href="ReactionHandler.html#_successfulResponse">_successfulResponse</a></li><li><a href="ReactionHandler.html#bindInterface">bindInterface</a></li><li><a href="ReactionHandler.html#detachInterface">detachInterface</a></li><li><a href="ReactionHandler.html#getReactCommand">getReactCommand</a></li><li><a href="ReactionHandler.html#handle">handle</a></li><li><a href="ReactionHandler.html#loadReactCommands">loadReactCommands</a></li></ul></div></li><li><a href="Replacer.html">Replacer</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Replacer_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Replacer.html#action">action</a></li><li><a href="Replacer.html#desc">desc</a></li><li><a href="Replacer.html#info">info</a></li><li><a href="Replacer.html#key">key</a></li><li><a href="Replacer.html#options">options</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3><a href="global.html">Global</a></h3></div>
 </nav>
 <div id="resizer"></div>
 
@@ -51,136 +51,224 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const { inspect } = require('util')
+            <pre class="prettyprint source linenums"><code>const {
+  inspect
+} = require('util')
+
+const {
+  IgnoredError
+} = require('../../errors/')
 
 const {
   ReactCommand,
   ReactInterface
 } = require('../../structures/')
 
-const channelTypes = [0, 1, 3]
-
 /**
- * The module that handles incoming reactions.
+ * The module that handles incoming reactions
  */
 class ReactionHandler {
   /**
-   * Construct a reaction handler.
+   * Construct a reaction handler
    * @class
-   * @param {Object}                      data                              The reaction handler data.
-   * @prop  {Agent}                       [data.agent]                      The agent managing the bot.
-   * @prop  {Eris.Client}                 data.client                       The Eris client.
-   * @prop  {String}                      data.ownerID                      The ID of the bot owner.
-   * @prop  {QueryBuilder}                [data.knex]                       The simple-knex query builder.
-   * @prop  {ReactCommand[]|ReactCommand} [data.reactCommands=[]]            rray of reaction commands to load initially.
-   * @prop  {Object}                      [data.options={}]                 Options for the reaction handler.
-   * @prop  {Number}                      [data.options.maxInterfaces=1500] The maximum amount of interfaces cached before they start getting deleted.
-   * @prop  {Number[]}                    [data.options.ignoreCodes=[]]     The Discord error codes to ignore.
+   * @param {Object}                      data                              The reaction handler data
+   * @prop  {Agent}                       [data.agent]                      The agent managing the bot
+   * @prop  {Eris.Client}                 data.client                       The Eris client
+   * @prop  {String}                      data.ownerID                      The ID of the bot owner
+   * @prop  {ReactCommand[]|ReactCommand} [data.reactCommands=[]]           Array of reaction commands to load initially
+   * @prop  {Object}                      [data.options={}]                 Options for the reaction handler
+   * @prop  {Number}                      [data.options.maxInterfaces=1500] The maximum amount of interfaces cached before they start getting deleted
    */
-  constructor ({ agent = {}, client, ownerID, knex, reactCommands = [], options = {} }) {
+  constructor ({ agent = {}, client, ownerID, reactCommands = [], options = {} }) {
     const {
-      maxInterfaces = 1500,
-      ignoreCodes = []
+      maxInterfaces = 1500
     } = options
 
     /**
-     * The agent managing the bot.
+     * The agent managing the bot
      * @private
      * @type    {Agent}
      */
     this._agent = agent
 
     /**
-     * The Eris Client.
+     * The Eris Client
      * @private
      * @type    {Eris}
      */
     this._client = client
 
     /**
-     * The ID of the bot owner.
+     * The ID of the bot owner
      * @private
      * @type    {String}
      */
     this._ownerID = ownerID
 
     /**
-     * The simple-knex query builder.
-     * @private
-     * @type    {QueryBuilder}
-     */
-    this._knex = knex
-
-    /**
-     * Map of the reaction commands.
+     * Map of the reaction commands
      * @private
      * @type    {Map&lt;String, ReactCommand>}
      */
     this._reactCommands = new Map()
 
     /**
-     * Map of the interfaces bound to messages.
+     * Map of the interfaces bound to messages
      * @private
      * @type    {Map&lt;String, ReactInterface>}
      */
     this._reactInterfaces = new Map()
 
     /**
-     * The Discord error codes to ignore.
+     * The options for the reaction handler
      * @private
-     * @type    {Number[]}
+     * @type    {Object}
+     * @prop    {Number} maxInterfaces The maximum amount of interfaces cached before they start getting deleted. MINIMUM: 3
      */
-    this._ignoreCodes = ignoreCodes
-
-    /**
-     * The maximum amount of interfaces cached before they start getting deleted.
-     * @private
-     * @type    {Number}
-     */
-    this._maxInterfaces = maxInterfaces &lt; 3 ? 3 : maxInterfaces
+    this._options = {
+      maxInterfaces: maxInterfaces &lt; 3 ? 3 : maxInterfaces
+    }
 
     this.loadReactCommands(reactCommands)
   }
 
   /**
-   * Handle an incoming Discord reaction.
+   * Bind an interface to a command
    * @async
-   * @param   {Eris.Message}                    msg   The message reacted on.
-   * @param   {String}                          emoji The data of the emoji reacted with.
-   * @param   {Eris.User}                       user  The user who reacted.
-   * @returns {Promise&lt;ReactionHandlerResults>}       The overall results of the react command.
+   * @param   {Eris.Message}            msg                The message to bind to
+   * @param   {ReactInterface}          reactInterface     The interface to bind
+   * @param   {String}                  _defaultDesignated The default designated user (generally the command initiator)
+   * @returns {Promise&lt;ReactInterface>}                    The resulting interface data
+   */
+  async bindInterface (msg, reactInterface, _defaultDesignated) {
+    if (!msg || msg instanceof Error) throw Error('Cannot attach an interface to a non-existent message or response.')
+    if (!(reactInterface instanceof ReactInterface)) throw TypeError('Supplied react interface is not a ReactInterface instance:\n' + reactInterface)
+
+    if (!reactInterface.options.designatedUsers) reactInterface.options.designatedUsers = [_defaultDesignated]
+
+    if (this._reactInterfaces.size > this._options.maxInterfaces) {
+      const deleteAmount = parseInt(this._options.maxInterfaces / 3)
+
+      const keys = this._reactInterfaces.keys()
+
+      for (let i = 0; i &lt; deleteAmount; i++) this._reactInterfaces.delete(keys.next().value)
+    }
+
+    this._reactInterfaces.set(msg.id, reactInterface)
+
+    const buttons = reactInterface.buttons.values()
+    for (const { emoji } of buttons) await msg.addReaction(emoji)
+
+    return reactInterface
+  }
+
+  /**
+   * @async
+   * @param   {Eris.Message}            msg The message to detach the interface from
+   * @returns {Promise&lt;ReactInterface>}     The detached interface
+   */
+  async detachInterface (msg) {
+    const reactInterface = this._reactInterfaces.get(msg.id)
+
+    if (!reactInterface) return
+
+    const buttons = reactInterface.buttons.values()
+
+    for (const button of buttons) await msg.removeReaction(button.emoji).catch((ignore) => ignore)
+
+    this._reactInterfaces.delete(msg.id)
+
+    return reactInterface
+  }
+
+  /**
+   * Generate an error Eris would throw
+   * @private
+   * @param   {String} name         The name of the error
+   * @param   {String} message      The error message
+   * @param   {String} code         The error code
+   * @param   {Error}  [Type=Error] The error constructor class
+   * @returns {Error}               The resulting error
+   */
+  _generateError (name, message, code, Type) {
+    const compiledMsg = `${name} [${code}]: ${message}`
+
+    if (Type) return new Type(name, compiledMsg, code)
+    else {
+      const err = Error(compiledMsg)
+
+      err.code = code
+      err.name = name
+
+      return err
+    }
+  }
+
+  /**
+   * Get a bound interface button of a message
+   * @private
+   * @param   {Eris.Message}             msg   The message
+   * @param   {Object}                   emoji The emoji reacted with
+   * @returns {ReactInterface|undefined}       The bound interface button
+   */
+  _getInterfaceButton (msg, emoji) {
+    const reactInterface = this._reactInterfaces.get(msg.id)
+
+    if (reactInterface) {
+      const emojiName = emoji.id
+        ? `${emoji.animated ? 'a' : ''}:${emoji.name}:${emoji.id}`
+        : emoji.name
+
+      const command = reactInterface.buttons.get(emojiName)
+
+      return command
+    }
+  }
+
+  /**
+   * Get a react command
+   * @param   {String}                 emoji The emoji that triggers the react command
+   * @returns {ReactCommand|undefined}       The found react command
+   */
+  getReactCommand (emoji) {
+    return this._reactCommands.get(emoji)
+  }
+
+  /**
+   * Handle an incoming Discord reaction
+   * @async
+   * @param   {Eris.Message}                    msg   The message reacted on
+   * @param   {String}                          emoji The data of the emoji reacted with
+   * @param   {Eris.User}                       user  The user who reacted
+   * @returns {Promise&lt;ReactionHandlerResults>}       The overall results of the react command
    */
   async handle (msg, emoji, user) {
     if (!msg.content &amp;&amp; !msg.embeds) return /* Uncached */
 
-    const command = await this._getInterface(msg, emoji) || this._reactCommands.get(emoji.name)
+    const command = await this._getInterfaceButton(msg, emoji) || this.getReactCommand(emoji.name)
 
     if (!command) return
 
-    if (command.restricted) {
-      if (command.designatedUsers) {
-        if (!command.designatedUsers.includes(user.id)) return
-      } else if (user.id !== msg.author.id) return
+    if (command.options.restricted &amp;&amp; user.id !== this._ownerID) return
+    if (command.options._designatedUsers &amp;&amp; !command.options._designatedUsers.includes(user.id)) return
+    if (command.options.guildOnly &amp;&amp; msg.channel.type) return
+    if (command.options.authLevel &amp;&amp; this._agent.permissions) {
+      const level = this._agent.getTopPermissionLevel(user)
+
+      if (level &lt; command.options.authLevel) return
     }
 
     if (typeof command.action !== 'function') throw TypeError('React command action is not a function:\n' + command.emoji)
 
-    let dbData
-    if (command.dbTable) dbData = await this._handleDBRequest(command.dbTable, user.id)
-
     let commandResults = await command.action({
       agent: this._agent,
-      client: this._client,
-      reactCommands: this._reactCommands,
       msg,
       emoji,
       user,
-      userData: dbData,
-      knex: this._knex,
       parentInterface: command.parentInterface
     })
 
-    if (!(commandResults instanceof Array)) commandResults = [commandResults]
+    if (!Array.isArray(commandResults)) commandResults = [commandResults]
 
     const resultPromises = commandResults.map(async (commandResult) => {
       if (!commandResult) return
@@ -193,10 +281,12 @@ class ReactionHandler {
       } = typeof commandResult === 'string' ? { content: commandResult } : commandResult
 
       let {
-        channels = [msg.channel.id]
+        channels = [msg.channel.id],
+        awaits
       } = options
 
-      if (!(channels instanceof Array)) channels = [channels]
+      if (!Array.isArray(channels)) channels = [channels]
+      if (awaits &amp;&amp; !Array.isArray(awaits)) awaits = [awaits]
 
       const responsePromises = channels.map((channel) => {
         const channelGuild = this._client.guilds.get(this._client.channelGuildMap[channel])
@@ -204,7 +294,8 @@ class ReactionHandler {
 
         return this._sendResponse(channelObject, { content, embed, file }).then(this._successfulResponse.bind(this, { msg, user, command, parentInterface: command.parentInterface }, {
           ...options,
-          channel
+          channel,
+          awaits
         }))
       })
 
@@ -212,7 +303,8 @@ class ReactionHandler {
         return {
           options: {
             ...options,
-            channels
+            channels,
+            awaits
           },
           responses
         }
@@ -229,22 +321,40 @@ class ReactionHandler {
   }
 
   /**
-   * Send a response to Discord.
+   * Load a reaction command
+   * @param {ReactCommand} reactCommand The reaction command to load
+   */
+  _loadReactCommand (reactCommand) {
+    if (!(reactCommand instanceof ReactCommand)) throw TypeError('Supplied react command not a ReactCommand instance:\n' + reactCommand)
+
+    this._reactCommands.set(reactCommand.emoji, reactCommand)
+  }
+
+  /**
+   * Load reaction commands
+   * @param {ReactCommand[]|ReactCommand} reactCommands The reaction command(s) to load
+   */
+  loadReactCommands (reactCommands) {
+    if (Array.isArray(reactCommands)) {
+      for (const reactCommand of reactCommands) this._loadReactCommand(reactCommand)
+    } else this._loadReactCommand(reactCommands)
+  }
+
+  /**
+   * Send a response to Discord
    * @private
    * @async
-   * @param   {Eris.TextChannel}                        channel             The channel to send the response to.
-   * @param   {Object}                                  msgData             The data for the response message.
-   * @prop    {String}                                  [msgData.content]   The response content.
-   * @prop    {Object}                                  [msgData.embed]     The response embed.
-   * @prop    {Object}                                  [msgData.file]      The response file.
-   * @prop    {String}                                  [msgData.file.name] The name of the file.
-   * @prop    {Buffer}                                  [msgData.file.file] The file content.
-   * @returns {Promise&lt;Eris.Message>|Error&lt;MinorError>}                     The resulting response or a returned error of minor reasons why the response failed.
+   * @param   {Eris.TextChannel}      channel             The ID of the channel to send the response to
+   * @param   {Object}                msgData             The data for the response message
+   * @prop    {String}                [msgData.content]   The response content
+   * @prop    {Object}                [msgData.embed]     The response embed
+   * @prop    {Object}                [msgData.file]      The response file
+   * @prop    {String}                [msgData.file.name] The name of the file
+   * @prop    {Buffer}                [msgData.file.file] The file content
+   * @returns {Promise&lt;Eris.Message>}                     The resulting response or a returned error of minor reasons why the response failed
    */
   async _sendResponse (channel, { content, embed, file }) {
-    if (!channel) return Error('invalidChannel')
-    if (!channel.permissionsOf(this._client.user.id).has('sendMessages')) return Error('channelPermissions')
-    if (!channelTypes.includes(channel.type)) return Error('channelType')
+    if (!channel) throw this._generateError('DiscordRESTError', 'Invalid Form Body\n  channel_id: Value "undefined" is not snowflake.', 50035, IgnoredError)
 
     if (content || embed || file) {
       if (file &amp;&amp; !(file.file instanceof Buffer)) throw TypeError('Supplied file is not a Buffer instance:\n' + (file.file || file))
@@ -258,43 +368,42 @@ class ReactionHandler {
             })
           }
 
-          if (this._ignoreCodes.includes(err.code)) return Error('ignoredError')
-
           throw err
         })
     }
   }
 
   /**
-   * Tidy up after a successful response from a react command.
+   * Tidy up after a successful response from a react command
    * @private
-   * @param   {Object}                                 data                     General data from the message, user, and react command.
-   * @prop    {Eris.Message}                           data.msg                 The message that was reacted on.
-   * @prop    {Eris.User}                              data.user                The user that reacted.
-   * @prop    {ReactCommand}                           data.command             The command that was triggered.
-   * @prop    {ReactInterface}                         data.parentInterface     If the reaction was an interface button, the interface it was a part of.
-   * @param   {Object}                                 options                  The options for the response.
-   * @prop    {String}                                 options.channel          The ID of the channel the response was sent to.
-   * @prop    {Await}                                  options.wait             An action that is awaited after the results are processed.
-   * @prop    {ReactInterface}                         options.reactInterface   A react interface that is bound to the resulting message.
-   * @prop    {Number}                                 options.deleteAfter      How long until the response is deleted.
-   * @prop    {Eris.Message|Error&lt;MinorError>}         results.response         The Eris message that was sent to Discord.
-   * @returns {Promise&lt;Eris.Message|Error&lt;MinorError>>}                          Overall results from the react command.
+   * @async
+   * @param   {Object}                data                   General data from the message, user, and react command
+   * @prop    {Eris.Message}          data.msg               The message that was reacted on
+   * @prop    {Eris.User}             data.user              The user that reacted
+   * @prop    {ReactCommand}          data.command           The command that was triggered
+   * @prop    {ReactInterface}        data.parentInterface   If the reaction was an interface button, the interface it was a part of
+   * @param   {Object}                options                The options for the response
+   * @prop    {String}                options.channel        The ID of the channel the response was sent to
+   * @prop    {Await[]|Await}         options.awaits         An action or list of actions that are awaited after the results are processed
+   * @prop    {ReactInterface}        options.reactInterface A react interface that is bound to the resulting message
+   * @prop    {Number}                options.deleteAfter    How long until the response is deleted
+   * @prop    {Eris.Message|Error}    response               The response that was sent to Discord
+   * @returns {Promise&lt;Eris.Message>}                        Overall results from the react command
    */
   async _successfulResponse ({ msg, user, command, parentInterface }, options, response) {
     const {
       channel,
-      wait,
+      awaits,
       reactInterface,
       deleteAfter
     } = options
 
-    if (wait) {
-      if (this._agent._commandHandler) await this._agent._commandHandler._addAwait({ channel, user: user.id, triggerResponse: response, wait })
+    if (awaits) {
+      if (this._agent._commandHandler) this._agent._commandHandler.addAwaits(awaits, { _fallBackChannel: channel, _fallBackUser: user.id, _triggerResponse: response })
       else throw Error('The command handler isn\'t enabled; enable it by passing an empty array to Agent.handlerData.commands')
     }
 
-    if (reactInterface) await this.bindInterface(response, reactInterface)
+    if (reactInterface) await this.bindInterface(response, reactInterface, user.id)
 
     if (deleteAfter) {
       if (!response || response instanceof Error) throw Error('Cannot delete a non-existent response with a delay of:\n' + deleteAfter)
@@ -304,119 +413,28 @@ class ReactionHandler {
       setTimeout(() => response.delete().catch((ignore) => ignore), deleteAfter)
     }
 
-    if (command.removeReaction) msg.removeReaction(command.emoji, user.id).catch((ignore) => ignore)
+    if (command.options.removeReaction) msg.removeReaction(command.emoji, user.id).catch((ignore) => ignore)
 
-    if (parentInterface &amp;&amp; parentInterface.deleteAfterUse) {
-      const buttons = parentInterface.buttons.values()
-
-      for (const button of buttons) msg.removeReaction(button.emoji).catch((ignore) => ignore)
-
-      this._reactInterfaces.delete(msg.id)
-    }
+    if (parentInterface &amp;&amp; parentInterface.options.deleteAfterUse) this.detachInterface(msg)
 
     return response
-  }
-
-  /**
-   * Bind an interface to a command.
-   * @async
-   * @param   {Eris.Message}    msg            The message to bind to.
-   * @param   {ReactInterface}  reactInterface The interface to bind.
-   * @returns {Promise&lt;Object>}                The resulting interface data.
-   */
-  async bindInterface (msg, reactInterface) {
-    if (!msg || msg instanceof Error) throw Error('Cannot attach an interface to a non-existent message or response.')
-    if (!(reactInterface instanceof ReactInterface)) throw TypeError('Supplied react interface is not a ReactInterface instance:\n' + reactInterface)
-
-    if (this._reactInterfaces.size > this._maxInterfaces) {
-      const deleteAmount = parseInt(this._maxInterfaces / 3)
-
-      const keys = this._reactInterfaces.keys()
-
-      for (let i = 0; i &lt; deleteAmount; i++) this._reactInterfaces.delete(keys.next().value)
-    }
-
-    this._reactInterfaces.set(msg.id, reactInterface)
-
-    const buttons = reactInterface.buttons.values()
-    for (const { emoji } of buttons) msg.addReaction(emoji)
-
-    return reactInterface
-  }
-
-  /**
-   * Get a bound interface of a message.
-   * @private
-   * @async
-   * @param   {Eris.Message}                      msg   The message.
-   * @param   {Object}                            emoji The emoji reacted with.
-   * @returns {Promise&lt;ReactInterface|Undefined>}       The bound interface.
-   */
-  async _getInterface (msg, emoji) {
-    const reactInterface = this._reactInterfaces.get(msg.id)
-
-    if (reactInterface) {
-      const emojiName = emoji.id
-        ? `${emoji.animated ? 'a' : ''}:${emoji.name}:${emoji.id}`
-        : emoji.name
-
-      const command = reactInterface.buttons.get(emojiName)
-
-      return command
-    }
-  }
-
-  /**
-   * Handle commands that request a table.
-   * @private
-   * @async
-   * @param   {String}          table The name of the table.
-   * @param   {String}          id    The ID of the user
-   * @returns {Promise&lt;Object>}       The user's data.
-   */
-  async _handleDBRequest (table, id) {
-    if (!this._knex) throw Error('QueryBuilder was not supplied to ReactionHandler! Attempted to fetch table:\n' + table)
-
-    await this._knex.insert({ table, data: { id } }).catch((ignore) => ignore)
-
-    return this._knex.get({ table, where: { id } })
-  }
-
-  /**
-   * Load reaction commands.
-   * @param {ReactCommand[]|ReactCommand} reactCommands The reaction command(s) to load.
-   */
-  loadReactCommands (reactCommands) {
-    if (reactCommands instanceof Array) {
-      for (const reactCommand of reactCommands) this._loadReactCommand(reactCommand)
-    } else this._loadReactCommand(reactCommands)
-  }
-
-  /**
-   * Load a reaction command
-   * @param {ReactCommand} reactCommand The reaction command to load.
-   */
-  _loadReactCommand (reactCommand) {
-    if (!(reactCommand instanceof ReactCommand)) throw TypeError('Supplied react command not a ReactCommand instance:\n' + reactCommand)
-
-    this._reactCommands.set(reactCommand.emoji, reactCommand)
   }
 }
 
 module.exports = ReactionHandler
 
 /**
- * Object returned by a react command.
- * @typedef {Object}                                ReactionHandlerResults
- * @prop    {Command}                               ReactionHandlerResults.command                        The command that was triggered.
- * @prop    {ReactInterface}                        ReactionHandlerResults.parentInterface                If the command was an interface button, the interface it was a part of.
- * @prop    {Object[]}                              ReactionHandlerResults.results                        The results of every message sent.
- * @prop    {Object}                                ReactionHandlerResults.results.options                Additional options resulting from the react command.
- * @prop    {String[]|String}                       ReactionHandlerResults.results.options.channels       The ID of the channel the response was sent to.
- * @prop    {Await}                                 ReactionHandlerResults.results.options.wait           An action that is awaited after the results are processed.
- * @prop    {ReactInterface}                        ReactionHandlerResults.results.options.reactInterface A react interface that is bound to the resulting message.
- * @prop    {Number}                                ReactionHandlerResults.results.options.deleteAfter    How long until the response is deleted.
- * @prop    {Array&lt;Eris.Message|Error&lt;MinorError>>} ReactionHandlerResults.results.response               The response sent to Discord.
+ * Object returned by a handled react command
+ * @typedef {Object}                    ReactionHandlerResults
+ * @prop    {Command}                   ReactionHandlerResults.command                        The command that was triggered
+ * @prop    {ReactInterface}            ReactionHandlerResults.parentInterface                If the command was an interface button, the interface it was a part of
+ * @prop    {Object[]}                  ReactionHandlerResults.results                        The results of every message sent
+ * @prop    {Object}                    ReactionHandlerResults.results.options                Additional options resulting from the react command
+ * @prop    {String[]}                  ReactionHandlerResults.results.options.channels       The ID of the channel the response was sent to
+ * @prop    {Await[]}                   ReactionHandlerResults.results.options.awaits         A list of actions that are awaited after the results are processed
+ * @prop    {ReactInterface}            ReactionHandlerResults.results.options.reactInterface A react interface that is bound to the resulting message
+ * @prop    {Number}                    ReactionHandlerResults.results.options.deleteAfter    How long until the response is deleted
+ * @prop    {Array&lt;Eris.Message|Error>} ReactionHandlerResults.results.responses              The resulting responses of the command or returned errors of reasons why the response failed
  */
 </code></pre>
         </article>

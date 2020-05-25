@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<link rel="shortcut icon" type="image" href=./assets/Icon.png>
+<link rel="shortcut icon" type="image" href=assets/Icon.png>
 <head>
     <meta charset="utf-8">
     <title>Source: modules/command-handler/index.js | Cyclone Engine</title>
@@ -23,15 +23,15 @@
 <nav class="lnb" id="lnb">
     <div class="logo" style="width: 200px; height: 100px">
         
-            <a href="https://github.com/mets11rap/cyclone-engine" rel="noopener noreferrer" target="_blank">
-                <img src="./assets/Splash.png" width="100%" height="100%">
+            <a href="https://github.com/exoRift/cyclone-engine" rel="noopener noreferrer" target="_blank">
+                <img src="assets/Splash.png" width="100%" height="100%">
             </a>
         
     </div>
     <div class="title">
         <h1><a href="index.html" class="link">Cyclone Engine</a></h1>
         
-            <span class="version">v1.2.4</span>
+            <span class="version">v1.3.0</span>
         
     </div>
     <div class="search-container" id="search-container">
@@ -39,7 +39,7 @@
         <ul></ul>
     </div>
     
-    <div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="Agent.html">Agent</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Agent_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Agent.html#_client">_client</a></li><li><a href="Agent.html#_commandHandler">_commandHandler</a></li><li><a href="Agent.html#_commands">_commands</a></li><li><a href="Agent.html#_connectRetryLimit">_connectRetryLimit</a></li><li><a href="Agent.html#_dblAPI">_dblAPI</a></li><li><a href="Agent.html#_fireOnEdit">_fireOnEdit</a></li><li><a href="Agent.html#_fireOnReactionRemove">_fireOnReactionRemove</a></li><li><a href="Agent.html#_knex">_knex</a></li><li><a href="Agent.html#_maxInterfaces">_maxInterfaces</a></li><li><a href="Agent.html#_postMessageFunction">_postMessageFunction</a></li><li><a href="Agent.html#_postReactionFunction">_postReactionFunction</a></li><li><a href="Agent.html#_prefix">_prefix</a></li><li><a href="Agent.html#_reactCommands">_reactCommands</a></li><li><a href="Agent.html#_reactionHandler">_reactionHandler</a></li><li><a href="Agent.html#_replacerBraces">_replacerBraces</a></li><li><a href="Agent.html#_replacers">_replacers</a></li><li><a href="Agent.html#_statusMessage">_statusMessage</a></li><li><a href="Agent.html#_userBlacklist">_userBlacklist</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Agent.html#_bindEvents">_bindEvents</a></li><li><a href="Agent.html#_compileInfo">_compileInfo</a></li><li><a href="Agent.html#_handleError">_handleError</a></li><li><a href="Agent.html#_onError">_onError</a></li><li><a href="Agent.html#_onMessage">_onMessage</a></li><li><a href="Agent.html#_onReaction">_onReaction</a></li><li><a href="Agent.html#_onReady">_onReady</a></li><li><a href="Agent.html#_onShardDisconnect">_onShardDisconnect</a></li><li><a href="Agent.html#_onShardReady">_onShardReady</a></li><li><a href="Agent.html#_prepareDB">_prepareDB</a></li><li><a href="Agent.html#_setLoop">_setLoop</a></li><li><a href="Agent.html#buildHelp">buildHelp</a></li><li><a href="Agent.html#connect">connect</a></li><li><a href="Agent.html#lastMessage">lastMessage</a></li></ul></div></li><li><a href="Await.html">Await</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Await_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Await.html#_awaitMap">_awaitMap</a></li><li><a href="Await.html#_id">_id</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#action">action</a></li><li><a href="Await.html#args">args</a></li><li><a href="Await.html#check">check</a></li><li><a href="Await.html#onCancelFunction">onCancelFunction</a></li><li><a href="Await.html#oneTime">oneTime</a></li><li><a href="Await.html#refreshOnUse">refreshOnUse</a></li><li><a href="Await.html#requirePrefix">requirePrefix</a></li><li><a href="Await.html#shiftCount">shiftCount</a></li><li><a href="Await.html#timeout">timeout</a></li><li><a href="Await.html#triggerResponse">triggerResponse</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Await.html#clear">clear</a></li><li><a href="Await.html#refresh">refresh</a></li><li><a href="Await.html#startTimer">startTimer</a></li></ul></div></li><li><a href="Command.html">Command</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Command_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Command.html#action">action</a></li><li><a href="Command.html#aliases">aliases</a></li><li><a href="Command.html#args">args</a></li><li><a href="Command.html#dbTable">dbTable</a></li><li><a href="Command.html#desc">desc</a></li><li><a href="Command.html#info">info</a></li><li><a href="Command.html#name">name</a></li><li><a href="Command.html#restricted">restricted</a></li></ul></div></li><li><a href="CommandHandler.html">CommandHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="CommandHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="CommandHandler.html#_agent">_agent</a></li><li><a href="CommandHandler.html#_aliases">_aliases</a></li><li><a href="CommandHandler.html#_awaits">_awaits</a></li><li><a href="CommandHandler.html#_client">_client</a></li><li><a href="CommandHandler.html#_commands">_commands</a></li><li><a href="CommandHandler.html#_ignoreCodes">_ignoreCodes</a></li><li><a href="CommandHandler.html#_knex">_knex</a></li><li><a href="CommandHandler.html#_ownerID">_ownerID</a></li><li><a href="CommandHandler.html#_prefix">_prefix</a></li><li><a href="CommandHandler.html#_replacerBraces">_replacerBraces</a></li><li><a href="CommandHandler.html#_replacers">_replacers</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="CommandHandler.html#_addAwait">_addAwait</a></li><li><a href="CommandHandler.html#_getAwait">_getAwait</a></li><li><a href="CommandHandler.html#_handleDBRequest">_handleDBRequest</a></li><li><a href="CommandHandler.html#_loadCommand">_loadCommand</a></li><li><a href="CommandHandler.html#_loadReplacer">_loadReplacer</a></li><li><a href="CommandHandler.html#_parseArgs">_parseArgs</a></li><li><a href="CommandHandler.html#_replaceMentionWithPrefix">_replaceMentionWithPrefix</a></li><li><a href="CommandHandler.html#_runReplacers">_runReplacers</a></li><li><a href="CommandHandler.html#_sendResponse">_sendResponse</a></li><li><a href="CommandHandler.html#_successfulResponse">_successfulResponse</a></li><li><a href="CommandHandler.html#handle">handle</a></li><li><a href="CommandHandler.html#loadCommands">loadCommands</a></li><li><a href="CommandHandler.html#loadReplacers">loadReplacers</a></li></ul></div></li><li><a href="InputError.html">InputError</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="InputError_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="InputError.html#code">code</a></li><li><a href="InputError.html#name">name</a></li></ul></div></li><li><a href="ReactCommand.html">ReactCommand</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactCommand_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactCommand.html#action">action</a></li><li><a href="ReactCommand.html#dbTable">dbTable</a></li><li><a href="ReactCommand.html#desc">desc</a></li><li><a href="ReactCommand.html#emoji">emoji</a></li><li><a href="ReactCommand.html#info">info</a></li><li><a href="ReactCommand.html#removeReaction">removeReaction</a></li><li><a href="ReactCommand.html#restricted">restricted</a></li></ul></div></li><li><a href="ReactInterface.html">ReactInterface</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactInterface_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactInterface.html#buttons">buttons</a></li><li><a href="ReactInterface.html#dbTable">dbTable</a></li><li><a href="ReactInterface.html#deleteAfterUse">deleteAfterUse</a></li><li><a href="ReactInterface.html#removeReaction">removeReaction</a></li><li><a href="ReactInterface.html#restricted">restricted</a></li></ul></div></li><li><a href="ReactionHandler.html">ReactionHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactionHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactionHandler.html#_agent">_agent</a></li><li><a href="ReactionHandler.html#_client">_client</a></li><li><a href="ReactionHandler.html#_ignoreCodes">_ignoreCodes</a></li><li><a href="ReactionHandler.html#_knex">_knex</a></li><li><a href="ReactionHandler.html#_maxInterfaces">_maxInterfaces</a></li><li><a href="ReactionHandler.html#_ownerID">_ownerID</a></li><li><a href="ReactionHandler.html#_reactCommands">_reactCommands</a></li><li><a href="ReactionHandler.html#_reactInterfaces">_reactInterfaces</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ReactionHandler.html#_getInterface">_getInterface</a></li><li><a href="ReactionHandler.html#_handleDBRequest">_handleDBRequest</a></li><li><a href="ReactionHandler.html#_loadReactCommand">_loadReactCommand</a></li><li><a href="ReactionHandler.html#_sendResponse">_sendResponse</a></li><li><a href="ReactionHandler.html#_successfulResponse">_successfulResponse</a></li><li><a href="ReactionHandler.html#bindInterface">bindInterface</a></li><li><a href="ReactionHandler.html#handle">handle</a></li><li><a href="ReactionHandler.html#loadReactCommands">loadReactCommands</a></li></ul></div></li><li><a href="Replacer.html">Replacer</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Replacer_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Replacer.html#action">action</a></li><li><a href="Replacer.html#args">args</a></li><li><a href="Replacer.html#desc">desc</a></li><li><a href="Replacer.html#info">info</a></li><li><a href="Replacer.html#key">key</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3><a href="global.html">Global</a></h3></div>
+    <div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="Agent.html">Agent</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Agent_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Agent.html#_handlerData">_handlerData</a></li><li><a href="Agent.html#_helpCache">_helpCache</a></li><li><a href="Agent.html#_options">_options</a></li><li><a href="Agent.html#app">app</a></li><li><a href="Agent.html#attachments">attachments</a></li><li><a href="Agent.html#client">client</a></li><li><a href="Agent.html#commandHandler">commandHandler</a></li><li><a href="Agent.html#permissions">permissions</a></li><li><a href="Agent.html#reactionHandler">reactionHandler</a></li><li><a href="Agent.html#userBlacklist">userBlacklist</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Agent.html#_bindEvents">_bindEvents</a></li><li><a href="Agent.html#_compileInfo">_compileInfo</a></li><li><a href="Agent.html#_handleError">_handleError</a></li><li><a href="Agent.html#_onError">_onError</a></li><li><a href="Agent.html#_onMessage">_onMessage</a></li><li><a href="Agent.html#_onReaction">_onReaction</a></li><li><a href="Agent.html#_onReady">_onReady</a></li><li><a href="Agent.html#_onShardDisconnect">_onShardDisconnect</a></li><li><a href="Agent.html#_onShardReady">_onShardReady</a></li><li><a href="Agent.html#_setLoop">_setLoop</a></li><li><a href="Agent.html#addAttachment">addAttachment</a></li><li><a href="Agent.html#blacklistUsers">blacklistUsers</a></li><li><a href="Agent.html#buildHelp">buildHelp</a></li><li><a href="Agent.html#connect">connect</a></li><li><a href="Agent.html#getTopPermissionLevel">getTopPermissionLevel</a></li><li><a href="Agent.html#lastMessage">lastMessage</a></li><li><a href="Agent.html#removeAttachment">removeAttachment</a></li><li><a href="Agent.html#resetHelpCache">resetHelpCache</a></li><li><a href="Agent.html#updatePermission">updatePermission</a></li><li><a href="Agent.html#whitelistUsers">whitelistUsers</a></li></ul></div></li><li><a href="Await.html">Await</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Await_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Await.html#_awaitMap">_awaitMap</a></li><li><a href="Await.html#_id">_id</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#_timer">_timer</a></li><li><a href="Await.html#action">action</a></li><li><a href="Await.html#options">options</a></li><li><a href="Await.html#triggerResponse">triggerResponse</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Await.html#clear">clear</a></li><li><a href="Await.html#refresh">refresh</a></li><li><a href="Await.html#startTimer">startTimer</a></li></ul></div></li><li><a href="Command.html">Command</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Command_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Command.html#action">action</a></li><li><a href="Command.html#desc">desc</a></li><li><a href="Command.html#info">info</a></li><li><a href="Command.html#name">name</a></li><li><a href="Command.html#options">options</a></li></ul></div></li><li><a href="CommandHandler.html">CommandHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="CommandHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="CommandHandler.html#_agent">_agent</a></li><li><a href="CommandHandler.html#_aliases">_aliases</a></li><li><a href="CommandHandler.html#_awaits">_awaits</a></li><li><a href="CommandHandler.html#_client">_client</a></li><li><a href="CommandHandler.html#_commands">_commands</a></li><li><a href="CommandHandler.html#_options">_options</a></li><li><a href="CommandHandler.html#_ownerID">_ownerID</a></li><li><a href="CommandHandler.html#_replacers">_replacers</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="CommandHandler.html#_generateError">_generateError</a></li><li><a href="CommandHandler.html#_getAwait">_getAwait</a></li><li><a href="CommandHandler.html#_loadCommand">_loadCommand</a></li><li><a href="CommandHandler.html#_loadReplacer">_loadReplacer</a></li><li><a href="CommandHandler.html#_parseArgs">_parseArgs</a></li><li><a href="CommandHandler.html#_replaceMentionWithPrefix">_replaceMentionWithPrefix</a></li><li><a href="CommandHandler.html#_runReplacers">_runReplacers</a></li><li><a href="CommandHandler.html#_sendResponse">_sendResponse</a></li><li><a href="CommandHandler.html#_successfulResponse">_successfulResponse</a></li><li><a href="CommandHandler.html#addAwaits">addAwaits</a></li><li><a href="CommandHandler.html#getCommand">getCommand</a></li><li><a href="CommandHandler.html#getReplacer">getReplacer</a></li><li><a href="CommandHandler.html#handle">handle</a></li><li><a href="CommandHandler.html#loadCommands">loadCommands</a></li><li><a href="CommandHandler.html#loadReplacers">loadReplacers</a></li></ul></div></li><li><a href="IgnoredError.html">IgnoredError</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="IgnoredError_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="IgnoredError.html#code">code</a></li><li><a href="IgnoredError.html#name">name</a></li></ul></div></li><li><a href="InputError.html">InputError</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="InputError_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="InputError.html#code">code</a></li><li><a href="InputError.html#name">name</a></li></ul></div></li><li><a href="ReactCommand.html">ReactCommand</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactCommand_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactCommand.html#action">action</a></li><li><a href="ReactCommand.html#desc">desc</a></li><li><a href="ReactCommand.html#emoji">emoji</a></li><li><a href="ReactCommand.html#info">info</a></li><li><a href="ReactCommand.html#options">options</a></li></ul></div></li><li><a href="ReactInterface.html">ReactInterface</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactInterface_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactInterface.html#buttons">buttons</a></li><li><a href="ReactInterface.html#options">options</a></li></ul></div></li><li><a href="ReactionHandler.html">ReactionHandler</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="ReactionHandler_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="ReactionHandler.html#_agent">_agent</a></li><li><a href="ReactionHandler.html#_client">_client</a></li><li><a href="ReactionHandler.html#_options">_options</a></li><li><a href="ReactionHandler.html#_ownerID">_ownerID</a></li><li><a href="ReactionHandler.html#_reactCommands">_reactCommands</a></li><li><a href="ReactionHandler.html#_reactInterfaces">_reactInterfaces</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="ReactionHandler.html#_generateError">_generateError</a></li><li><a href="ReactionHandler.html#_getInterfaceButton">_getInterfaceButton</a></li><li><a href="ReactionHandler.html#_loadReactCommand">_loadReactCommand</a></li><li><a href="ReactionHandler.html#_sendResponse">_sendResponse</a></li><li><a href="ReactionHandler.html#_successfulResponse">_successfulResponse</a></li><li><a href="ReactionHandler.html#bindInterface">bindInterface</a></li><li><a href="ReactionHandler.html#detachInterface">detachInterface</a></li><li><a href="ReactionHandler.html#getReactCommand">getReactCommand</a></li><li><a href="ReactionHandler.html#handle">handle</a></li><li><a href="ReactionHandler.html#loadReactCommands">loadReactCommands</a></li></ul></div></li><li><a href="Replacer.html">Replacer</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Replacer_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Replacer.html#action">action</a></li><li><a href="Replacer.html#desc">desc</a></li><li><a href="Replacer.html#info">info</a></li><li><a href="Replacer.html#key">key</a></li><li><a href="Replacer.html#options">options</a></li></ul></div></li></ul></div><div class="lnb-api hidden"><h3><a href="global.html">Global</a></h3></div>
 </nav>
 <div id="resizer"></div>
 
@@ -51,8 +51,14 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const { inspect } = require('util')
-const InputError = require('./input-error.js')
+            <pre class="prettyprint source linenums"><code>const {
+  inspect
+} = require('util')
+
+const {
+  InputError,
+  IgnoredError
+} = require('../../errors/')
 
 const {
   Command,
@@ -60,77 +66,59 @@ const {
   Replacer
 } = require('../../structures/')
 
-const channelTypes = [0, 1, 3]
-
 /**
- * The module that handles incoming commands.
+ * The module that handles incoming commands
  */
 class CommandHandler {
   /**
    * Create a CommandHandler
    * @class
-   * @param {Object}              data                                    The command handler data.
-   * @prop  {Agent}               [data.agent={}]                         The agent managing the bot.
-   * @prop  {String}              [data.prefix='!']                       The prefix of commands.
-   * @prop  {Eris.Client}         data.client                             The Eris client.
-   * @prop  {String}              data.ownerID                            The ID of the bot owner.
-   * @prop  {QueryBuilder}        [data.knex]                             The simple-knex query builder.
-   * @prop  {Command[]|Command}   [data.commands=[]]                      Array of commands to load initially.
-   * @prop  {Replacer[]|Replacer} [data.replacers=[]]                     Array of the message content replacers to load initially.
-   * @prop  {Object}              [data.options={}]                       Additional options for the command handler.
-   * @prop  {Object}              [data.options.replacerBraces={}]        The braces that invoke a replacer.
-   * @prop  {String}              [data.options.replacerBraces.open='|']  The opening brace.
-   * @prop  {String}              [data.options.replacerBraces.close='|'] The closing brace.
-   * @prop  {Number[]}            [data.options.ignoreCodes=[]]           The Discord error codes to ignore.
+   * @param {Object}              data                                    The command handler data
+   * @prop  {Agent}               [data.agent={}]                         The agent managing the bot
+   * @prop  {Eris.Client}         data.client                             The Eris client
+   * @prop  {String}              data.ownerID                            The ID of the bot owner
+   * @prop  {Command[]|Command}   [data.commands=[]]                      Array of commands to load initially
+   * @prop  {Replacer[]|Replacer} [data.replacers=[]]                     Array of the message content replacers to load initially
+   * @prop  {Object}              [data.options={}]                       Additional options for the command handler
+   * @prop  {String}              [data.options.prefix='!']               The prefix of commands
+   * @prop  {Object}              [data.options.replacerBraces={}]        The braces that invoke a replacer
+   * @prop  {String}              [data.options.replacerBraces.open='|']  The opening brace
+   * @prop  {String}              [data.options.replacerBraces.close='|'] The closing brace
    */
-  constructor ({ agent = {}, prefix = '!', client, ownerID, knex, commands = [], replacers = [], options = {} }) {
+  constructor ({ agent = {}, client, ownerID, commands, replacers, options = {} }) {
     const {
+      prefix = '!',
       replacerBraces: {
         open = '|',
         close = '|'
-      } = {},
-      ignoreCodes = []
+      } = {}
     } = options
 
-    if (replacers.length &amp;&amp; open.startsWith(prefix)) console.log('WARNING: Your replacer opening brace starts with your prefix. This could lead to some issues.')
+    if (replacers &amp;&amp; open.startsWith(prefix)) console.log('WARNING: Your replacer opening brace starts with your prefix. This could lead to some issues.')
 
     /**
-     * The agent managing the bot.
+     * The agent managing the bot
      * @private
      * @type    {Agent}
      */
     this._agent = agent
 
     /**
-     * The prefix of commands.
-     * @private
-     * @type    {String}
-     */
-    this._prefix = prefix
-
-    /**
-     * The Eris Client.
+     * The Eris Client
      * @private
      * @type    {Eris}
      */
     this._client = client
 
     /**
-     * The ID of the bot owner.
+     * The ID of the bot owner
      * @private
      * @type    {String}
      */
     this._ownerID = ownerID
 
     /**
-     * The simple-knex query builder.
-     * @private
-     * @type    {QueryBuilder}
-     */
-    this._knex = knex
-
-    /**
-     * Map of the commands.
+     * Map of the commands
      * @private
      * @type    {Map&lt;String, Command>}
      */
@@ -144,45 +132,150 @@ class CommandHandler {
     this._aliases = new Map()
 
     /**
-     * Map of the message content replacers.
+     * Map of the message content replacers
      * @private
      * @type    {Map&lt;String, Replacer>}
      */
     this._replacers = new Map()
 
     /**
-     * The braces that invoke a replacer.
-     * @private
-     * @type    {Object}
-     */
-    this._replacerBraces = {
-      open,
-      close
-    }
-
-    /**
-     * The Discord error codes to ignore.
-     * @private
-     * @type    {Number[]}
-     */
-    this._ignoreCodes = ignoreCodes
-
-    /**
-     * An object containing message data used to wait for a user's response.
+     * An object containing message data used to wait for a user's response
      * @private
      * @type    {Map&lt;String, AwaitData>}
      */
     this._awaits = new Map()
+
+    /**
+     * This options for the command handler
+     * @private
+     * @type    {Object}
+     * @prop    {String} prefix               The prefix to execute commands
+     * @prop    {Object} replacerBraces       The braces that invoke a replacer
+     * @prop    {String} replacerBraces.open  The opening brace
+     * @prop    {String} replacerBraces.close The closing brace
+     */
+    this._options = {
+      prefix,
+      replacerBraces: {
+        open,
+        close
+      }
+    }
 
     this.loadCommands(commands)
     this.loadReplacers(replacers)
   }
 
   /**
-   * Handle an incoming Discord messages.
+   * Set an await
+   * @param   {Await[]|Await} awaits                     The command or a list of commands to await
+   * @param   {Object}       [options={}]               The data for the awaits
+   * @prop    {String}       [options._fallBackChannel] The channel ID to listen for the message on if its not defined in the Await object
+   * @prop    {String}       [options._fallBackUser]    The user ID to listen for if its not defined in the Await object
+   * @prop    {Eris.Message} [options._triggerResponse] The response to the command that created the awaits
+   * @returns {Await[]}                                     The submitted awaits
+   */
+  addAwaits (awaits, { _fallBackChannel, _fallBackUser, _triggerResponse } = {}) {
+    if (!Array.isArray(awaits)) awaits = [awaits]
+
+    for (const wait of awaits) {
+      if (!(wait instanceof Await)) throw TypeError('Supplied await is not an Await instance:\n' + wait)
+
+      if (!wait.options.channel) {
+        if (!_fallBackChannel) throw Error('An await didn\'t have a defined channel or fallback channel. This can be caused by directly calling CommandHandler.addAwaits')
+
+        wait.options.channel = _fallBackChannel
+      }
+      if (!wait.options.user) {
+        if (!_fallBackChannel) throw Error('An await didn\'t have a defined user or fallback user. This can be caused by directly calling CommandHandler.addAwaits')
+
+        wait.options.user = _fallBackUser
+      }
+
+      const id = wait.options.channel + wait.options.user
+
+      this._awaits.set(id, wait)
+
+      wait.startTimer({ id, awaitMap: this._awaits, triggerResponse: _triggerResponse })
+    }
+
+    return awaits
+  }
+
+  /**
+   * Generate an error Eris would throw
+   * @private
+   * @param   {String} name         The name of the error
+   * @param   {String} message      The error message
+   * @param   {String} code         The error code
+   * @param   {Error}  [Type=Error] The error constructor class
+   * @returns {Error}               The resulting error
+   */
+  _generateError (name, message, code, Type) {
+    const compiledMsg = `${name} [${code}]: ${message}`
+
+    if (Type) return new Type(name, compiledMsg, code)
+    else {
+      const err = Error(compiledMsg)
+
+      err.code = code
+      err.name = name
+
+      return err
+    }
+  }
+
+  /**
+   * Get an awaited message
+   * @private
+   * @param   {Eris.Message}    msg The message
+   * @returns {Await|undefined}     The await
+   */
+  _getAwait (msg) {
+    const wait = this._awaits.get(msg.channel.id + msg.author.id)
+
+    if (wait) {
+      if (wait.options.requirePrefix) {
+        const text = this._replaceMentionWithPrefix(msg.content)
+
+        if (!text.startsWith(this._options.prefix)) return
+
+        msg.content = text.substring(this._options.prefix.length)
+      }
+
+      if (!wait.options.check(msg)) {
+        if (wait.options.oneTime) wait.clear()
+
+        return
+      }
+
+      return wait
+    }
+  }
+
+  /**
+   * Get a command
+   * @param   {String}            name The name or an alias of the command
+   * @returns {Command|undefined}      The found command
+   */
+  getCommand (name) {
+    return this._commands.get(name) || this._commands.get(this._aliases.get(name))
+  }
+
+  /**
+   * Get a replacer
+   * @param   {String}            name The name of the replacer
+   * @returns {Command|undefined}      The found replacer
+   */
+  getReplacer (name) {
+    return this._replacers.get(name)
+  }
+
+  /**
+   * Handle an incoming Discord messages
    * @async
-   * @param   {Eris.Message}                   msg The Discord message.
-   * @returns {Promise&lt;CommandHandlerResults>}     The results of the command.
+   * @param   {Eris.Message}                   msg The Discord message
+   * @returns {Promise&lt;CommandHandlerResults>}     The results of the command
    */
   async handle (msg) {
     let text = this._runReplacers(msg.content)
@@ -195,42 +288,40 @@ class CommandHandler {
     if (!awaited) {
       text = this._replaceMentionWithPrefix(text)
 
-      if (!text.startsWith(this._prefix)) return
-
-      text = text.substring(this._prefix.length)
+      if (text.startsWith(this._options.prefix)) {
+        text = text.substring(this._options.prefix.length)
+      } else if (!msg.channel.type) return
     }
 
     let args = text.split(' ')
     let keyword
     if (!awaited) keyword = args.shift().toLowerCase()
-    const command = awaited || this._commands.get(keyword) || this._commands.get(this._aliases.get(keyword))
+    const command = awaited || this.getCommand(keyword)
 
     if (!command) return
-    if (command.restricted &amp;&amp; msg.author.id !== this._ownerID) throw new InputError('This command is either temporarily disabled, or restricted', 'Check the bot\'s announcement feed', 'restricted')
+    if (command.options.restricted &amp;&amp; msg.author.id !== this._ownerID) throw new InputError('This command is either temporarily disabled, or restricted', 'Check the bot\'s announcement feed', 'restricted')
+    if (command.options.guildOnly &amp;&amp; msg.channel.type) throw new InputError('This command has been disabled outside of guild text channels', 'Trying using it in a guild channel', 'nonguild')
+    if (command.options.authLevel &amp;&amp; this._agent.permissions) {
+      const level = this._agent.getTopPermissionLevel(msg.author)
 
-    if (awaited &amp;&amp; awaited.shiftCount) args = args.splice(awaited.shiftCount, args.length)
+      if (level &lt; command.options.authLevel) throw new InputError('This command required a minimum level of ' + command.options.authLevel, 'Your top level is ' + level, 'nopermission')
+    }
+
+    if (awaited &amp;&amp; awaited.options.shiftCount) args = args.splice(awaited.options.shiftCount, args.length)
 
     args = this._parseArgs(command, args.join(' '))
-    if (command.args &amp;&amp; (!args || args.length &lt; command.args.filter((a) => a.mand).length)) throw new InputError('Invalid arguments', 'Reference the help menu.', 'arguments')
+    if (command.options.args &amp;&amp; (!args || args.length &lt; command.options.args.filter((a) => a.mand).length)) throw new InputError('Invalid arguments', 'Reference the help menu.', 'arguments')
 
-    if (typeof command.action !== 'function') throw TypeError('Command action is not a function:\n' + (command instanceof Await ? 'awaitID: ' + command._id : command.name))
-
-    let userData
-    if (command.dbTable) userData = await this._handleDBRequest(command.dbTable, msg.author.id)
+    if (typeof command.action !== 'function') throw TypeError('Command action is not a function:\n' + (awaited ? 'awaitID: ' + command._id : command.name))
 
     let commandResults = await command.action({
       agent: this._agent,
-      client: this._client,
-      commands: this._commands,
-      replacers: this._replacers,
       msg,
       args,
-      userData,
-      knex: this._knex,
       triggerResponse: command.triggerResponse
     })
 
-    if (!(commandResults instanceof Array)) commandResults = [commandResults]
+    if (!Array.isArray(commandResults)) commandResults = [commandResults]
 
     const resultPromises = commandResults.map(async (commandResult) => {
       if (!commandResult) return
@@ -243,10 +334,12 @@ class CommandHandler {
       } = typeof commandResult === 'string' ? { content: commandResult } : commandResult
 
       let {
-        channels = [msg.channel.id]
+        channels = [msg.channel.id],
+        awaits
       } = options
 
-      if (!(channels instanceof Array)) channels = [channels]
+      if (!Array.isArray(channels)) channels = [channels]
+      if (awaits &amp;&amp; !Array.isArray(awaits)) awaits = [awaits]
 
       const responsePromises = channels.map((channel) => {
         const channelGuild = this._client.guilds.get(this._client.channelGuildMap[channel])
@@ -254,7 +347,8 @@ class CommandHandler {
 
         return this._sendResponse(channelObject, { content, embed, file }).then(this._successfulResponse.bind(this, { msg, command }, {
           ...options,
-          channel
+          channel,
+          awaits
         }))
       })
 
@@ -262,7 +356,8 @@ class CommandHandler {
         return {
           options: {
             ...options,
-            channels
+            channels,
+            awaits
           },
           responses
         }
@@ -278,22 +373,137 @@ class CommandHandler {
   }
 
   /**
-   * Send a response to Discord.
+   * Load a command
+   * @private
+   * @param   {Command} command The command to load
+   */
+  _loadCommand (command) {
+    if (!(command instanceof Command)) throw TypeError('Supplied command not a Command instance:\n' + command)
+
+    const lastArg = command.options.args[command.options.args.length - 1]
+
+    if (lastArg &amp;&amp; lastArg.delim) console.log(`Disclaimer: Your command: ${command.name}'s last argument unnecessarily has a delimiter.`)
+
+    this._commands.set(command.name, command)
+
+    for (const alias of command.options.aliases) this._aliases.set(alias, command.name)
+  }
+
+  /**
+   * Load commands
+   * @param {Command[]|Command} [commands=[]] The command(s) to load
+   */
+  loadCommands (commands = []) {
+    if (Array.isArray(commands)) {
+      for (const command of commands) this._loadCommand(command)
+    } else this._loadCommand(commands)
+  }
+
+  /**
+   * Load a replacer
+   * @private
+   * @param   {Replacer} replacer The replacer to load
+   */
+  _loadReplacer (replacer) {
+    if (!(replacer instanceof Replacer)) throw TypeError('Supplied replacer not Replacer instance:\n' + replacer.name)
+
+    this._replacers.set(replacer.key, replacer)
+  }
+
+  /**
+   * Load replacers
+   * @param {Replacer[]|Replacer} [replacers=[]] The replacer(s) to load
+   */
+  loadReplacers (replacers = []) {
+    if (Array.isArray(replacers)) {
+      for (const replacer of replacers) this._loadReplacer(replacer)
+    } else this._loadReplacer(replacers)
+  }
+
+  /**
+   * Parse the arguments from a message
+   * @private
+   * @param   {String}   command The name of the command
+   * @param   {String}   args    The arguments provided
+   * @returns {String[]}         The parsed arguments
+   */
+  _parseArgs (command, chars) {
+    const parsed = []
+
+    for (let a = 0; a &lt; command.options.args.length; a++) {
+      const delim = command.options.args[a].delim || ' '
+
+      for (let ch = parsed.join('').length; ch &lt; chars.length; ch++) {
+        const char = chars[ch]
+
+        if (char === delim[0] &amp;&amp; chars.substring(ch, chars.length).startsWith(delim.substring(1, delim.length)) &amp;&amp; a !== command.options.args.length - 1) {
+          chars = chars.substring(0, ch) + chars.substring(ch + delim.length)
+
+          break
+        } else if (parsed[a]) parsed[a] += char
+        else parsed[a] = char
+      }
+
+      if (command.options.args[a].type === 'number' &amp;&amp; parsed[a] !== undefined) {
+        const number = parseInt(parsed[a])
+
+        if (number) parsed[a] = number
+        else return
+      }
+    }
+
+    return parsed
+  }
+
+  /**
+   * Replace a mention of the bot with the prefix
+   * @private
+   * @param   {String} content The content of the message
+   * @returns {String}         The new content
+   */
+  _replaceMentionWithPrefix (content) {
+    return content.replace(new RegExp(`^&lt;@!?${this._client.user.id}> ?`), this._options.prefix)
+  }
+
+  /**
+   * Check message content for stuff to replace
+   * @private
+   * @param   {String} content The message content to run the replacers against
+   * @returns {String}         The message content after replacement
+   */
+  _runReplacers (content) {
+    return content.replace(new RegExp(`\\${this._options.replacerBraces.open}(.+?)\\${this._options.replacerBraces.close}`, 'g'), (content, capture) => {
+      let args = capture.split(' ')
+
+      const keyword = args.shift()
+      const replacer = this.getReplacer(keyword)
+
+      if (replacer) {
+        args = this._parseArgs(replacer, args.join(' '))
+
+        if (replacer.options.args &amp;&amp; (!args || args.length &lt; replacer.options.args.filter((a) => a.mand).length)) return 'INVALID ARGS'
+
+        return replacer.action({ content, capture, args })
+      }
+      return 'INVALID KEY'
+    })
+  }
+
+  /**
+   * Send a response to Discord
    * @private
    * @async
-   * @param   {Eris.TextChannel}                        channel             The channel to send the response to.
-   * @param   {Object}                                  msgData             The data for the response message.
-   * @prop    {String}                                  [msgData.content]   The response content.
-   * @prop    {Object}                                  [msgData.embed]     The response embed.
-   * @prop    {Object}                                  [msgData.file]      The response file.
-   * @prop    {String}                                  [msgData.file.name] The name of the file.
-   * @prop    {Buffer}                                  [msgData.file.file] The file content.
-   * @returns {Promise&lt;Eris.Message>|Error&lt;MinorError>}                     The resulting response or a returned error of minor reasons why the response failed.
+   * @param   {Eris.TextChannel}      channel             The ID of the channel to send the response to
+   * @param   {Object}                msgData             The data for the response message
+   * @prop    {String}                [msgData.content]   The response content
+   * @prop    {Object}                [msgData.embed]     The response embed
+   * @prop    {Object}                [msgData.file]      The response file
+   * @prop    {String}                [msgData.file.name] The name of the file
+   * @prop    {Buffer}                [msgData.file.file] The file content
+   * @returns {Promise&lt;Eris.Message>}                     The resulting response or a returned error of minor reasons why the response failed
    */
   async _sendResponse (channel, { content, embed, file }) {
-    if (!channel) return Error('invalidChannel')
-    if (!channel.permissionsOf(this._client.user.id).has('sendMessages')) return Error('channelPermissions')
-    if (!channelTypes.includes(channel.type)) return Error('channelType')
+    if (!channel) throw this._generateError('DiscordRESTError', 'Invalid Form Body\n  channel_id: Value "undefined" is not snowflake.', 50035, IgnoredError)
 
     if (content || embed || file) {
       if (file &amp;&amp; !(file.file instanceof Buffer)) throw TypeError('Supplied file is not a Buffer instance:\n' + (file.file || file))
@@ -307,40 +517,38 @@ class CommandHandler {
             })
           }
 
-          if (this._ignoreCodes.includes(err.code)) return Error('ignoredError')
-
           throw err
         })
     }
   }
 
   /**
-   * Tidy up after a successful response from a command.
+   * Tidy up after a successful response from a command
    * @private
    * @async
-   * @param   {Object}                                 data                   General data from the message and command.
-   * @prop    {Eris.Message}                           data.msg               The message that executed the command.
-   * @prop    {ReactCommand}                           data.command           The command that was triggered.
-   * @param   {Object}                                 options                The options for the response.
-   * @prop    {String}                                 options.channel        The ID of the channel the response was sent to.
-   * @prop    {Await}                                  options.wait           An action that is awaited after the results are processed.
-   * @prop    {ReactInterface}                         options.reactInterface A react interface that is bound to the resulting message.
-   * @prop    {Number}                                 options.deleteAfter    How long until the response is deleted.
-   * @param   {Eris.Message|Error&lt;MinorError>}         response               The response that was sent to Discord.
-   * @returns {Promise&lt;Eris.Message|Error&lt;MinorError>>}                        The response that was utilized.
+   * @param   {Object}             data                   General data from the message and command
+   * @prop    {Eris.Message}       data.msg               The message that executed the command
+   * @prop    {ReactCommand}       data.command           The command that was triggered
+   * @param   {Object}             options                The options for the response
+   * @prop    {String}             options.channel        The ID of the channel the response was sent to
+   * @prop    {Await[]|Await}      options.awaits         An action or list of actions that are awaited after the results are processed
+   * @prop    {ReactInterface}     options.reactInterface A react interface that is bound to the resulting message
+   * @prop    {Number}             options.deleteAfter    How long until the response is deleted
+   * @param   {Eris.Message|Error} response               The response that was sent to Discord
+   * @returns {Promise&lt;Eris.Message>}                              The response that was utilized
    */
   async _successfulResponse ({ msg, command }, options, response) {
     const {
       channel,
-      wait,
+      awaits,
       reactInterface,
       deleteAfter
     } = options
 
-    if (wait) await this._addAwait({ channel, user: msg.author.id, triggerResponse: response, wait })
+    if (awaits) this.addAwaits(awaits, { _fallBackChannel: channel, _fallBackUser: msg.author.id, _triggerResponse: response })
 
     if (reactInterface) {
-      if (this._agent._reactionHandler) await this._agent._reactionHandler.bindInterface(response, reactInterface)
+      if (this._agent._reactionHandler) await this._agent._reactionHandler.bindInterface(response, reactInterface, msg.author.id)
       else throw Error('The reaction handler isn\'t enabled; enable it by passing an empty array to Agent.handlerData.reactCommands')
     }
 
@@ -353,213 +561,27 @@ class CommandHandler {
     }
 
     if (command instanceof Await) {
-      if (command.refreshOnUse) command.refresh()
+      if (command.options.refreshOnUse) command.refresh()
       else command.clear()
     }
 
     return response
-  }
-
-  /**
-   * Load commands.
-   * @param {Command[]|Command} commands The command(s) to load.
-   */
-  loadCommands (commands) {
-    if (commands instanceof Array) {
-      for (const command of commands) this._loadCommand(command)
-    } else this._loadCommand(commands)
-  }
-
-  /**
-   * Load replacers.
-   * @param {Replacer[]|Replacer} replacers The replacer(s) to load.
-   */
-  loadReplacers (replacers) {
-    if (replacers instanceof Array) {
-      for (const replacer of replacers) this._loadReplacer(replacer)
-    } else this._loadReplacer(replacers)
-  }
-
-  /**
-   * Replace a mention of the bot with the prefix.
-   * @private
-   * @param   {String} content The content of the message.
-   * @returns {String}         The new content.
-   */
-  _replaceMentionWithPrefix (content) {
-    return content.replace(new RegExp(`^&lt;@!?${this._client.user.id}> ?`), this._prefix)
-  }
-
-  /**
-   * Handle commands that request a table.
-   * @private
-   * @async
-   * @param   {String}          table The name of the table.
-   * @param   {String}          id    The ID of the user
-   * @returns {Promise&lt;Object>}       The user's data.
-   */
-  async _handleDBRequest (table, id) {
-    if (!this._knex) throw Error('QueryBuilder was not supplied to CommandHandler! Attempted to fetch table:\n' + table)
-
-    await this._knex.insert({ table, data: { id } }).catch((ignore) => ignore)
-
-    return this._knex.get({ table, where: { id } })
-  }
-
-  /**
-   * Check message content for stuff to replace.
-   * @private
-   * @param   {String} content The message content to run the replacers against.
-   * @returns {String}         The message content after replacement.
-   */
-  _runReplacers (content) {
-    return content.replace(new RegExp(`\\${this._replacerBraces.open}(.+?)\\${this._replacerBraces.close}`, 'g'), (content, capture) => {
-      let args = capture.split(' ')
-
-      const keyword = args.shift()
-      const replacer = this._replacers.get(keyword)
-
-      if (replacer) {
-        args = this._parseArgs(replacer, args.join(' '))
-
-        if (replacer.args &amp;&amp; (!args || args.length &lt; replacer.args.filter((a) => a.mand).length)) return 'INVALID ARGS'
-
-        return replacer.action({ content, capture, args })
-      }
-      return 'INVALID KEY'
-    })
-  }
-
-  /**
-   * Load a command.
-   * @private
-   * @param   {Command} command The command to load.
-   */
-  _loadCommand (command) {
-    if (!(command instanceof Command)) throw TypeError('Supplied command not a Command instance:\n' + command)
-
-    const lastArg = command.args[command.args.length - 1]
-
-    if (lastArg &amp;&amp; lastArg.delim) console.log(`Disclaimer: Your command: ${command.name}'s last argument unnecessarily has a delimiter.`)
-
-    this._commands.set(command.name, command)
-
-    for (const alias of command.aliases) this._aliases.set(alias, command.name)
-  }
-
-  /**
-   * Load a replacer.
-   * @private
-   * @param   {Replacer} replacer The replacer to load.
-   */
-  _loadReplacer (replacer) {
-    if (!(replacer instanceof Replacer)) throw TypeError('Supplied replacer not Replacer instance:\n' + replacer.name)
-
-    this._replacers.set(replacer.key, replacer)
-  }
-
-  /**
-   * Parse the arguments from a message.
-   * @private
-   * @param   {String}   command The name of the command.
-   * @param   {String}   args    The arguments provided.
-   * @returns {String[]}         The parsed arguments.
-   */
-  _parseArgs (command, args) {
-    const chars = args.split('')
-    const parsed = []
-
-    for (let i = 0; i &lt; command.args.length; i++) {
-      const delim = command.args[i].delim || ' '
-
-      for (let j = parsed.join('').length; j &lt; chars.length; j++) {
-        const ch = chars[j]
-
-        if (ch === delim &amp;&amp; i !== command.args.length - 1) {
-          chars.splice(j, 1)
-
-          break
-        } else if (parsed[i]) parsed[i] += ch
-        else parsed[i] = ch
-      }
-
-      if (command.args[i].type === 'number' &amp;&amp; parsed[i] !== undefined) {
-        const number = parseInt(parsed[i])
-
-        if (number) parsed[i] = number
-        else return
-      }
-    }
-
-    return parsed
-  }
-
-  /**
-   * Set an await.
-   * @private
-   * @async
-   * @param   {Object}         data                 The data for the await.
-   * @prop    {String}         data.channel         The channel ID to listen for the message on.
-   * @prop    {String}         data.user            The user ID to listen for.
-   * @prop    {Eris.Message}   data.triggerResponse The response to the command that created the await.
-   * @prop    {Await}          data.wait            The command we are awaiting.
-   * @returns {Promise&lt;Await>}                      The await.
-   */
-  async _addAwait ({ channel, user, triggerResponse, wait }) {
-    if (!(wait instanceof Await)) throw TypeError('Supplied wait is not an Await instance:\n' + wait)
-
-    const id = (wait.channel || channel) + user
-
-    this._awaits.set(id, wait)
-
-    wait.startTimer({ id, awaitMap: this._awaits, triggerResponse })
-
-    return wait
-  }
-
-  /**
-   * Get an awaited message.
-   * @private
-   * @async
-   * @param   {Eris.Message}             msg The message.
-   * @returns {Promise&lt;Await|Undefined>}     The await.
-   */
-  async _getAwait (msg) {
-    const wait = this._awaits.get(msg.channel.id + msg.author.id)
-
-    if (wait) {
-      if (wait.requirePrefix) {
-        const text = this._replaceMentionWithPrefix(msg.content)
-
-        if (!text.startsWith(this._prefix)) return
-
-        msg.content = text.substring(this._prefix.length)
-      }
-
-      if (!wait.check(msg)) {
-        if (wait.oneTime) await wait.clear()
-
-        return
-      }
-
-      return wait
-    }
   }
 }
 
 module.exports = CommandHandler
 
 /**
- * Object returned by a command.
- * @typedef {Object}                                CommandHandlerResults
- * @prop    {Command|Await}                         CommandHandlerResults.command                        The object of the command called.
- * @prop    {Object[]}                              CommandHandlerResults.results                        The results of every message sent.
- * @prop    {Object}                                CommandHandlerResults.results.options                Additional options resulting from the command.
- * @prop    {String}                                CommandHandlerResults.results.options.channels       The IDs of the channels the responses were sent to.
- * @prop    {Await}                                 CommandHandlerResults.results.options.wait           An action that is awaited after the results are processed.
- * @prop    {ReactInterface}                        CommandHandlerResults.results.options.reactInterface A react interface that is bound to the resulting message.
- * @prop    {Number}                                CommandHandlerResults.results.options.deleteAfter    How long until the response is deleted.
- * @prop    {Array&lt;Eris.Message|Error&lt;MinorError>>} CommandHandlerResults.results.responses              The resulting responses of the command or a returned error of minor reasons why the response failed.
+ * Object returned by a handled command
+ * @typedef {Object}                    CommandHandlerResults
+ * @prop    {Command|Await}             CommandHandlerResults.command                        The object of the command called
+ * @prop    {Object[]}                  CommandHandlerResults.results                        The results of every message sent
+ * @prop    {Object}                    CommandHandlerResults.results.options                Additional options resulting from the command
+ * @prop    {String[]}                  CommandHandlerResults.results.options.channels       The IDs of the channels the responses were sent to
+ * @prop    {Await[]}                   CommandHandlerResults.results.options.awaits         A list of actions that are awaited after the results are processed
+ * @prop    {ReactInterface}            CommandHandlerResults.results.options.reactInterface A react interface that is bound to the resulting message
+ * @prop    {Number}                    CommandHandlerResults.results.options.deleteAfter    How long until the response is deleted
+ * @prop    {Array&lt;Eris.Message|Error>} CommandHandlerResults.results.responses              The resulting responses of the command or returned errors of reasons why the response failed
  */
 </code></pre>
         </article>

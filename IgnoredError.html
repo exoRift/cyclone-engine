@@ -3,7 +3,7 @@
 <link rel="shortcut icon" type="image" href=assets/Icon.png>
 <head>
     <meta charset="utf-8">
-    <title>Class: ReactInterface | Cyclone Engine</title>
+    <title>Class: IgnoredError | Cyclone Engine</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -51,9 +51,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>ReactInterface<span class="signature">(data)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>IgnoredError<span class="signature">(name, message, code)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description"><p>An array of emoji button that attach to a message to do different actions</p></div>
+            <div class="class-description"><p>An error that occurs when there's an issue designated to be ignored</p></div>
         
     
 </header>
@@ -66,14 +66,14 @@
 
 <dt>
     
-        <h4 class="name" id="ReactInterface">
+        <h4 class="name" id="IgnoredError">
             
-                new <span class="type-signature"></span>ReactInterface<span class="signature">(data)</span><span class="type-signature"></span>
+                new <span class="type-signature"></span>IgnoredError<span class="signature">(name, message, code)</span><span class="type-signature"></span>
                 
             
             <div class="container-source members">
-                <code><a href="structures_react-interface_index.js.html">structures/react-interface/index.js</a></code>,
-                <code><a href="structures_react-interface_index.js.html#line18">line 18</a></code>
+                <code><a href="errors_ignored.js.html">errors/ignored.js</a></code>,
+                <code><a href="errors_ignored.js.html#line11">line 11</a></code>
             </div>
             
         </h4>
@@ -85,7 +85,7 @@
 
     
     <div class="description">
-        <p>Construct a react interface</p>
+        <p>Construct an ignored error</p>
     </div>
     
 
@@ -121,13 +121,13 @@
 
         <tr>
             
-                <td class="name"><code>data</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">String</span>
 
 
             
@@ -137,7 +137,53 @@
 
             
 
-            <td class="description last"><p>The react interface data</p></td>
+            <td class="description last"><p>The name of the error</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>message</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error message</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>code</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The code of error</p></td>
         </tr>
 
     
@@ -160,290 +206,6 @@
     
 
     
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>data.buttons</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array&lt;<a href="ReactCommand.html">ReactCommand</a>></span>
-|
-
-<span class="param-type"><a href="ReactCommand.html">ReactCommand</a></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>The buttons of the interface</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>data.options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    {}
-                
-                </td>
-            
-
-            <td class="description last"><p>The options for the interface</p>
-                <h6>Properties</h6>
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>designatedUsers</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array&lt;String></span>
-|
-
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>The IDs of the users who can use the react interface. By default, it's the owner of the message reacted on</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>deleteAfterUse</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last"><p>Whether the interface is deleted after a use or not</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>removeReaction</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last"><p>Whether the triggering reaction is removed after executed or not</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>authLevel</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    0
-                
-                </td>
-            
-
-            <td class="description last"><p>The minimum auth level required to execute this command</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
 
 
 <dl class="details">
@@ -507,12 +269,12 @@
             
 
 <dt>
-<h4 class="name" id="buttons">
-    <span class="type-signature"></span>buttons<span class="type-signature"> : Map&lt;String, <a href="ReactCommand.html">ReactCommand</a>></span>
+<h4 class="name" id="code">
+    <span class="type-signature"></span>code<span class="type-signature"> : String</span>
     
     <div class="container-source members">
-        <code><a href="structures_react-interface_index.js.html">structures/react-interface/index.js</a></code>,
-        <code><a href="structures_react-interface_index.js.html#line32">line 32</a></code>
+        <code><a href="errors_ignored.js.html">errors/ignored.js</a></code>,
+        <code><a href="errors_ignored.js.html#line18">line 18</a></code>
     </div>
     
 </h4>
@@ -522,7 +284,7 @@
 <dd>
     
     <div class="description">
-        <p>The buttons of the interface</p>
+        <p>The type of error</p>
     </div>
     
 
@@ -532,7 +294,7 @@
         <ul>
             <li>
                 
-<span class="param-type">Map&lt;String, <a href="ReactCommand.html">ReactCommand</a>></span>
+<span class="param-type">String</span>
 
 
             </li>
@@ -586,12 +348,12 @@
             
 
 <dt>
-<h4 class="name" id="options">
-    <span class="type-signature"></span>options<span class="type-signature"> : Object</span>
+<h4 class="name" id="name">
+    <span class="type-signature"></span>name<span class="type-signature"> : String</span>
     
     <div class="container-source members">
-        <code><a href="structures_react-interface_index.js.html">structures/react-interface/index.js</a></code>,
-        <code><a href="structures_react-interface_index.js.html#line53">line 53</a></code>
+        <code><a href="errors_ignored.js.html">errors/ignored.js</a></code>,
+        <code><a href="errors_ignored.js.html#line24">line 24</a></code>
     </div>
     
 </h4>
@@ -601,7 +363,7 @@
 <dd>
     
     <div class="description">
-        <p>The options for the interface</p>
+        <p>The name of the error</p>
     </div>
     
 
@@ -611,7 +373,7 @@
         <ul>
             <li>
                 
-<span class="param-type">Object</span>
+<span class="param-type">String</span>
 
 
             </li>
@@ -620,130 +382,6 @@
     -->
 
     
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>designatedUsers</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array&lt;String></span>
-|
-
-<span class="param-type">undefined</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The IDs of the users who can use the react interface. By default, it's the owner of the message reacted on (defined by <code>ReactionHandler.bindInterface()</code>)</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>deleteAfterUse</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Whether the interface is deleted after a use or not</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>removeReaction</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Whether the triggering reaction is removed after executed or not</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>authLevel</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The minimum auth level required to execute this command</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
 
 
 <dl class="details">
@@ -811,7 +449,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'ReactInterface_sub'.replace(/"/g, '_');
+        var id = 'IgnoredError_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 

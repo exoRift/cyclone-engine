@@ -13,7 +13,7 @@
 - Fixed an issue with the help menu builder that caused a Discord error
 - Fixed a bug that prevented the handlers from checking permissions properly
 
-## **Removed features**
+### **Removed features**
 - User blacklist
 
 1.3.0

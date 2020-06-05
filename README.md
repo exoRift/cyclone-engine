@@ -126,7 +126,7 @@ const agent = new Agent({
   }
 })
 
-agent.addAttachment('db', knex)
+agent.attach('db', knex)
 
 agent.connect()
 ```

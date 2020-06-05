@@ -1,3 +1,12 @@
+1.3.2
+-
+### **Important notes**
+- `Agent.addAttachment` has been changed to `Agent.attach`
+- `Agent.removeAttachment` has been changed to `Agent.detach`
+
+### **Bug fixes**
+- Fixed bug that prevented await timeouts from working properly
+
 1.3.1
 -
 ### **New handling features**

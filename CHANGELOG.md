@@ -1,3 +1,17 @@
+1.3.1
+-
+### **Important Notes**
+- `Agent.getTopPermissionLevel` now returns Infinity for the owner of the guild
+
+### **Bug fixes**
+- Fixed bug that prevented the command handler from properly checking if the reaction handler was enabled
+- Fixed bug that prevented the reaction handler from properly checking if the command handler was enabled
+- Fixed an issue with the help menu builder that caused a Discord error
+- Fixed a bug that prevented the handlers from checking permissions properly
+
+## **Removed features**
+- User blacklist
+
 1.3.0
 -
 ### **New handling features**

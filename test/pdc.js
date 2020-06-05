@@ -530,6 +530,12 @@ class Message {
     this.author = _author
 
     /**
+     * The member author of the message
+     * @type {PseudoClient.User}
+     */
+    this.member = _author
+
+    /**
      * The content of the message
      * @type {String}
      */

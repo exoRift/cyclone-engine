@@ -1,6 +1,10 @@
 1.3.1
 -
-### **Important Notes**
+### **New handling features**
+- Awaits are now supplied to their cancel functions as parameters
+- Added support for gateway intents (automatically calculated and allow supplying of custom intents)
+
+### **Important notes**
 - `Agent.getTopPermissionLevel` now returns Infinity for the owner of the guild
 
 ### **Bug fixes**

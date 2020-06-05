@@ -9,9 +9,10 @@ class PseudoClient extends EventEmitter {
    * Create a client
    * @class
    * @param {String}            [token='1234'] The bot token
+   * @param {Object}            [options={}]   Options for the client
    * @param {PseudoClient.User} [_owner]       The bot owner
    */
-  constructor (token = '1234', _owner = new User({ id: '1', username: 'owner' })) {
+  constructor (token = '1234', options = {}, _owner = new User({ id: '1', username: 'owner' })) {
     super()
 
     /**
@@ -19,6 +20,12 @@ class PseudoClient extends EventEmitter {
      * @type {String}
      */
     this.token = 'Bot ' + token
+
+    /**
+     * Gateway intents
+     * @type {String[]}
+     */
+    this._intents = options.intents
 
     /**
      * The bot owner

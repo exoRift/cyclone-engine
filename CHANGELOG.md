@@ -3,8 +3,10 @@
 ### **New handling features**
 - When commands are mounted, the command handler will now check if any commands have invalid mandation (an optional arg before a mandatory arg)
 - When a shard disconnects, the agent will no longer try to reconnect as Eris does that automatically
+- You can now have server-side custom prefixes
 
 ### **Important notes**
+- `new Agent({ options: initialPermissions })` has been changed to `new Agent({ options: serverOptions: { permissions } })`
 
 ### **Bug fixes**
 - `Agent.validateChannel` will no longer error if the channel is a DM channel

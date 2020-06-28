@@ -105,12 +105,9 @@ class PseudoClient extends EventEmitter {
    * @returns {PseudoClient.User}           The added user
    */
   _addUser (userData, guild) {
-    const user = new User(userData)
+    const user = new Member(userData, guild)
 
     this.users.set(user.id, user)
-
-    user.roles = []
-    user.guild = guild
 
     for (const guild of this.guilds.map((g) => g)) {
       guild.members.set(user.id, user)
@@ -176,7 +173,7 @@ class PseudoClient extends EventEmitter {
  */
 class User {
   /**
-   * Construct a user.
+   * Construct a user
    * @class
    * @param {Object}       [data={}]              The data for the User object
    * @prop  {String}       [data.id]              The ID of the user
@@ -198,6 +195,28 @@ class User {
 
   dynamicAvatarURL () {
     return `https://cdn.discordapp.com/avatars/${this.id}/0.jpg?size=undefined`
+  }
+}
+
+class Member extends User {
+  /**
+   * Construct a Member
+   * @class
+   */
+  constructor (userData, guild) {
+    super(userData)
+
+    /**
+     * The roles of the member
+     * @type {String[]}
+     */
+    this.roles = []
+
+    /**
+     * The guild the member is in
+     * @type {Guild}
+     */
+    this.guild = guild
   }
 }
 
@@ -636,6 +655,7 @@ class Message {
 
 PseudoClient.Collection = Collection
 PseudoClient.User = User
+PseudoClient.Member = Member
 PseudoClient.Shard = Shard
 PseudoClient.Guild = Guild
 PseudoClient.Channel = Channel

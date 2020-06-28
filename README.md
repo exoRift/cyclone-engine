@@ -38,7 +38,7 @@ An advanced bot engine for Discord running on lightweight Eris
 - Assign authority levels to server roles with an ALO permissions system
 
 # Examples of bots that use Cyclone
-- <font size='+1'>[**GuildLink**](https://github.com/exoRift/guildlink)</font>
+- <font size='+1'>[**Telex**](https://github.com/exoRift/telex)</font>
 
 # Getting started
 >Prerequisites
@@ -235,22 +235,24 @@ const data = {
 
     if (!user) return '`Could not find user.`'
 
+    const rspData = new Await({
+      options: {
+        args: [{ name: 'response', mand: true }],
+        timeout: 10000,
+        onCancelFunction: () => msg.channel.createMessage('Ban cancelled.').catch((ignore) => ignore)
+      },
+      action: ({ args: [response] }) => {
+        if (response.toLowerCase() === 'yes') {
+          return client.banMember(user.id, 0, 'Banned by: ' + msg.author.username)
+            .then(() => 'User banned')
+            .catch(() => '`Bot does not have permissions.`')
+        } else return 'Ban cancelled.'
+      }
+    })
+
     return {
       content: `Are you sure you want to ban `${user.username}`? (Cancels in 10 seconds)`,
-      awaits: new Await({
-        options: {
-          args: [{ name: 'response', mand: true }],
-          timeout: 10000,
-          onCancelFunction: () => msg.channel.createMessage('Ban cancelled.').catch((ignore) => ignore)
-        },
-        action: ({ args: [response] }) => {
-          if (response.toLowerCase() === 'yes') {
-            return client.banMember(user.id, 0, 'Banned by: ' + msg.author.username)
-              .then(() => 'User banned')
-              .catch(() => '`Bot does not have permissions.`')
-          } else return 'Ban cancelled.'
-        }
-      })
+      awaits: rspData
     }
   }
 }
@@ -390,25 +392,27 @@ const data = {
         }
       })
 
+    const msgInterface = new ReactInterface({
+      buttons: [
+        muteButton,
+        new ReactCommand({
+          emoji: '👢', /* Kick */
+          action: () => user.kick('Kicked by: ' + msg.author.username).catch(() => 'Missing permissions')
+        }),
+        new ReactCommand({
+          emoji: '🔨', /* Ban */
+          action: () => user.ban('Banned by: ' + msg.author.username).catch(() => 'Missing permissions')
+        })
+      ],
+      options: {
+        deleteAfterUse: true
+      }
+    })
+
     return {
       content: `**${user.username}#${user.descriminator}**`,
       options: {
-        reactInterface: new ReactInterface({
-          buttons: [
-            muteButton,
-            new ReactCommand({
-              emoji: '👢', /* Kick */
-              action: () => user.kick('Kicked by: ' + msg.author.username).catch(() => 'Missing permissions')
-            }),
-            new ReactCommand({
-              emoji: '🔨', /* Ban */
-              action: () => user.ban('Banned by: ' + msg.author.username).catch(() => 'Missing permissions')
-            })
-          ],
-          options: {
-            deleteAfterUse: true
-          }
-        })
+        reactInterface: msgInterface
       }
     }
   }

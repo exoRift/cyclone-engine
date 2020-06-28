@@ -1,3 +1,14 @@
+1.4.0
+-
+### **New handling features**
+- When commands are mounted, the command handler will now check if any commands have invalid mandation (an optional arg before a mandatory arg)
+- When a shard disconnects, the agent will no longer try to reconnect as Eris does that automatically
+
+### **Important notes**
+
+### **Removed features**
+- Removed the loop function which can be done by anyone with a simple `setInterval`
+
 1.3.2
 -
 ### **Important notes**

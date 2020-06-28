@@ -77,14 +77,6 @@ const agent = new Agent({
   options: {
     connectRetryLimit: 5,
     prefix: '.',
-    loopFunction: {
-      func: (agent) => {
-        agent._client.getDMChannel(agent._CommandHandler.ownerId).then((channel) =>
-          channel.createMessage('Current server count is: ' + agent._client.guilds.size)
-        )
-      }, /* DM the number of guilds the bot is in to the owner */
-      interval: 1800000, /* 30 minutes */
-    },
     postMessageFunction: postFunction,
     postReactionFunction: postFunction
   }

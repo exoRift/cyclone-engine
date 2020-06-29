@@ -12,6 +12,7 @@
 
 ### **Bug fixes**
 - `Agent.validateChannel` will no longer error if the channel is a DM channel
+- Permissions no longer break with commands run in DMs
 
 ### **Removed features**
 - Removed the loop function which can be done by anyone with a simple `setInterval`

@@ -2,20 +2,21 @@
 -
 ### **New handling features**
 - When commands are mounted, the command handler will now check if any commands have invalid mandation (an optional arg before a mandatory arg)
-- When a shard disconnects, the agent will no longer try to reconnect as Eris does that automatically
-- You can now have server-side custom prefixes
+- You can now have server-side custom prefixes (See documentation for constructor option and methods)
 
 ### **Important notes**
-- `new Agent({ options: initialPermissions })` has been changed to `new Agent({ options: serverOptions: { permissions } })`
+- `new Agent({ options: initialPermissions })` has been changed to `new Agent({ options: guildOptions: { permissions } })`
 - All handlers now extend from a base handler
 - `Agent.validateChannel` has been moved to `BaseHandler.validateChannel`
 
 ### **Bug fixes**
 - `Agent.validateChannel` will no longer error if the channel is a DM channel
 - Permissions no longer break with commands run in DMs
+- The command handler no longer manipulates the content values of messages in the Eris cache
 
 ### **Removed features**
 - Removed the loop function which can be done by anyone with a simple `setInterval`
+- When a shard disconnects, the agent will no longer try to reconnect as Eris does that automatically
 
 1.3.2
 -

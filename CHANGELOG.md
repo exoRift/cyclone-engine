@@ -7,6 +7,8 @@
 
 ### **Important notes**
 - `new Agent({ options: initialPermissions })` has been changed to `new Agent({ options: serverOptions: { permissions } })`
+- All handlers now extend from a base handler
+- `Agent.validateChannel` has been moved to `BaseHandler.validateChannel`
 
 ### **Bug fixes**
 - `Agent.validateChannel` will no longer error if the channel is a DM channel

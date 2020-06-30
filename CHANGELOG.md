@@ -3,6 +3,9 @@
 ### **New handling features**
 - When commands are mounted, the command handler will now check if any commands have invalid mandation (an optional arg before a mandatory arg)
 - You can now have server-side custom prefixes (See documentation for constructor option and methods)
+- The owner ID no longer has to be supplied to handlers when used independently
+- The Agent's connect method now resolves once the event handlers are initiated
+- Handlers are now initiated when the current shard has connected and do not reinitiate on a reconnect
 
 ### **Important notes**
 - `new Agent({ options: initialPermissions })` has been changed to `new Agent({ options: guildOptions: { permissions } })`
@@ -17,6 +20,7 @@
 ### **Removed features**
 - Removed the loop function which can be done by anyone with a simple `setInterval`
 - When a shard disconnects, the agent will no longer try to reconnect as Eris does that automatically
+- Removed connectRetryLimit due to impracticality and the fact that it's handled by Eris
 
 1.3.2
 -

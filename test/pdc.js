@@ -70,22 +70,12 @@ class PseudoClient extends EventEmitter {
   }
 
   /**
-   * Set whether the connect method should succeed or fail
-   * @private
-   * @param {Boolean} status The status of the connect method
-   */
-  _setConnectStatus (status) {
-    this._connectStatus = status
-  }
-
-  /**
    * Simulate connecting to the Discord API
    */
   async connect () {
-    if (!this._connectStatus) throw Error()
-
-    this.emit('ready')
+    this.emit('connect')
     this.emit('shardReady', 0)
+    this.emit('ready')
   }
 
   /**

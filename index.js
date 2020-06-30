@@ -1,23 +1,3 @@
-const {
-  Agent,
-  Command,
-  Replacer,
-  Await,
-  ReactCommand,
-  ReactInterface,
-  CommandHandler,
-  ReactionHandler,
-  InputError
-} = require('./lib/')
+const components = require('./lib/')
 
-module.exports = {
-  Agent,
-  Command,
-  Replacer,
-  Await,
-  ReactCommand,
-  ReactInterface,
-  _CommandHandler: CommandHandler,
-  _ReactionHandler: ReactionHandler,
-  InputError
-}
+module.exports = components

@@ -61,6 +61,7 @@ class PseudoClient extends EventEmitter {
      */
     this.users = new Collection()
     this.users.set(this.user.id, this.user)
+    this.users.set(_owner.id, _owner)
 
     /**
      * An object mapping channel IDs to guild IDs

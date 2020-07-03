@@ -113,15 +113,15 @@ class PseudoClient extends EventEmitter {
    * @prop    {Object}   [data.guildData={}]           The data of the guild
    * @prop    {String}   [data.guildData.id]           The ID of the guild
    * @prop    {String}   [data.guildData.name='guild'] The name of the guild
-   * @prop    {Object[]} [data.channels=[]]            The guild channels (Objects containing channel data)
    */
-  _joinGuild ({ guildData = {}, channels = [] } = {}) {
+  _joinGuild ({ guildData = {} } = {}) {
     const {
       id = String(Date.now()),
       name = 'guild'
     } = guildData
 
-    const guild = new Guild({ id, name, channels }, this.shards.get(0))
+    const guild = new Guild({ id, name }, this.shards.get(0))
+    guild.members.set(this._owner.id, new Member(this._owner, guild))
 
     this.guilds.set(id, guild)
 
@@ -169,7 +169,7 @@ class User {
    * @prop  {String}       [data.id]              The ID of the user
    * @prop  {String}       [data.username='user'] The username of the user
    */
-  constructor ({ id = String(Date.now()), username = 'user' } = {}) {
+  constructor ({ id = String(Date.now()), username = 'user', discriminator = '1234' } = {}) {
     /**
      * The ID of the user
      * @type {String}
@@ -181,6 +181,12 @@ class User {
      * @type {String}
      */
     this.username = username
+
+    /**
+     * The discriminator of the user
+     * @type {String}
+     */
+    this.discriminator = discriminator
   }
 
   dynamicAvatarURL () {
@@ -250,10 +256,9 @@ class Guild {
    * @param {Object}       [data={}]           The data for the guild object
    * @prop  {String}       [data.id]           The ID of the guild
    * @prop  {String}       [data.name='guild'] The name of the guild
-   * @prop  {Object[]}     [data.channels=[]]  The channels of the guild (Objects containing channel information)
    * @prop  {PseudoClient} shard               The shard
    */
-  constructor ({ id = String(Date.now()), name = 'guild', channels = [] } = {}, shard) {
+  constructor ({ id = String(Date.now()), name = 'guild' } = {}, shard) {
     /**
      * The ID of the guild
      * @type {String}
@@ -294,15 +299,6 @@ class Guild {
       user.roles = []
 
       this.members.set(user.id, user)
-    }
-
-    for (const channel of channels) {
-      const {
-        id,
-        name
-      } = channel
-
-      this._createChannel({ id, name })
     }
   }
 

@@ -6,6 +6,7 @@
 - The owner ID no longer has to be supplied to handlers when used independently
 - The Agent's connect method now resolves once the event handlers are initiated
 - Handlers are now initiated when the current shard has connected and do not reinitiate on a reconnect
+- Added 2 new argument types: `user` and `channel`. When a user provides a mention or name of the type, the Eris class instance of the type is passed to the command action
 
 ### **Important notes**
 - `new Agent({ options: initialPermissions })` has been changed to `new Agent({ options: guildOptions: { permissions } })`

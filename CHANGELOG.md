@@ -7,16 +7,21 @@
 - The Agent's connect method now resolves once the event handlers are initiated
 - Handlers are now initiated when the current shard has connected and do not reinitiate on a reconnect
 - Added 2 new argument types: `user` and `channel`. When a user provides a mention or name of the type, the Eris class instance of the type is passed to the command action
+- The `data` parameter for `Agent.buildHelp` is now fully optional as well as its individual properties
 
 ### **Important notes**
 - `new Agent({ options: initialPermissions })` has been changed to `new Agent({ options: guildOptions: { permissions } })`
 - All handlers now extend from a base handler
 - `Agent.validateChannel` has been moved to `BaseHandler.validateChannel`
+- `Agent.buildHelp({ supportServerInviteCode })` has been changed to `Agent.buildHelp({ serverCode })`
+- `Agent.buildHelp({ prefixImage })` has been changed to `Agent.buildHelp({ footerImage })`
+- The `buildHelp` help menu embed has been altered slightly
 
 ### **Bug fixes**
 - `Agent.validateChannel` will no longer error if the channel is a DM channel
 - Permissions no longer break with commands run in DMs
 - The command handler no longer manipulates the content values of messages in the Eris cache
+- Manipulating pages returned by the `buildHelp` method no longer alters the cache
 
 ### **Removed features**
 - Removed the loop function which can be done by anyone with a simple `setInterval`

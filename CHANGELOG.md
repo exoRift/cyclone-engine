@@ -8,6 +8,7 @@
 - Handlers are now initiated when the current shard has connected and do not reinitiate on a reconnect
 - Added 2 new argument types: `user` and `channel`. When a user provides a mention or name of the type, the Eris class instance of the type is passed to the command action
 - The `data` parameter for `Agent.buildHelp` is now fully optional as well as its individual properties
+- `Agent.buildHelp` new returns a react interface to scroll the help menu if embed data is supplied and the help menu is more than 1 page
 
 ### **Important notes**
 - `new Agent({ options: initialPermissions })` has been changed to `new Agent({ options: guildOptions: { permissions } })`

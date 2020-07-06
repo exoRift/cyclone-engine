@@ -426,22 +426,24 @@ class Channel {
         if (!msg.embed.fields[e].name) {
           tooLong = 'name'
           index = e
+
           break
-        }
-        if (msg.embed.fields[e].value.length > 1024) {
+        } else if (msg.embed.fields[e].value.length > 1024) {
           tooLong = 'embed'
           index = e
+
           break
         }
       }
     }
 
-    if (msg.content && msg.content.length > 2000) tooLong = 'content'
+    if (msg.content ? msg.content.length > 2000 : msg.length > 2000) tooLong = 'content'
 
-    if (tooLong || (msg.embed && !msg.embed.name)) {
+    if (tooLong) {
       const err = Error()
       err.code = 50035
       err.name = 'DiscordRESTError [50035]'
+
       if (tooLong === 'embed') err.message = `Invalid Form Body\n  embed.fields.${index}.value: Must be 1024 or fewer in length.`
       else if (tooLong === 'name') err.message = `Invalid Form Body\n  embed.fields.${index}.name: This field is required`
       else err.message = 'Invalid Form Body\n  content: Must be 2000 or fewer in length.'
@@ -544,9 +546,9 @@ class Message {
 
     /**
      * The member author of the message
-     * @type {PseudoClient.User}
+     * @type {PseudoClient.Member}
      */
-    this.member = _author
+    this.member = channel.guild.members.get(_author.id)
 
     /**
      * The content of the message
@@ -581,6 +583,26 @@ class Message {
      * @type {Object}
      */
     this.reactions = {}
+  }
+
+  /**
+   * Edit a message
+   * @async
+   * @param {String|Object} msg         The message content or object
+   * @prop  {String}        msg.content The message content
+   * @prop  {Object}        msg.embed   The embed to attach
+   */
+  async edit (msg) {
+    if (typeof msg === 'string') msg = { content: msg }
+    const {
+      content,
+      embed
+    } = msg
+
+    this.content = content
+    this.embeds[0] = embed
+
+    this.channel.guild.shard.client.emit('messageUpdate')
   }
 
   /**

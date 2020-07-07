@@ -10,6 +10,7 @@
 - The `data` parameter for `Agent.buildHelp` is now fully optional as well as its individual properties
 - `Agent.buildHelp` new returns a react interface to scroll the help menu if embed data is supplied and the help menu is more than 1 page
 - The `number` arg type now uses `Number()` instead of `parseInt()`
+- Massively improved argument parsing performance
 
 ### **Important notes**
 - `new Agent({ options: initialPermissions })` has been changed to `new Agent({ options: guildOptions: { permissions } })`
@@ -18,12 +19,14 @@
 - `Agent.buildHelp({ supportServerInviteCode })` has been changed to `Agent.buildHelp({ serverCode })`
 - `Agent.buildHelp({ prefixImage })` has been changed to `Agent.buildHelp({ footerImage })`
 - The `buildHelp` help menu embed has been altered slightly
+- `new Await({ options: { shiftCount } })` has been changed to a boolean `new Await({ options: { shouldShift } })` that causes only 1 shift
 
 ### **Bug fixes**
 - `Agent.validateChannel` will no longer error if the channel is a DM channel
 - Permissions no longer break with commands run in DMs
 - The command handler no longer manipulates the content values of messages in the Eris cache
 - Manipulating pages returned by the `buildHelp` method no longer alters the cache
+- Fixed an issue with some replacer braces not working (especially multi-character ones) due to how the Regex was handled
 
 ### **Removed features**
 - Removed the loop function which can be done by anyone with a simple `setInterval`

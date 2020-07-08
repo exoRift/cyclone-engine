@@ -20,6 +20,7 @@
 - `Agent.buildHelp({ prefixImage })` has been changed to `Agent.buildHelp({ footerImage })`
 - The `buildHelp` help menu embed has been altered slightly
 - `new Await({ options: { shiftCount } })` has been changed to a boolean `new Await({ options: { shouldShift } })` that causes only 1 shift
+- `new Await({ options: { postMessageFunction, postReactionFunction } })` has been changed to `new Await({ options: { postEventFunctions: { message, reaction } } })`
 
 ### **Bug fixes**
 - `Agent.validateChannel` will no longer error if the channel is a DM channel

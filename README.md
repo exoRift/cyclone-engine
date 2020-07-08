@@ -77,8 +77,10 @@ const agent = new Agent({
   options: {
     connectRetryLimit: 5,
     prefix: '.',
-    postMessageFunction: postFunction,
-    postReactionFunction: postFunction
+    postEventFunctions: {
+      message: postFunction,
+      reaction: postFunction
+    }
   }
 })
 

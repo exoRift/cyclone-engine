@@ -29,6 +29,8 @@ An advanced bot engine for Discord running on lightweight Eris
 
 - Utilize a dynamic built-in help menu generator
 
+- Allow freedom of server-side prefixes
+
 - Return command results for analysis and logging
 
 - Create interactive menus with awaited actions and reactions

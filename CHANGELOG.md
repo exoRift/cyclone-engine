@@ -13,7 +13,7 @@
 - Massively improved argument parsing performance
 
 ### **Important notes**
-- `new Agent({ options: initialPermissions })` has been changed to `new Agent({ options: guildOptions: { permissions } })`
+- Completely redid how initial guild data is supplied to the Agent. See documentation and method `Agent.compileGuildSQL`
 - All handlers now extend from a base handler
 - `Agent.validateChannel` has been moved to `BaseHandler.validateChannel`
 - `Agent.buildHelp({ supportServerInviteCode })` has been changed to `Agent.buildHelp({ serverCode })`

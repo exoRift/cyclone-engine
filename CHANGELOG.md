@@ -9,7 +9,7 @@
 - Added 2 new argument types: `user` and `channel`. When a user provides a mention or name of the type, the Eris class instance of the type is passed to the command action
 - The `data` parameter for `Agent.buildHelp` is now fully optional as well as its individual properties
 - `Agent.buildHelp` new returns a react interface to scroll the help menu if embed data is supplied and the help menu is more than 1 page
-- The `number` arg type now uses `Number()` instead of `parseInt()`
+- The `number` arg type now uses `parseFloat()` instead of `parseInt()`
 - Massively improved argument parsing performance
 
 ### **Important notes**

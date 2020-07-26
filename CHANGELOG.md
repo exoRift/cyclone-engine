@@ -11,6 +11,7 @@
 - `Agent.buildHelp` new returns a react interface to scroll the help menu if embed data is supplied and the help menu is more than 1 page
 - The `number` arg type now uses `parseFloat()` instead of `parseInt()`
 - Massively improved argument parsing performance
+- There is now a new Agent method to build an in-depth help menu for a specific command
 
 ### **Important notes**
 - Completely redid how initial guild data is supplied to the Agent. See documentation and method `Agent.compileGuildSQL`

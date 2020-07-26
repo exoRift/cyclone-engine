@@ -2,9 +2,10 @@
 
 [![Quality Assurance](https://github.com/exoRift/cyclone-engine/workflows/Quality%20Assurance/badge.svg)](https://github.com/exoRift/cyclone-engine/actions?query=workflow%3A%22Quality+Assurance%22)
 [![codecov](https://codecov.io/gh/exoRift/cyclone-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/exoRift/cyclone-engine)
+
 [![Discord Server](https://img.shields.io/badge/-Support%20Server-b.svg?colorA=697ec4&colorB=7289da&logo=discord)](https://discord.gg/Rqd8SJ9)
+
 [![Version](https://img.shields.io/github/package-json/v/exoRift/cyclone-engine.svg?label=Version)](#)
-[![Node Version](https://img.shields.io/node/v/cyclone-engine?label=Node%20Version&logo=node.js)](#)
 [![NPM Downloads](https://img.shields.io/npm/dt/cyclone-engine?label=Downloads&logo=npm)](#)
 
 [![NPM Page](https://img.shields.io/badge/NPM-Page-critical?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/cyclone-engine)

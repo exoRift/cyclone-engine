@@ -23,9 +23,17 @@ class PseudoClient extends EventEmitter {
 
     /**
      * Gateway intents
-     * @type {String[]}
+     * @private
+     * @type    {String[]}
      */
     this._intents = options.intents
+
+    /**
+     * Options
+     * @private
+     * @type    {Object}
+     */
+    this._options = options
 
     /**
      * The bot owner

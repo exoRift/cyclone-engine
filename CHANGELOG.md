@@ -12,6 +12,7 @@
 - The `number` arg type now uses `parseFloat()` instead of `parseInt()`
 - Massively improved argument parsing performance
 - There is now a new Agent method to build an in-depth help menu for a specific command
+- Added a passthrough in the Agent constructor to append Eris constructor options to the calculated intents
 
 ### **Important notes**
 - Completely redid how initial guild data is supplied to the Agent. See documentation and method `Agent.compileGuildSQL`

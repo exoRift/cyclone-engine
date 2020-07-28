@@ -1,3 +1,11 @@
+1.4.1
+-
+### **New handling features**
+- Tokens are now automatically prefixed with the required keyword that designates bot accounts (Phasing out of Eris in the future)
+
+### **Bug fixes**
+- Fixed an issue where a 401 error would occur on using the Agent's connect method
+
 1.4.0
 -
 ### **New handling features**

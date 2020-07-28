@@ -19,7 +19,7 @@ class PseudoClient extends EventEmitter {
      * The bot token
      * @type {String}
      */
-    this.token = 'Bot ' + token
+    this.token = token
 
     /**
      * Gateway intents

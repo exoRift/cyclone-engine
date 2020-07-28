@@ -2,6 +2,7 @@
 -
 ### **New handling features**
 - Tokens are now automatically prefixed with the required keyword that designates bot accounts (Phasing out of Eris in the future)
+- The dynamic argument parser now specifically looks for numbers in IDs rather than any character
 
 ### **Bug fixes**
 - Fixed an issue where a 401 error would occur on using the Agent's connect method

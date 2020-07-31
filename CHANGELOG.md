@@ -1,3 +1,8 @@
+1.4.2
+-
+### **Bug fixes**
+- Fix improper intent names
+
 1.4.1
 -
 ### **New handling features**

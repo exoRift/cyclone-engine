@@ -21,7 +21,7 @@ jobs:
         id: dep-cache
         uses: actions/cache@v1.1.2
         env:
-          cache-name: cache-node-modules
+          cache-name: dep-cache
         with:
           path: |
             **/node_modules/

@@ -76,15 +76,13 @@ class PseudoClient extends EventEmitter {
      * @type {Object}
      */
     this.channelGuildMap = {}
-  }
 
-  /**
-   * Simulate connecting to the Discord API
-   */
-  async connect () {
-    this.emit('connect')
-    this.emit('shardReady', 0)
-    this.emit('ready')
+    /**
+     * A collection of opened DM channels
+     * @private
+     * @type   {Collection<String, PseudoClient.Channel>}
+     */
+    this._DMChannels = new Collection()
   }
 
   /**
@@ -116,25 +114,12 @@ class PseudoClient extends EventEmitter {
   }
 
   /**
-   * Simulate joining a guild
-   * @private
-   * @param   {Object}   [data={}]                     The data for the guild object
-   * @prop    {Object}   [data.guildData={}]           The data of the guild
-   * @prop    {String}   [data.guildData.id]           The ID of the guild
-   * @prop    {String}   [data.guildData.name='guild'] The name of the guild
+   * Simulate connecting to the Discord API
    */
-  _joinGuild ({ guildData = {} } = {}) {
-    const {
-      id = String(Date.now()),
-      name = 'guild'
-    } = guildData
-
-    const guild = new Guild({ id, name }, this.shards.get(0))
-    guild.members.set(this._owner.id, new Member(this._owner, guild))
-
-    this.guilds.set(id, guild)
-
-    return guild
+  async connect () {
+    this.emit('connect')
+    this.emit('shardReady', 0)
+    this.emit('ready')
   }
 
   /**
@@ -158,12 +143,61 @@ class PseudoClient extends EventEmitter {
   }
 
   /**
+   * Get a channel's object instance
+   * @param   {String}            id The ID of the channel
+   * @returns {Channel|DMChannel}    The channel
+   */
+  getChannel (id) {
+    return this.channelGuildMap[id]
+      ? this.guilds.get(this.channelGuildMap[id]).channels.get(id)
+      : this._DMChannels.get(id)
+  }
+
+  /**
+   * Open a DM channel with a user
+   * @async
+   * @param   {String}             userID The ID of the user
+   * @returns {Promise<DMChannel>}        The DM channel
+   */
+  async getDMChannel (userID) {
+    const user = this.users.get(userID)
+
+    const channel = new DMChannel(user)
+
+    this._DMChannels.set(channel.id, channel)
+
+    return channel
+  }
+
+  /**
    * Return fake OAuth application data
    */
   async getOAuthApplication () {
     return {
       owner: this._owner
     }
+  }
+
+  /**
+   * Simulate joining a guild
+   * @private
+   * @param   {Object}   [data={}]                     The data for the guild object
+   * @prop    {Object}   [data.guildData={}]           The data of the guild
+   * @prop    {String}   [data.guildData.id]           The ID of the guild
+   * @prop    {String}   [data.guildData.name='guild'] The name of the guild
+   */
+  _joinGuild ({ guildData = {} } = {}) {
+    const {
+      id = String(Date.now()),
+      name = 'guild'
+    } = guildData
+
+    const guild = new Guild({ id, name }, this.shards.get(0))
+    guild.members.set(this._owner.id, new Member(this._owner, guild))
+
+    this.guilds.set(id, guild)
+
+    return guild
   }
 }
 
@@ -355,7 +389,7 @@ class Channel {
    * Construct a channel
    * @class
    * @param {Object}             [data={}]             The data for the channel object
-   * @prop  {String}             [data.id]         The ID of the channel
+   * @prop  {String}             [data.id]             The ID of the channel
    * @prop  {String}             [data.name='channel'] The name of the channel
    * @prop  {PseudoClient.Guild} data.guild            The parent guild of the channel
    */
@@ -467,6 +501,15 @@ class Channel {
   }
 
   /**
+   * Delete all records of the channel
+   * @private
+   */
+  _delete () {
+    this.guild.channels.delete(this.id)
+    delete this.guild.shard.client.channelGuildMap[this.id]
+  }
+
+  /**
    * Get the permissions of a user
    * @param   {String} user The ID of the user
    * @returns {Object}      The permissions of the user which has() can be executed on
@@ -486,15 +529,6 @@ class Channel {
   }
 
   /**
-   * Delete all records of the channel
-   * @private
-   */
-  _delete () {
-    this.guild.channels.delete(this.id)
-    delete this.guild.shard.client.channelGuildMap[this.id]
-  }
-
-  /**
    * Set the permission of a user
    * @private
    * @param   {String}  user          The ID of the user
@@ -508,6 +542,15 @@ class Channel {
       _name: permission,
       _allow: value
     })
+  }
+}
+
+class DMChannel extends Channel {
+  constructor (user) {
+    super({ id: Date.now(), name: undefined, guild: undefined })
+
+    this.type = 1
+    this._user = user
   }
 }
 
@@ -594,42 +637,6 @@ class Message {
   }
 
   /**
-   * Edit a message
-   * @async
-   * @param {String|Object} msg         The message content or object
-   * @prop  {String}        msg.content The message content
-   * @prop  {Object}        msg.embed   The embed to attach
-   */
-  async edit (msg) {
-    if (typeof msg === 'string') msg = { content: msg }
-    const {
-      content,
-      embed
-    } = msg
-
-    this.content = content
-    this.embeds[0] = embed
-
-    this.channel.guild.shard.client.emit('messageUpdate')
-  }
-
-  /**
-   * Delete the message
-   * @async
-   */
-  async delete () {
-    if (!this.channel.messages.has(this.id)) {
-      const error = new Error('Unknown Message')
-      error.name = 'DiscordRESTError [10008]'
-      error.code = 10008
-
-      throw error
-    }
-
-    this.channel.messages.delete(this.id)
-  }
-
-  /**
    * React to the message with an emoji
    * @async
    * @param   {String}            reaction The emoji
@@ -650,6 +657,42 @@ class Message {
     return {
       name: reaction
     }
+  }
+
+  /**
+   * Delete the message
+   * @async
+   */
+  async delete () {
+    if (!this.channel.messages.has(this.id)) {
+      const error = new Error('Unknown Message')
+      error.name = 'DiscordRESTError [10008]'
+      error.code = 10008
+
+      throw error
+    }
+
+    this.channel.messages.delete(this.id)
+  }
+
+  /**
+   * Edit a message
+   * @async
+   * @param {String|Object} msg         The message content or object
+   * @prop  {String}        msg.content The message content
+   * @prop  {Object}        msg.embed   The embed to attach
+   */
+  async edit (msg) {
+    if (typeof msg === 'string') msg = { content: msg }
+    const {
+      content,
+      embed
+    } = msg
+
+    this.content = content
+    this.embeds[0] = embed
+
+    this.channel.guild.shard.client.emit('messageUpdate')
   }
 
   /**
@@ -676,6 +719,7 @@ PseudoClient.Member = Member
 PseudoClient.Shard = Shard
 PseudoClient.Guild = Guild
 PseudoClient.Channel = Channel
+PseudoClient.DMChannel = DMChannel
 PseudoClient.Message = Message
 
 module.exports = PseudoClient

@@ -41,7 +41,7 @@ jobs:
             ${{ runner.os }}-
       - name: Install Dependencies
         run: npm ci
-        if: steps.dep-cache.outputs.cache-hit == 'false'
+        if: steps.dep-cache.outputs.cache-hit != 'true'
       - name: Run Tests
         run: npm test
       - name: Upload Coverage
@@ -82,6 +82,6 @@ jobs:
             ${{ runner.os }}-
       - name: Install Dependencies
         run: npm ci
-        if: steps.dep-cache.outputs.cache-hit == 'false'
+        if: steps.dep-cache.outputs.cache-hit != 'true'
       - name: Lint Code
         run: npm run lint

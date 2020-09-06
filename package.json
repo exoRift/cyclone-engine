@@ -58,7 +58,9 @@
     "eris",
     "command-handler",
     "agent",
-    "engine"
+    "engine",
+    "bot-engine",
+    "framework"
   ],
   "bugs": {
     "url": "https://github.com/exoRift/cyclone-engine/issues"

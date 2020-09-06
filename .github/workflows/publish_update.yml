@@ -18,6 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Cache Dependencies
+        id: dep-cache
         uses: actions/cache@v1.1.2
         env:
           cache-name: cache-node-modules
@@ -29,7 +30,8 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Install Dependencies
-        run: npm i
+        run: npm ci
+        if: steps.dep-cache.outputs.cache-hit == 'false'
       - name: Define package data
         id: define_pkg
         run: |

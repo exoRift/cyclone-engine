@@ -6,6 +6,7 @@
 ## **Bug fixes**
 - Fixed an issue where `Agent.getTopPermissionLevel` would not return `Infinity` for guild owners
 - Fixed an issue where awaits would sometimes not cancel after success properly because the code to cancel them was in the wrong place
+- Fixed an issue with running commands in DMs
 
 1.4.2
 -

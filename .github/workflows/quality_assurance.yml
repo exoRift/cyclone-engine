@@ -12,7 +12,7 @@ on:
 
 jobs:
   test:
-    name: Ava Testing
+    name: Unit Testing (Ava)
 
     strategy:
       matrix:

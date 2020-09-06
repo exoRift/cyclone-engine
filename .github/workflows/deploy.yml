@@ -52,7 +52,7 @@ jobs:
           COMMIT_MESSAGE: Update docsite for version '${{ fromJson(steps.define_pkg.outputs.package).version }}'
 
   publish:
-    name: Publish
+    name: Publish to NPM
 
     strategy:
       matrix:

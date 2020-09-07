@@ -162,7 +162,11 @@ class PseudoClient extends EventEmitter {
   async getDMChannel (userID) {
     const user = this.users.get(userID)
 
-    const channel = new DMChannel(user)
+    const existing = this._DMChannels.find((c) => c._user.id === user.id)
+
+    if (existing) return existing
+
+    const channel = new DMChannel(user, this.shards.get(0))
 
     this._DMChannels.set(channel.id, channel)
 
@@ -493,7 +497,7 @@ class Channel {
       throw err
     }
 
-    const message = new Message(this, msg, file, this.guild.shard.client.user)
+    const message = new Message(this, msg, file, this.guild ? this.guild.shard.client.user : this._shard.client.user)
 
     this.messages.set(message.id, message)
 
@@ -546,11 +550,12 @@ class Channel {
 }
 
 class DMChannel extends Channel {
-  constructor (user) {
+  constructor (user, shard) {
     super({ id: Date.now(), name: undefined, guild: undefined })
 
     this.type = 1
     this._user = user
+    this._shard = shard
   }
 }
 
@@ -597,9 +602,9 @@ class Message {
 
     /**
      * The member author of the message
-     * @type {PseudoClient.Member}
+     * @type {PseudoClient.Member|undefined}
      */
-    this.member = channel.guild.members.get(_author.id)
+    this.member = channel.guild ? channel.guild.members.get(_author.id) : undefined
 
     /**
      * The content of the message

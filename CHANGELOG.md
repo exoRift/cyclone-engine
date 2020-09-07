@@ -3,7 +3,7 @@
 ### **Important notes**
 - Eris is now an optional dependency. To install the engine without Eris, use `npm i cyclone-engine --no-optional`
 
-## **Bug fixes**
+### **Bug fixes**
 - Fixed an issue where `Agent.getTopPermissionLevel` would not return `Infinity` for guild owners
 - Fixed an issue where awaits would sometimes not cancel after success properly because the code to cancel them was in the wrong place
 - Fixed an issue with running commands in DMs

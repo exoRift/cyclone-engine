@@ -1,5 +1,8 @@
 1.4.4
 -
+### **Important notes**
+- Shard disconnects are now only logged when there's an error provided by Eris
+
 ### **Bug fixes**
 - Fixed an issue where awaits would sometimes not cancel after success properly because the code to cancel them was in the wrong place (Previous fix did not work)
 

@@ -1,3 +1,8 @@
+1.4.4
+-
+### **Bug fixes**
+- Fixed an issue where awaits would sometimes not cancel after success properly because the code to cancel them was in the wrong place (Previous fix did not work)
+
 1.4.3
 -
 ### **Important notes**

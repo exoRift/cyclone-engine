@@ -48,7 +48,7 @@ An advanced bot engine for Discord running on lightweight Eris
 
 `eris` - You need to install Eris and supply it to the agent. Eris is supplied manually to allow custom Eris classes to be used by the engine.
 
-<a href='https://exoRift.github.io/cyclone-engine/' style='color: #4747d1'><font size='+2'>**Documentation**</font></a>
+<a href='https://exoRift.github.io/cyclone-engine/' style='color: #4747D1'><font size='+2'>**Documentation**</font></a>
 
 ```
 npm i cyclone-engine

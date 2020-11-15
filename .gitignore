@@ -7,7 +7,7 @@
 # The dependencies
 node_modules/
 
-# Test Results
+# Test results
 .nyc_output/
 coverage/
 

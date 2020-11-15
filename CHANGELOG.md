@@ -1,17 +1,17 @@
 1.4.4
 -
-### **Important notes**
+### **Important Notes**
 - Shard disconnects are now only logged when there's an error provided by Eris
 
-### **Bug fixes**
+### **Bug Fixes**
 - Fixed an issue where awaits would sometimes not cancel after success properly because the code to cancel them was in the wrong place (Previous fix did not work)
 
 1.4.3
 -
-### **Important notes**
+### **Important Notes**
 - Eris is now an optional dependency. To install the engine without Eris, use `npm i cyclone-engine --no-optional`
 
-### **Bug fixes**
+### **Bug Fixes**
 - Fixed an issue where `Agent.getTopPermissionLevel` would not return `Infinity` for guild owners
 - Fixed an issue where awaits would sometimes not cancel after success properly because the code to cancel them was in the wrong place
 - Fixed an issue with running commands in DMs
@@ -19,21 +19,21 @@
 
 1.4.2
 -
-### **Bug fixes**
+### **Bug Fixes**
 - Fix improper intent names
 
 1.4.1
 -
-### **New handling features**
+### **New Handling Features**
 - Tokens are now automatically prefixed with the required keyword that designates bot accounts (Phasing out of Eris in the future)
 - The dynamic argument parser now specifically looks for numbers in IDs rather than any character
 
-### **Bug fixes**
+### **Bug Fixes**
 - Fixed an issue where a 401 error would occur on using the Agent's connect method
 
 1.4.0
 -
-### **New handling features**
+### **New Handling Features**
 - When commands are mounted, the command handler will now check if any commands have invalid mandation (an optional arg before a mandatory arg)
 - You can now have server-side custom prefixes (See documentation for constructor option and methods)
 - The owner ID no longer has to be supplied to handlers when used independently
@@ -47,7 +47,7 @@
 - There is now a new Agent method to build an in-depth help menu for a specific command
 - Added a passthrough in the Agent constructor to append Eris constructor options to the calculated intents
 
-### **Important notes**
+### **Important Notes**
 - Completely redid how initial guild data is supplied to the Agent. See documentation and method `Agent.compileGuildSQL`
 - All handlers now extend from a base handler
 - `Agent.validateChannel` has been moved to `BaseHandler.validateChannel`
@@ -57,48 +57,48 @@
 - `new Await({ options: { shiftCount } })` has been changed to a boolean `new Await({ options: { shouldShift } })` that causes only 1 shift
 - `new Await({ options: { postMessageFunction, postReactionFunction } })` has been changed to `new Await({ options: { postEventFunctions: { message, reaction } } })`
 
-### **Bug fixes**
+### **Bug Fixes**
 - `Agent.validateChannel` will no longer error if the channel is a DM channel
 - Permissions no longer break with commands run in DMs
 - The command handler no longer manipulates the content values of messages in the Eris cache
 - Manipulating pages returned by the `buildHelp` method no longer alters the cache
 - Fixed an issue with some replacer braces not working (especially multi-character ones) due to how the Regex was handled
 
-### **Removed features**
+### **Removed Features**
 - Removed the loop function which can be done by anyone with a simple `setInterval`
 - When a shard disconnects, the agent will no longer try to reconnect as Eris does that automatically
 - Removed connectRetryLimit due to impracticality and the fact that it's handled by Eris
 
 1.3.2
 -
-### **Important notes**
+### **Important Notes**
 - `Agent.addAttachment` has been changed to `Agent.attach`
 - `Agent.removeAttachment` has been changed to `Agent.detach`
 
-### **Bug fixes**
+### **Bug Fixes**
 - Fixed bug that prevented await timeouts from working properly
 
 1.3.1
 -
-### **New handling features**
+### **New Handling Features**
 - Awaits are now supplied to their cancel functions as parameters
 - Added support for gateway intents (automatically calculated and allow supplying of custom intents)
 
-### **Important notes**
+### **Important Notes**
 - `Agent.getTopPermissionLevel` now returns Infinity for the owner of the guild
 
-### **Bug fixes**
+### **Bug Fixes**
 - Fixed bug that prevented the command handler from properly checking if the reaction handler was enabled
 - Fixed bug that prevented the reaction handler from properly checking if the command handler was enabled
 - Fixed an issue with the help menu builder that caused a Discord error
 - Fixed a bug that prevented the handlers from checking permissions properly
 
-### **Removed features**
+### **Removed Features**
 - User blacklist
 
 1.3.0
 -
-### **New handling features**
+### **New Handling Features**
 - Commands and Awaits now support delimiters longer than 1 character
 - ReactionHandler now has a method for detaching interfaces from messages
 - You can now supply a user ID in the options for an Await
@@ -112,12 +112,12 @@
 - `Agent.buildHelp`'s speed has been dramatically increased
 - Added an ALO permissions system (Authority Level Oriented)
 
-### **Quality of life**
+### **Quality of Life**
 - Upgraded the `Agent.buildHelp` help menu help icon (Now hosted in the repository as well)
 - Many class members have been moved around and changed. Refer to docs
 - Many class methods are no longer async. Refer to docs
 
-### **Important notes**
+### **Important Notes**
 - `CommandResults.options.wait` has beeen changed to `CommandResults.options.awaits`
 - Upgraded to Node 12
 - All `simple-knex` oriented support has been dropped in light of the new attachments system
@@ -135,40 +135,40 @@
 - `restricted` is no longer supported in the ReactInterface constructor
 - `designatedUsers` for react interfaces no longer requires the `restricted` property to be true. (It's by default an array containing the ID of the bound message author)
 
-### **Bug fixes**
+### **Bug Fixes**
 - Fixed bug where supplying a single replacer without an array would not meet the conditions for the prefix-replacer braces error
 - Fixed an inconsistency between `Command.info` and `Replacer.info`
 
 1.2.4
 -
-### **New handling features**
+### **New Handling Features**
 - Awaits are no longer passed an object to the check function. They are now directly passed the Message object
 - There is a new option for Awaits called `requirePrefix` which will only trigger the await when it is prefaced with the bot prefix or mention. The Message object passed to the check function contains message content without the prefix.
 
-### **Bug fixes**
+### **Bug Fixes**
 - Fixed a bug that slipped under the testing suite radar where the module would immediately crash on start (Yikes)
 
 1.2.3
 -
-### **New handling features**
+### **New Handling Features**
 - You can now designate a shift count for awaits to shift the args a number of spaces to improve argument usage
 - `Command.info` now includes command aliases
 
-### **Important notes**
+### **Important Notes**
 - If a function is passed for `Agent.agentOptions.statusMessage`, `editStatus` is now the first parameter
 
-### **Bug fixes**
+### **Bug Fixes**
 - The command handler will now send the length error for the invalid form body error `Embed size exceeds maximum size of 6000`
 ##### (This was removed previously due to me forgetting the name of this error and removing the check for keyword 'size')
 - When `Agent.agentOptions.statusMessage` is a function, `editStatus` passed no longer errors
 
 1.2.2
 -
-### **Important notes**
+### **Important Notes**
 
 - `initResponse` passed to await actions has been changed to `triggerResponse`
 
-### **Bug fixes**
+### **Bug Fixes**
 
 - Fixed an issue with `initResponse`/`triggerResponse` for Awaits
 
@@ -182,23 +182,23 @@
 
 1.2.0
 -
-### **New developer-favoring features**
+### **New Developer-Favoring Features**
 
 - User blacklisting: *You can pass an array of user IDs to the agent to blacklist them from using bot commands*
 
-### **New handling features**
+### **New Handling Features**
 
 - There's now a post-handle function for react commands
 - You can now pass an array to `CommandResults.options.channels` to have a message send to multiple channels with the same options all applied (Interfaces, deleteAfter delays, etc.)
 
-### **Quality of life**
+### **Quality of Life**
 
 - Capitalization of command names and aliases while defining or calling no longer matters
 - Command aliases will now automatically turn into an array
 - Normalized handler returns to be more consistent
 - When a minor error occurs sending the response such as a non-existent channel or missing permissions, the response will be an error instance with the reason in the message
 
-### **Important notes**
+### **Important Notes**
 
 - For handler results, `results.response` has been changed to `results.responses` and is an array
 - For handler results, `results.options.channel` has been changed to `results.options.channels` and is an array
@@ -208,14 +208,14 @@
 - `deleteAfter` will no longer throw an error if the message is already deleted
 - For react commands, the `reactInterface` parameter passed to the action representing the parent interface of a button has been changed to `parentInterface`
 
-### **Bug fixes**
+### **Bug Fixes**
 
 - Added more catches for promises to reduce unhandled rejections for when they are no longer ignored by the Node runtime
 - Fixed issue where `initResponse` was not being passed to await actions when they were registered by react commands
 
 1.1.1
 -
-### **Base version with**
+### **Base Version With**
 
 - Automated bot functions
 - Command handling

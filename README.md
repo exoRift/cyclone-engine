@@ -2,7 +2,6 @@
 
 [![Quality Assurance](https://github.com/exoRift/cyclone-engine/workflows/Quality%20Assurance/badge.svg)](https://github.com/exoRift/cyclone-engine/actions?query=workflow%3A%22Quality+Assurance%22)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/151865bacdbe27dbe717/test_coverage)](https://codeclimate.com/github/exoRift/cyclone-engine/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/151865bacdbe27dbe717/maintainability)](https://codeclimate.com/github/exoRift/cyclone-engine/maintainability)
 
 [![Discord Server](https://img.shields.io/badge/-Support%20Server-b.svg?colorA=697ec4&colorB=7289da&logo=discord)](https://discord.gg/Rqd8SJ9)
 

@@ -260,6 +260,23 @@ class Member extends User {
      * @type {Guild}
      */
     this.guild = guild
+
+    this.permissions = {
+      has: (name) => {
+        if (this.id === this.guild.ownerID || this._hasPermission('administrator')) return true
+        else return this._hasPermission(name)
+      }
+    }
+  }
+
+  /**
+   * Check if a member has a permission from any role
+   * @private
+   * @param   {String}  name The name of the role
+   * @returns {Boolean}      Whether the user has it or not
+   */
+  _hasPermission (name) {
+    return this.roles.some((role) => this.guild.roles.get(role).permissions.has(name))
   }
 }
 
@@ -371,14 +388,21 @@ class Guild {
 
   /**
    * Grant a user a role
-   * @param   {String} id   The ID of the user
-   * @param   {String} role The ID of the role
-   * @returns {String}      The ID of the role
+   * @param   {String}   id               The ID of the user
+   * @param   {String}   role             The ID of the role
+   * @param   {String[]} [permissions=[]] The names of the permissions the role possesses
+   * @returns {String}                    The ID of the role
    */
-  _giveRole (id, role) {
+  _giveRole (id, role, permissions = []) {
     const user = this.members.get(id)
 
-    this.roles.set(role, { id: role })
+    this.roles.set(role, {
+      id: role,
+      permissions: {
+        has: (name) => permissions.includes(name)
+      },
+      _perms: permissions
+    })
     user.roles.push(role)
 
     return role

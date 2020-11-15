@@ -1,6 +1,10 @@
 1.5.0
 -
-### 
+### **Important Notes**
+- Fetching the auth level of a member with the `administrator` permission will now return Infinity
+- `Agent.getTopPermissionLevel()` has been renamed to `Agent.getAuthLevel()`
+- `Agent.updatePermission()` has been renamed to `Agent.updateAuthLevel()`
+- `new Agent({ options: { postEventFunctions } })` has been renamed to `new Agent({ options: { postEventActions } })`
 
 1.4.4
 -
@@ -59,7 +63,7 @@
 - `Agent.buildHelp({ prefixImage })` has been changed to `Agent.buildHelp({ footerImage })`
 - The `buildHelp` help menu embed has been altered slightly
 - `new Await({ options: { shiftCount } })` has been changed to a boolean `new Await({ options: { shouldShift } })` that causes only 1 shift
-- `new Await({ options: { postMessageFunction, postReactionFunction } })` has been changed to `new Await({ options: { postEventFunctions: { message, reaction } } })`
+- `new Await({ options: { postMessageFunction, postReactionFunction } })` has been changed to `new Await({ options: { postEventActions: { message, reaction } } })`
 
 ### **Bug Fixes**
 - `Agent.validateChannel` will no longer error if the channel is a DM channel

@@ -54,6 +54,7 @@ An advanced bot engine for Discord running on lightweight Eris
 npm i cyclone-engine
 ```
 ***
+
 >Constructing the Agent class
 
 The Agent class is the main manager of the bot. This will be controlling automated actions as well as call the Command & Reaction Handler.
@@ -90,6 +91,7 @@ const agent = new Agent({
 agent.connect()
 ```
 ***
+
 >Using an attachment such as a database manager
 
 If you'd like to have a class/object/value that can be utilized by commands even if it's not defined in the same scope, you can use the attachment feature
@@ -97,6 +99,7 @@ If you'd like to have a class/object/value that can be utilized by commands even
 **Knex example:**
 --
 Main file:
+
 ```js
 const {
   TOKEN,
@@ -127,7 +130,9 @@ agent.attach('db', knex)
 
 agent.connect()
 ```
+
 Command file:
+
 ```js
 const {
   Command
@@ -153,6 +158,7 @@ const data = {
 module.exports = new Command(data)
 ```
 ***
+
 >Constructing the Command Handler without the agent
 
 The Command Handler is taken care of automatically when the agent is constructed and connected. However, if you would not like to use the agent, you can construct the handler separately.
@@ -187,6 +193,7 @@ const handler = client.getOAuthApplication().then((app) => {
 client.on('messageCreate', (msg) => handler.handle(msg))
 ```
 ***
+
 >Creating Commands
 
 The Command Handler takes an array of command and replacer classes to function. A multifile system is optimal. A way to implement this would be a folder containing JS files of every command with an `index.js` that would require every command (Looping on an `fs.readdir()`) and return an array containing them.
@@ -210,6 +217,7 @@ const data = {
 module.exports = new Command(data)
 ```
 ***
+
 >Awaiting Messages
 
 Certain commands require multiple messages from a user. If a command asks a question, it will usually want to await a response from the user. This can be done with awaits.
@@ -257,6 +265,7 @@ const data = {
 module.exports = new Command(data)
 ```
 ***
+
 >Creating Replacers
 
 Replacers are passed to the command handler and are applied to messages that trigger commands. Using keywords, live data can be inserted into your message as if you typed it. For example, you could replace `|TIME|` in a message with the current date and time.
@@ -279,6 +288,7 @@ const data = {
 module.exports = new Replacer(data)
 ```
 ***
+
 >Constructing the Reaction Handler without the agent
 
 The Reaction Handler is taken care of automatically when the agent is constructed and connected. However, if you would not like to use the agent, you can construct the handler separately.
@@ -306,6 +316,7 @@ const handler = client.getOAuthApplication().then((app) => {
 client.on('messageReactionAdd', async (msg, emoji, userID) => handler.handle(msg, emoji, userID))
 ```
 ***
+
 >Creating React Commands
 
 React commands listen for when any user reacts to any command with a certain emoji.
@@ -343,6 +354,7 @@ const data = {
 module.exports = new ReactCommand(data)
 ```
 ***
+
 >Binding interfaces to messages
 
 Interfaces are a group of emojis the bot adds to a messages. When an emoji is clicked, the bot executes the appropriate action. Interfaces can be bound manually with `ReactionHandler.prototype.bindInterface()` *See documentation*, or they can be included in the options of an action return (This includes commands, awaits, and react commands).
@@ -418,4 +430,5 @@ const data = {
 module.exports = new Command(data)
 ```
 ***
+
 ##### Design sparked by [Alex Taxiera](https://github.com/alex-taxiera)

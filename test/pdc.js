@@ -322,7 +322,7 @@ class Guild {
    * @prop  {String}       [data.name='guild'] The name of the guild
    * @prop  {PseudoClient} shard               The shard
    */
-  constructor ({ id = String(Date.now()), name = 'guild' } = {}, shard) {
+  constructor ({ id = String(Date.now()), name = 'guild' }, shard) {
     /**
      * The ID of the guild
      * @type {String}
@@ -646,10 +646,12 @@ class Message {
      * The attachments of the message
      * @type {Object[]}
      */
-    this.attachments = file ? [{
-      filename: file.name,
-      url: `https://cdn.discordapp.com/attachments/${channel.guild.id}/${channel.id}/${file.name}`
-    }] : []
+    this.attachments = file
+      ? [{
+          filename: file.name,
+          url: `https://cdn.discordapp.com/attachments/${channel.guild.id}/${channel.id}/${file.name}`
+        }]
+      : []
 
     /**
      * The buffer of the file provided

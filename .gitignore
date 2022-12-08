@@ -11,5 +11,6 @@ node_modules/
 .nyc_output/
 coverage/
 
-# The compiled documentation site
-docsite/
+# Compiled Resources
+dist/
+site/

@@ -1,12 +1,14 @@
 {
   "name": "cyclone-engine",
-  "version": "1.4.3",
-  "description": "A stable Discord bot engine/framework centered around granting features and automation without hindering developer freedom",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "A Discord bot jumpstart library based in Eris that is focused on offering features without compromising on developer freedom",
+  "main": "lib/index.js",
+  "type": "module",
   "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
     "test": "node ./ && nyc --reporter lcov ava --verbose **/*.test.js",
-    "lint": "eslint ./",
-    "build": "chmod +rwx build.sh && ./build.sh"
+    "lint": "eslint ./"
   },
   "nyc": {
     "exclude": [
@@ -22,29 +24,12 @@
     ]
   },
   "files": [
-    "lib/",
-    "!**/*.test.js"
+    "dist/"
   ],
   "author": "exoRift",
   "license": "MIT",
-  "optionalDependencies": {
-    "eris": "^0.14.0"
-  },
-  "devDependencies": {
-    "ava": "^1.1.0",
-    "eslint": "^7.13.0",
-    "eslint-config-standard": "^16.0.1",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.1.0",
-    "jsdoc": "^3.6.6",
-    "nyc": "^15.1.0",
-    "sinon": "^9.2.1",
-    "tui-jsdoc-template": "git+https://github.com/exoRift/tui.jsdoc-template.git#develop"
-  },
   "engines": {
-    "node": ">= 12.0.0"
+    "node": ">=16.0.0"
   },
   "repository": {
     "type": "git",
@@ -54,16 +39,29 @@
     "javascript",
     "discord",
     "bot",
-    "discord-bot",
     "eris",
-    "command-handler",
-    "agent",
+    "command",
+    "handler",
     "engine",
-    "bot-engine",
-    "framework"
+    "library"
   ],
   "bugs": {
     "url": "https://github.com/exoRift/cyclone-engine/issues"
   },
-  "homepage": "https://exoRift.github.io/cyclone-engine"
+  "homepage": "https://exoRift.github.io/cyclone-engine",
+  "devDependencies": {
+    "@types/node": "^18.11.10",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "ava": "^5.1.0",
+    "eslint": "^8.28.0",
+    "eslint-config-standard": "^17.0.0",
+    "jsdoc": "^4.0.0",
+    "nyc": "^15.1.0",
+    "sinon": "^14.0.2",
+    "typescript": "^4.9.3"
+  },
+  "peerDependencies": {
+    "eris": "^0.17.1"
+  }
 }

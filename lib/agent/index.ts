@@ -1,28 +1,25 @@
-import Eris from 'eris'
+import Oceanic from 'oceanic'
 
 import {
-  Command
+  Command,
+  ReactCommand
 } from '../structures/'
 
 /**
  * The main controlling agent of the bot
  */
 class Agent {
-  client: Eris.Client
+  client: Oceanic.Client
 
   constructor (token: string) {
-    this.client = new Eris.Client(token)
+    this.client = new Oceanic.Client(token)
   }
 
-  attachCommands (commands: Command[]): void {
-
-  }
-
-  attachReplacers (replacers: Replacer[]): void {
+  loadCommands (dir: string): void {
 
   }
 
-  attachReactCommands (reactCommands: ReactCommand[]): void {
+  loadReactCommands (dir: string): void {
 
   }
 
@@ -56,3 +53,7 @@ class Agent {
 }
 
 export default Agent
+
+export {
+  Agent
+}

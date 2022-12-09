@@ -1,7 +1,7 @@
 {
   "name": "cyclone-engine",
   "version": "2.0.0",
-  "description": "A Discord bot jumpstart library based in Eris that is focused on offering features without compromising on developer freedom",
+  "description": "A Discord bot jumpstart library running on Oceanic that is focused on offering features without compromising on developer freedom",
   "main": "lib/index.js",
   "type": "module",
   "scripts": {
@@ -39,7 +39,7 @@
     "javascript",
     "discord",
     "bot",
-    "eris",
+    "oceanic",
     "command",
     "handler",
     "engine",
@@ -62,6 +62,6 @@
     "typescript": "^4.9.3"
   },
   "peerDependencies": {
-    "eris": "^0.17.1"
+    "oceanic": "^0.0.1"
   }
 }

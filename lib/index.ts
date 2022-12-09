@@ -1,10 +1,5 @@
-import Agent from './agent/'
+export { default } from './agent/'
+export { default as Agent } from './agent/'
 
-import {
-  Command
-} from './structures/'
-
-export default {
-  Agent,
-  Command
-}
+export * from './structures/'
+export * from './types/'

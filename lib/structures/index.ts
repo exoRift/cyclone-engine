@@ -1,5 +1,3 @@
-import Command from './command/'
-
-export {
-  Command
-}
+export * from './command/'
+export * from './reactcommand/'
+export * from './interface/'

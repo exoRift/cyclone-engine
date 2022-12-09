@@ -4,6 +4,12 @@ import {
   GuideOptions
 } from '../../types/'
 
+/** The type of command and how it's triggered */
+enum CommandType {
+  SLASH,
+  MESSAGE
+}
+
 /** The type of an argument and how it's received */
 enum ArgumentType {
   STRING,
@@ -25,6 +31,7 @@ interface CommandOptions {
   aliases?: string[], /** A list of aliases for the command */
   guide?: GuideOptions, /** Extra data for how the command appears in the guide */
   clearance?: AuthLevel, /** The clearance level required for a user to run this command */
+  guildOnly?: boolean, /** Whether the command can only be executed in guilds or not */
   restricted?: boolean /** Whether this command is restricted to the owner of the bot or not */
 }
 
@@ -32,6 +39,7 @@ interface CommandOptions {
 interface CommandData {
   name: string, /** The name of the command */
   description?: string, /** A description of the command */
+  type?: CommandType
   options: CommandOptions, /** Miscellaneous options for the command */
   args: Argument[], /** A list of the command's arguments */
   action: CommandAction /** The action for the command to execute */
@@ -61,6 +69,7 @@ class Command implements Required<CommandData> {
 
   name: string /** The name of the command */
   description: string /** A description of the command */
+  type: CommandType /** The type of command */
   options: Required<CommandOptions> /** Miscellaneous options for the command */
   args: Required<Argument>[] = [] /** A list of the command's arguments */
   action: CommandAction /** The action for the command to execute */
@@ -73,6 +82,7 @@ class Command implements Required<CommandData> {
     const {
       name,
       description = '',
+      type = CommandType.SLASH,
       options = {},
       args = [],
       action
@@ -87,6 +97,7 @@ class Command implements Required<CommandData> {
 
     this.name = name.toLowerCase()
     this.description = description
+    this.type = type
 
     this.options = {
       aliases,

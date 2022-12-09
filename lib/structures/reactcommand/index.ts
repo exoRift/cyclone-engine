@@ -9,11 +9,12 @@ import {
 
 interface ReactCommandOptions {
   removeReaction?: boolean, /** Whether after the command the reaction that triggered it is removed */
-  guide?: GuideOptions /** Extra data for how the command appears in the guide */
+  guide?: GuideOptions, /** Extra data for how the react command appears in the guide */
+  guildOnly?: boolean, /** Whether the react command can only be executed in guilds or not */
 }
 
 /** Input data for react commands */
-interface ReactCommandData extends Omit<CommandData, 'name' | 'args'> {
+interface ReactCommandData extends Omit<CommandData, 'name' | 'type' | 'args'> {
   emoji: string, /** The emoji that triggers this react command */
   description?: string, /** A description of the react command */
   options: ReactCommandOptions, /** Miscellaneous options for the react command */

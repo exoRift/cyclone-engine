@@ -8,7 +8,7 @@ enum AuthLevel {
 /** Parameters of a command guide */
 interface GuideOptions {
   color?: number, /** The color of the guide sidebar (Tip: use 0x hex evaluation to use hex colors) */
-  fields?: object[]
+  fields?: object[] /** The display fields of the menu */
 }
 
 export {

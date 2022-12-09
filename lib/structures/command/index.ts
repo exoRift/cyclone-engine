@@ -1,3 +1,9 @@
+import {
+  AuthLevel,
+  CommandAction,
+  GuideOptions
+} from '../../types/'
+
 /** The type of an argument and how it's received */
 enum ArgumentType {
   STRING,
@@ -6,14 +12,7 @@ enum ArgumentType {
   CHANNEL
 }
 
-/** Power levels for permissions */
-enum AuthLevel {
-  MEMBER,
-  ADMIN,
-  OWNER
-}
-
-/** Command Argument */
+/** Command argument */
 interface Argument {
   name: string, /** The name of the argument */
   required?: boolean, /** Whether the argument is required for the command to be run or not */
@@ -27,7 +26,7 @@ interface CommandOptions {
   guide?: GuideOptions, /** Extra data for how the command appears in the guide */
   clearance?: AuthLevel, /** The clearance level required for a user to run this command */
   restricted?: boolean /** Whether this command is restricted to the owner of the bot or not */
-} // todo: define GuideOptions
+}
 
 /** Input data for commands */
 interface CommandData {
@@ -38,7 +37,7 @@ interface CommandData {
   action: CommandAction /** The action for the command to execute */
 } // todo: define CommandAction
 
-class Command {
+class Command implements Required<CommandData> {
   /**
    * The prefixes for arguments depending on type
    */
@@ -60,11 +59,11 @@ class Command {
     return arg.required ? `<${inside}>` : `(${inside})`
   }
 
-  name: string
-  description: string
-  options: Required<CommandOptions>
-  args: Required<Argument>[] = []
-  action: CommandAction
+  name: string /** The name of the command */
+  description: string /** A description of the command */
+  options: Required<CommandOptions> /** Miscellaneous options for the command */
+  args: Required<Argument>[] = [] /** A list of the command's arguments */
+  action: CommandAction /** The action for the command to execute */
 
   /**
    * Construct a Command
@@ -140,5 +139,6 @@ export {
   AuthLevel,
   Command,
   CommandOptions,
+  CommandData,
   ArgumentType
 }

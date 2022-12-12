@@ -2,7 +2,7 @@ import {
   AuthLevel,
   CommandAction,
   GuideOptions
-} from '../../types/'
+} from 'types/'
 
 /** The type of command and how it's triggered */
 enum CommandType {
@@ -49,7 +49,7 @@ class Command implements Required<CommandData> {
   /**
    * The prefixes for arguments depending on type
    */
-  static _typePrefixes = {
+  private static _typePrefixes = {
     [ArgumentType.STRING]: '',
     [ArgumentType.NUMBER]: '#',
     [ArgumentType.USER]: '@',
@@ -67,6 +67,7 @@ class Command implements Required<CommandData> {
     return arg.required ? `<${inside}>` : `(${inside})`
   }
 
+  _identifier: string
   name: string /** The name of the command */
   description: string /** A description of the command */
   type: CommandType /** The type of command */
@@ -92,10 +93,12 @@ class Command implements Required<CommandData> {
       aliases = [],
       guide = {},
       clearance = AuthLevel.MEMBER,
+      guildOnly = false,
       restricted = false
     }: CommandOptions = options
 
     this.name = name.toLowerCase()
+    this._identifier = this.name
     this.description = description
     this.type = type
 
@@ -103,6 +106,7 @@ class Command implements Required<CommandData> {
       aliases,
       guide,
       clearance,
+      guildOnly,
       restricted
     }
 
@@ -131,7 +135,7 @@ class Command implements Required<CommandData> {
    * Digest provided argument data into consistent argument blocks
    * @param {Argument[]} args The arguments
    */
-  _digestArguments (args: Argument[]): void {
+  private _digestArguments (args: Argument[]): void {
     for (const arg of args) {
       this.args.push({
         name: arg.name.toLowerCase(),

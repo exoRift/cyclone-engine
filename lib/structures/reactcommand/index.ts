@@ -1,16 +1,19 @@
 import {
+  AuthLevel,
   CommandAction,
   GuideOptions
-} from '../../types/'
+} from 'types/'
 
 import {
   CommandData
-} from '../command/'
+} from 'structures/command/'
 
+/** The data for a react command */
 interface ReactCommandOptions {
   removeReaction?: boolean, /** Whether after the command the reaction that triggered it is removed */
   guide?: GuideOptions, /** Extra data for how the react command appears in the guide */
-  guildOnly?: boolean, /** Whether the react command can only be executed in guilds or not */
+  clearance?: AuthLevel, /** The clearance level required for a user to run this command */
+  guildOnly?: boolean /** Whether the react command can only be executed in guilds or not */
 }
 
 /** Input data for react commands */
@@ -21,17 +24,18 @@ interface ReactCommandData extends Omit<CommandData, 'name' | 'type' | 'args'> {
   action: CommandAction /** The action for the react command to execute */
 }
 
+/** An action that runs on reactions */
 class ReactCommand implements Required<ReactCommandData> {
-  /**
-   * Construct a Command
-   * @param {ReactCommandData} data The data for the command
-   */
-
+  _identifier: string
   emoji: string /** The emoji that triggers this react command */
   description: string /** A description of the react command */
   options: Required<ReactCommandOptions> /** Miscellaneous options for the react command */
   action: CommandAction /** The action for the react command to execute */
 
+  /**
+   * Construct a react command
+   * @param {ReactCommandData} data The data for the react command
+   */
   constructor (data: ReactCommandData) {
     const {
       emoji,
@@ -42,15 +46,20 @@ class ReactCommand implements Required<ReactCommandData> {
 
     const {
       removeReaction = false,
-      guide = {}
+      guide = {},
+      clearance = AuthLevel.MEMBER,
+      guildOnly = false
     }: ReactCommandOptions = options
 
     this.emoji = emoji
+    this._identifier = this.emoji
     this.description = description
 
     this.options = {
       removeReaction,
-      guide
+      guide,
+      clearance,
+      guildOnly
     }
 
     this.action = action
@@ -62,7 +71,7 @@ class ReactCommand implements Required<ReactCommandData> {
    * @example       '**emoji** - *description*'
    */
   get blurb () {
-    return `${this.options.restricted ? '~~' : ''}**${this.emoji}** - *${this.description}*${this.options.restricted ? '~~' : ''}`
+    return `**${this.emoji}** - *${this.description}*`
   }
 }
 

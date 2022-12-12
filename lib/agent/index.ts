@@ -1,26 +1,48 @@
-import Oceanic from 'oceanic'
+import Oceanic from 'oceanic.js'
+import fs from 'fs/promises'
+
+import {
+  Action,
+  BaseHandler,
+  CommandHandler,
+  ReactionHandler
+} from 'handlers/'
 
 import {
   Command,
   ReactCommand
-} from '../structures/'
+} from 'structures/'
 
 /**
  * The main controlling agent of the bot
  */
 class Agent {
   client: Oceanic.Client
+  handlers: {
+    command?: CommandHandler,
+    reaction?: ReactionHandler
+  } = {}
 
   constructor (token: string) {
-    this.client = new Oceanic.Client(token)
+    this.client = new Oceanic.Client({ auth: token })
   }
 
-  loadCommands (dir: string): void {
+  loadCommands (dir: string): Promise<void[]> {
+    if (!this.handlers.command) this.handlers.command = new CommandHandler(this)
 
+    return this._loadActions<Command>(this.handlers.command, dir)
   }
 
-  loadReactCommands (dir: string): void {
+  loadReactCommands (dir: string): Promise<void[]> {
+    if (!this.handlers.reaction) this.handlers.reaction = new ReactionHandler(this)
 
+    return this._loadActions<ReactCommand>(this.handlers.reaction, dir)
+  }
+
+  private _loadActions<R extends Action> (handler: BaseHandler<R>, dir: string): Promise<void[]> {
+    return fs.readdir(dir)
+      .then((files) => Promise.all(files.map((f) => import(f)
+        .then((action) => handler.registerAction(action)))))
   }
 
   /**
@@ -33,7 +55,7 @@ class Agent {
       .catch(this._buildErrorHandler('agent', 'connection'))
   }
 
-  _initializeHandlers (): void {
+  private _initializeHandlers (): void { // todo
     console.log()
   }
 
@@ -45,7 +67,7 @@ class Agent {
    * @param     {String} reason  What process did this error occur during?
    * @returns   {function: void} The callable handle function
    */
-  _buildErrorHandler (source: string, reason: string): (error: Error) => void {
+  private _buildErrorHandler (source: string, reason: string): (error: Error) => void {
     return (error: Error) => {
       console.error(`Cyclone Error:\n|${source}, ${reason}:\n|`, error)
     }

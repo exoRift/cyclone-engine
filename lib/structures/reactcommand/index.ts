@@ -11,6 +11,7 @@ import {
 /** The data for a react command */
 interface ReactCommandOptions {
   removeReaction?: boolean, /** Whether after the command the reaction that triggered it is removed */
+  triggerOnRemove?: boolean, /** Whether the react command is triggered on the removal of reactions or not */
   guide?: GuideOptions, /** Extra data for how the react command appears in the guide */
   clearance?: AuthLevel, /** The clearance level required for a user to run this command */
   guildOnly?: boolean /** Whether the react command can only be executed in guilds or not */
@@ -46,6 +47,7 @@ class ReactCommand implements Required<ReactCommandData> {
 
     const {
       removeReaction = false,
+      triggerOnRemove = false,
       guide = {},
       clearance = AuthLevel.MEMBER,
       guildOnly = false
@@ -57,6 +59,7 @@ class ReactCommand implements Required<ReactCommandData> {
 
     this.options = {
       removeReaction,
+      triggerOnRemove,
       guide,
       clearance,
       guildOnly

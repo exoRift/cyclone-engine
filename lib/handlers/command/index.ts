@@ -8,7 +8,9 @@ import {
 
 /** A message/slash command handler */
 class CommandHandler extends BaseHandler<Command> { // todo
+  handle () {
 
+  }
 }
 
 export default CommandHandler

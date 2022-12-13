@@ -27,8 +27,9 @@ interface Argument {
 }
 
 /** Command options */
-interface CommandOptions {
+interface CommandOptions<T extends CommandType> {
   aliases?: string[], /** A list of aliases for the command */
+  triggerOnEdit?: T extends CommandType.MESSAGE ? boolean : never, /** Whether the command should be triggered on edits */
   guide?: GuideOptions, /** Extra data for how the command appears in the guide */
   clearance?: AuthLevel, /** The clearance level required for a user to run this command */
   guildOnly?: boolean, /** Whether the command can only be executed in guilds or not */
@@ -39,8 +40,8 @@ interface CommandOptions {
 interface CommandData {
   name: string, /** The name of the command */
   description?: string, /** A description of the command */
-  type?: CommandType
-  options: CommandOptions, /** Miscellaneous options for the command */
+  type?: CommandType /** The type of command and how it's triggered */
+  options?: CommandOptions<CommandType>, /** Miscellaneous options for the command */
   args: Argument[], /** A list of the command's arguments */
   action: CommandAction /** The action for the command to execute */
 } // todo: define CommandAction
@@ -71,7 +72,7 @@ class Command implements Required<CommandData> {
   name: string /** The name of the command */
   description: string /** A description of the command */
   type: CommandType /** The type of command */
-  options: Required<CommandOptions> /** Miscellaneous options for the command */
+  options: Required<CommandOptions<CommandType>> /** Miscellaneous options for the command */
   args: Required<Argument>[] = [] /** A list of the command's arguments */
   action: CommandAction /** The action for the command to execute */
 
@@ -91,11 +92,12 @@ class Command implements Required<CommandData> {
 
     const {
       aliases = [],
+      triggerOnEdit = false,
       guide = {},
       clearance = AuthLevel.MEMBER,
       guildOnly = false,
       restricted = false
-    }: CommandOptions = options
+    }: Omit<CommandOptions<typeof type>, 'triggeredOnEdit'> & { triggeredOnEdit?: boolean } = options
 
     this.name = name.toLowerCase()
     this._identifier = this.name
@@ -104,6 +106,7 @@ class Command implements Required<CommandData> {
 
     this.options = {
       aliases,
+      triggerOnEdit,
       guide,
       clearance,
       guildOnly,

@@ -50,7 +50,7 @@ class Command implements Required<CommandData> {
   /**
    * The prefixes for arguments depending on type
    */
-  private static _typePrefixes = {
+  private static readonly _typePrefixes = {
     [ArgumentType.STRING]: '',
     [ArgumentType.NUMBER]: '#',
     [ArgumentType.USER]: '@',

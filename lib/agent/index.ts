@@ -12,6 +12,11 @@ import {
   Effect
 } from 'structures/'
 
+/** Additional options */
+interface AgentOptions {
+  debug?: boolean
+}
+
 // todo: organize methods
 // todo: make sure triggered actions include the event name/data
 /**
@@ -29,6 +34,7 @@ class Agent {
   private _backloggedErrors: object[] = [] /** Backlogged errors to be logged when the application closes (courtesy of debug mode) */
 
   client: Oceanic.Client /** The Oceanic client */
+  options: Required<AgentOptions> /** Additional options */
   handler = new EffectHandler(this) /** The effect handler */
   initialized = false /** Whether the agent has been initialized with bound events or not */
 
@@ -38,9 +44,24 @@ class Agent {
    * @param   options Additional options
    * @example         For bot applications, be sure to prefix the token with "Bot "
    */
+  constructor (token: string, options: AgentOptions = {}) {
+    const {
+      debug = true
+    } = options
 
-  constructor (token: string) {
     this.client = new Oceanic.Client({ auth: token })
+
+    this.options = {
+      debug
+    }
+
+    if (debug) process.on('exit', () => this._dumpBacklog())
+  }
+
+  private _dumpBacklog (): void {
+    console.info('Debug mode was enabled so Cyclone will now dump all backlogged errors')
+
+    for (const err of this._backloggedErrors) console.error('BACKLOGGED ERROR:', err)
   }
 
   /**
@@ -69,22 +90,24 @@ class Agent {
 
   /** Listen for core events from Oceanic */
   private _bindCoreEvents (): void {
-    this.client.on('error', (e) => this._report('error', 'oceanic', e))
+    this.client.on('error', (e) => this.report('error', 'oceanic', e))
 
-    this.client.on('shardReady', (id) => this._report('info', 'oceanic', `Shard ${id} connected`))
-    this.client.on('shardDisconnect', (id) => this._report('warn', 'oceanic', `Shard ${id} disconnected`))
+    this.client.on('shardReady', (id) => this.report('info', 'oceanic', `Shard ${id} connected`))
+    this.client.on('shardDisconnect', (id) => this.report('warn', 'oceanic', `Shard ${id} disconnected`))
   }
 
   /**
    * Report a formatted message to the console
-   * @param {String} protocol The console protocol to use (log, info, warn, error)
-   * @param {String} source   What is emitting this report?
-   * @param {*}      message  The message to report
+   * @param protocol The console protocol to use (log, info, warn, error)
+   * @param source   What is emitting this report?
+   * @param message  The message to report
+   * @param metadata Additional data for an error to be dumped at proccess termination in debug mode
    */
-  private _report<T> (
+  report<M, D extends object & { err: M }> (
     protocol: keyof typeof Agent._reporterColors & keyof Console,
     source: string,
-    message: T
+    message: M,
+    metadata?: D
   ): void {
     const fBang: string = chalk.bold.bgBlue.white('CE>')
     const fType: string = (chalk.bold[Agent._reporterColors[protocol]] as ChalkInstance).white(protocol)
@@ -92,6 +115,7 @@ class Agent {
 
     console[protocol](fBang, fType, fSource, message)
 
+    if (protocol === 'error' && metadata) this._backloggedErrors.push(metadata)
   }
 
   /** Connect to the Discord API via websocket and initiate event handlers. */

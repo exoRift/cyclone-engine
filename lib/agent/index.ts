@@ -14,7 +14,12 @@ import {
 
 /** Additional options */
 interface AgentOptions {
-  debug?: boolean
+  /** Dump extra information about errors before the process closes */
+  debug?: boolean,
+  /** If changes are detected in command options, reregister it */
+  hotReloadCommands?: boolean,
+  /** Clear guild-specific commands when disconnect is called */
+  clearGuildCommandsOnDisconnect?: boolean
 }
 
 // todo: organize methods
@@ -23,20 +28,27 @@ interface AgentOptions {
  * The main controlling agent of the bot
  */
 class Agent {
-  private static readonly _defaultExtensionRegex = /\.[cm]?js$/ /** The default extension regex for effect importing */
+  /** The default extension regex for effect importing */
+  private static readonly _defaultExtensionRegex = /\.[cm]?js$/
+  /** Background colors for reports depending on protocol */
   private static readonly _reporterColors = {
     log: 'bgCyan' as keyof ChalkInstance,
     info: 'bgGreen' as keyof ChalkInstance,
     warn: 'bgYellow' as keyof ChalkInstance,
     error: 'bgRed' as keyof ChalkInstance
-  } /** Background colors for reports depending on protocol */
+  }
 
-  private _backloggedErrors: object[] = [] /** Backlogged errors to be logged when the application closes (courtesy of debug mode) */
+  /** Backlogged errors to be logged when the application closes (courtesy of debug mode) */
+  private _backloggedErrors: object[] = []
 
-  client: Oceanic.Client /** The Oceanic client */
-  options: Required<AgentOptions> /** Additional options */
-  handler = new EffectHandler(this) /** The effect handler */
-  initialized = false /** Whether the agent has been initialized with bound events or not */
+  /** The Oceanic client */
+  client: Oceanic.Client
+  /** Additional options */
+  options: Required<AgentOptions>
+  /** The effect handler */
+  handler = new EffectHandler(this)
+  /** Whether the agent has been initialized with bound events or not */
+  initialized = false
 
   /**
    * Construct a Cyclone agent
@@ -46,20 +58,27 @@ class Agent {
    */
   constructor (token: string, options: AgentOptions = {}) {
     const {
-      debug = true
+      debug = true,
+      hotReloadCommands = true,
+      clearGuildCommandsOnDisconnect = false
     } = options
 
     this.client = new Oceanic.Client({ auth: token })
 
     this.options = {
-      debug
+      debug,
+      hotReloadCommands,
+      clearGuildCommandsOnDisconnect
     }
 
-    if (debug) process.on('exit', () => this._dumpBacklog())
+    if (debug) {
+      process.on('SIGINT', () => this._dumpBacklog())
+      process.on('SIGTERM', () => this._dumpBacklog())
+    }
   }
 
   private _dumpBacklog (): void {
-    console.info('Debug mode was enabled so Cyclone will now dump all backlogged errors')
+    this.report('info', 'debug', 'Debug mode was enabled so Cyclone will now dump all backlogged errors')
 
     for (const err of this._backloggedErrors) console.error('BACKLOGGED ERROR:', err)
   }
@@ -70,6 +89,8 @@ class Agent {
    * @param   extensionRegex A regex used to select file extensions
    */
   registerEffectsFromDir (dir: string, extensionRegex: RegExp = Agent._defaultExtensionRegex): Promise<void[]> {
+    this.report('log', 'register', `Registering effects from '${dir}...'`)
+
     return fs.readdir(dir)
       .then((files) => Promise.all(files
         .filter((f) => f.match(extensionRegex))
@@ -84,8 +105,8 @@ class Agent {
    * Register an effect to be listened for in the effect handler
    * @param effect The effect to listen for
    */
-  registerEffect (effect: Effect): void {
-    this.handler.register(effect)
+  registerEffect (effect: Effect.Base): Promise<void> {
+    return this.handler.register(effect)
   }
 
   /** Listen for core events from Oceanic */
@@ -103,23 +124,31 @@ class Agent {
    * @param message  The message to report
    * @param metadata Additional data for an error to be dumped at proccess termination in debug mode
    */
-  report<M, D extends object & { err: M }> (
+  report<M> (
     protocol: keyof typeof Agent._reporterColors & keyof Console,
     source: string,
     message: M,
-    metadata?: D
+    metadata?: object
   ): void {
-    const fBang: string = chalk.bold.bgBlue.white('CE>')
-    const fType: string = (chalk.bold[Agent._reporterColors[protocol]] as ChalkInstance).white(protocol)
-    const fSource: string = chalk.italic.bgWhite.black(source)
+    const bangBack = chalk[Agent._reporterColors[protocol]] as ChalkInstance
+    const bangTag = chalk.bold.bgBlue.white('Cyclone')
+    const bangSource: string = bangBack.white(source)
+    const bangFlag = bangBack.bold.white('>')
 
-    console[protocol](fBang, fType, fSource, message)
+    console[protocol](`${bangTag} ${bangSource}${bangFlag}`, message)
 
-    if (protocol === 'error' && metadata) this._backloggedErrors.push(metadata)
+    if (protocol === 'error' && metadata) {
+      this._backloggedErrors.push({
+        err: message,
+        ...metadata
+      })
+    }
   }
 
   /** Connect to the Discord API via websocket and initiate event handlers. */
   connect (): Promise<void> {
+    this.report('log', 'connect', 'Connecting to Discord API...')
+
     return this.client.connect()
       .then(() => {
         if (!this.initialized) {
@@ -129,7 +158,7 @@ class Agent {
         }
       })
       .catch((e) => {
-        this.report('error', 'connection', e)
+        this.report('error', 'connect', e)
 
         throw e
       })

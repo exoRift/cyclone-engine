@@ -229,6 +229,6 @@ export {
   Command,
   CommandData,
   ConsolidatedLocaleMap,
-  ApplicationCommandTypes as CommandTypes,
+  ApplicationCommandTypes as CommandType,
   CommandActionData
 }

@@ -62,7 +62,7 @@
     "typescript": "^4.9.3"
   },
   "peerDependencies": {
-    "oceanic.js": "^1.3.2"
+    "oceanic.js": "1.4"
   },
   "dependencies": {
     "chalk": "^5.2.0"

@@ -9,6 +9,10 @@ import {
   LocaleMap
 } from 'oceanic.js'
 
+import {
+  AuthLevel
+} from 'types'
+
 import * as Effect from './base'
 
 /** A locale map that is more developer-friendly to define */
@@ -23,7 +27,7 @@ type ConsolidatedLocaleMap = Partial<Record<Locale, {
 type ArgumentType = Exclude<ApplicationCommandOptionTypes, ApplicationCommandOptionTypes.SUB_COMMAND|ApplicationCommandOptionTypes.SUB_COMMAND_GROUP>
 
 /** A command argument */
-interface Argument extends Omit<CommandData<ApplicationCommandTypes.CHAT_INPUT>, 'type'|'args'|'subcommands'|'action'> {
+interface Argument extends Omit<CommandData<ApplicationCommandTypes.CHAT_INPUT>, 'type'|'args'|'subcommands'|'options'|'action'> {
   /** The argument type */
   type: ArgumentType,
   /** Argument options */
@@ -41,7 +45,7 @@ interface CommandActionData {
  * Input data for commands
  * @template T The type of command
  */
-interface CommandData<T extends ApplicationCommandTypes> {
+interface CommandData<T extends ApplicationCommandTypes> { // todo: guide system
   /** The type of the command and the way it's called */
   type: T,
   /** The name of the command */
@@ -54,12 +58,20 @@ interface CommandData<T extends ApplicationCommandTypes> {
   subcommands: CommandData<T>['type'] extends ApplicationCommandTypes.CHAT_INPUT ? Command<T>[] : [],
   /** Miscellaneous command options */
   options?: {
-  /** Is this command NSFW? */
+    /**
+     * The authorization level required to use this command
+     * This property can either be a preset [AuthLevel]{@link AuthLevel} value or a [Discord permissions number]{@link https://discord.com/developers/docs/topics/permissions}
+     * Your permission integer can be easily generated using bitwise shift (`0 << NUMBER`) and chained with bitwise or (`|`)
+     */
+    clearance?: AuthLevel | number
+    /** Is this command NSFW? */
     nsfw?: boolean,
     /** Can this command only be used in guilds? */
     guildOnly?: boolean,
     /** Locales for the command */
     locales?: ConsolidatedLocaleMap
+    /** Can this command only be used by the bot owner? */
+    restricted?: boolean
   },
   /** The command's execution action */
   action: (data: CommandActionData) => void|string|object
@@ -91,6 +103,8 @@ class Command<T extends ApplicationCommandTypes> extends Effect.Base implements 
   args: CommandData<T>['args']
   /** Miscellaneous command options */
   options: {
+    /** The authorization level required to use this command */
+    clearance: AuthLevel | number
     /** Is this command NSFW? */
     nsfw: boolean,
     /** Can this command only be used in guilds? */
@@ -150,6 +164,16 @@ class Command<T extends ApplicationCommandTypes> extends Effect.Base implements 
     }
   }
 
+  static authToPermission (level: AuthLevel|number): number|null {
+    if (typeof level === 'number') return level
+
+    switch (level) {
+      case 'member': return null
+      case 'admin': case 'owner': return 1 << 3
+      default: return null
+    }
+  }
+
   /**
    * Construct a command effect
    * @param data Data for the command effect
@@ -164,6 +188,7 @@ class Command<T extends ApplicationCommandTypes> extends Effect.Base implements 
       subcommands = [] as CommandData<T>['subcommands'],
       args = [],
       options: {
+        clearance = 'member',
         nsfw = false,
         guildOnly = false,
         locales = {}
@@ -179,6 +204,7 @@ class Command<T extends ApplicationCommandTypes> extends Effect.Base implements 
     this.args = args
 
     this.options = {
+      clearance,
       nsfw,
       guildOnly,
       locales
@@ -210,6 +236,7 @@ class Command<T extends ApplicationCommandTypes> extends Effect.Base implements 
           } as ApplicationCommandOptions
         })
         .concat(this.args.map((a) => Command.compileArgument(a))),
+      defaultMemberPermissions: Command.authToPermission(this.options.clearance)?.toString?.(),
       dmPermission: !this.options.guildOnly,
       nsfw: this.options.nsfw,
       nameLocalizations: this._nameLocalizations,

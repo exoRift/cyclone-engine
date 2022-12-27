@@ -1,9 +1,5 @@
 /** Power levels for permissions */
-enum AuthLevel {
-  MEMBER,
-  ADMIN,
-  OWNER
-}
+type AuthLevel = 'member'|'admin'|'owner'
 
 /** Parameters of a command guide */
 interface GuideOptions {

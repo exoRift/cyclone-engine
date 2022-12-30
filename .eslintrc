@@ -1,9 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
   "extends": ["standard", "plugin:@typescript-eslint/recommended"],
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "array-bracket-spacing": "error",
     "no-lonely-if": "warn",
@@ -20,6 +18,7 @@
     ],
     "quote-props": "warn",
     "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": "error"
+    "@typescript-eslint/no-use-before-define": "error",
+    "@typescript-eslint/no-namespace": "off"
   }
 }

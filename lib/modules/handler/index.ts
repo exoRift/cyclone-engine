@@ -1,24 +1,26 @@
-import {
-  AnyApplicationCommand,
-  ApplicationCommandTypes,
-  ClientEvents
-} from 'oceanic.js'
+import * as Oceanic from 'oceanic.js'
+
+import { Agent } from 'modules/agent'
 
 import {
-  Agent
-} from 'agent/'
-
-import {
-  Effect
+  Effect,
+  RequestEntity,
+  ResponseEntity
 } from 'structures/'
 
-// todo: wait for connection and upon connection, purge removed commands
+/** Event sets for types of handling */
+export declare namespace EffectEventGroup {
+  export type INTERACTION = keyof Oceanic.ClientEvents & ('interactionCreate')
+  export type MESSAGE = keyof Oceanic.ClientEvents & ('messageCreate' | 'messageUpdate' | 'messageDelete')
+  export type REACTION = keyof Oceanic.ClientEvents & ('messageReactionAdd' | 'messageReactionRemove')
+}
+
 /** A handler to recognize and process interactions and events */
-class EffectHandler {
+export class EffectHandler {
   /** The promise of the command fetch */
-  private _apiRegisteredCommands: Promise<Map<string, AnyApplicationCommand>>
+  private _apiRegisteredCommands: Promise<Map<string, Oceanic.AnyApplicationCommand>>
   /** The registered effects */
-  private _registry: Partial<Record<keyof ClientEvents, Map<string, Effect.Base>>> = {}
+  private _registry: Partial<Record<keyof Oceanic.ClientEvents, Map<string, Effect.Base>>> = {}
 
   /** The parent agent */
   agent: Agent
@@ -32,17 +34,17 @@ class EffectHandler {
 
     this._apiRegisteredCommands = this._fetchRegisteredCommands()
 
-    this.agent.client.on('ready', () => this.pruneCommands())
+    if (!this.agent.client.ready) this.agent.client.on('ready', () => this.pruneCommands())
   }
 
   /**
    * Fetch all registered global commands
    * @private
    */
-  private _fetchRegisteredCommands (): Promise<Map<string, AnyApplicationCommand>> {
+  private _fetchRegisteredCommands (): Promise<Map<string, Oceanic.AnyApplicationCommand>> {
     return this.agent.client.application.getGlobalCommands()
       .then((commands) => {
-        const map = new Map<string, AnyApplicationCommand>()
+        const map = new Map<string, Oceanic.AnyApplicationCommand>()
 
         for (const command of commands) map.set(command.name, command)
 
@@ -51,7 +53,7 @@ class EffectHandler {
       .catch((e) => {
         this.agent.report('error', 'effect handler', e)
 
-        return new Map<string, AnyApplicationCommand>()
+        return new Map<string, Oceanic.AnyApplicationCommand>()
       })
   }
 
@@ -65,6 +67,8 @@ class EffectHandler {
         const promises = []
 
         for (const command of commands) {
+          this.agent.report('warn', 'prune', `Command '${command[0]}' not registered locally. Purging from application registry...`)
+
           if (!this._registry.interactionCreate?.has?.(command[0])) promises.push(this.agent.client.application.deleteGlobalCommand(command[1].id))
         }
 
@@ -77,27 +81,48 @@ class EffectHandler {
    * @param          effect The effect
    * @throws {Error}
    */
-  register (effect: Effect.Base): Promise<void> {
+  register<E extends Effect.Base> (effect: E): Promise<void> {
     for (const event of effect._triggerEvents) {
       if (!(event in this._registry)) {
         this.agent.report('log', 'register', `Listening for '${event}'`)
 
-        this._registry[event] = new Map<string, Effect.Base>()
+        this._registry[event] = new Map<string, E>()
 
-        this.agent.client.on(event, (...data) => this.handle(event, ...data))
-      }
+        switch (event) {
+          case 'interactionCreate':
+            this.agent.client.on(event, (...data) => this.handleInteraction(event, data))
 
-      if (this._registry[event]!.has(effect._identifier)) throw Error('effect already registered') // eslint-disable-line @typescript-eslint/no-non-null-assertion
+            break
+        }
+      } else if (this._registry[event]!.has(effect._identifier)) throw Error('effect already registered') // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
       this._registry[event]!.set(effect._identifier, effect) // eslint-disable-line @typescript-eslint/no-non-null-assertion
     }
 
     return effect instanceof Effect.Command ? this.agent.client.application.createGlobalCommand(effect.compile()).then() : Promise.resolve()
   }
-}
 
-export default EffectHandler
+  handleInteraction (event: EffectEventGroup.INTERACTION, data: Oceanic.ClientEvents[EffectEventGroup.INTERACTION]): void {
+    const [command] = data
 
-export {
-  EffectHandler
+    switch (command.type) {
+      case Oceanic.InteractionTypes.APPLICATION_COMMAND: {
+        const effect = this._registry[event]?.get?.(command.data.name)
+
+        if (effect) { // todo: check for owner clearance
+          command.defer()
+
+          const req = new RequestEntity({ // todo: parse args and call proper subcommand
+            agent: this.agent,
+            handler: this,
+            effect,
+            raw: data
+          })
+        }
+
+        break
+      }
+      default: break
+    }
+  }
 }

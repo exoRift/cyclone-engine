@@ -1,23 +1,15 @@
-import Oceanic from 'oceanic.js'
+import * as Oceanic from 'oceanic.js'
 import fs from 'fs/promises'
-import chalk, {
-  ChalkInstance
-} from 'chalk'
+import chalk, { ChalkInstance } from 'chalk'
 
-import {
-  EffectHandler
-} from 'modules/'
+import { EffectHandler } from 'modules/handler/'
 
-import {
-  Effect
-} from 'structures/'
+import { Effect } from 'structures'
 
 /** Additional options */
-interface AgentOptions {
+export interface CycloneOptions {
   /** Dump extra information about errors before the process closes */
   debug?: boolean,
-  /** If changes are detected in command options, reregister it */
-  hotReloadCommands?: boolean,
   /** Clear guild-specific commands when disconnect is called */
   clearGuildCommandsOnDisconnect?: boolean
 }
@@ -27,7 +19,7 @@ interface AgentOptions {
 /**
  * The main controlling agent of the bot
  */
-class Agent {
+export class Agent {
   /** The default extension regex for effect importing */
   private static readonly _defaultExtensionRegex = /\.[cm]?js$/
   /** Background colors for reports depending on protocol */
@@ -44,7 +36,7 @@ class Agent {
   /** The Oceanic client */
   client: Oceanic.Client
   /** Additional options */
-  options: Required<AgentOptions>
+  options: Required<CycloneOptions>
   /** The effect handler */
   handler = new EffectHandler(this)
   /** Whether the agent has been initialized with bound events or not */
@@ -52,22 +44,34 @@ class Agent {
 
   /**
    * Construct a Cyclone agent
-   * @param   token   The bot token
-   * @param   options Additional options
-   * @example         For bot applications, be sure to prefix the token with "Bot "
+   * @param   data The bot token or an object containing the token and additional Cyclone options and a passthrough for Oceanic options
+   * @example      For bot applications, be sure to prefix the token with "Bot "
    */
-  constructor (token: string, options: AgentOptions = {}) {
+  constructor (data: string | {
+    token: string,
+    cycloneOptions?: CycloneOptions,
+    oceanicOptions?: Omit<Oceanic.ClientOptions, 'auth'>
+  }) {
     const {
-      debug = true,
-      hotReloadCommands = true,
-      clearGuildCommandsOnDisconnect = false
-    } = options
+      token,
+      cycloneOptions: {
+        debug = true,
+        clearGuildCommandsOnDisconnect = false
+      } = {},
+      oceanicOptions = {}
+    } = typeof data === 'string'
+      ? {
+          token: data
+        }
+      : data
 
-    this.client = new Oceanic.Client({ auth: token })
+    this.client = new Oceanic.Client({
+      ...oceanicOptions,
+      auth: token
+    })
 
     this.options = {
       debug,
-      hotReloadCommands,
       clearGuildCommandsOnDisconnect
     }
 
@@ -77,6 +81,7 @@ class Agent {
     }
   }
 
+  /** Dump the backlogged error debugging data into the console */
   private _dumpBacklog (): void {
     this.report('info', 'debug', 'Debug mode was enabled so Cyclone will now dump all backlogged errors')
 
@@ -168,10 +173,4 @@ class Agent {
   disconnect (): void {
     return this.client.disconnect()
   }
-}
-
-export default Agent
-
-export {
-  Agent
 }

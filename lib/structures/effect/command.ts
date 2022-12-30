@@ -1,61 +1,31 @@
-import {
-  ApplicationCommandOptions,
-  ApplicationCommandOptionsWithValue,
-  ApplicationCommandOptionTypes,
-  ApplicationCommandTypes,
-  ClientEvents,
-  CreateApplicationCommandOptions,
-  Locale,
-  LocaleMap
-} from 'oceanic.js'
+import * as Oceanic from 'oceanic.js'
+
+import { Effect } from './'
+
+import { RequestEntity } from 'structures/request'
+import { ResponseEntity } from 'structures/response'
 
 import {
-  AuthLevel
+  Argument,
+  AuthLevel,
+  ConsolidatedLocaleMap
 } from 'types'
-
-import * as Effect from './base'
-
-/** A locale map that is more developer-friendly to define */
-type ConsolidatedLocaleMap = Partial<Record<Locale, {
-  /** The command or argument's name */
-  name?: string,
-  /** The command or argument's description */
-  description?: string
-}>>
-
-/** The type for a command argument */
-type ArgumentType = Exclude<ApplicationCommandOptionTypes, ApplicationCommandOptionTypes.SUB_COMMAND|ApplicationCommandOptionTypes.SUB_COMMAND_GROUP>
-
-/** A command argument */
-interface Argument extends Omit<CommandData<ApplicationCommandTypes.CHAT_INPUT>, 'type'|'args'|'subcommands'|'options'|'action'> {
-  /** The argument type */
-  type: ArgumentType,
-  /** Argument options */
-  options: {
-    /** Locales for the argument */
-    locales?: ConsolidatedLocaleMap
-  }
-}
-
-interface CommandActionData {
-
-}
 
 /**
  * Input data for commands
  * @template T The type of command
  */
-interface CommandData<T extends ApplicationCommandTypes> { // todo: guide system
+export interface CommandData<T extends Oceanic.ApplicationCommandTypes> { // todo: guide system
   /** The type of the command and the way it's called */
   type: T,
   /** The name of the command */
   name: string,
   /** A description of the command */
-  description: CommandData<T>['type'] extends ApplicationCommandTypes.CHAT_INPUT ? string : '',
+  description: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? string : '',
   /** The arguments for the command */
-  args: CommandData<T>['type'] extends ApplicationCommandTypes.CHAT_INPUT ? Argument[] : [],
+  args: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Argument[] : [],
   /** The command's subcommands */
-  subcommands: CommandData<T>['type'] extends ApplicationCommandTypes.CHAT_INPUT ? Command<T>[] : [],
+  subcommands: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Command<T>[] : [],
   /** Miscellaneous command options */
   options?: {
     /**
@@ -74,22 +44,22 @@ interface CommandData<T extends ApplicationCommandTypes> { // todo: guide system
     restricted?: boolean
   },
   /** The command's execution action */
-  action: (data: CommandActionData) => void|string|object
+  action: <E extends keyof Oceanic.ClientEvents>(req: RequestEntity<E>, res: ResponseEntity) => void | string | object
 }
 
 /**
  * An effect for the Discord interaction Commands API
  * @template T The type of command
 */
-class Command<T extends ApplicationCommandTypes> extends Effect.Base implements Required<CommandData<T>> {
+export class Command<T extends Oceanic.ApplicationCommandTypes> extends Effect.Base implements Required<CommandData<T>> {
   /** The identifer of this effect */
   _identifier: string
   /** The events that trigger this effect */
-  _triggerEvents: Array<keyof ClientEvents> = ['interactionCreate']
+  _triggerEvents: Array<keyof Oceanic.ClientEvents> = ['interactionCreate']
   /** Name locales formatted for ease of command creation */
-  _nameLocalizations: LocaleMap = {}
+  _nameLocalizations: Oceanic.LocaleMap = {}
   /** Description locales formatted for ease of command creation */
-  _descriptionLocalizations: LocaleMap = {}
+  _descriptionLocalizations: Oceanic.LocaleMap = {}
 
   /** The type of the command and the way it's called */
   type: T
@@ -118,11 +88,12 @@ class Command<T extends ApplicationCommandTypes> extends Effect.Base implements 
    * @param   arg The argument
    * @returns     The formatted argument
    */
-  static compileArgument (arg: Argument): ApplicationCommandOptionsWithValue {
+  static compileArgument (arg: Argument): Oceanic.ApplicationCommandOptionsWithValue {
     const {
       type,
       name,
       description,
+      required = false,
       options: {
         locales = {}
       } = {}
@@ -137,6 +108,7 @@ class Command<T extends ApplicationCommandTypes> extends Effect.Base implements 
       type,
       name,
       description,
+      required,
       nameLocalizations,
       descriptionLocalizations
     }
@@ -148,14 +120,14 @@ class Command<T extends ApplicationCommandTypes> extends Effect.Base implements 
    * @returns         Formatted locales
    */
   static compileLocales (locales: ConsolidatedLocaleMap) {
-    const nameLocalizations: LocaleMap = {}
-    const descriptionLocalizations: LocaleMap = {}
+    const nameLocalizations: Oceanic.LocaleMap = {}
+    const descriptionLocalizations: Oceanic.LocaleMap = {}
 
     for (const locale in locales) {
-      const localeData = locales[locale as Locale]! // eslint-disable-line @typescript-eslint/no-non-null-assertion
+      const localeData = locales[locale as Oceanic.Locale]! // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
-      if ('name' in localeData) nameLocalizations[locale as Locale] = localeData.name
-      if ('description' in localeData) descriptionLocalizations[locale as Locale] = localeData.description
+      if ('name' in localeData) nameLocalizations[locale as Oceanic.Locale] = localeData.name
+      if ('description' in localeData) descriptionLocalizations[locale as Oceanic.Locale] = localeData.description
     }
 
     return {
@@ -164,12 +136,12 @@ class Command<T extends ApplicationCommandTypes> extends Effect.Base implements 
     }
   }
 
-  static authToPermission (level: AuthLevel|number): number|null {
+  static authToPermission (level: AuthLevel | number): number | null {
     if (typeof level === 'number') return level
 
     switch (level) {
-      case 'member': return null
-      case 'admin': case 'owner': return 1 << 3
+      case AuthLevel.MEMBER: return null
+      case AuthLevel.ADMIN: case AuthLevel.OWNER: return 1 << 3
       default: return null
     }
   }
@@ -188,7 +160,7 @@ class Command<T extends ApplicationCommandTypes> extends Effect.Base implements 
       subcommands = [] as CommandData<T>['subcommands'],
       args = [],
       options: {
-        clearance = 'member',
+        clearance = AuthLevel.MEMBER,
         nsfw = false,
         guildOnly = false,
         locales = {}
@@ -221,7 +193,7 @@ class Command<T extends ApplicationCommandTypes> extends Effect.Base implements 
   }
 
   /** Compile the command into a static object for registration */
-  compile (): CreateApplicationCommandOptions {
+  compile (): Oceanic.CreateApplicationCommandOptions {
     return {
       type: this.type,
       name: this.name,
@@ -232,8 +204,8 @@ class Command<T extends ApplicationCommandTypes> extends Effect.Base implements 
 
           return {
             ...compiled,
-            type: c.subcommands.length ? ApplicationCommandOptionTypes.SUB_COMMAND_GROUP : ApplicationCommandOptionTypes.SUB_COMMAND
-          } as ApplicationCommandOptions
+            type: c.subcommands.length ? Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND_GROUP : Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND
+          } as Oceanic.ApplicationCommandOptions
         })
         .concat(this.args.map((a) => Command.compileArgument(a))),
       defaultMemberPermissions: Command.authToPermission(this.options.clearance)?.toString?.(),
@@ -245,17 +217,5 @@ class Command<T extends ApplicationCommandTypes> extends Effect.Base implements 
   }
 
   /** The command's execution action */
-  action: (data: CommandActionData) => void
-}
-
-export default Command
-
-export {
-  Argument,
-  ArgumentType,
-  Command,
-  CommandData,
-  ConsolidatedLocaleMap,
-  ApplicationCommandTypes as CommandType,
-  CommandActionData
+  action: <E extends keyof Oceanic.ClientEvents>(req: RequestEntity<E>, res: ResponseEntity) => void | string | object
 }

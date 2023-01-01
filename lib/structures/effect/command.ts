@@ -8,24 +8,28 @@ import { ResponseEntity } from 'structures/response'
 import {
   Argument,
   AuthLevel,
-  ConsolidatedLocaleMap
+  ConsolidatedLocaleMap,
+  RequiredExcept
 } from 'types'
+
+import { EffectEventGroup } from 'modules'
 
 /**
  * Input data for commands
- * @template T The type of command
+ * @namespace Effect
+ * @template  T      The type of command
  */
 export interface CommandData<T extends Oceanic.ApplicationCommandTypes> { // todo: guide system
   /** The type of the command and the way it's called */
-  type: T,
+  type: T
   /** The name of the command */
-  name: string,
+  name: string
   /** A description of the command */
-  description: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? string : '',
+  description: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? string : ''
   /** The arguments for the command */
-  args: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Argument[] : [],
+  args: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Argument[] : []
   /** The command's subcommands */
-  subcommands: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Command<T>[] : [],
+  subcommands: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Command<T>[] : []
   /** Miscellaneous command options */
   options?: {
     /**
@@ -35,27 +39,27 @@ export interface CommandData<T extends Oceanic.ApplicationCommandTypes> { // tod
      */
     clearance?: AuthLevel | number
     /** Is this command NSFW? */
-    nsfw?: boolean,
+    nsfw?: boolean
     /** Can this command only be used in guilds? */
-    guildOnly?: boolean,
+    guildOnly?: boolean
     /** Locales for the command */
     locales?: ConsolidatedLocaleMap
     /** Can this command only be used by the bot owner? */
     restricted?: boolean
-  },
+  }
   /** The command's execution action */
-  action: <E extends keyof Oceanic.ClientEvents>(req: RequestEntity<E>, res: ResponseEntity) => void | string | object
+  action?: <E extends keyof Oceanic.ClientEvents>(req: RequestEntity<E>, res: ResponseEntity) => void | string | object
 }
 
 /**
  * An effect for the Discord interaction Commands API
  * @template T The type of command
 */
-export class Command<T extends Oceanic.ApplicationCommandTypes> extends Effect.Base implements Required<CommandData<T>> {
+export class Command<T extends Oceanic.ApplicationCommandTypes> extends Effect.Base implements RequiredExcept<CommandData<T>, 'action'> {
   /** The identifer of this effect */
   _identifier: string
   /** The events that trigger this effect */
-  _triggerEvents: Array<keyof Oceanic.ClientEvents> = ['interactionCreate']
+  _triggerEvents: Array<keyof Oceanic.ClientEvents & EffectEventGroup.INTERACTION> = ['interactionCreate']
   /** Name locales formatted for ease of command creation */
   _nameLocalizations: Oceanic.LocaleMap = {}
   /** Description locales formatted for ease of command creation */
@@ -217,5 +221,5 @@ export class Command<T extends Oceanic.ApplicationCommandTypes> extends Effect.B
   }
 
   /** The command's execution action */
-  action: <E extends keyof Oceanic.ClientEvents>(req: RequestEntity<E>, res: ResponseEntity) => void | string | object
+  action?: <E extends keyof Oceanic.ClientEvents>(req: RequestEntity<E>, res: ResponseEntity) => void | string | object
 }

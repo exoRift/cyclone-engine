@@ -9,7 +9,7 @@ import { Effect } from 'structures'
 /** Additional options */
 export interface CycloneOptions {
   /** Dump extra information about errors before the process closes */
-  debug?: boolean,
+  debug?: boolean
   /** Clear guild-specific commands when disconnect is called */
   clearGuildCommandsOnDisconnect?: boolean
 }

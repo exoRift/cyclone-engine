@@ -112,17 +112,43 @@ export class EffectHandler {
         if (effect) { // todo: check for owner clearance
           command.defer()
 
-          const req = new RequestEntity({ // todo: parse args and call proper subcommand
-            agent: this.agent,
+          const req = new RequestEntity({ // todo: call proper subcommand
             handler: this,
             effect,
-            raw: data
+            raw: data,
+            channel: command.channel,
+            user: command.user,
+            member: command.member
           })
+
+          this.callSubcommandActions(req, command.data.options.raw)
         }
 
         break
       }
       default: break
     }
+  }
+
+  callSubcommandActions<E extends keyof Oceanic.ClientEvents> (req: RequestEntity<E>, args: Oceanic.InteractionOptions[]): void {
+    for (const arg of args) {
+      switch (arg.type) {
+        case Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND_GROUP:
+          if (arg.options) this.callSubcommandActions(req, arg.options)
+
+          break
+        case Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND:
+          this.callAction(req)
+
+          break
+        default: break
+      }
+    }
+  }
+
+  callAction<E extends keyof Oceanic.ClientEvents> (req: RequestEntity<E>): void { // todo: permission check in req
+    const res = new ResponseEntity() // todo
+
+    req.effect.action?.(req, res)
   }
 }

@@ -5,9 +5,9 @@ import { CommandData } from 'structures'
 /** A command argument */
 export interface Argument extends Omit<CommandData<Oceanic.ApplicationCommandTypes.CHAT_INPUT>, 'type' | 'args' | 'subcommands' | 'options' | 'action'> {
   /** The argument type */
-  type: ArgumentType,
+  type: ArgumentType
   /** Is this argument required? */
-  required?: boolean,
+  required?: boolean
   /** Argument options */
   options?: {
     /** Locales for the argument */
@@ -22,7 +22,7 @@ export type ArgumentType = Exclude<
 >
 
 /** Power levels for permissions */
-export enum AuthLevel {
+export const enum AuthLevel {
   MEMBER = 'member',
   ADMIN = 'admin',
   OWNER = 'owner'
@@ -38,6 +38,10 @@ export type ConsolidatedLocaleMap = Partial<Record<Oceanic.Locale, {
 
 /** Parameters of a command guide */
 export interface GuideOptions {
-  color?: number, /** The color of the guide sidebar (Tip: use 0x hex evaluation to use hex colors) */
-  fields?: object[] /** The display fields of the menu */
+  /** The color of the guide sidebar (Tip: use 0x hex evaluation to use hex colors) */
+  color?: number
+  /** The display fields of the menu */
+  fields?: object[]
 }
+
+export type RequiredExcept<T, U extends keyof T> = Required<Omit<T, U>> & Pick<T, U>

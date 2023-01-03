@@ -1,6 +1,11 @@
 import * as Oceanic from 'oceanic.js'
 
-import { Effect } from './'
+import { EffectHandler } from 'modules'
+
+import {
+  Effect,
+  Trigger
+} from './'
 
 import { RequestEntity } from 'structures/request'
 import { ResponseEntity } from 'structures/response'
@@ -11,8 +16,6 @@ import {
   ConsolidatedLocaleMap,
   RequiredExcept
 } from 'types'
-
-import { EffectEventGroup } from 'modules'
 
 /**
  * Input data for commands
@@ -48,18 +51,22 @@ export interface CommandData<T extends Oceanic.ApplicationCommandTypes> { // tod
     restricted?: boolean
   }
   /** The command's execution action */
-  action?: <E extends keyof Oceanic.ClientEvents>(req: RequestEntity<E>, res: ResponseEntity) => void | string | object
+  action?: (req: RequestEntity<'interaction'>, res: ResponseEntity<'interaction'>) => string | void
 }
 
 /**
  * An effect for the Discord interaction Commands API
  * @template T The type of command
 */
-export class Command<T extends Oceanic.ApplicationCommandTypes> extends Effect.Base implements RequiredExcept<CommandData<T>, 'action'> {
+export class Command<T extends Oceanic.ApplicationCommandTypes> extends Effect.Base<'interaction'> implements RequiredExcept<CommandData<T>, 'action'> {
+  /** The events that trigger this effect */
+  readonly _trigger: Trigger<'interaction'> = {
+    group: 'interaction',
+    events: ['interactionCreate']
+  }
+
   /** The identifer of this effect */
   _identifier: string
-  /** The events that trigger this effect */
-  _triggerEvents: Array<keyof Oceanic.ClientEvents & EffectEventGroup.INTERACTION> = ['interactionCreate']
   /** Name locales formatted for ease of command creation */
   _nameLocalizations: Oceanic.LocaleMap = {}
   /** Description locales formatted for ease of command creation */
@@ -220,6 +227,11 @@ export class Command<T extends Oceanic.ApplicationCommandTypes> extends Effect.B
     }
   }
 
+  /** Upon being registered into the effect handler, register the command into the API */
+  async registrationHook (handler: EffectHandler): Promise<void> {
+    return handler.agent.client.application.createGlobalCommand(this.compile()).then()
+  }
+
   /** The command's execution action */
-  action?: <E extends keyof Oceanic.ClientEvents>(req: RequestEntity<E>, res: ResponseEntity) => void | string | object
+  action?: (req: RequestEntity<'interaction'>, res: ResponseEntity<'interaction'>) => string | void
 }

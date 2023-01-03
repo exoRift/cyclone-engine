@@ -8,12 +8,10 @@ import {
   ResponseEntity
 } from 'structures/'
 
-/** Event sets for types of handling */
-export declare namespace EffectEventGroup {
-  export type INTERACTION = keyof Oceanic.ClientEvents & ('interactionCreate')
-  export type MESSAGE = keyof Oceanic.ClientEvents & ('messageCreate' | 'messageUpdate' | 'messageDelete')
-  export type REACTION = keyof Oceanic.ClientEvents & ('messageReactionAdd' | 'messageReactionRemove')
-}
+import {
+  EffectEventGroup,
+  ExclusivePairWithIndex
+} from 'types'
 
 /** A handler to recognize and process interactions and events */
 export class EffectHandler {
@@ -81,56 +79,62 @@ export class EffectHandler {
    * @param          effect The effect
    * @throws {Error}
    */
-  register<E extends Effect.Base> (effect: E): Promise<void> {
-    for (const event of effect._triggerEvents) {
+  register (effect: Effect.Base): Promise<void> {
+    for (const event of effect._trigger.events) {
       if (!(event in this._registry)) {
         this.agent.report('log', 'register', `Listening for '${event}'`)
 
-        this._registry[event] = new Map<string, E>()
+        this._registry[event] = new Map<string, Effect.Base>()
 
-        switch (event) {
-          case 'interactionCreate':
-            this.agent.client.on(event, (...data) => this.handleInteraction(event, data))
-
-            break
-        }
+        this.agent.client.on(event, (...data) =>
+          this.handle(...[effect._trigger.group, event, data] as ExclusivePairWithIndex<EffectEventGroup, Oceanic.ClientEvents>)
+        )
       } else if (this._registry[event]!.has(effect._identifier)) throw Error('effect already registered') // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
       this._registry[event]!.set(effect._identifier, effect) // eslint-disable-line @typescript-eslint/no-non-null-assertion
     }
 
-    return effect instanceof Effect.Command ? this.agent.client.application.createGlobalCommand(effect.compile()).then() : Promise.resolve()
+    return effect?.registrationHook?.(this) ?? Promise.resolve()
   }
 
-  handleInteraction (event: EffectEventGroup.INTERACTION, data: Oceanic.ClientEvents[EffectEventGroup.INTERACTION]): void {
-    const [command] = data
+  handle (...[group, event, data]: ExclusivePairWithIndex<EffectEventGroup, Oceanic.ClientEvents>): void {
+    switch (group) {
+      case 'interaction': {
+        const [command] = data
 
-    switch (command.type) {
-      case Oceanic.InteractionTypes.APPLICATION_COMMAND: {
-        const effect = this._registry[event]?.get?.(command.data.name)
+        switch (command.type) {
+          case Oceanic.InteractionTypes.APPLICATION_COMMAND: {
+            const effect = this._registry[event]?.get?.(command.data.name)
 
-        if (effect) { // todo: check for owner clearance
-          command.defer()
+            if (effect) {
+              command.defer()
 
-          const req = new RequestEntity({ // todo: call proper subcommand
-            handler: this,
-            effect,
-            raw: data,
-            channel: command.channel,
-            user: command.user,
-            member: command.member
-          })
+              const req = new RequestEntity<'interaction'>({ // todo: event, clearance
+                handler: this,
+                effect,
+                raw: data,
+                channel: command.channel,
+                user: command.user,
+                member: command.member
+              })
 
-          this.callSubcommandActions(req, command.data.options.raw)
+              this.callSubcommandActions(req, command.data.options.raw)
+            }
+
+            break
+          }
+
+          default: break
         }
 
         break
       }
-      default: break
     }
+
+    // todo: call action
   }
 
-  callSubcommandActions<E extends keyof Oceanic.ClientEvents> (req: RequestEntity<E>, args: Oceanic.InteractionOptions[]): void {
+  callSubcommandActions<E extends keyof EffectEventGroup> (req: RequestEntity<E>, args: Oceanic.InteractionOptions[]): void {
     for (const arg of args) {
       switch (arg.type) {
         case Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND_GROUP:
@@ -146,9 +150,11 @@ export class EffectHandler {
     }
   }
 
-  callAction<E extends keyof Oceanic.ClientEvents> (req: RequestEntity<E>): void { // todo: permission check in req
-    const res = new ResponseEntity() // todo
+  async callAction<E extends keyof EffectEventGroup> (req: RequestEntity<E>): Promise<void> { // todo: permission check in req
+    const res = new ResponseEntity<E>(req) // todo: check for owner clearance
 
-    req.effect.action?.(req, res)
+    const log = await req.effect.action?.(req, res)
+
+    if (log) this.agent.report('log', req.effect._identifier, log)
   }
 }

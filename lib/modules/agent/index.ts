@@ -2,7 +2,7 @@ import * as Oceanic from 'oceanic.js'
 import fs from 'fs/promises'
 import chalk, { ChalkInstance } from 'chalk'
 
-import { EffectHandler } from 'modules/handler/'
+import { EffectHandler } from 'modules/handler'
 
 import { Effect } from 'structures'
 

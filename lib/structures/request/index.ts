@@ -7,6 +7,8 @@ import {
 
 import { Effect } from 'structures/effect'
 
+import { EffectEventGroup } from 'types'
+
 /**
  * An object keyed by arguments containing their respective values
  * @example Subcommands are Argset objects themselves containing their own arguments
@@ -16,13 +18,13 @@ export interface ReducedArgset {
 }
 
 /** The data supplied to RequestEntities */
-export interface RequestData<E extends keyof Oceanic.ClientEvents> {
+export interface RequestData<E extends keyof EffectEventGroup = keyof EffectEventGroup> {
   /** The effect handler */
   handler: EffectHandler
   /** The effect being invoked by this call */
   effect: Effect.Base
   /** The raw event data */
-  raw: Oceanic.ClientEvents[E]
+  raw: Oceanic.ClientEvents[EffectEventGroup[E]]
   /** The channel the request was called in */
   channel?: Oceanic.AnyChannel
   /** The caller */
@@ -32,7 +34,7 @@ export interface RequestData<E extends keyof Oceanic.ClientEvents> {
 }
 
 /** A structured effect request */
-export class RequestEntity<E extends keyof Oceanic.ClientEvents> implements RequestData<E> {
+export class RequestEntity<E extends keyof EffectEventGroup = keyof EffectEventGroup> implements RequestData<E> {
   /** The Oceanic agent */
   agent: Agent
   /** The effect handler */
@@ -42,7 +44,7 @@ export class RequestEntity<E extends keyof Oceanic.ClientEvents> implements Requ
   /** The effect being invoked by this call */
   effect: Effect.Base
   /** The raw event data */
-  raw: Oceanic.ClientEvents[E]
+  raw: Oceanic.ClientEvents[EffectEventGroup[E]]
   /** The arguments supplied to the call */
   args: ReducedArgset = {}
   /** The channel the request was called in */

@@ -6,7 +6,10 @@ import { EffectEventGroup } from 'types'
 
 // todo: message (content, embed, file {channel, deleteAfter}), followup {expires after}, react, buttons
 
-/** A structured method to respond to effect calls */
+/**
+ * A structured method to respond to effect calls
+ * @template E The event group that will utilize this response entity
+ */
 export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEventGroup> {
   /** The corresponding request entity to this response */
   request: RequestEntity<E>

@@ -10,15 +10,24 @@ import {
 
 import {
   EffectEventGroup,
-  ExclusivePairWithIndex
+  ExclusivePairWithIndex,
+  UnionToIntersection
 } from 'types'
+
+type IntermediaryEventRegistryRecord = {
+  [K in keyof EffectEventGroup]: {
+    [key in EffectEventGroup[K]]?: Map<string, Effect.Base<K>>
+  }
+}
+
+export type EventRegistryRecord = UnionToIntersection<IntermediaryEventRegistryRecord[keyof IntermediaryEventRegistryRecord]>
 
 /** A handler to recognize and process interactions and events */
 export class EffectHandler {
   /** The promise of the command fetch */
   private _apiRegisteredCommands: Promise<Map<string, Oceanic.AnyApplicationCommand>>
   /** The registered effects */
-  private _registry: Partial<Record<keyof Oceanic.ClientEvents, Map<string, Effect.Base>>> = {}
+  private _registry: EventRegistryRecord & Partial<Record<keyof Oceanic.ClientEvents, Map<string, Effect.Base>>> = {}
 
   /** The parent agent */
   agent: Agent
@@ -84,7 +93,7 @@ export class EffectHandler {
       if (!(event in this._registry)) {
         this.agent.report('log', 'register', `Listening for '${event}'`)
 
-        this._registry[event] = new Map<string, Effect.Base>()
+        this._registry[event] = new Map() // Map type resolved based on event
 
         this.agent.client.on(event, (...data) =>
           this.handle(...[effect._trigger.group, event, data] as ExclusivePairWithIndex<EffectEventGroup, Oceanic.ClientEvents>)
@@ -97,7 +106,13 @@ export class EffectHandler {
     return effect?.registrationHook?.(this) ?? Promise.resolve()
   }
 
+  /**
+   * Handle an effect-triggering event
+   * @param param0 An array containing the event group, event, and event data
+   */
   handle (...[group, event, data]: ExclusivePairWithIndex<EffectEventGroup, Oceanic.ClientEvents>): void {
+    let req // Resolved to a RequestEntity type later
+
     switch (group) {
       case 'interaction': {
         const [command] = data
@@ -109,40 +124,56 @@ export class EffectHandler {
             if (effect) {
               command.defer()
 
-              const req = new RequestEntity<'interaction'>({ // todo: event, clearance
+              req = new RequestEntity<'interaction'>({ // todo: event, clearance
                 handler: this,
                 effect,
+                event,
                 raw: data,
                 channel: command.channel,
                 user: command.user,
                 member: command.member
               })
+            } else return
 
-              this.callSubcommandActions(req, command.data.options.raw)
-            }
+            req.digestInteractionArguments(command.data.options.raw)
+
+            if (effect instanceof Effect.Command) this.callSubcommandActions(req as RequestEntity<'interaction'>, effect, command.data.options.raw)
 
             break
           }
 
-          default: break
+          default: return
         }
 
         break
       }
+
+      default: return
     }
 
-    // todo: call action
+    this.callAction(req.effect, req)
   }
 
-  callSubcommandActions<E extends keyof EffectEventGroup> (req: RequestEntity<E>, args: Oceanic.InteractionOptions[]): void {
+  /**
+   * Call the subcommands of a triggered effect
+   * @param req    The request entity
+   * @param effect The effect
+   * @param args   The interaction options
+   */
+  callSubcommandActions (req: RequestEntity<'interaction'>, effect: Effect.Command, args: Oceanic.InteractionOptions[]): void {
     for (const arg of args) {
       switch (arg.type) {
-        case Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND_GROUP:
-          if (arg.options) this.callSubcommandActions(req, arg.options)
+        case Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND_GROUP: {
+          if (arg.options) {
+            const subcommand = effect.subcommands.find((c) => c._identifier === arg.name)
+
+            if (subcommand) this.callSubcommandActions(req, subcommand, arg.options)
+          }
 
           break
+        }
         case Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND:
-          this.callAction(req)
+          this.callAction(effect, req)
 
           break
         default: break
@@ -150,11 +181,21 @@ export class EffectHandler {
     }
   }
 
-  async callAction<E extends keyof EffectEventGroup> (req: RequestEntity<E>): Promise<void> { // todo: permission check in req
-    const res = new ResponseEntity<E>(req) // todo: check for owner clearance
+  /**
+   * Call the action of an effect
+   * @template E      The event group responsible for calling this action
+   * @param    effect The effect
+   * @param    req    The request body
+   */
+  async callAction<E extends keyof EffectEventGroup> (effect: Effect.Base<E>, req: RequestEntity<E>): Promise<void> {
+    const res = new ResponseEntity<E>(req)
 
-    const log = await req.effect.action?.(req, res)
+    if (req.authFulfilled) {
+      const log = await effect.action?.(req, res)
 
-    if (log) this.agent.report('log', req.effect._identifier, log)
+      if (log) this.agent.report('log', req.effect._identifier, log)
+    } else {
+      res.message() // todo: write no permission message
+    }
   }
 }

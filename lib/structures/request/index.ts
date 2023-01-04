@@ -17,12 +17,17 @@ export interface ReducedArgset {
   [key: string]: Oceanic.InteractionOptionsWithValue['value'] | ReducedArgset
 }
 
-/** The data supplied to RequestEntities */
+/**
+ * The data supplied to RequestEntities
+ * @template E The event group that will utilize this request entity
+ */
 export interface RequestData<E extends keyof EffectEventGroup = keyof EffectEventGroup> {
   /** The effect handler */
   handler: EffectHandler
   /** The effect being invoked by this call */
-  effect: Effect.Base
+  effect: Effect.Base<E>
+  /** The event that triggered this call */
+  event: EffectEventGroup[E]
   /** The raw event data */
   raw: Oceanic.ClientEvents[EffectEventGroup[E]]
   /** The channel the request was called in */
@@ -33,7 +38,11 @@ export interface RequestData<E extends keyof EffectEventGroup = keyof EffectEven
   member?: Oceanic.Member
 }
 
-/** A structured effect request */
+/**
+ * A structured effect request
+ * @template                    E The event group that will utilize this request entity
+ * @implements {RequestData<E>}
+ */
 export class RequestEntity<E extends keyof EffectEventGroup = keyof EffectEventGroup> implements RequestData<E> {
   /** The Oceanic agent */
   agent: Agent
@@ -42,7 +51,9 @@ export class RequestEntity<E extends keyof EffectEventGroup = keyof EffectEventG
   /** The Oceanic client */
   client: Oceanic.Client
   /** The effect being invoked by this call */
-  effect: Effect.Base
+  effect: Effect.Base<E>
+  /** The event that triggered this call */
+  event: EffectEventGroup[E]
   /** The raw event data */
   raw: Oceanic.ClientEvents[EffectEventGroup[E]]
   /** The arguments supplied to the call */
@@ -62,6 +73,7 @@ export class RequestEntity<E extends keyof EffectEventGroup = keyof EffectEventG
     const {
       handler,
       effect,
+      event,
       raw,
       channel,
       user,
@@ -72,10 +84,17 @@ export class RequestEntity<E extends keyof EffectEventGroup = keyof EffectEventG
     this.handler = handler
     this.client = handler.agent.client
     this.effect = effect
+    this.event = event
     this.raw = raw
     this.channel = channel
     this.user = user
     this.member = member
+  }
+
+  /** Is the effect authorized to be executed by this user? */
+  get authFulfilled (): boolean {
+    if (this.member) return this.effect.fulfillsAuth(this.member)
+    else return false
   }
 
   /** The guild the command was called in */

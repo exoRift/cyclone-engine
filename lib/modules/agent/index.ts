@@ -15,7 +15,6 @@ export interface CycloneOptions {
 }
 
 // todo: organize methods
-// todo: make sure triggered actions include the event name/data
 /**
  * The main controlling agent of the bot
  */
@@ -90,8 +89,8 @@ export class Agent {
 
   /**
    * Register a directory of files that export effects as default
-   * @param   dir            The directory to load
-   * @param   extensionRegex A regex used to select file extensions
+   * @param dir            The directory to load
+   * @param extensionRegex A regex used to select file extensions
    */
   registerEffectsFromDir (dir: string, extensionRegex: RegExp = Agent._defaultExtensionRegex): Promise<void[]> {
     this.report('log', 'register', `Registering effects from '${dir}...'`)
@@ -124,10 +123,11 @@ export class Agent {
 
   /**
    * Report a formatted message to the console
-   * @param protocol The console protocol to use (log, info, warn, error)
-   * @param source   What is emitting this report?
-   * @param message  The message to report
-   * @param metadata Additional data for an error to be dumped at proccess termination in debug mode
+   * @template M        The type of the message
+   * @param    protocol The console protocol to use (log, info, warn, error)
+   * @param    source   What is emitting this report?
+   * @param    message  The message to report
+   * @param    metadata Additional data for an error to be dumped at proccess termination in debug mode
    */
   report<M> (
     protocol: keyof typeof Agent._reporterColors & keyof Console,

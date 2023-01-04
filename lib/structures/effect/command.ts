@@ -14,6 +14,7 @@ import {
   Argument,
   AuthLevel,
   ConsolidatedLocaleMap,
+  Promisable,
   RequiredExcept
 } from 'types'
 
@@ -22,7 +23,7 @@ import {
  * @namespace Effect
  * @template  T      The type of command
  */
-export interface CommandData<T extends Oceanic.ApplicationCommandTypes> { // todo: guide system
+export interface CommandData<T extends Oceanic.ApplicationCommandTypes = Oceanic.ApplicationCommandTypes> { // todo: guide system
   /** The type of the command and the way it's called */
   type: T
   /** The name of the command */
@@ -51,14 +52,17 @@ export interface CommandData<T extends Oceanic.ApplicationCommandTypes> { // tod
     restricted?: boolean
   }
   /** The command's execution action */
-  action?: (req: RequestEntity<'interaction'>, res: ResponseEntity<'interaction'>) => string | void
+  action?: (req: RequestEntity<'interaction'>, res: ResponseEntity<'interaction'>) => Promisable<string | void>
 }
 
 /**
  * An effect for the Discord interaction Commands API
- * @template T The type of command
+ * @template                    T The type of command
+ * @implements {CommandData<T>}
 */
-export class Command<T extends Oceanic.ApplicationCommandTypes> extends Effect.Base<'interaction'> implements RequiredExcept<CommandData<T>, 'action'> {
+export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.ApplicationCommandTypes>
+  extends Effect.Base<'interaction'>
+  implements RequiredExcept<CommandData<T>, 'action'> {
   /** The events that trigger this effect */
   readonly _trigger: Trigger<'interaction'> = {
     group: 'interaction',
@@ -87,9 +91,9 @@ export class Command<T extends Oceanic.ApplicationCommandTypes> extends Effect.B
     /** The authorization level required to use this command */
     clearance: AuthLevel | number
     /** Is this command NSFW? */
-    nsfw: boolean,
+    nsfw: boolean
     /** Can this command only be used in guilds? */
-    guildOnly: boolean,
+    guildOnly: boolean
     /** Locales for the command */
     locales: ConsolidatedLocaleMap
   }
@@ -144,16 +148,6 @@ export class Command<T extends Oceanic.ApplicationCommandTypes> extends Effect.B
     return {
       nameLocalizations,
       descriptionLocalizations
-    }
-  }
-
-  static authToPermission (level: AuthLevel | number): number | null {
-    if (typeof level === 'number') return level
-
-    switch (level) {
-      case AuthLevel.MEMBER: return null
-      case AuthLevel.ADMIN: case AuthLevel.OWNER: return 1 << 3
-      default: return null
     }
   }
 
@@ -227,11 +221,19 @@ export class Command<T extends Oceanic.ApplicationCommandTypes> extends Effect.B
     }
   }
 
-  /** Upon being registered into the effect handler, register the command into the API */
+  /**
+   * Upon being registered into the effect handler, register the command into the API
+   * @param handler The effect handler
+   */
   async registrationHook (handler: EffectHandler): Promise<void> {
     return handler.agent.client.application.createGlobalCommand(this.compile()).then()
   }
 
-  /** The command's execution action */
-  action?: (req: RequestEntity<'interaction'>, res: ResponseEntity<'interaction'>) => string | void
+  /**
+   * The command's execution action
+   * @param   req The request entity
+   * @param   res The response entity
+   * @returns     Nothing or a string to log from the agent
+   */
+  action?: (req: RequestEntity<'interaction'>, res: ResponseEntity<'interaction'>) => Promisable<string | void>
 }

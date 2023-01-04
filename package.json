@@ -6,9 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc -w",
     "test": "node ./ && nyc --reporter lcov ava --verbose **/*.test.js",
-    "lint": "eslint ./"
+    "lint": "eslint ./ && tsc --noEmit"
   },
   "nyc": {
     "exclude": [

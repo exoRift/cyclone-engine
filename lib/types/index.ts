@@ -69,7 +69,7 @@ export interface GuideOptions {
 }
 
 /** A value that can be a promise nor not */
-export type Promisable<T> = Promise<T> | T
+export type Promisable<T> = PromiseLike<T> | T
 
 /**
  * Require all fields except ...

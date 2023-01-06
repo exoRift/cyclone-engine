@@ -1,6 +1,6 @@
 import * as Oceanic from 'oceanic.js'
 import fs from 'fs/promises'
-import chalk, { ChalkInstance } from 'chalk'
+import chalk from 'chalk'
 
 import { EffectHandler } from 'modules/handler'
 
@@ -23,11 +23,11 @@ export class Agent {
   private static readonly _defaultExtensionRegex = /\.[cm]?js$/
   /** Background colors for reports depending on protocol */
   private static readonly _reporterColors = {
-    log: 'bgCyan' as keyof ChalkInstance,
-    info: 'bgGreen' as keyof ChalkInstance,
-    warn: 'bgYellow' as keyof ChalkInstance,
-    error: 'bgRed' as keyof ChalkInstance
-  }
+    log: 'bgCyan',
+    info: 'bgGreen',
+    warn: 'bgYellow',
+    error: 'bgRed'
+  } as const
 
   /** Backlogged errors to be logged when the application closes (courtesy of debug mode) */
   private _backloggedErrors: object[] = []
@@ -93,7 +93,7 @@ export class Agent {
    * @param extensionRegex A regex used to select file extensions
    */
   registerEffectsFromDir (dir: string, extensionRegex: RegExp = Agent._defaultExtensionRegex): Promise<void[]> {
-    this.report('log', 'register', `Registering effects from '${dir}...'`)
+    this.report('log', 'register', `Registering effects from '${dir}'...`)
 
     return fs.readdir(dir)
       .then((files) => Promise.all(files
@@ -115,7 +115,7 @@ export class Agent {
 
   /** Listen for core events from Oceanic */
   private _bindCoreEvents (): void {
-    this.client.on('error', (e) => this.report('error', 'oceanic', e))
+    this.client.on('error', (err) => this.report('error', 'oceanic', err))
 
     this.client.on('shardReady', (id) => this.report('info', 'oceanic', `Shard ${id} connected`))
     this.client.on('shardDisconnect', (id) => this.report('warn', 'oceanic', `Shard ${id} disconnected`))
@@ -135,7 +135,7 @@ export class Agent {
     message: M,
     metadata?: object
   ): void {
-    const bangBack = chalk[Agent._reporterColors[protocol]] as ChalkInstance
+    const bangBack = chalk[Agent._reporterColors[protocol]]
     const bangTag = chalk.bold.bgBlue.white('Cyclone')
     const bangSource: string = bangBack.white(source)
     const bangFlag = bangBack.bold.white('>')
@@ -162,10 +162,10 @@ export class Agent {
           this.initialized = true
         }
       })
-      .catch((e) => {
-        this.report('error', 'connect', e)
+      .catch((err) => {
+        this.report('error', 'connect', err)
 
-        throw e
+        throw err
       })
   }
 

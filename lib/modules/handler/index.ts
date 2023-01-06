@@ -57,8 +57,8 @@ export class EffectHandler {
 
         return map
       })
-      .catch((e) => {
-        this.agent.report('error', 'effect handler', e)
+      .catch((err) => {
+        this.agent.report('error', 'effect handler', err)
 
         return new Map<string, Oceanic.AnyApplicationCommand>()
       })
@@ -76,7 +76,7 @@ export class EffectHandler {
         for (const command of commands) {
           this.agent.report('warn', 'prune', `Command '${command[0]}' not registered locally. Purging from application registry...`)
 
-          if (!this._registry.interactionCreate?.has?.(command[0])) promises.push(this.agent.client.application.deleteGlobalCommand(command[1].id))
+          if (!this._registry.interactionCreate?.has(command[0])) promises.push(this.agent.client.application.deleteGlobalCommand(command[1].id))
         }
 
         return Promise.all(promises).then(() => promises.length)
@@ -103,7 +103,7 @@ export class EffectHandler {
       this._registry[event]!.set(effect._identifier, effect) // eslint-disable-line @typescript-eslint/no-non-null-assertion
     }
 
-    return effect?.registrationHook?.(this) ?? Promise.resolve()
+    return effect.registrationHook?.(this) ?? Promise.resolve()
   }
 
   /**
@@ -119,12 +119,12 @@ export class EffectHandler {
 
         switch (command.type) {
           case Oceanic.InteractionTypes.APPLICATION_COMMAND: {
-            const effect = this._registry[event]?.get?.(command.data.name)
+            const effect = this._registry[event]?.get(command.data.name)
 
             if (effect) {
               command.defer()
 
-              req = new RequestEntity<'interaction'>({ // todo: event, clearance
+              req = new RequestEntity<'interaction'>({
                 handler: this,
                 effect,
                 event,
@@ -195,7 +195,17 @@ export class EffectHandler {
 
       if (log) this.agent.report('log', req.effect._identifier, log)
     } else {
-      res.message() // todo: write no permission message
+      res.message({
+        content: 'You lack the permissions to use this command!',
+        options: {
+          flags: 1 << 6
+        } // todo: test reference for slash command
+      })
     }
+
+    res
+      .catch((err) => this.agent.report('error', 'handle', `The '${req.effect._identifier}' effect encountered an error: ${err.message}`, {
+        err
+      })) // todo: input call information
   }
 }

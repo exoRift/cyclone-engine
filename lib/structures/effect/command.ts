@@ -3,9 +3,9 @@ import * as Oceanic from 'oceanic.js'
 import { EffectHandler } from 'modules'
 
 import {
-  Effect,
+  Base,
   Trigger
-} from './'
+} from './base'
 
 import { RequestEntity } from 'structures/request'
 import { ResponseEntity } from 'structures/response'
@@ -57,11 +57,12 @@ export interface CommandData<T extends Oceanic.ApplicationCommandTypes = Oceanic
 
 /**
  * An effect for the Discord interaction Commands API
- * @template                    T The type of command
+ * @namespace                   Effect
+ * @template                    T      The type of command
  * @implements {CommandData<T>}
 */
 export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.ApplicationCommandTypes>
-  extends Effect.Base<'interaction'>
+  extends Base<'interaction'>
   implements RequiredExcept<CommandData<T>, 'action'> {
   /** The events that trigger this effect */
   readonly _trigger: Trigger<'interaction'> = {
@@ -213,7 +214,7 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
           } as Oceanic.ApplicationCommandOptions
         })
         .concat(this.args.map((a) => Command.compileArgument(a))),
-      defaultMemberPermissions: Command.authToPermission(this.options.clearance)?.toString?.(),
+      defaultMemberPermissions: Command.authToPermission(this.options.clearance)?.toString(),
       dmPermission: !this.options.guildOnly,
       nsfw: this.options.nsfw,
       nameLocalizations: this._nameLocalizations,

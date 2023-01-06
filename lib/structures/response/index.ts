@@ -16,12 +16,14 @@ import {
  * A structured method to respond to effect calls
  * @template E The event group that will utilize this response entity
  */
-export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEventGroup> {
+export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEventGroup> implements PromiseLike<ResponseEntity<E>> {
   /** The ID of the last channel this response was active in */
   private _lastChannel?: Oceanic.TextChannel
   /** The ID of the last message this response was active on */
   private _lastMessage?: Oceanic.Message
+  /** A list of operations to be called on execution */
   private _operations: Operation.Base<object, keyof Origins>[] = []
+  /** If this response is mid-execution, the execution promise */
   private _executionPromise?: Promise<this>
 
   /** The corresponding request entity to this response */
@@ -38,6 +40,11 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
     this._lastMessage = originMessage
   }
 
+  /**
+   * Send a response message in the last relevant channel
+   * @param   data The message data
+   * @returns      The response entity for chaining
+   */
   message (data: string | MessageOperationData): this {
     delete this._executionPromise
 
@@ -60,6 +67,10 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
     delete this._executionPromise
   }
 
+  /**
+   * Execute all queued operations
+   * @example Use the promise-like events over this one
+   */
   execute (): Promise<this> {
     // NOTE: The errors thrown here are handled by the effect handler's callAction method
     this._executionPromise = this._operations
@@ -93,14 +104,17 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
     return this._executionPromise
   }
 
+  /** Execute operations and await successful outcome */
   get then () {
     return (this._executionPromise ?? this.execute()).then
   }
 
+  /** Execute operations and catch errors */
   get catch () {
     return (this._executionPromise ?? this.execute()).catch
   }
 
+  /** Execute operations and await all outcomes */
   get finally () {
     return (this._executionPromise ?? this.execute()).finally
   }

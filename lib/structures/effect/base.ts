@@ -73,8 +73,8 @@ export abstract class Base<E extends keyof EffectEventGroup = keyof EffectEventG
 
   /**
    * Does a member fulfill the clearance requirements for this effect?
-   * @param user The member
-   * @returns    Does the user fulfill the requirements?
+   * @param   user The member
+   * @returns      Does the user fulfill the requirements?
    */
   fulfillsAuth (user: Oceanic.Member): boolean {
     const permission = Base.authToPermission(this.options.clearance)

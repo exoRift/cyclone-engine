@@ -6,6 +6,11 @@ import { EffectHandler } from 'modules/handler'
 
 import { Effect } from 'structures'
 
+interface BackloggedError {
+  message: unknown,
+  metadata: unknown
+}
+
 /** Additional options */
 export interface CycloneOptions {
   /** Dump extra information about errors before the process closes */
@@ -30,7 +35,7 @@ export class Agent {
   } as const
 
   /** Backlogged errors to be logged when the application closes (courtesy of debug mode) */
-  private _backloggedErrors: object[] = []
+  private _backloggedErrors: BackloggedError[] = []
 
   /** The Oceanic client */
   client: Oceanic.Client
@@ -43,8 +48,9 @@ export class Agent {
 
   /**
    * Construct a Cyclone agent
-   * @param   data The bot token or an object containing the token and additional Cyclone options and a passthrough for Oceanic options
-   * @example      For bot applications, be sure to prefix the token with "Bot "
+   * @param           data              The bot token or an object containing the token and additional Cyclone options and a passthrough for Oceanic options
+   * @prop  {Boolean} [data.debug=true]
+   * @example                           For bot applications, be sure to prefix the token with "Bot "
    */
   constructor (data: string | {
     token: string,
@@ -74,7 +80,7 @@ export class Agent {
       clearGuildCommandsOnDisconnect
     }
 
-    if (debug) {
+    if (!debug) {
       process.on('SIGINT', () => this._dumpBacklog())
       process.on('SIGTERM', () => this._dumpBacklog())
     }
@@ -82,9 +88,12 @@ export class Agent {
 
   /** Dump the backlogged error debugging data into the console */
   private _dumpBacklog (): void {
-    this.report('info', 'debug', 'Debug mode was enabled so Cyclone will now dump all backlogged errors')
+    this.report('info', 'debug', 'Debug mode was disabled so Cyclone will now dump all backlogged errors')
 
-    for (const err of this._backloggedErrors) console.error('BACKLOGGED ERROR:', err)
+    for (const err of this._backloggedErrors) {
+      console.error('BACKLOGGED ERROR:', err.message)
+      console.table(err.metadata)
+    }
   }
 
   /**
@@ -123,17 +132,16 @@ export class Agent {
 
   /**
    * Report a formatted message to the console
-   * @template M        The type of the message
    * @param    protocol The console protocol to use (log, info, warn, error)
    * @param    source   What is emitting this report?
    * @param    message  The message to report
    * @param    metadata Additional data for an error to be dumped at proccess termination in debug mode
    */
-  report<M> (
+  report (
     protocol: keyof typeof Agent._reporterColors & keyof Console,
     source: string,
-    message: M,
-    metadata?: object
+    message: unknown,
+    metadata?: unknown
   ): void {
     const bangBack = chalk[Agent._reporterColors[protocol]]
     const bangTag = chalk.bold.bgBlue.white('Cyclone')
@@ -143,10 +151,13 @@ export class Agent {
     console[protocol](`${bangTag} ${bangSource}${bangFlag}`, message)
 
     if (protocol === 'error' && metadata) {
-      this._backloggedErrors.push({
-        err: message,
-        ...metadata
-      })
+      if (this.options.debug) console.table(metadata)
+      else {
+        this._backloggedErrors.push({
+          message,
+          metadata
+        })
+      }
     }
   }
 

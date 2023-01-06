@@ -5,6 +5,7 @@ import {
   Origins
 } from './base'
 
+/** The data to construct a message operation */
 export interface MessageOperationData {
   /** The message content */
   content?: string
@@ -33,12 +34,15 @@ export interface MessageOperationData {
   }
 }
 
+/**
+ * An operation to send a message
+ */
 export class Message extends Base<MessageOperationData, 'channel'> {
   readonly type = 'message'
   readonly requisites: 'channel'[] = ['channel']
 
-  async execute (data: Pick<Origins, 'channel'>): Promise<Partial<Origins>> {
-    return data.channel.createMessage({ // todo: test for permission to send in channel and make sure channel valid
+  async execute (origins: Pick<Origins, 'channel'>): Promise<Partial<Origins>> {
+    return origins.channel.createMessage({ // todo: test for permission to send in channel and make sure channel valid
       content: this.data.content,
       embeds: this.data.embeds,
       files: this.data.files,
@@ -51,7 +55,11 @@ export class Message extends Base<MessageOperationData, 'channel'> {
       flags: this.data.options?.flags,
       tts: this.data.options?.tts
     })
-      .then((msg) => { // todo: deleteAfter
+      .then((msg) => {
+        if (this.data.options?.flags && this.data.options?.deleteAfter && !(this.data.options?.flags & (1 << 6))) { // Is not ephemeral message
+          setTimeout(() => msg.delete(), this.data.options.deleteAfter)
+        }
+
         return {
           channel: msg.channel,
           message: msg

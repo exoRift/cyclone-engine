@@ -205,7 +205,8 @@ export class EffectHandler {
 
     res
       .catch((err) => this.agent.report('error', 'handle', `The '${req.effect._identifier}' effect encountered an error: ${err.message}`, {
-        err
-      })) // todo: input call information
+        error: err,
+        request: req
+      }))
   }
 }

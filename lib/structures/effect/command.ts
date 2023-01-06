@@ -64,13 +64,11 @@ export interface CommandData<T extends Oceanic.ApplicationCommandTypes = Oceanic
 export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.ApplicationCommandTypes>
   extends Base<'interaction'>
   implements RequiredExcept<CommandData<T>, 'action'> {
-  /** The events that trigger this effect */
   readonly _trigger: Trigger<'interaction'> = {
     group: 'interaction',
     events: ['interactionCreate']
   }
 
-  /** The identifer of this effect */
   _identifier: string
   /** Name locales formatted for ease of command creation */
   _nameLocalizations: Oceanic.LocaleMap = {}
@@ -230,11 +228,5 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
     return handler.agent.client.application.createGlobalCommand(this.compile()).then()
   }
 
-  /**
-   * The command's execution action
-   * @param   req The request entity
-   * @param   res The response entity
-   * @returns     Nothing or a string to log from the agent
-   */
   action?: (req: RequestEntity<'interaction'>, res: ResponseEntity<'interaction'>) => Promisable<string | void>
 }

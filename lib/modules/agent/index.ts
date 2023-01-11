@@ -7,7 +7,7 @@ import { EffectHandler } from 'modules/handler'
 import { Effect } from 'structures'
 
 interface BackloggedError {
-  message: unknown,
+  message: unknown
   metadata: unknown
 }
 
@@ -35,7 +35,7 @@ export class Agent {
   } as const
 
   /** Backlogged errors to be logged when the application closes (courtesy of debug mode) */
-  private _backloggedErrors: BackloggedError[] = []
+  private readonly _backloggedErrors: BackloggedError[] = []
 
   /** The Oceanic client */
   client: Oceanic.Client
@@ -53,8 +53,8 @@ export class Agent {
    * @example                           For bot applications, be sure to prefix the token with "Bot "
    */
   constructor (data: string | {
-    token: string,
-    cycloneOptions?: CycloneOptions,
+    token: string
+    cycloneOptions?: CycloneOptions
     oceanicOptions?: Omit<Oceanic.ClientOptions, 'auth'>
   }) {
     const {
@@ -101,7 +101,7 @@ export class Agent {
    * @param dir            The directory to load
    * @param extensionRegex A regex used to select file extensions
    */
-  registerEffectsFromDir (dir: string, extensionRegex: RegExp = Agent._defaultExtensionRegex): Promise<void[]> {
+  registerEffectsFromDir (dir: string, extensionRegex: RegExp = Agent._defaultExtensionRegex): Promise<void> {
     this.report('log', 'register', `Registering effects from '${dir}'...`)
 
     return fs.readdir(dir)
@@ -111,7 +111,8 @@ export class Agent {
           import(f)
             .then((e) => this.registerEffect(e))
         )
-      ))
+      )
+        .then()) // Clear off the array bloat
   }
 
   /**
@@ -127,7 +128,7 @@ export class Agent {
     this.client.on('error', (err) => this.report('error', 'oceanic', err))
 
     this.client.on('shardReady', (id) => this.report('info', 'oceanic', `Shard ${id} connected`))
-    this.client.on('shardDisconnect', (id) => this.report('warn', 'oceanic', `Shard ${id} disconnected`))
+    this.client.on('shardDisconnect', (err, id) => this.report('warn', 'oceanic', `Shard ${id} disconnected`, err))
   }
 
   /**
@@ -182,6 +183,6 @@ export class Agent {
 
   /** Disconnect the Discord bot from the websocket connection */
   disconnect (): void {
-    return this.client.disconnect()
+    this.client.disconnect()
   }
 }

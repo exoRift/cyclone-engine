@@ -18,9 +18,9 @@ import {
 export type Trigger<E extends keyof EffectEventGroup = keyof EffectEventGroup> = {
   [K in keyof EffectEventGroup & E]: {
     /** The event group that triggers this effect type */
-    group: K,
+    group: K
     /** That actual events that will trigger this effect instance */
-    events: EffectEventGroup[K][]
+    events: Array<EffectEventGroup[K]>
   }
 }[keyof EffectEventGroup & E]
 

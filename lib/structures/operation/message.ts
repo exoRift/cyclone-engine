@@ -39,10 +39,10 @@ export interface MessageOperationData {
  */
 export class Message extends Base<MessageOperationData, 'channel'> {
   readonly type = 'message'
-  readonly requisites: 'channel'[] = ['channel']
+  readonly requisites: Array<'channel'> = ['channel']
 
   async execute (origins: Pick<Origins, 'channel'>): Promise<Partial<Origins>> {
-    return origins.channel.createMessage({ // todo: test for permission to send in channel and make sure channel valid
+    return await origins.channel.createMessage({ // todo: test for permission to send in channel and make sure channel valid
       content: this.data.content,
       embeds: this.data.embeds,
       files: this.data.files,
@@ -57,7 +57,7 @@ export class Message extends Base<MessageOperationData, 'channel'> {
     })
       .then((msg) => {
         if (this.data.options?.flags && this.data.options?.deleteAfter && !(this.data.options?.flags & (1 << 6))) { // Is not ephemeral message
-          setTimeout(() => msg.delete(), this.data.options.deleteAfter)
+          setTimeout(() => { void msg.delete() }, this.data.options.deleteAfter)
         }
 
         return {

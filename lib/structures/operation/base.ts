@@ -13,7 +13,7 @@ export abstract class Base<T, R extends keyof Origins> {
   /** The type of operation this is */
   abstract readonly type: string
   /** The origins this operation requires */
-  abstract readonly requisites: Array<R>
+  abstract readonly requisites: R[]
   /** The execution data */
   readonly data: T
 

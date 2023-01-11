@@ -25,7 +25,7 @@ export type EventRegistryRecord = UnionToIntersection<IntermediaryEventRegistryR
 /** A handler to recognize and process interactions and events */
 export class EffectHandler {
   /** The promise of the command fetch */
-  private _apiRegisteredCommands: Promise<Map<string, Oceanic.AnyApplicationCommand>>
+  private readonly _apiRegisteredCommands: Promise<Map<string, Oceanic.AnyApplicationCommand>>
   /** The registered effects */
   private _registry: EventRegistryRecord & Partial<Record<keyof Oceanic.ClientEvents, Map<string, Effect.Base>>> = {}
 
@@ -41,7 +41,7 @@ export class EffectHandler {
 
     this._apiRegisteredCommands = this._fetchRegisteredCommands()
 
-    if (!this.agent.client.ready) this.agent.client.on('ready', () => this.pruneCommands())
+    if (!this.agent.client.ready) this.agent.client.on('ready', () => { void this.pruneCommands() })
   }
 
   /**
@@ -95,9 +95,9 @@ export class EffectHandler {
 
         this._registry[event] = new Map() // Map type resolved based on event
 
-        this.agent.client.on(event, (...data) =>
-          this.handle(...[effect._trigger.group, event, data] as ExclusivePairWithIndex<EffectEventGroup, Oceanic.ClientEvents>)
-        )
+        this.agent.client.on(event, (...data) => {
+          void this.handle(...[effect._trigger.group, event, data] as ExclusivePairWithIndex<EffectEventGroup, Oceanic.ClientEvents>)
+        })
       } else if (this._registry[event]!.has(effect._identifier)) throw Error('effect already registered') // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
       this._registry[event]!.set(effect._identifier, effect) // eslint-disable-line @typescript-eslint/no-non-null-assertion
@@ -110,7 +110,7 @@ export class EffectHandler {
    * Handle an effect-triggering event
    * @param param0 An array containing the event group, event, and event data
    */
-  handle (...[group, event, data]: ExclusivePairWithIndex<EffectEventGroup, Oceanic.ClientEvents>): void {
+  async handle (...[group, event, data]: ExclusivePairWithIndex<EffectEventGroup, Oceanic.ClientEvents>): Promise<void> {
     let req // Resolved to a RequestEntity type later
 
     switch (group) {
@@ -122,7 +122,7 @@ export class EffectHandler {
             const effect = this._registry[event]?.get(command.data.name)
 
             if (effect) {
-              command.defer()
+              await command.defer()
 
               req = new RequestEntity<'interaction'>({
                 handler: this,
@@ -137,7 +137,7 @@ export class EffectHandler {
 
             req.digestInteractionArguments(command.data.options.raw)
 
-            if (effect instanceof Effect.Command) this.callSubcommandActions(req as RequestEntity<'interaction'>, effect, command.data.options.raw)
+            if (effect instanceof Effect.Command) await this.callSubcommandActions(req, effect, command.data.options.raw)
 
             break
           }
@@ -151,7 +151,7 @@ export class EffectHandler {
       default: return
     }
 
-    this.callAction(req.effect, req)
+    return await this.callAction(req.effect, req)
   }
 
   /**
@@ -160,20 +160,20 @@ export class EffectHandler {
    * @param effect The effect
    * @param args   The interaction options
    */
-  callSubcommandActions (req: RequestEntity<'interaction'>, effect: Effect.Command, args: Oceanic.InteractionOptions[]): void {
+  async callSubcommandActions (req: RequestEntity<'interaction'>, effect: Effect.Command, args: Oceanic.InteractionOptions[]): Promise<void> {
     for (const arg of args) {
       switch (arg.type) {
         case Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND_GROUP: {
           if (arg.options) {
             const subcommand = effect.subcommands.find((c) => c._identifier === arg.name)
 
-            if (subcommand) this.callSubcommandActions(req, subcommand, arg.options)
+            if (subcommand) await this.callSubcommandActions(req, subcommand, arg.options)
           }
 
           break
         }
         case Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND:
-          this.callAction(effect, req)
+          await this.callAction(effect, req)
 
           break
         default: break
@@ -195,7 +195,7 @@ export class EffectHandler {
 
       if (log) this.agent.report('log', req.effect._identifier, log)
     } else {
-      res.message({
+      void res.message({
         content: 'You lack the permissions to use this command!',
         options: {
           flags: 1 << 6
@@ -204,7 +204,7 @@ export class EffectHandler {
     }
 
     res
-      .catch((err) => this.agent.report('error', 'handle', `The '${req.effect._identifier}' effect encountered an error: ${err.message}`, {
+      .catch((err: Error) => this.agent.report('error', 'handle', `The '${req.effect._identifier}' effect encountered an error: ${err.message}`, {
         error: err,
         request: req
       }))

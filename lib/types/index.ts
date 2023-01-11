@@ -17,8 +17,8 @@ export interface Argument extends Omit<CommandData<Oceanic.ApplicationCommandTyp
 
 /** The type for a command argument */
 export type ArgumentType = Exclude<
-  Oceanic.ApplicationCommandOptionTypes,
-  Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND | Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND_GROUP
+Oceanic.ApplicationCommandOptionTypes,
+Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND | Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND_GROUP
 >
 
 /** Power levels for permissions */
@@ -31,7 +31,7 @@ export const enum AuthLevel {
 /** A locale map that is more developer-friendly to define */
 export type ConsolidatedLocaleMap = Partial<Record<Oceanic.Locale, {
   /** The command or argument's name */
-  name?: string,
+  name?: string
   /** The command or argument's description */
   description?: string
 }>>

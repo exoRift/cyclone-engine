@@ -1,24 +1,37 @@
 {
   "parser": "@typescript-eslint/parser",
-  "extends": ["standard", "plugin:@typescript-eslint/recommended"],
   "plugins": ["@typescript-eslint"],
-  "rules": {
-    "array-bracket-spacing": "error",
-    "no-lonely-if": "warn",
-    "arrow-parens": "error",
-    "no-var": "error",
-    "prefer-const": "error",
-    "max-len": [
-      "warn",
-      {
-        "code": 155,
-        "tabWidth": 2,
-        "ignoreComments": true
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": "standard-with-typescript",
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      },
+      "rules": {
+        "array-bracket-spacing": "error",
+        "no-lonely-if": "warn",
+        "arrow-parens": "error",
+        "no-var": "error",
+        "prefer-const": "error",
+        "max-len": [
+          "warn",
+          {
+            "code": 155,
+            "tabWidth": 2,
+            "ignoreComments": true
+          }
+        ],
+        "quote-props": "warn",
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/promise-function-async": "off",
+        "@typescript-eslint/array-type": "warn",
+        "@typescript-eslint/no-confusing-void-expression": "off",
+        "@typescript-eslint/no-invalid-void-type": "off",
+        "@typescript-eslint/no-unused-vars": "warn",
+        "@typescript-eslint/explicit-function-return-type": "warn"
       }
-    ],
-    "quote-props": "warn",
-    "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": "error",
-    "@typescript-eslint/no-namespace": "off"
-  }
+    }
+  ]
 }

@@ -33,7 +33,7 @@ export interface CommandData<T extends Oceanic.ApplicationCommandTypes = Oceanic
   /** The arguments for the command */
   args: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Argument[] : []
   /** The command's subcommands */
-  subcommands: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Command<T>[] : []
+  subcommands: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Array<Command<Oceanic.ApplicationCommandTypes.CHAT_INPUT>> : []
   /** Miscellaneous command options */
   options?: {
     /**
@@ -70,10 +70,6 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
   }
 
   _identifier: string
-  /** Name locales formatted for ease of command creation */
-  _nameLocalizations: Oceanic.LocaleMap = {}
-  /** Description locales formatted for ease of command creation */
-  _descriptionLocalizations: Oceanic.LocaleMap = {}
 
   /** The type of the command and the way it's called */
   type: T
@@ -113,10 +109,10 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
       } = {}
     } = arg
 
-    const {
+    const [
       nameLocalizations,
       descriptionLocalizations
-    } = Command.compileLocales(locales)
+    ] = Command.compileLocales(locales)
 
     return {
       type,
@@ -133,7 +129,7 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
    * @param   locales The locales
    * @returns         Formatted locales
    */
-  static compileLocales (locales: ConsolidatedLocaleMap) {
+  static compileLocales (locales: ConsolidatedLocaleMap): [names: Oceanic.LocaleMap, descs: Oceanic.LocaleMap] {
     const nameLocalizations: Oceanic.LocaleMap = {}
     const descriptionLocalizations: Oceanic.LocaleMap = {}
 
@@ -144,10 +140,10 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
       if ('description' in localeData) descriptionLocalizations[locale as Oceanic.Locale] = localeData.description
     }
 
-    return {
+    return [
       nameLocalizations,
       descriptionLocalizations
-    }
+    ]
   }
 
   /**
@@ -160,8 +156,8 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
     const {
       type,
       name,
-      description,
-      subcommands = [] as CommandData<T>['subcommands'],
+      description = '',
+      subcommands = [],
       args = [],
       options: {
         clearance = AuthLevel.MEMBER,
@@ -186,37 +182,52 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
       locales
     }
 
-    const {
-      nameLocalizations,
-      descriptionLocalizations
-    } = Command.compileLocales(locales)
-    this._nameLocalizations = nameLocalizations
-    this._descriptionLocalizations = descriptionLocalizations
-
     this.action = action
   }
 
   /** Compile the command into a static object for registration */
   compile (): Oceanic.CreateApplicationCommandOptions {
-    return {
-      type: this.type,
-      name: this.name,
-      description: this.description,
-      options: this.subcommands
-        .map((c) => {
-          const compiled = c.compile()
+    const [
+      nameLocalizations,
+      descriptionLocalizations
+    ] = Command.compileLocales(this.options.locales)
 
-          return {
-            ...compiled,
-            type: c.subcommands.length ? Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND_GROUP : Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND
-          } as Oceanic.ApplicationCommandOptions
-        })
-        .concat(this.args.map((a) => Command.compileArgument(a))),
+    const core = {
+      name: this.name,
       defaultMemberPermissions: Command.authToPermission(this.options.clearance)?.toString(),
       dmPermission: !this.options.guildOnly,
       nsfw: this.options.nsfw,
-      nameLocalizations: this._nameLocalizations,
-      descriptionLocalizations: this._descriptionLocalizations
+      nameLocalizations
+    }
+
+    if (this.type === Oceanic.ApplicationCommandTypes.CHAT_INPUT) {
+      const options = this.subcommands
+        .map((c) => {
+          const compiled = c.compile()
+
+          const suboptions = {
+            ...compiled,
+            type: c.subcommands.length
+              ? Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND_GROUP
+              : Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND
+          }
+
+          return suboptions as Oceanic.ApplicationCommandOptions // DANGEROUS
+        })
+        .concat(this.args.map((a) => Command.compileArgument(a)))
+
+      return {
+        ...core,
+        type: this.type, // TEMP: (see: https://github.com/microsoft/TypeScript/issues/51693#issuecomment-1379008559)
+        description: this.description,
+        options,
+        descriptionLocalizations
+      }
+    } else {
+      return {
+        ...core,
+        type: this.type // TEMP: (see: https://github.com/microsoft/TypeScript/issues/51693#issuecomment-1379008559)
+      }
     }
   }
 
@@ -225,7 +236,7 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
    * @param handler The effect handler
    */
   async registrationHook (handler: EffectHandler): Promise<void> {
-    return handler.agent.client.application.createGlobalCommand(this.compile()).then()
+    return await handler.agent.client.application.createGlobalCommand(this.compile()).then()
   }
 
   action?: (req: RequestEntity<'interaction'>, res: ResponseEntity<'interaction'>) => Promisable<string | void>

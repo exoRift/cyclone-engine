@@ -17,12 +17,13 @@ import {
  * @template E The event group that will utilize this response entity
  */
 export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEventGroup> implements PromiseLike<ResponseEntity<E>> {
+  /** A list of operations to be called on execution */
+  private readonly _operations: Array<Operation.Base<object, keyof Origins>> = []
+
   /** The ID of the last channel this response was active in */
   private _lastChannel?: Oceanic.TextChannel
   /** The ID of the last message this response was active on */
   private _lastMessage?: Oceanic.Message
-  /** A list of operations to be called on execution */
-  private _operations: Operation.Base<object, keyof Origins>[] = []
   /** If this response is mid-execution, the execution promise */
   private _executionPromise?: Promise<this>
 
@@ -45,7 +46,7 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
    * @param   data The message data
    * @returns      The response entity for chaining
    */
-  message (data: string | MessageOperationData): this {
+  message (data: string | MessageOperationData): this { // todo: distinguish between general and response messages
     delete this._executionPromise
 
     if (typeof data === 'string') data = { content: data }
@@ -55,15 +56,15 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
     return this
   }
 
-  followup () {
+  followup () { // todo
     delete this._executionPromise
   }
 
-  react () {
+  react () { // todo
     delete this._executionPromise
   }
 
-  interface () {
+  interface () { // todo
     delete this._executionPromise
   }
 
@@ -105,17 +106,17 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
   }
 
   /** Execute operations and await successful outcome */
-  get then () {
+  get then () { // eslint-disable-line @typescript-eslint/explicit-function-return-type
     return (this._executionPromise ?? this.execute()).then
   }
 
   /** Execute operations and catch errors */
-  get catch () {
+  get catch () { // eslint-disable-line @typescript-eslint/explicit-function-return-type
     return (this._executionPromise ?? this.execute()).catch
   }
 
   /** Execute operations and await all outcomes */
-  get finally () {
+  get finally () { // eslint-disable-line @typescript-eslint/explicit-function-return-type
     return (this._executionPromise ?? this.execute()).finally
   }
 }

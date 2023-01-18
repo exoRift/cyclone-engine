@@ -1,19 +1,7 @@
-import * as Oceanic from 'oceanic.js'
-
-/** Relevant locations to direct operations */
-export interface Origins {
-  /** The last relevant channel */
-  channel: Oceanic.TextChannel
-  /** The last relevant message */
-  message: Oceanic.Message
-}
+import { Origin } from 'structures/response'
 
 /** The base operation class */
-export abstract class Base<T, R extends keyof Origins> {
-  /** The type of operation this is */
-  abstract readonly type: string
-  /** The origins this operation requires */
-  abstract readonly requisites: R[]
+export abstract class Base<T> {
   /** The execution data */
   readonly data: T
 
@@ -29,5 +17,5 @@ export abstract class Base<T, R extends keyof Origins> {
    * Execute the operation
    * @param origins The origins
    */
-  abstract execute (origins: Pick<Origins, R>): Promise<Partial<Origins>>
+  abstract execute (origin: Origin): Promise<Origin | void>
 }

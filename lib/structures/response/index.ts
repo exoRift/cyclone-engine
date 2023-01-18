@@ -6,9 +6,23 @@ import { EffectEventGroup } from 'types'
 
 import {
   Operation,
-  MessageOperationData,
-  Origins
+  MessageOperationData
 } from 'structures/operation'
+
+/** The origins of an event utilized for response chaining */
+export type Origin =
+  | {
+    type: 'interaction'
+    value: Oceanic.CommandInteraction
+  }
+  | {
+    type: 'channel'
+    value: Oceanic.AnyTextChannelWithoutGroup
+  }
+  | {
+    type: 'message'
+    value: Oceanic.Message
+  }
 
 // todo: message (content, embed, file {channel, deleteAfter}), followup {expires after}, react, buttons
 
@@ -18,12 +32,10 @@ import {
  */
 export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEventGroup> implements PromiseLike<ResponseEntity<E>> {
   /** A list of operations to be called on execution */
-  private readonly _operations: Array<Operation.Base<object, keyof Origins>> = []
+  private readonly _operations: Array<Operation.Base<unknown>> = []
 
-  /** The ID of the last channel this response was active in */
-  private _lastChannel?: Oceanic.TextChannel
-  /** The ID of the last message this response was active on */
-  private _lastMessage?: Oceanic.Message
+  /** The origin of the response for chaining */
+  private _origin: Origin
   /** If this response is mid-execution, the execution promise */
   private _executionPromise?: Promise<this>
 
@@ -34,11 +46,10 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
    * Construct a response
    * @param request The corresponding request entity
    */
-  constructor (request: RequestEntity<E>, originChannel?: Oceanic.TextChannel, originMessage?: Oceanic.Message) {
+  constructor (request: RequestEntity<E>, origin: Origin) {
     this.request = request
 
-    this._lastChannel = originChannel
-    this._lastMessage = originMessage
+    this._origin = origin
   }
 
   /**
@@ -46,7 +57,7 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
    * @param   data The message data
    * @returns      The response entity for chaining
    */
-  message (data: string | MessageOperationData): this { // todo: distinguish between general and response messages
+  message (data: string | MessageOperationData): this { // idea: modifiers
     delete this._executionPromise
 
     if (typeof data === 'string') data = { content: data }
@@ -54,6 +65,10 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
     this._operations.push(new Operation.Message(data))
 
     return this
+  }
+
+  deletesAfter () { // idea: deleteAfter modifer for message
+    delete this._executionPromise
   }
 
   followup () { // todo
@@ -77,26 +92,9 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
     this._executionPromise = this._operations
       .reduce((p, o) => {
         return p.then(() => {
-          for (const requisite of o.requisites) {
-            switch (requisite) {
-              case 'channel':
-                if (!this._lastChannel) throw Error('Could not find an origin channel to respond to!')
-
-                break
-              case 'message':
-                if (!this._lastMessage) throw Error('Could not find an origin message to latch onto!')
-
-                break
-            }
-          }
-
-          return o.execute({
-            channel: this._lastChannel!, // eslint-disable-line @typescript-eslint/no-non-null-assertion
-            message: this._lastMessage! // eslint-disable-line @typescript-eslint/no-non-null-assertion
-          })
-            .then((updates) => {
-              if (updates.channel) this._lastChannel = updates.channel
-              if (updates.message) this._lastMessage = updates.message
+          return o.execute(this._origin)
+            .then((update) => {
+              if (update) this._origin = update
             })
         })
       }, Promise.resolve())

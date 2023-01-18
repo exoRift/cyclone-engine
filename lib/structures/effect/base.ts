@@ -3,7 +3,7 @@ import * as Oceanic from 'oceanic.js'
 import { EffectHandler } from 'modules'
 
 import { RequestEntity } from 'structures/request'
-import { ResponseEntity } from 'structures/response'
+import { Origin, ResponseEntity } from 'structures/response'
 
 import {
   AuthLevel,
@@ -44,6 +44,9 @@ export abstract class Base<E extends keyof EffectEventGroup = keyof EffectEventG
       default: return BigInt(0)
     }
   }
+
+  /** Get the origin from an event */
+  abstract getOrigin (...event: Oceanic.ClientEvents[EffectEventGroup[E]]): Origin
 
   /** The events that trigger this effect */
   abstract readonly _trigger: Trigger<E>

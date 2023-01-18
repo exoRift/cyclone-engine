@@ -8,7 +8,7 @@ import {
 } from './base'
 
 import { RequestEntity } from 'structures/request'
-import { ResponseEntity } from 'structures/response'
+import { Origin, ResponseEntity } from 'structures/response'
 
 import {
   Argument,
@@ -30,10 +30,10 @@ export interface CommandData<T extends Oceanic.ApplicationCommandTypes = Oceanic
   name: string
   /** A description of the command */
   description: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? string : ''
-  /** The arguments for the command */
-  args: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Argument[] : []
   /** The command's subcommands */
   subcommands: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Array<Command<Oceanic.ApplicationCommandTypes.CHAT_INPUT>> : []
+  /** The arguments for the command */
+  args: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Argument[] : []
   /** Miscellaneous command options */
   options?: {
     /**
@@ -49,7 +49,7 @@ export interface CommandData<T extends Oceanic.ApplicationCommandTypes = Oceanic
     /** Locales for the command */
     locales?: ConsolidatedLocaleMap
     /** Can this command only be used by the bot owner? */
-    restricted?: boolean
+    restricted?: boolean // todo
   }
   /** The command's execution action */
   action?: (req: RequestEntity<'interaction'>, res: ResponseEntity<'interaction'>) => Promisable<string | void>
@@ -71,25 +71,15 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
 
   _identifier: string
 
-  /** The type of the command and the way it's called */
   type: T
-  /** The name of the command */
   name: string
-  /** A description of the command */
   description: CommandData<T>['description']
-  /** The arguments for the command */
   subcommands: CommandData<T>['subcommands']
-  /** The command's subcommands */
   args: CommandData<T>['args']
-  /** Miscellaneous command options */
   options: {
-    /** The authorization level required to use this command */
     clearance: AuthLevel | number
-    /** Is this command NSFW? */
     nsfw: boolean
-    /** Can this command only be used in guilds? */
     guildOnly: boolean
-    /** Locales for the command */
     locales: ConsolidatedLocaleMap
   }
 
@@ -185,6 +175,13 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
     this.action = action
   }
 
+  getOrigin (interaction: Oceanic.CommandInteraction): Origin {
+    return {
+      type: 'interaction',
+      value: interaction
+    }
+  }
+
   /** Compile the command into a static object for registration */
   compile (): Oceanic.CreateApplicationCommandOptions {
     const [
@@ -212,7 +209,7 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
               : Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND
           }
 
-          return suboptions as Oceanic.ApplicationCommandOptions // DANGEROUS
+          return suboptions as Oceanic.ApplicationCommandOptions // NOTE: The type can't be SUB_COMMAND_GROUP if there are no subcommands
         })
         .concat(this.args.map((a) => Command.compileArgument(a)))
 

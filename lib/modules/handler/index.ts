@@ -188,7 +188,7 @@ export class EffectHandler {
    * @param    req    The request body
    */
   async callAction<E extends keyof EffectEventGroup> (effect: Effect.Base<E>, req: RequestEntity<E>): Promise<void> {
-    const res = new ResponseEntity<E>(req)
+    const res = new ResponseEntity<E>(req, effect.getOrigin(...req.raw))
 
     if (req.authFulfilled) {
       const log = await effect.action?.(req, res)
@@ -197,9 +197,7 @@ export class EffectHandler {
     } else {
       void res.message({
         content: 'You lack the permissions to use this command!',
-        options: {
-          flags: 1 << 6
-        } // todo: test reference for slash command
+        flags: 1 << 6 // Ephemeral
       })
     }
 

@@ -7,8 +7,5 @@ export namespace Operation {
 }
 
 export {
-  Origins
-} from './base'
-export {
   MessageOperationData
 } from './message'

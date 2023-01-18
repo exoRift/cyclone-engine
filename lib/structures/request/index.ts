@@ -46,23 +46,16 @@ export interface RequestData<E extends keyof EffectEventGroup = keyof EffectEven
 export class RequestEntity<E extends keyof EffectEventGroup = keyof EffectEventGroup> implements RequestData<E> {
   /** The Oceanic agent */
   agent: Agent
-  /** The effect handler */
   handler: EffectHandler
   /** The Oceanic client */
   client: Oceanic.Client
-  /** The effect being invoked by this call */
   effect: Effect.Base<E>
-  /** The event that triggered this call */
   event: EffectEventGroup[E]
-  /** The raw event data */
   raw: Oceanic.ClientEvents[EffectEventGroup[E]]
   /** The arguments supplied to the call */
   args: ReducedArgset = {}
-  /** The channel the request was called in */
   channel?: Oceanic.AnyChannel
-  /** The caller */
   user: Oceanic.User
-  /** If called in a guild, the member variation of the caller */
   member?: Oceanic.Member
 
   /**

@@ -57,7 +57,7 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
    * @param   data The message data
    * @returns      The response entity for chaining
    */
-  message (data: string | MessageOperationData): this { // idea: modifiers
+  message (data: string | MessageOperationData): this {
     delete this._executionPromise
 
     if (typeof data === 'string') data = { content: data }
@@ -67,8 +67,17 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
     return this
   }
 
-  deletesAfter () { // idea: deleteAfter modifer for message
+  /**
+   * Delete a message after a set interval
+   * @param   interval The amount of time in milliseconds to wait
+   * @returns          The response entity for chaining
+   */
+  deleteAfter (interval: number): this {
     delete this._executionPromise
+
+    this._operations.push(new Operation.Expire(interval))
+
+    return this
   }
 
   followup () { // todo
@@ -92,7 +101,7 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
     this._executionPromise = this._operations
       .reduce((p, o) => {
         return p.then(() => {
-          return o.execute(this._origin)
+          return o.execute(this._origin, this.request.agent)
             .then((update) => {
               if (update) this._origin = update
             })

@@ -60,6 +60,9 @@ export type ExclusivePairWithIndex<T extends object, U extends object> = {
   [K in keyof T]: T[K] extends keyof U ? [K, T[K], U[T[K]]] : [K, T[K]]
 }[keyof T]
 
+/** Extract the return type of a constructor */
+export type ExtractInstance<T> = T extends new (...args: any[]) => infer U ? U : never
+
 /** Parameters of a command guide */
 export interface GuideOptions {
   /** The color of the guide sidebar (Tip: use 0x hex literals to use hex colors) */

@@ -1,6 +1,22 @@
 import * as Oceanic from 'oceanic.js'
 
-import { CommandData } from 'structures'
+import {
+  CommandData,
+  RequestType,
+  RequestEntity,
+  ResponseEntity
+} from 'structures'
+
+/**
+ * The action to execute on trigger
+ * @template E   The event group of this action
+ * @template T   The type of the request this action is a part of
+ * @param    req The request entity
+ * @param    res The response entity
+ * @returns      Nothing or a string to log from the agent
+ */
+export type Action<E extends keyof EffectEventGroup = keyof EffectEventGroup, T extends RequestType = RequestType.ACTION> =
+  (req: RequestEntity<E, T>, res: ResponseEntity<E, T>) => Promisable<string | void>
 
 /** A command argument */
 export interface Argument extends Omit<CommandData<Oceanic.ApplicationCommandTypes.CHAT_INPUT>, 'type' | 'args' | 'subcommands' | 'options' | 'action'> {
@@ -35,6 +51,10 @@ export type ConsolidatedLocaleMap = Partial<Record<Oceanic.Locale, {
   /** The command or argument's description */
   description?: string
 }>>
+
+export type DistributiveOmit<T, K extends keyof any> = T extends any
+  ? Omit<T, K>
+  : never
 
 /** Event sets for types of handling */
 export declare interface EffectEventGroup {
@@ -85,3 +105,17 @@ export type RequiredExcept<T extends object, K extends keyof T> = Required<Omit<
 export type UnionToIntersection<T> =
   (T extends unknown ? (x: T) => unknown : never) extends
   (x: infer R) => unknown ? R : never
+
+// TEMP: This is for until TS 5.0
+declare global {
+  interface Array<T> {
+    findLast( // eslint-disable-line
+      predicate: (value: T, index: number, obj: T[]) => unknown,
+      thisArg?: any
+    ): T | undefined
+    findLastIndex( // eslint-disable-line
+      predicate: (value: T, index: number, obj: T[]) => unknown,
+      thisArg?: any
+    ): number
+  }
+}

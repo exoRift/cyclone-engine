@@ -7,7 +7,10 @@ import {
 
 import { Effect } from 'structures/effect'
 
-import { EffectEventGroup } from 'types'
+import {
+  Action,
+  EffectEventGroup
+} from 'types'
 
 /**
  * An object keyed by arguments containing their respective values
@@ -17,19 +20,29 @@ export interface ReducedArgset {
   [key: string]: Oceanic.InteractionOptionsWithValue['value'] | ReducedArgset
 }
 
+export enum RequestType {
+  ACTION,
+  SUBACTION
+}
+
 /**
  * The data supplied to RequestEntities
  * @template E The event group that will utilize this request entity
+ * @template T The type of the request
  */
-export interface RequestData<E extends keyof EffectEventGroup = keyof EffectEventGroup> {
+export interface RequestData<E extends keyof EffectEventGroup = keyof EffectEventGroup, T extends RequestType = RequestType> {
+  /** The request type */
+  type: T
   /** The effect handler */
   handler: EffectHandler
   /** The effect being invoked by this call */
   effect: Effect.Base<E>
+  /** The action to call as a result of the request */
+  action?: Action<E, T>
   /** The event that triggered this call */
-  event: EffectEventGroup[E]
+  event: EffectEventGroup[T extends RequestType.SUBACTION ? 'interaction' : E]
   /** The raw event data */
-  raw: Oceanic.ClientEvents[EffectEventGroup[E]]
+  raw: Oceanic.ClientEvents[EffectEventGroup[T extends RequestType.SUBACTION ? 'interaction' : E]]
   /** The channel the request was called in */
   channel?: Oceanic.AnyChannel
   /** The caller */
@@ -40,18 +53,22 @@ export interface RequestData<E extends keyof EffectEventGroup = keyof EffectEven
 
 /**
  * A structured effect request
- * @template                    E The event group that will utilize this request entity
- * @implements {RequestData<E>}
+ * @template                       E The event group that will utilize this request entity
+ * @template                       T The type of the request
+ * @implements {RequestData<E, T>}
  */
-export class RequestEntity<E extends keyof EffectEventGroup = keyof EffectEventGroup> implements RequestData<E> {
+export class RequestEntity<E extends keyof EffectEventGroup = keyof EffectEventGroup, T extends RequestType = RequestType>
+implements RequestData<E, T> {
   /** The Oceanic agent */
   agent: Agent
+  type: T
   handler: EffectHandler
   /** The Oceanic client */
   client: Oceanic.Client
   effect: Effect.Base<E>
-  event: EffectEventGroup[E]
-  raw: Oceanic.ClientEvents[EffectEventGroup[E]]
+  action?: Action<E, T>
+  event: EffectEventGroup[T extends RequestType.SUBACTION ? 'interaction' : E]
+  raw: Oceanic.ClientEvents[EffectEventGroup[T extends RequestType.SUBACTION ? 'interaction' : E]]
   /** The arguments supplied to the call */
   args: ReducedArgset = {}
   channel?: Oceanic.AnyChannel
@@ -62,10 +79,12 @@ export class RequestEntity<E extends keyof EffectEventGroup = keyof EffectEventG
    * Construct a RequestEntity
    * @param data The request entity data
    */
-  constructor (data: RequestData<E>) {
+  constructor (data: RequestData<E, T>) {
     const {
+      type,
       handler,
       effect,
+      action,
       event,
       raw,
       channel,
@@ -74,9 +93,11 @@ export class RequestEntity<E extends keyof EffectEventGroup = keyof EffectEventG
     } = data
 
     this.agent = handler.agent
+    this.type = type
     this.handler = handler
     this.client = handler.agent.client
     this.effect = effect
+    this.action = action
     this.event = event
     this.raw = raw
     this.channel = channel

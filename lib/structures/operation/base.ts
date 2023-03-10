@@ -1,17 +1,26 @@
-import { Agent } from 'modules'
+import {
+  RequestType,
+  RequestEntity
+} from 'structures/request'
 import { Origin } from 'structures/response'
-import { ExtractInstance } from 'types'
+import {
+  EffectEventGroup,
+  ExtractInstance
+} from 'types'
 
 type ResolveOperationType<T extends OperationType> = T extends 'operation' ? never : typeof Base<any, 'operation'>
 
 export type OperationType = 'operation' | 'modifier'
 
-/** The base operation class */
+/**
+ * The base operation class
+ * @template D The data type of the operation
+ * @template T The operation type
+ * @template O PSEUDO TEMPLATE: Resolved operation type
+ */
 export abstract class Base<D, T extends OperationType = 'operation', O extends ResolveOperationType<T> = ResolveOperationType<T>> {
   /** The type of operation */
   abstract readonly type: T
-  /** The operation type this modifier is targeting */
-  readonly operand?: T extends 'operation' ? never : O
 
   /** The execution data */
   readonly data: D
@@ -26,7 +35,12 @@ export abstract class Base<D, T extends OperationType = 'operation', O extends R
 
   /**
    * Execute the operation
-   * @param target Either the origin of the operation or the operand its targeting as a modifier
+   * @template E      The event group of this operation execution
+   * @template R      The type of the request prompting this operation
+   * @param    target Either the origin of the operation or the operand its targeting as a modifier
    */
-  abstract execute (target?: T extends 'operation' ? Origin : ExtractInstance<O>, agent?: Agent): T extends 'operation' ? Promise<Origin | void> : void
+  abstract execute<E extends keyof EffectEventGroup, R extends RequestType> (
+    target?: T extends 'operation' ? Origin : ExtractInstance<O>,
+    req?: RequestEntity<E, R>
+  ): T extends 'operation' ? Promise<Origin | void> : void
 }

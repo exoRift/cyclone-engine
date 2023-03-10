@@ -5,10 +5,12 @@ import { Agent } from 'modules/agent'
 import {
   Effect,
   RequestEntity,
+  RequestType,
   ResponseEntity
 } from 'structures/'
 
 import {
+  Action,
   EffectEventGroup,
   ExclusivePairWithIndex,
   UnionToIntersection
@@ -27,7 +29,9 @@ export class EffectHandler {
   /** The promise of the command fetch */
   private readonly _apiRegisteredCommands: Promise<Map<string, Oceanic.AnyApplicationCommand>>
   /** The registered effects */
-  private _registry: EventRegistryRecord & Partial<Record<keyof Oceanic.ClientEvents, Map<string, Effect.Base>>> = {}
+  private readonly _effectRegistry: EventRegistryRecord & Partial<Record<keyof Oceanic.ClientEvents, Map<string, Effect.Base>>> = {}
+  /** Registered temporary subactions */
+  private readonly _subactionRegistry = new Map<string, Action<keyof EffectEventGroup, RequestType.SUBACTION>>()
 
   /** The parent agent */
   agent: Agent
@@ -76,7 +80,7 @@ export class EffectHandler {
         for (const command of commands) {
           this.agent.report('warn', 'prune', `Command '${command[0]}' not registered locally. Purging from application registry...`)
 
-          if (!this._registry.interactionCreate?.has(command[0])) promises.push(this.agent.client.application.deleteGlobalCommand(command[1].id))
+          if (!this._effectRegistry.interactionCreate?.has(command[0])) promises.push(this.agent.client.application.deleteGlobalCommand(command[1].id))
         }
 
         return Promise.all(promises).then(() => promises.length)
@@ -90,20 +94,24 @@ export class EffectHandler {
    */
   register (effect: Effect.Base): Promise<void> {
     for (const event of effect._trigger.events) {
-      if (!(event in this._registry)) {
+      if (!(event in this._effectRegistry)) {
         this.agent.report('log', 'register', `Listening for '${event}'`)
 
-        this._registry[event] = new Map() // Map type resolved based on event
+        this._effectRegistry[event] = new Map() // Map type resolved based on event
 
         this.agent.client.on(event, (...data) => {
           void this.handle(...[effect._trigger.group, event, data] as ExclusivePairWithIndex<EffectEventGroup, Oceanic.ClientEvents>)
         })
-      } else if (this._registry[event]!.has(effect._identifier)) throw Error('effect already registered') // eslint-disable-line @typescript-eslint/no-non-null-assertion
+      } else if (this._effectRegistry[event]!.has(effect._identifier)) throw Error('effect already registered') // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
-      this._registry[event]!.set(effect._identifier, effect) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+      this._effectRegistry[event]!.set(effect._identifier, effect) // eslint-disable-line @typescript-eslint/no-non-null-assertion
     }
 
     return effect.registrationHook?.(this) ?? Promise.resolve()
+  }
+
+  registerTemporarySubaction (id: string, action: Action<keyof EffectEventGroup, RequestType.SUBACTION>): void {
+    this._subactionRegistry.set(id, action)
   }
 
   /**
@@ -119,39 +127,75 @@ export class EffectHandler {
 
         switch (command.type) {
           case Oceanic.InteractionTypes.APPLICATION_COMMAND: {
-            const effect = this._registry[event]?.get(command.data.name)
+            const effect = this._effectRegistry[event]?.get(command.data.name)
 
-            if (effect) {
-              await command.defer()
+            if (!effect) return
 
-              req = new RequestEntity<'interaction'>({
-                handler: this,
-                effect,
-                event,
-                raw: data,
-                channel: command.channel,
-                user: command.user,
-                member: command.member
-              })
-            } else return
+            await command.defer()
 
+            req = new RequestEntity({
+              type: RequestType.ACTION,
+              handler: this,
+              effect,
+              action: effect.action,
+              event,
+              raw: data,
+              channel: command.channel,
+              user: command.user,
+              member: command.member
+            })
             req.digestInteractionArguments(command.data.options.raw)
 
             if (effect instanceof Effect.Command) await this.callSubcommandActions(req, effect, command.data.options.raw)
 
             break
           }
+          case Oceanic.InteractionTypes.MESSAGE_COMPONENT: {
+            const [type, effectEvent, effectName, subID] = command.id.split('.')
 
+            const effect = this._effectRegistry[effectEvent as keyof typeof this._effectRegistry]?.get(effectName) as Effect.Base<keyof EffectEventGroup>
+
+            if (!effect) {
+              this.agent.report('error', 'handle', 'A message component\'s ID did not link to a registered event/effect', command)
+
+              return
+            }
+
+            const subaction = type === 'STATIC'
+              ? effect?.subactions[subID]
+              : this._subactionRegistry.get(command.id)
+
+            if (subaction) {
+              await command.defer()
+
+              req = new RequestEntity({
+                type: RequestType.SUBACTION,
+                handler: this,
+                effect,
+                action: subaction,
+                event,
+                raw: data,
+                channel: command.channel,
+                user: command.user,
+                member: command.member
+              })
+            } else {
+              this.agent.report('error', 'handle', 'Failed to match a message component\'s ID to a subaction', command)
+
+              return
+            }
+
+            break
+          }
           default: return
         }
 
         break
       }
-
       default: return
     }
 
-    return await this.callAction(req.effect, req)
+    return await this.callAction(req as RequestEntity) // Can't turn 'interaction' into keyof EffectEventGroup
   }
 
   /**
@@ -160,7 +204,10 @@ export class EffectHandler {
    * @param effect The effect
    * @param args   The interaction options
    */
-  async callSubcommandActions (req: RequestEntity<'interaction'>, effect: Effect.Command, args: Oceanic.InteractionOptions[]): Promise<void> {
+  async callSubcommandActions (
+    req: RequestEntity<'interaction', RequestType.ACTION>,
+    effect: Effect.Command, args: Oceanic.InteractionOptions[]
+  ): Promise<void> {
     for (const arg of args) {
       switch (arg.type) {
         case Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND_GROUP: {
@@ -172,10 +219,23 @@ export class EffectHandler {
 
           break
         }
-        case Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND:
-          await this.callAction(effect, req)
+        case Oceanic.ApplicationCommandOptionTypes.SUB_COMMAND: {
+          const subReq = new RequestEntity({
+            type: RequestType.ACTION,
+            handler: req.handler,
+            effect: req.effect,
+            action: effect.action,
+            event: req.event,
+            raw: req.raw,
+            channel: req.channel,
+            user: req.user,
+            member: req.member
+          })
+
+          await this.callAction(subReq)
 
           break
+        }
         default: break
       }
     }
@@ -184,14 +244,19 @@ export class EffectHandler {
   /**
    * Call the action of an effect
    * @template E      The event group responsible for calling this action
+   * @template T      The type of the request
    * @param    effect The effect
    * @param    req    The request body
    */
-  async callAction<E extends keyof EffectEventGroup> (effect: Effect.Base<E>, req: RequestEntity<E>): Promise<void> {
-    const res = new ResponseEntity<E>(req, effect.getOrigin(...req.raw))
+  async callAction<E extends keyof EffectEventGroup, T extends RequestType> (req: RequestEntity<E, T>): Promise<void> {
+    const origin = req.type === RequestType.SUBACTION
+      ? req.effect.getInteractionOrigin((req.raw as Oceanic.ClientEvents[EffectEventGroup['interaction']])[0])
+      : req.effect.getOrigin(...(req.raw as Oceanic.ClientEvents[EffectEventGroup[E]]))
+
+    const res = new ResponseEntity<E, T>(req, origin)
 
     if (req.authFulfilled) {
-      const log = await effect.action?.(req, res)
+      const log = await req.action?.(req, res)
 
       if (log) this.agent.report('log', req.effect._identifier, log)
     } else {

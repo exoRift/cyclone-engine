@@ -4,17 +4,15 @@ import { EffectHandler } from 'modules'
 
 import {
   Base,
+  EffectData,
   Trigger
 } from './base'
 
-import { RequestEntity } from 'structures/request'
-import { Origin, ResponseEntity } from 'structures/response'
-
 import {
+  Action,
   Argument,
   AuthLevel,
   ConsolidatedLocaleMap,
-  Promisable,
   RequiredExcept
 } from 'types'
 
@@ -39,7 +37,7 @@ export interface CommandData<T extends Oceanic.ApplicationCommandTypes = Oceanic
     /**
      * The authorization level required to use this command
      * This property can either be a preset [AuthLevel]{@link AuthLevel} value or a [Discord permissions number]{@link https://discord.com/developers/docs/topics/permissions}
-     * Your permission integer can be easily generated using bitwise shift (`0 << NUMBER`) and chained with bitwise or (`|`)
+     * Your permission integer can be easily generated using bitwise shift (`1 << NUMBER`) and chained with bitwise or (`|`)
      */
     clearance?: AuthLevel | number
     /** Is this command NSFW? */
@@ -52,7 +50,7 @@ export interface CommandData<T extends Oceanic.ApplicationCommandTypes = Oceanic
     restricted?: boolean // todo
   }
   /** The command's execution action */
-  action?: (req: RequestEntity<'interaction'>, res: ResponseEntity<'interaction'>) => Promisable<string | void>
+  action?: Action<'interaction'>
 }
 
 /**
@@ -140,8 +138,8 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
    * Construct a command effect
    * @param data Data for the command effect
    */
-  constructor (data: CommandData<T>) {
-    super()
+  constructor (data: CommandData<T> & EffectData<'interaction'>) {
+    super(data)
 
     const {
       type,
@@ -175,12 +173,7 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
     this.action = action
   }
 
-  getOrigin (interaction: Oceanic.CommandInteraction): Origin {
-    return {
-      type: 'interaction',
-      value: interaction
-    }
-  }
+  getOrigin = super.getInteractionOrigin
 
   /** Compile the command into a static object for registration */
   compile (): Oceanic.CreateApplicationCommandOptions {
@@ -235,6 +228,4 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
   async registrationHook (handler: EffectHandler): Promise<void> {
     return await handler.agent.client.application.createGlobalCommand(this.compile()).then()
   }
-
-  action?: (req: RequestEntity<'interaction'>, res: ResponseEntity<'interaction'>) => Promisable<string | void>
 }

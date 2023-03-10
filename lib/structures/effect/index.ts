@@ -7,6 +7,7 @@ export namespace Effect {
 }
 
 export {
+  EffectData,
   Trigger
 } from './base'
 export {

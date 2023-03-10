@@ -1,19 +1,23 @@
 import * as Oceanic from 'oceanic.js'
 
-import { RequestEntity } from 'structures/request'
-
-import { EffectEventGroup } from 'types'
+import {
+  RequestType,
+  RequestEntity
+} from 'structures/request'
 
 import {
+  InterfaceComponent,
   Operation,
   MessageOperationData
 } from 'structures/operation'
+
+import { EffectEventGroup } from 'types'
 
 /** The origins of an event utilized for response chaining */
 export type Origin =
   | {
     type: 'interaction'
-    value: Oceanic.CommandInteraction
+    value: Oceanic.AnyInteractionGateway
   }
   | {
     type: 'channel'
@@ -29,8 +33,10 @@ export type Origin =
 /**
  * A structured method to respond to effect calls
  * @template E The event group that will utilize this response entity
+ * @template T The type of the request pertaining to this reponse
  */
-export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEventGroup> implements PromiseLike<ResponseEntity<E>> {
+export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEventGroup, T extends RequestType = RequestType.ACTION>
+implements PromiseLike<ResponseEntity<E, T>> {
   /** A list of operations to be called on execution */
   private readonly _operations: Array<Operation.Base<unknown>> = []
 
@@ -40,13 +46,13 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
   private _executionPromise?: Promise<this>
 
   /** The corresponding request entity to this response */
-  request: RequestEntity<E>
+  request: RequestEntity<E, T>
 
   /**
    * Construct a response
    * @param request The corresponding request entity
    */
-  constructor (request: RequestEntity<E>, origin: Origin) {
+  constructor (request: RequestEntity<E, T>, origin: Origin) {
     this.request = request
 
     this._origin = origin
@@ -88,8 +94,19 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
     delete this._executionPromise
   }
 
-  interface () { // todo
+  addInterface (components: InterfaceComponent[][]): this {
     delete this._executionPromise
+
+    const msg = this._operations.findLast((o) => o instanceof Operation.Message) as Operation.Message | undefined
+
+    if (msg) new Operation.Interface(components).execute(msg, this.request)
+    else throw Error('Could not find a message to add an interface to')
+
+    return this
+  }
+
+  showModal () {
+
   }
 
   /**
@@ -101,7 +118,7 @@ export class ResponseEntity<E extends keyof EffectEventGroup = keyof EffectEvent
     this._executionPromise = this._operations
       .reduce((p, o) => {
         return p.then(() => {
-          return o.execute(this._origin, this.request.agent)
+          return o.execute(this._origin, this.request)
             .then((update) => {
               if (update) this._origin = update
             })

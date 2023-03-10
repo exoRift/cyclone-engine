@@ -2,13 +2,13 @@ import * as Oceanic from 'oceanic.js'
 
 import { EffectHandler } from 'modules'
 
-import { RequestEntity } from 'structures/request'
-import { Origin, ResponseEntity } from 'structures/response'
+import { RequestType } from 'structures/request'
+import { Origin } from 'structures/response'
 
 import {
+  Action,
   AuthLevel,
-  EffectEventGroup,
-  Promisable
+  EffectEventGroup
 } from 'types'
 
 /**
@@ -24,11 +24,16 @@ export type Trigger<E extends keyof EffectEventGroup = keyof EffectEventGroup> =
   }
 }[keyof EffectEventGroup & E]
 
+export interface EffectData<E extends keyof EffectEventGroup = keyof EffectEventGroup> {
+  /** Actions that can be referenced statically by components (These are persistent through bot restarts) */
+  subactions?: Record<string, Action<E, RequestType.SUBACTION>>
+}
+
 /**
  * The base effect class
  * @namespace Effect
  */
-export abstract class Base<E extends keyof EffectEventGroup = keyof EffectEventGroup> {
+export abstract class Base<E extends keyof EffectEventGroup = keyof EffectEventGroup> implements Required<EffectData<E>> {
   /**
    * Convert an AuthLevel into a permission integer
    * @param level The AuthLevel
@@ -39,13 +44,29 @@ export abstract class Base<E extends keyof EffectEventGroup = keyof EffectEventG
     else if (typeof level === 'number') return BigInt(level)
 
     switch (level) {
-      case AuthLevel.MEMBER: return BigInt(0)
+      case AuthLevel.MEMBER: return 0n
       case AuthLevel.ADMIN: case AuthLevel.OWNER: return BigInt(1 << 3)
-      default: return BigInt(0)
+      default: return 0n
     }
   }
 
-  /** Get the origin from an event */
+  /**
+   * Get the origin from an interaction event
+   * THIS IS REQUIRED TO BE HARDCODED FOR SUBACTIONS
+   * @param   interaction The interaction from the event
+   * @returns             The origin
+   */
+  getInteractionOrigin (interaction: Oceanic.AnyInteractionGateway): Origin {
+    return {
+      type: 'interaction',
+      value: interaction
+    }
+  }
+
+  /**
+   * Get the origin from an event
+   * @param event The raw event data
+   */
   abstract getOrigin (...event: Oceanic.ClientEvents[EffectEventGroup[E]]): Origin
 
   /** The events that trigger this effect */
@@ -60,19 +81,23 @@ export abstract class Base<E extends keyof EffectEventGroup = keyof EffectEventG
     clearance: AuthLevel | number
   }
 
+  subactions: Record<string, Action<E, RequestType.SUBACTION>>
+
+  constructor (data: EffectData<E>) {
+    const {
+      subactions = {}
+    } = data
+
+    this.subactions = subactions
+  }
+
   /**
    * A hook to run upon the registration of an effect into the effect handler
    * @param handler The effect handler
    */
   async registrationHook? (handler: EffectHandler): Promise<void>
 
-  /**
-   * The action to execute on trigger
-   * @param   req The request entity
-   * @param   res The response entity
-   * @returns     Nothing or a string to log from the agent
-   */
-  abstract action?: (req: RequestEntity<E>, res: ResponseEntity<E>) => Promisable<string | void>
+  action?: Action<E, RequestType.ACTION>
 
   /**
    * Does a member fulfill the clearance requirements for this effect?

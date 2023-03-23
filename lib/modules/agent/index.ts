@@ -16,7 +16,7 @@ export interface CycloneOptions {
   /** Dump extra information about errors before the process closes */
   debug?: boolean
   /** Clear guild-specific commands when disconnect is called */
-  clearGuildCommandsOnDisconnect?: boolean
+  clearGuildCommandsOnDisconnect?: boolean // todo
 }
 
 // todo: organize methods

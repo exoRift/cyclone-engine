@@ -86,12 +86,16 @@ implements PromiseLike<ResponseEntity<E, T>> {
     return this
   }
 
-  followup () { // todo
+  followup () { // todo: requires message effect
     delete this._executionPromise
   }
 
-  react () { // todo
+  react (emoji: string): this {
     delete this._executionPromise
+
+    this._operations.push(new Operation.React(emoji))
+
+    return this
   }
 
   addInterface (components: InterfaceComponent[][]): this {

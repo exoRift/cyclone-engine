@@ -23,10 +23,9 @@ export class Message extends Base<MessageOperationData> {
   async execute (target: Origin): Promise<Origin | void> {
     const destination = this._getDestination(target)
 
-    // TODO: Make sure this never happens
     if (destination?.type === Oceanic.InteractionTypes.APPLICATION_COMMAND_AUTOCOMPLETE) throw Error('This interaction is unrespondable')
 
-    return await destination?.createMessage(this.data) // todo: permission checking and catch
+    return await destination?.createMessage(this.data)
       .then((msg) => {
         if (!msg) return
 

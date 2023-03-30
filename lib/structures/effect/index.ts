@@ -1,15 +1,7 @@
-import * as BaseEf from './base'
-import * as CommandEf from './command'
-
-export namespace Effect {
-  export import Base = BaseEf.Base // eslint-disable-line @typescript-eslint/no-unused-vars
-  export import Command = CommandEf.Command // eslint-disable-line @typescript-eslint/no-unused-vars
-}
+export * as Effect from './namespace'
 
 export {
   EffectData,
   Trigger
 } from './base'
-export {
-  CommandData
-} from './command'
+export { CommandData } from './command'

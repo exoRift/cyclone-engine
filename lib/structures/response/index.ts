@@ -115,8 +115,12 @@ implements PromiseLike<ResponseEntity<E, T>> {
     return this
   }
 
-  showModal () {
+  showModal (modal: ModalOperationData): this {
+    delete this._executionPromise
 
+    this._operations.push(new Operation.Modal(modal))
+
+    return this
   }
 
   /**

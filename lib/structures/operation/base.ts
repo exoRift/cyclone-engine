@@ -40,7 +40,9 @@ export abstract class Base<D, T extends OperationType = 'operation', O extends R
    * @param    target Either the origin of the operation or the operand its targeting as a modifier
    */
   abstract execute<E extends keyof EffectEventGroup, R extends RequestType> (
-    target?: T extends 'operation' ? Origin : ExtractInstance<O>,
+    target?: T extends 'operation' ? Array<Origin[keyof Origin]> : ExtractInstance<O>,
     req?: RequestEntity<E, R>
-  ): T extends 'operation' ? Promise<Origin | void> : void
+  ): T extends 'operation' ? Promise<Origin[keyof Origin] | void> : void
 }
+
+// todo: template origin, have an array member on an operation that queries the type, findLast with an includes

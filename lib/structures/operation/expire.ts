@@ -13,16 +13,16 @@ export class Expire extends Base<number> {
   readonly type = 'operation'
 
   async execute<E extends keyof EffectEventGroup, T extends RequestType = RequestType.ACTION> (
-    target: Origin,
+    targets: Array<Origin[keyof Origin]>,
     req: RequestEntity<E, T>
-  ): Promise<Origin | void> {
-    if (target.type !== 'message') throw Error('Attempted to execute an expiration on a non-message')
+  ): Promise<void> {
+    const target = targets.findLast((t): t is Origin['Message'] => t.type === 'message')
+
+    if (!target) throw Error('Attempted to execute an expiration on a non-message')
 
     setTimeout(() => {
       target.value.delete()
         .catch((err) => req.agent.report('error', 'Failed to delete a message via the expire operation', err))
     }, this.data)
-
-    return target
   }
 }

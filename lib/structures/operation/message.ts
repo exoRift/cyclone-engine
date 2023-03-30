@@ -3,7 +3,7 @@ import * as Oceanic from 'oceanic.js'
 import { Base } from './base'
 import { Origin } from 'structures/response'
 
-/** Input data for the message operator */
+/** Input data for the message operation */
 export type MessageOperationData = Oceanic.CreateMessageOptions
 
 /**
@@ -11,21 +11,35 @@ export type MessageOperationData = Oceanic.CreateMessageOptions
  */
 export class Message extends Base<MessageOperationData> {
   readonly type = 'operation'
+  readonly followup: boolean
 
-  private _getDestination (origin: Origin): Oceanic.AnyTextChannelWithoutGroup | Oceanic.AnyInteractionGateway | undefined {
-    switch (origin.type) {
-      case 'channel': return origin.value
-      case 'interaction': return origin.value
-      case 'message': return origin.value.channel
-    }
+  constructor (data: MessageOperationData, followup = false) {
+    super(data)
+
+    this.followup = followup
   }
 
-  async execute (target: Origin): Promise<Origin | void> {
-    const destination = this._getDestination(target)
+  async execute (targets: Array<Origin[keyof Origin]>): Promise<Origin[keyof Origin] | void> {
+    const target = targets[0]
 
-    if (destination?.type === Oceanic.InteractionTypes.APPLICATION_COMMAND_AUTOCOMPLETE) throw Error('This interaction is unrespondable')
+    let method
 
-    return await destination?.createMessage(this.data)
+    switch (target.type) {
+      case 'interaction':
+        method = (target.value as Oceanic.CommandInteraction)[this.followup ? 'createFollowup' : 'createMessage']
+
+        break
+      case 'message':
+        method = target.value.channel?.createMessage
+
+        break
+      case 'channel':
+        method = target.value.createMessage
+
+        break
+    }
+
+    return await method?.(this.data)
       .then((msg) => {
         if (!msg) return
 

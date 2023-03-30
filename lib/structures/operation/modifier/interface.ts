@@ -12,7 +12,7 @@ import {
   EffectEventGroup
 } from 'types'
 
-/** Input data for the message operator */
+/** Input data for the message operation */
 export type InterfaceComponent =
   Oceanic.URLButton
   | (

@@ -8,26 +8,27 @@ import {
 import {
   InterfaceComponent,
   Operation,
-  MessageOperationData
+  MessageOperationData,
+  ModalOperationData
 } from 'structures/operation'
 
 import { EffectEventGroup } from 'types'
 
 /** The origins of an event utilized for response chaining */
-export type Origin =
-  | {
+export declare interface Origin {
+  Interaction: {
     type: 'interaction'
     value: Oceanic.AnyInteractionGateway
   }
-  | {
+  Channel: {
     type: 'channel'
     value: Oceanic.AnyTextChannelWithoutGroup
   }
-  | {
+  Message: {
     type: 'message'
     value: Oceanic.Message
   }
-
+}
 // todo: message (content, embed, file {channel, deleteAfter}), followup {expires after}, react, buttons
 
 /**
@@ -40,10 +41,13 @@ implements PromiseLike<ResponseEntity<E, T>> {
   /** A list of operations to be called on execution */
   private readonly _operations: Array<Operation.Base<unknown>> = []
 
-  /** The origin of the response for chaining */
-  private _origin: Origin
+  /** The origins of the response for chaining */
+  private readonly _origins: Array<Origin[keyof Origin]>
   /** If this response is mid-execution, the execution promise */
   private _executionPromise?: Promise<this>
+
+  /** Was a message sent yet? */
+  private _messaged = false
 
   /** The corresponding request entity to this response */
   request: RequestEntity<E, T>
@@ -52,10 +56,10 @@ implements PromiseLike<ResponseEntity<E, T>> {
    * Construct a response
    * @param request The corresponding request entity
    */
-  constructor (request: RequestEntity<E, T>, origin: Origin) {
+  constructor (request: RequestEntity<E, T>, origin: Origin[keyof Origin]) {
     this.request = request
 
-    this._origin = origin
+    this._origins = [origin]
   }
 
   /**
@@ -68,7 +72,9 @@ implements PromiseLike<ResponseEntity<E, T>> {
 
     if (typeof data === 'string') data = { content: data }
 
-    this._operations.push(new Operation.Message(data))
+    this._operations.push(new Operation.Message(data, this._messaged))
+
+    this._messaged = true
 
     return this
   }
@@ -86,7 +92,7 @@ implements PromiseLike<ResponseEntity<E, T>> {
     return this
   }
 
-  followup () { // todo: requires message effect
+  requestFollowup () { // TODO: requires message effect
     delete this._executionPromise
   }
 
@@ -101,7 +107,7 @@ implements PromiseLike<ResponseEntity<E, T>> {
   addInterface (components: InterfaceComponent[][]): this {
     delete this._executionPromise
 
-    const msg = this._operations.findLast((o) => o instanceof Operation.Message) as Operation.Message | undefined
+    const msg = this._operations.findLast((o): o is Operation.Message => o instanceof Operation.Message)
 
     if (msg) new Operation.Interface(components).execute(msg, this.request)
     else throw Error('Could not find a message to add an interface to')
@@ -122,9 +128,9 @@ implements PromiseLike<ResponseEntity<E, T>> {
     this._executionPromise = this._operations
       .reduce((p, o) => {
         return p.then(() => {
-          return o.execute(this._origin, this.request)
+          return o.execute(this._origins, this.request)
             .then((update) => {
-              if (update) this._origin = update
+              if (update) this._origins.push(update)
             })
         })
       }, Promise.resolve())

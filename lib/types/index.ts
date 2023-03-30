@@ -109,11 +109,9 @@ export type UnionToIntersection<T> =
 // TEMP: This is for until TS 5.0
 declare global {
   interface Array<T> {
-    findLast( // eslint-disable-line
-      predicate: (value: T, index: number, obj: T[]) => unknown,
-      thisArg?: any
-    ): T | undefined
-    findLastIndex( // eslint-disable-line
+    findLast<S extends T>(predicate: (value: T, index: number, obj: T[]) => value is S, thisArg?: any): S | undefined
+    findLast(predicate: (value: T, index: number, obj: T[]) => unknown, thisArg?: any): T | undefined
+    findLastIndex(
       predicate: (value: T, index: number, obj: T[]) => unknown,
       thisArg?: any
     ): number

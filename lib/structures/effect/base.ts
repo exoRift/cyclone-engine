@@ -56,7 +56,7 @@ export abstract class Base<E extends keyof EffectEventGroup = keyof EffectEventG
    * @param   interaction The interaction from the event
    * @returns             The origin
    */
-  getInteractionOrigin (interaction: Oceanic.AnyInteractionGateway): Origin {
+  getInteractionOrigin (interaction: Oceanic.AnyInteractionGateway): Origin['Interaction'] {
     return {
       type: 'interaction',
       value: interaction
@@ -67,7 +67,7 @@ export abstract class Base<E extends keyof EffectEventGroup = keyof EffectEventG
    * Get the origin from an event
    * @param event The raw event data
    */
-  abstract getOrigin (...event: Oceanic.ClientEvents[EffectEventGroup[E]]): Origin
+  abstract getOrigin (...event: Oceanic.ClientEvents[EffectEventGroup[E]]): Origin[keyof Origin]
 
   /** The events that trigger this effect */
   abstract readonly _trigger: Trigger<E>

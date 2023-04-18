@@ -5,6 +5,7 @@ import chalk from 'chalk'
 import { EffectHandler } from 'modules/handler'
 
 import { Effect } from 'structures'
+import { EffectEventGroup } from 'types'
 
 interface BackloggedError {
   message: unknown
@@ -119,7 +120,7 @@ export class Agent {
    * Register an effect to be listened for in the effect handler
    * @param effect The effect to listen for
    */
-  registerEffect (effect: Effect.Base): Promise<void> {
+  registerEffect<E extends keyof EffectEventGroup> (effect: Effect.Base<E>): Promise<void> {
     return this.handler.register(effect)
   }
 

@@ -29,7 +29,7 @@ export class EffectHandler {
   /** The promise of the command fetch */
   private readonly _apiRegisteredCommands: Promise<Map<string, Oceanic.AnyApplicationCommand>>
   /** The registered effects */
-  private readonly _effectRegistry: EventRegistryRecord & Partial<Record<keyof Oceanic.ClientEvents, Map<string, Effect.Base>>> = {}
+  private readonly _effectRegistry: EventRegistryRecord = {}
   /** Registered temporary subactions */
   private readonly _subactionRegistry = new Map<string, Action<keyof EffectEventGroup, RequestType.SUBACTION>>()
 
@@ -92,7 +92,7 @@ export class EffectHandler {
    * @param          effect The effect
    * @throws {Error}
    */
-  register (effect: Effect.Base): Promise<void> {
+  register<E extends keyof EffectEventGroup> (effect: Effect.Base<E>): Promise<void> {
     for (const event of effect._trigger.events) {
       if (!(event in this._effectRegistry)) {
         this.agent.report('log', 'register', `Listening for '${event}'`)
@@ -102,9 +102,12 @@ export class EffectHandler {
         this.agent.client.on(event, (...data) => {
           void this.handle(...[effect._trigger.group, event, data] as ExclusivePairWithIndex<EffectEventGroup, Oceanic.ClientEvents>)
         })
-      } else if (this._effectRegistry[event]!.has(effect._identifier)) throw Error('effect already registered') // eslint-disable-line @typescript-eslint/no-non-null-assertion
+      } else if (this._effectRegistry[event]!.has(effect._identifier)) {
+        throw Error('effect already registered')
+      }
 
-      this._effectRegistry[event]!.set(effect._identifier, effect) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+      // UGLY
+      (this._effectRegistry[event] as unknown as Map<string, Effect.Base<E>>).set(effect._identifier, effect)
     }
 
     return effect.registrationHook?.(this) ?? Promise.resolve()

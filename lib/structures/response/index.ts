@@ -130,7 +130,7 @@ implements PromiseLike<ResponseEntity<E, T>> {
   execute (): Promise<this> {
     // NOTE: The errors thrown here are handled by the effect handler's callAction method
     this._executionPromise = this._operations
-      .reduce((p, o) => {
+      .reduce((p, o) => { // This reduction collapses the queued operations into a sequential linear promise
         return p.then(() => {
           return o.execute(this._origins, this.request)
             .then((update) => {

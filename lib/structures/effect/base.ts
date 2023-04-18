@@ -16,13 +16,13 @@ import {
  * @template E The event group
  */
 export type Trigger<E extends keyof EffectEventGroup = keyof EffectEventGroup> = {
-  [K in keyof EffectEventGroup & E]: {
+  [K in keyof EffectEventGroup]: {
     /** The event group that triggers this effect type */
     group: K
     /** That actual events that will trigger this effect instance */
     events: Array<EffectEventGroup[K]>
   }
-}[keyof EffectEventGroup & E]
+}[E]
 
 export interface EffectData<E extends keyof EffectEventGroup = keyof EffectEventGroup> {
   /** Actions that can be referenced statically by components (These are persistent through bot restarts) */

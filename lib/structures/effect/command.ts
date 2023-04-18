@@ -29,9 +29,11 @@ export interface CommandData<T extends Oceanic.ApplicationCommandTypes = Oceanic
   /** A description of the command */
   description: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? string : ''
   /** The command's subcommands */
-  subcommands: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Array<Command<Oceanic.ApplicationCommandTypes.CHAT_INPUT>> : []
+  subcommands?: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT
+    ? Array<Command<Oceanic.ApplicationCommandTypes.CHAT_INPUT>>
+    : never
   /** The arguments for the command */
-  args: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Argument[] : []
+  args?: CommandData<T>['type'] extends Oceanic.ApplicationCommandTypes.CHAT_INPUT ? Argument[] : never
   /** Miscellaneous command options */
   options?: {
     /**
@@ -61,7 +63,7 @@ export interface CommandData<T extends Oceanic.ApplicationCommandTypes = Oceanic
 */
 export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.ApplicationCommandTypes>
   extends Base<'interaction'>
-  implements RequiredExcept<CommandData<T>, 'action'> {
+  implements RequiredExcept<Omit<CommandData<T>, 'subcommands' | 'args'>, 'action'> {
   readonly _trigger: Trigger<'interaction'> = {
     group: 'interaction',
     events: ['interactionCreate']
@@ -72,8 +74,8 @@ export class Command<T extends Oceanic.ApplicationCommandTypes = Oceanic.Applica
   type: T
   name: string
   description: CommandData<T>['description']
-  subcommands: CommandData<T>['subcommands']
-  args: CommandData<T>['args']
+  subcommands: Array<Command<Oceanic.ApplicationCommandTypes.CHAT_INPUT>>
+  args: Argument[]
   options: {
     clearance: AuthLevel | number
     nsfw: boolean

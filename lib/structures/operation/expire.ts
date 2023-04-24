@@ -1,10 +1,10 @@
 import { Base } from './base'
-import { Origin } from 'structures/response'
+import { Origin } from '../../structures/response'
 import {
   RequestType,
   RequestEntity
-} from 'structures/request'
-import { EffectEventGroup } from 'types'
+} from '../../structures/request'
+import { EffectEventGroup } from '../../types'
 
 /**
  * An operation to delete a message after some interval

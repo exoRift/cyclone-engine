@@ -1,15 +1,15 @@
 import * as Oceanic from 'oceanic.js'
 
-import { EffectHandler } from 'modules'
+import { EffectHandler } from '../../modules'
 
-import { RequestType } from 'structures/request'
-import { Origin } from 'structures/response'
+import { RequestType } from '../request'
+import { Origin } from '../response'
 
 import {
   Action,
   AuthLevel,
   EffectEventGroup
-} from 'types'
+} from '../../types'
 
 /**
  * Data pertaining to what triggers an effect

@@ -1,5 +1,5 @@
 import { Base } from './base'
-import { Origin } from 'structures/response'
+import { Origin } from '../../structures/response'
 
 /**
  * An operation to react to a message

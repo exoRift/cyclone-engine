@@ -1,7 +1,7 @@
 import * as Oceanic from 'oceanic.js'
 
 import { Base } from './base'
-import { Origin } from 'structures/response'
+import { Origin } from '../../structures/response'
 
 /** Input data for the message operation */
 export type MessageOperationData = Oceanic.CreateMessageOptions

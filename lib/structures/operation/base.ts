@@ -1,12 +1,12 @@
 import {
   RequestType,
   RequestEntity
-} from 'structures/request'
-import { Origin } from 'structures/response'
+} from '../../structures/request'
+import { Origin } from '../../structures/response'
 import {
   EffectEventGroup,
   ExtractInstance
-} from 'types'
+} from '../../types'
 
 type ResolveOperationType<T extends OperationType> = T extends 'operation' ? never : typeof Base<any, 'operation'>
 

@@ -1,6 +1,6 @@
 import * as Oceanic from 'oceanic.js'
 
-import { EffectHandler } from 'modules'
+import { EffectHandler } from '../../modules'
 
 import {
   Base,
@@ -14,7 +14,7 @@ import {
   AuthLevel,
   ConsolidatedLocaleMap,
   RequiredExcept
-} from 'types'
+} from '../../types'
 
 /**
  * Input data for commands

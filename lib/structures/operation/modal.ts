@@ -1,9 +1,9 @@
 import * as Oceanic from 'oceanic.js'
 
 import { Base } from './base'
-import { Origin } from 'structures/response'
-import { EffectEventGroup } from 'types'
-import { RequestEntity, RequestType } from 'structures/request'
+import { Origin } from '../../structures/response'
+import { EffectEventGroup } from '../../types'
+import { RequestEntity, RequestType } from '../../structures/request'
 
 /** Input data for the modal operation */
 export type ModalOperationData = Oceanic.ModalData

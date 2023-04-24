@@ -2,10 +2,10 @@ import * as Oceanic from 'oceanic.js'
 import fs from 'fs/promises'
 import chalk from 'chalk'
 
-import { EffectHandler } from 'modules/handler'
+import { EffectHandler } from '../handler'
 
-import { Effect } from 'structures'
-import { EffectEventGroup } from 'types'
+import { Effect } from '../../structures'
+import { EffectEventGroup } from '../../types'
 
 interface BackloggedError {
   message: unknown
@@ -43,7 +43,7 @@ export class Agent {
   /** Additional options */
   options: Required<CycloneOptions>
   /** The effect handler */
-  handler = new EffectHandler(this)
+  handler: EffectHandler
   /** Whether the agent has been initialized with bound events or not */
   initialized = false
 
@@ -75,6 +75,10 @@ export class Agent {
       ...oceanicOptions,
       auth: token
     })
+
+    this.handler = new EffectHandler(this)
+
+    this.client.once('ready', () => { void this.handler.pruneCommands() })
 
     this.options = {
       debug,
@@ -121,7 +125,11 @@ export class Agent {
    * @param effect The effect to listen for
    */
   registerEffect<E extends keyof EffectEventGroup> (effect: Effect.Base<E>): Promise<void> {
-    return this.handler.register(effect)
+    if (this.client.ready) return this.handler.register(effect)
+    else {
+      return new Promise<void>((resolve) => this.client.once('ready', () => resolve()))
+        .then(() => this.handler.register(effect))
+    }
   }
 
   /** Listen for core events from Oceanic */
@@ -149,6 +157,12 @@ export class Agent {
     const bangTag = chalk.bold.bgBlue.white('Cyclone')
     const bangSource: string = bangBack.white(source)
     const bangFlag = bangBack.bold.white('>')
+
+    // console.log(chalk`
+    //   CPU: {red ${100}%}
+    //   RAM: {green ${5}%}
+    //   DISK: {rgb(255,131,0) ${3}%}
+    // `)
 
     console[protocol](`${bangTag} ${bangSource}${bangFlag}`, message)
 

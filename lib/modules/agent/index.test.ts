@@ -1,9 +1,9 @@
 import protoTest, { TestFn } from 'ava'
 import sinon from 'sinon'
-import Oceanic from 'oceanic.js'
+import * as Oceanic from 'oceanic.js'
 
 import { Agent } from '.'
-import { Effect } from 'structures'
+import { Effect } from '../../structures'
 
 declare interface Context {
   agent: Agent
@@ -14,7 +14,7 @@ declare interface Context {
 
 const test = protoTest as TestFn<Context>
 
-test.before((t) => {
+test.before(async (t) => {
   t.context = {
     agent: new Agent('Bot 1234'),
     effects: {
@@ -25,10 +25,12 @@ test.before((t) => {
       })
     }
   }
+
+  await t.context.agent.connect()
 })
 
 test('effect registration', (t) => {
-  t.context.agent.registerEffect(t.context.effects.command)
+  return t.context.agent.registerEffect(t.context.effects.command)
     .then(() => t.pass())
-    .catch((e) => t.fail(e))
+    .catch((e: Error) => t.fail(e.message))
 })

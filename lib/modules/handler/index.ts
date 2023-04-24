@@ -1,20 +1,20 @@
 import * as Oceanic from 'oceanic.js'
 
-import { Agent } from 'modules/agent'
+import { Agent } from '../agent'
 
 import {
   Effect,
   RequestEntity,
   RequestType,
   ResponseEntity
-} from 'structures/'
+} from '../../structures/'
 
 import {
   Action,
   EffectEventGroup,
   ExclusivePairWithIndex,
   UnionToIntersection
-} from 'types'
+} from '../../types'
 
 type IntermediaryEventRegistryRecord = {
   [K in keyof EffectEventGroup]: {
@@ -26,8 +26,6 @@ export type EventRegistryRecord = UnionToIntersection<IntermediaryEventRegistryR
 
 /** A handler to recognize and process interactions and events */
 export class EffectHandler {
-  /** The promise of the command fetch */
-  private readonly _apiRegisteredCommands: Promise<Map<string, Oceanic.AnyApplicationCommand>>
   /** The registered effects */
   private readonly _effectRegistry: EventRegistryRecord = {}
   /** Registered temporary subactions */
@@ -42,10 +40,6 @@ export class EffectHandler {
    */
   constructor (agent: Agent) {
     this.agent = agent
-
-    this._apiRegisteredCommands = this._fetchRegisteredCommands()
-
-    if (!this.agent.client.ready) this.agent.client.on('ready', () => { void this.pruneCommands() })
   }
 
   /**
@@ -73,7 +67,7 @@ export class EffectHandler {
    * @returns The number of commands deregistered
    */
   pruneCommands (): Promise<number> {
-    return this._apiRegisteredCommands
+    return this._fetchRegisteredCommands()
       .then((commands) => {
         const promises = []
 

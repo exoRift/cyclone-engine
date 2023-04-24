@@ -2,7 +2,7 @@
 .vscode/
 
 # Env vars used for debuging
-.env
+*.env
 
 # The dependencies
 node_modules/

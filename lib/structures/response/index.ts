@@ -3,16 +3,16 @@ import * as Oceanic from 'oceanic.js'
 import {
   RequestType,
   RequestEntity
-} from 'structures/request'
+} from '../../structures/request'
 
 import {
   InterfaceComponent,
   Operation,
   MessageOperationData,
   ModalOperationData
-} from 'structures/operation'
+} from '../../structures/operation'
 
-import { EffectEventGroup } from 'types'
+import { EffectEventGroup } from '../../types'
 
 /** The origins of an event utilized for response chaining */
 export declare interface Origin {

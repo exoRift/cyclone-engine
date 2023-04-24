@@ -5,12 +5,12 @@ import { Message } from '../message'
 import {
   RequestType,
   RequestEntity
-} from 'structures/request'
+} from '../../../structures/request'
 import {
   Action,
   DistributiveOmit,
   EffectEventGroup
-} from 'types'
+} from '../../../types'
 
 /** Input data for the message operation */
 export type InterfaceComponent =

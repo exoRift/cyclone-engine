@@ -4,9 +4,11 @@
   "description": "A Discord bot jumpstart library running on Oceanic that is focused on offering features without compromising on developer freedom",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rm -r dist/ && tsc",
-    "test": "tsc && node ./ && nyc --reporter lcov ava --verbose **/*.test.ts",
-    "lint": "eslint ./ && tsc --noEmit"
+    "build": "tsc",
+    "cleanup": "rm -r dist/ coverage/ .nyc_output/",
+    "test": "nyc --reporter lcov ava --verbose **/*.test.ts",
+    "test-watch": "nyc --reporter lcov ava --verbose --watch **/*.test.ts",
+    "lint": "eslint ./"
   },
   "nyc": {
     "exclude": [
@@ -14,11 +16,20 @@
       "packages/*/test/**",
       "test/**",
       "build/**",
+      "dist/**",
       "test{,-*}.ts",
       "**/*{.,-}test.ts",
       "**/__tests__/**",
       "**/node_modules/**",
       "**/babel.config.js"
+    ]
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
     ]
   },
   "files": [
@@ -58,6 +69,7 @@
     "jsdoc": "^4.0.0",
     "nyc": "^15.1.0",
     "sinon": "^14.0.2",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
   },
   "peerDependencies": {

@@ -3,14 +3,14 @@ import * as Oceanic from 'oceanic.js'
 import {
   Agent,
   EffectHandler
-} from 'modules'
+} from '../../modules'
 
-import { Effect } from 'structures/effect'
+import { Effect } from '../../structures/effect'
 
 import {
   Action,
   EffectEventGroup
-} from 'types'
+} from '../../types'
 
 /**
  * An object keyed by arguments containing their respective values

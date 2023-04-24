@@ -5,7 +5,7 @@ import {
   RequestType,
   RequestEntity,
   ResponseEntity
-} from 'structures'
+} from '../structures'
 
 /**
  * The action to execute on trigger

@@ -1,6 +1,7 @@
 import protoTest, { TestFn } from 'ava'
-import sinon from 'sinon'
+// import sinon from 'sinon'
 import * as Oceanic from 'oceanic.js'
+import { Client } from 'syren'
 
 import { Agent } from '.'
 import { Effect } from '../../structures'
@@ -16,7 +17,13 @@ const test = protoTest as TestFn<Context>
 
 test.before(async (t) => {
   t.context = {
-    agent: new Agent('Bot 1234'),
+    agent: new Agent({
+      token: 'Bot 1234',
+      Client,
+      cycloneOptions: {
+        debug: true
+      }
+    }),
     effects: {
       command: new Effect.Command({
         name: 'commandeffect',

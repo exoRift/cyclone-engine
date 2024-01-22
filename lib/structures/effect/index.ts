@@ -1,7 +1,7 @@
 export * as Effect from './namespace'
 
 export {
-  EffectData,
-  Trigger
+  type EffectData,
+  type Trigger
 } from './base'
-export { CommandData } from './command'
+export { type CommandData } from './command'

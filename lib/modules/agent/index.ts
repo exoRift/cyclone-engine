@@ -1,5 +1,6 @@
 import * as Oceanic from 'oceanic.js'
 import fs from 'fs/promises'
+import path from 'path'
 import chalk from 'chalk'
 
 import { EffectHandler } from '../handler'
@@ -49,14 +50,14 @@ export class Agent {
 
   /**
    * Construct a Cyclone agent
-   * @param           data              The bot token or an object containing the token and additional Cyclone options and a passthrough for Oceanic options
-   * @prop  {Boolean} [data.debug=true]
-   * @example                           For bot applications, be sure to prefix the token with "Bot "
+   * @param   data The bot token or an object containing the token and additional Cyclone options and a passthrough for Oceanic options
+   * @example      For bot applications, be sure to prefix the token with "Bot "
    */
   constructor (data: string | {
     token: string
     cycloneOptions?: CycloneOptions
     oceanicOptions?: Omit<Oceanic.ClientOptions, 'auth'>
+    Client: new (...args: ConstructorParameters<typeof Oceanic.Client>) => InstanceType<typeof Oceanic.Client>
   }) {
     const {
       token,
@@ -64,14 +65,15 @@ export class Agent {
         debug = true,
         clearGuildCommandsOnDisconnect = false
       } = {},
-      oceanicOptions = {}
+      oceanicOptions = {},
+      Client = Oceanic.Client
     } = typeof data === 'string'
       ? {
           token: data
         }
       : data
 
-    this.client = new Oceanic.Client({
+    this.client = new Client({
       ...oceanicOptions,
       auth: token
     })
@@ -113,8 +115,8 @@ export class Agent {
       .then((files) => Promise.all(files
         .filter((f) => f.match(extensionRegex))
         .map((f) =>
-          import(f)
-            .then((e) => this.registerEffect(e))
+          import(path.resolve(dir, f))
+            .then(({ default: e }) => this.registerEffect(e))
         )
       )
         .then()) // Clear off the array bloat

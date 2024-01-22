@@ -1,4 +1,5 @@
 export { Base } from './base'
+export { Defer } from './defer'
 export { Message } from './message'
 export { Expire } from './expire'
 export { Interface } from './modifier/interface'

@@ -1,74 +1,77 @@
-name: Publish Update
+# name: Publish Update
 
-on:
-  release:
-    types:
-      - created
+# on:
+#   release:
+#     types:
+#       - created
 
-jobs:
-  docsite:
-    name: Update Docsite
+# jobs:
+#   docsite:
+#     name: Update Docsite
 
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
+#     strategy:
+#       matrix:
+#         os: [ubuntu-latest]
 
-    runs-on: ${{ matrix.os }}
+#     runs-on: ${{ matrix.os }}
 
-    steps:
-      - uses: actions/checkout@v2
-      - name: Cache Dependencies
-        id: dep-cache
-        uses: actions/cache@v1.1.2
-        env:
-          cache-name: dep-cache
-        with:
-          path: |
-            **/node_modules/
-            ~/.npm/
-          key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Install Dependencies
-        run: npm ci
-        if: steps.dep-cache.outputs.cache-hit != 'true'
-      - name: Define package data
-        id: define_pkg
-        run: |
-          content=`cat package.json`
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}" 
-          echo "::set-output name=package::$content"
-      - name: Build Resources
-        run: npm run build
-      - name: Deploy Docsite
-        uses: JamesIves/github-pages-deploy-action@releases/v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: docsite
-          GIT_CONFIG_NAME: Docsite Deployer
-          COMMIT_MESSAGE: Update docsite for version '${{ fromJson(steps.define_pkg.outputs.package).version }}'
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Cache Dependencies
+#         id: dep-cache
+#         uses: actions/cache@v1.1.2
+#         env:
+#           cache-name: dep-cache
+#         with:
+#           path: |
+#             **/node_modules/
+#             ~/.npm/
+#           key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+#           restore-keys: |
+#             ${{ runner.os }}-build-${{ env.cache-name }}-
+#             ${{ runner.os }}-build-
+#             ${{ runner.os }}-
+#       - name: Install Dependencies
+#         run: npm ci
+#         if: steps.dep-cache.outputs.cache-hit != 'true'
+#       - name: Define package data
+#         id: define_pkg
+#         run: |
+#           content=`cat package.json`
+#           content="${content//'%'/'%25'}"
+#           content="${content//$'\n'/'%0A'}"
+#           content="${content//$'\r'/'%0D'}" 
+#           echo "::set-output name=package::$content"
+#       - name: Build Resources
+#         run: npm run build
+#       - name: Deploy Docsite
+#         uses: JamesIves/github-pages-deploy-action@releases/v3
+#         with:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           BRANCH: gh-pages
+#           FOLDER: docsite
+#           GIT_CONFIG_NAME: Docsite Deployer
+#           COMMIT_MESSAGE: Update docsite for version '${{ fromJson(steps.define_pkg.outputs.package).version }}'
 
-  publish:
-    name: Publish to NPM
+#   publish:
+#     name: Publish to NPM
 
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
+#     strategy:
+#       matrix:
+#         os: [ubuntu-latest]
+#         node: [18.x]
 
-    runs-on: ${{ matrix.os }}
+#     runs-on: ${{ matrix.os }}
 
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Node
-        uses: actions/setup-node@v1.4.2
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Publish to NPM
-        uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
+#     steps:
+#       - uses: actions/checkout@v3
+#       - name: Set up Node
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: ${{ matrix.node }}
+#       - name: Build
+#         run: npm run build
+#       - name: Publish to NPM
+#         uses: JS-DevTools/npm-publish@v1
+#         with:
+#           token: ${{ secrets.NPM_TOKEN }}

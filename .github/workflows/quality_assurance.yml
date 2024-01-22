@@ -1,58 +1,44 @@
 name: Quality Assurance
 
-on: 
+on:
   push:
     branches:
       - master
       - dev
   pull_request:
-    branches:
-      - '*'
-      - '!gh-pages'
 
 jobs:
   test:
-    name: Unit Testing (Ava)
+    name: Ava Testing
 
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: [12.x]
-        
+        node: [18.x]
+        bun: [1.0.4]
+
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Node
-        uses: actions/setup-node@v1.4.2
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: Cache Dependencies
-        id: dep-cache
-        uses: actions/cache@v1.1.2
-        env:
-          cache-name: dep-cache
+          node-version: ${{ matrix.node }}
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          path: |
-            **/node_modules/
-            ~/.npm/
-          key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          bun-version: ${{ matrix.bun }}
       - name: Install Dependencies
-        run: npm ci
-        if: steps.dep-cache.outputs.cache-hit != 'true'
+        run: bun i
       - name: Run Tests
-        run: npm test
+        run: bun run test
       - name: Upload Coverage
         if: success()
-        uses: paambaati/codeclimate-action@v2.6.0
+        uses: paambaati/codeclimate-action@v5
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_TOKEN }}
         with:
-          coverageCommand: 'echo'
           coverageLocations: ${{ github.workspace }}/coverage/lcov.info:lcov
   lint:
     name: Linting
@@ -60,32 +46,24 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: [12.x]
+        node: [18.x]
+        bun: [1.0.4]
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Node
-        uses: actions/setup-node@v1.4.2
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: Cache Dependencies
-        id: dep-cache
-        uses: actions/cache@v1.1.2
-        env:
-          cache-name: dep-cache
+          node-version: ${{ matrix.node }}
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          path: |
-            **/node_modules/
-            ~/.npm/
-          key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          bun-version: ${{ matrix.bun }}
       - name: Install Dependencies
-        run: npm ci
-        if: steps.dep-cache.outputs.cache-hit != 'true'
+        run: bun i
+      - name: Validate Typescript
+        uses: fersilva16/ts-report-action@1.2.1
       - name: Lint Code
-        run: npm run lint
+        run: bun run lint

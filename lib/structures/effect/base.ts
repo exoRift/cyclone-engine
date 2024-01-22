@@ -36,8 +36,8 @@ export interface EffectData<E extends keyof EffectEventGroup = keyof EffectEvent
 export abstract class Base<E extends keyof EffectEventGroup = keyof EffectEventGroup> implements Required<EffectData<E>> {
   /**
    * Convert an AuthLevel into a permission integer
-   * @param level The AuthLevel
-   * @returns     An integer representation of the permission
+   * @param   level The AuthLevel
+   * @returns       An integer representation of the permission
    */
   static authToPermission (level: AuthLevel | number | bigint = 0): bigint {
     if (typeof level === 'bigint') return level

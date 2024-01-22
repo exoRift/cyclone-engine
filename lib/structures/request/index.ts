@@ -48,7 +48,7 @@ export interface RequestData<E extends keyof EffectEventGroup = keyof EffectEven
   /** The caller */
   user: Oceanic.User
   /** If called in a guild, the member variation of the caller */
-  member?: Oceanic.Member
+  member?: Oceanic.Member | null
 }
 
 /**
@@ -73,7 +73,7 @@ implements RequestData<E, T> {
   args: ReducedArgset = {}
   channel?: Oceanic.AnyChannel
   user: Oceanic.User
-  member?: Oceanic.Member
+  member?: Oceanic.Member | null
 
   /**
    * Construct a RequestEntity

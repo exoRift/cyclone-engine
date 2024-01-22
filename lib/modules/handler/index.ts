@@ -72,9 +72,11 @@ export class EffectHandler {
         const promises = []
 
         for (const command of commands) {
-          this.agent.report('warn', 'prune', `Command '${command[0]}' not registered locally. Purging from application registry...`)
+          if (!this._effectRegistry.interactionCreate?.has(command[0])) {
+            this.agent.report('warn', 'prune', `Command '${command[0]}' not registered locally. Purging from application registry...`)
 
-          if (!this._effectRegistry.interactionCreate?.has(command[0])) promises.push(this.agent.client.application.deleteGlobalCommand(command[1].id))
+            promises.push(this.agent.client.application.deleteGlobalCommand(command[1].id))
+          }
         }
 
         return Promise.all(promises).then(() => promises.length)
@@ -104,6 +106,8 @@ export class EffectHandler {
       (this._effectRegistry[event] as unknown as Map<string, Effect.Base<E>>).set(effect._identifier, effect)
     }
 
+    this.agent.report('info', 'register', `Registered effect '${effect._identifier}'`)
+
     return effect.registrationHook?.(this) ?? Promise.resolve()
   }
 
@@ -127,8 +131,6 @@ export class EffectHandler {
             const effect = this._effectRegistry[event]?.get(command.data.name)
 
             if (!effect) return
-
-            await command.defer()
 
             req = new RequestEntity({
               type: RequestType.ACTION,
@@ -163,8 +165,6 @@ export class EffectHandler {
               : this._subactionRegistry.get(command.id)
 
             if (subaction) {
-              await command.defer()
-
               req = new RequestEntity({
                 type: RequestType.SUBACTION,
                 handler: this,
@@ -264,6 +264,7 @@ export class EffectHandler {
     }
 
     res
+      .execute()
       .catch((err: Error) => this.agent.report('error', 'handle', `The '${req.effect._identifier}' effect encountered an error: ${err.message}`, {
         error: err,
         request: req

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "cleanup": "rm -r dist/ coverage/ .nyc_output/",
-    "test": "nyc --reporter lcov ava --verbose **/*.test.ts",
+    "test": "tsc && eslint ./ && nyc --reporter lcov ava --verbose **/*.test.ts",
     "test-watch": "nyc --reporter lcov ava --verbose --watch **/*.test.ts",
     "lint": "eslint ./"
   },
@@ -30,7 +30,8 @@
     ],
     "require": [
       "ts-node/register"
-    ]
+    ],
+    "timeout": "20s"
   },
   "files": [
     "dist/"
@@ -69,11 +70,12 @@
     "jsdoc": "^4.0.0",
     "nyc": "^15.1.0",
     "sinon": "^14.0.2",
+    "syren": "^1.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
   },
   "peerDependencies": {
-    "oceanic.js": "1.4"
+    "oceanic.js": "^1.9.0"
   },
   "dependencies": {
     "chalk": "^4.1.2"

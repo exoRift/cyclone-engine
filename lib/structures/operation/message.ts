@@ -39,7 +39,8 @@ export class Message extends Base<MessageOperationData> {
         break
     }
 
-    return await method?.(this.data)
+    /* @ts-expect-error -- Can't satisfy this */
+    return await method?.call(target.value, this.data)
       .then((msg) => {
         if (!msg) return
 

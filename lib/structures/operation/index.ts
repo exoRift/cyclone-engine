@@ -1,6 +1,6 @@
 export * as Operation from './namespace'
 
-export { OperationType } from './base'
-export { MessageOperationData } from './message'
-export { InterfaceComponent } from './modifier/interface'
-export { ModalOperationData } from './modal'
+export { type OperationType } from './base'
+export { type MessageOperationData } from './message'
+export { type InterfaceComponent } from './modifier/interface'
+export { type ModalOperationData } from './modal'

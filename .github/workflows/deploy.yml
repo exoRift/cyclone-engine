@@ -1,77 +1,79 @@
-# name: Publish Update
+name: Publish Update
 
-# on:
-#   release:
-#     types:
-#       - created
+on:
+  release:
+    types:
+      - created
+  workflow_dispatch:
 
-# jobs:
-#   docsite:
-#     name: Update Docsite
+jobs:
+  docsite:
+    name: Update Docsite
 
-#     strategy:
-#       matrix:
-#         os: [ubuntu-latest]
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        bun: [1.0.25]
 
-#     runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
 
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Cache Dependencies
-#         id: dep-cache
-#         uses: actions/cache@v1.1.2
-#         env:
-#           cache-name: dep-cache
-#         with:
-#           path: |
-#             **/node_modules/
-#             ~/.npm/
-#           key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-#           restore-keys: |
-#             ${{ runner.os }}-build-${{ env.cache-name }}-
-#             ${{ runner.os }}-build-
-#             ${{ runner.os }}-
-#       - name: Install Dependencies
-#         run: npm ci
-#         if: steps.dep-cache.outputs.cache-hit != 'true'
-#       - name: Define package data
-#         id: define_pkg
-#         run: |
-#           content=`cat package.json`
-#           content="${content//'%'/'%25'}"
-#           content="${content//$'\n'/'%0A'}"
-#           content="${content//$'\r'/'%0D'}" 
-#           echo "::set-output name=package::$content"
-#       - name: Build Resources
-#         run: npm run build
-#       - name: Deploy Docsite
-#         uses: JamesIves/github-pages-deploy-action@releases/v3
-#         with:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#           BRANCH: gh-pages
-#           FOLDER: docsite
-#           GIT_CONFIG_NAME: Docsite Deployer
-#           COMMIT_MESSAGE: Update docsite for version '${{ fromJson(steps.define_pkg.outputs.package).version }}'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
 
-#   publish:
-#     name: Publish to NPM
+    concurrency:
+      group: pages
+      cancel-in-progress: true
 
-#     strategy:
-#       matrix:
-#         os: [ubuntu-latest]
-#         node: [18.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Bun
+        id: setup
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ matrix.bun }}
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Install Dependencies
+        run: bun i
+      - name: Build Resources
+        run: bun run build-docs
+      - name: Upload Static Artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'docs/'
+      - name: Deploy Docsite to Github Pages
+        id: deploy
+        uses: actions/deploy-pages@v2
 
-#     runs-on: ${{ matrix.os }}
+  publish:
+    name: Publish to NPM
 
-#     steps:
-#       - uses: actions/checkout@v3
-#       - name: Set up Node
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: ${{ matrix.node }}
-#       - name: Build
-#         run: npm run build
-#       - name: Publish to NPM
-#         uses: JS-DevTools/npm-publish@v1
-#         with:
-#           token: ${{ secrets.NPM_TOKEN }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [18.x]
+        bun: [1.0.25]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: ${{ matrix.bun }}
+      - name: Install Dependencies
+        run: bun i
+      - name: Build
+        run: bun run build
+      - name: Publish to NPM
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+      - name: Upload Package Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: './dist/'

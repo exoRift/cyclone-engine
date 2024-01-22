@@ -1,0 +1,8 @@
+{
+  "name": "Cyclone Engine",
+  "readme": "./README.md",
+  "includeVersion": true,
+  "entryPoints": ["./lib/"],
+  "entryPointStrategy": "expand",
+  "exclude": ["**/*.test.ts", "lib/index.ts"]
+}

@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
+    "build-docs": "typedoc",
     "cleanup": "rm -r dist/ coverage/ .nyc_output/",
     "test": "tsc && eslint ./ && nyc --reporter lcov ava --verbose **/*.test.ts",
     "test-watch": "nyc --reporter lcov ava --verbose --watch **/*.test.ts",
@@ -72,6 +73,7 @@
     "sinon": "^14.0.2",
     "syren": "^1.0.0",
     "ts-node": "^10.9.1",
+    "typedoc": "^0.25.7",
     "typescript": "^5.0.2"
   },
   "peerDependencies": {

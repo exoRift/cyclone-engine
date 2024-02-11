@@ -1,6 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
+  "ignorePatterns": ["testbot/**", "*.d.ts"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx"],
